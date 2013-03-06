@@ -1,0 +1,15 @@
+
+A collection of generic demos, originally created for demoing Boot2Qt
+at Embedded World 2013.
+
+The contents of this directory should be placed in /data/user/qt on a
+device set up to boot the Qt launcher (b2qt-launcher and b2qt-utils
+repos).
+
+Note: The "Qt5 Launch Presentation" is by default setup to run in lofi
+mode (suitable for e.g. beagleboard). For better devices, copy
+main_hifi.qml to main.qml.
+
+It is assumed that the QML Presentation System is installed.
+(git://gitorious.org/qt-labs/qml-presentation-system.git)
+
