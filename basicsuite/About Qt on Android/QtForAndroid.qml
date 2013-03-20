@@ -30,7 +30,7 @@ Column {
     Column {
         id: diagram
         spacing: 1
-        width: parent.width * 0.8
+        width: parent.width * 0.66
         anchors.horizontalCenter: parent.horizontalCenter
         Box { text: "Application"; accentColor: "coral" }
         Box { text: "Qt for Android"; accentColor: Qt.rgba(0.64, 0.82, 0.15) }
