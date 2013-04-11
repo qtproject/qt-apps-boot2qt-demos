@@ -124,11 +124,13 @@ Item {
             loops: Animation.Infinite
             path: Path {
                 id: lightAnimPath
-                startX: root.width*0.4; startY: root.height*0.3
-                PathCurve { x: root.width*0.8; y: root.height*0.2 }
-                PathCurve { x: root.width*0.8; y: root.height*0.7 }
-                PathCurve { x: root.width*0.1; y: root.height*0.6 }
-                PathCurve { x: root.width*0.4; y: root.height*0.3 }
+                property int w: root.width > 0 ? root.width : 1
+                property int h: root.height > 0 ? root.height : 1
+                startX: w*0.4; startY: h*0.3
+                PathCurve { x: w*0.8; y: h*0.2 }
+                PathCurve { x: w*0.8; y: h*0.7 }
+                PathCurve { x: w*0.1; y: h*0.6 }
+                PathCurve { x: w*0.4; y: h*0.3 }
             }
         }
 
