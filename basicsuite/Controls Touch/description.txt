@@ -1,0 +1,3 @@
+The purpose of this example is to show Qt Quick Controls in practice. The example uses a StackView to navigate between pages and illustrates the use of many of the controls provided by Qt Quick Control, including Button, Slider, ProgressBar, TabBar and TextInput types. The style in the example is a custom style made to look like the Android theme, it is written purely in QML.
+
+The example has been adapted slightly to run inside this launcher, the original is available in the Qt Quick Controls repository.

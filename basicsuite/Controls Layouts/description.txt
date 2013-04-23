@@ -1,0 +1,3 @@
+The "Controls Layout" demonstration aims to show some of the features available in the layout system of the Qt Quick Controls. The layout system in Qt Quick Controls adds GridLayout, RowLayout and ColumnLayout which interact with size-hints from individual controls, making it possible to create interfaces that adapt to various dimensions and still look good.
+
+The example has been adapted slightly to run inside this launcher, the original is available in the Qt Quick Controls repository.

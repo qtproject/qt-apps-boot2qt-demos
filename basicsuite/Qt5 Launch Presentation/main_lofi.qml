@@ -44,7 +44,5 @@ DemoMain {
     height: 480
 
     useDropShadow: false;
-    useSimpleGradient: true;
-
-    autorun: true
+//    useSimpleGradient: true;
 }

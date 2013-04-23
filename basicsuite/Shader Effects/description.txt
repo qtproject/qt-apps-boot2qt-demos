@@ -1,0 +1,3 @@
+This example shows the QtGraphicalEffect module. Qt Quick 2.0 provides the ability to use inline GLSL in your Qt Quick applications to create stunning visual effects. However, as UIs typically reuse many of the same effects, the QtGraphicalEffects module provides a set of predefined, commonly used effects. This includes blur, drop-shadows, glow, blending, opacity maskes and more.
+
+The example is taken from the manual testbed application in the qtgraphicaleffects module. It has been adapted slightly to run in the launcher.

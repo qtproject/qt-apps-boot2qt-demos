@@ -1,0 +1,1 @@
+This demo uses the Qt Quick Controls to give a couple of options for the launcher itself.

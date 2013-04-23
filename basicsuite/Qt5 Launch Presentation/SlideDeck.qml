@@ -42,7 +42,7 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 
-import Qt.labs.presentation 1.0
+import "presentation"
 
 OpacityTransitionPresentation {
     id: presentation
@@ -89,7 +89,10 @@ It is an application written with Qt Quick, based on Qt 5. The source code is av
 https://qt.gitorious.org/qt-labs/qt5-launch-demo
 
 
-We hope you will enjoy Qt 5 as much as we have enjoyed creating it."
+We hope you will enjoy Qt 5 as much as we have enjoyed creating it.
+
+
+            [tap to advance]"
 
 //        Image {
 //            source: "images/qt-logo.png"

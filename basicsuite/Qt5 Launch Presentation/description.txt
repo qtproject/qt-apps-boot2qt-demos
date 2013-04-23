@@ -1,0 +1,6 @@
+The following is a quick tour of what is new in Qt 5.
+
+It is an application written with Qt Quick, based on Qt 5. The source code is available from: https://qt.gitorious.org/qt-labs/qt5-launch-demo
+The demo makes use of the QML Presentation System, available from: ssh://codereview.qt-project.org/qt-labs/qml-presentation-system.git
+
+The demo has been modified slightly to run in this launcher.
