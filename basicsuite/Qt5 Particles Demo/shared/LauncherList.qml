@@ -39,11 +39,10 @@
 ****************************************************************************/
 import QtQuick 2.0
 
-Rectangle {
+Item {
     //model is a list of {"name":"somename", "url":"file:///some/url/mainfile.qml"}
     //function used to add to model A) to enforce scheme B) to allow Qt.resolveUrl in url assignments
 
-    color: "#eee"
     function addExample(name, desc, url)
     {
         myModel.append({"name":name, "description":desc, "url":url})
@@ -58,6 +57,7 @@ Rectangle {
         delegate: SimpleLauncherDelegate{exampleItem: ei}
         model: ListModel {id:myModel}
         anchors.fill: parent
+        visible: !ei.visible
     }
 
     Item {
@@ -68,11 +68,6 @@ Rectangle {
         onExampleUrlChanged: visible = (exampleUrl == '' ? false : true); //Setting exampleUrl automatically shows example
         anchors.fill: parent
         anchors.bottomMargin: 40
-        Rectangle {
-            id: bg
-            anchors.fill: parent
-            color: "white"
-        }
         MouseArea{
             anchors.fill: parent
             enabled: ei.visible
