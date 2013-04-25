@@ -201,11 +201,10 @@ Item {
                 var targetScale;
 
                 // Rotation needed...
-                if (imageIsLandscape != screenIsLandscape) {
+                if (imageIsLandscape != screenIsLandscape && width != height) {
                     root.targetRotation = 90;
                     var aspect = width / height
                     var screenAspect = root.height / root.width
-                    print("Aspect ratios in portrait: ", aspect, screenAspect);
 
                     if (aspect > screenAspect) {
                         targetScale = root.height / width
@@ -216,7 +215,6 @@ Item {
                     root.targetRotation = 0;
                     var aspect = height / width;
                     var screenAspect = root.height / root.width
-                    print("Aspect ratios in portrait: ", aspect, screenAspect);
 
                     if (aspect > screenAspect) {
                         targetScale = root.height / height
@@ -230,8 +228,6 @@ Item {
 
                 width = root.size
                 height = root.size;
-
-                print("BigImage size: ", width, height, targetWidth, targetHeight);
 
                 finalizeEnterLargeAnimation.running = true;
             }
