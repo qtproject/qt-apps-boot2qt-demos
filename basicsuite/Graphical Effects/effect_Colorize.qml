@@ -29,6 +29,6 @@ Item {
         scale: source.height > root.height * 0.8 ? root.height / source.height * 0.8 : 1;
 
         hue: root.inputX * 2 - 1;
-        saturation: root.inputY * 2 - 1
+        saturation: root.inputY
     }
 }

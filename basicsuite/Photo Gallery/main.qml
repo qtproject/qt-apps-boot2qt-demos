@@ -16,6 +16,16 @@ Item {
         id: imageList
         folder: "/data/images"
         nameFilters: ["*.png", "*.jpg"]
+
+        showDirs: false
+    }
+
+    Text {
+        id: noImages
+        color: "white"
+        visible: grid.count == 0
+        text: "No images in " + imageList.folder
+        anchors.centerIn: parent
     }
 
     GridView {
