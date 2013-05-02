@@ -107,17 +107,14 @@ Item {
             varying lowp float vOpacity;
 
             // Noise function from: http://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl
-            float rand(vec2 n) {
+            highp float rand(vec2 n) {
                 return fract(sin(dot(n.xy, vec2(12.9898, 78.233))) * 43758.5453);
             }
 
             void main() {
                 lowp vec4 tex = texture2D(source, vTexCoord);
-
                 lowp float opacity = 1.0 - smoothstep(0.9, 1.0, vOpacity);
-
-                float particlify = smoothstep(1.0 - vOpacity, 1.0, rand(vTexCoord)) * vOpacity;
-
+                lowp float particlify = smoothstep(1.0 - vOpacity, 1.0, rand(vTexCoord)) * vOpacity;
                 gl_FragColor = tex * mix(vOpacity, particlify, opacity) * qt_Opacity;
             }
 

@@ -1,0 +1,1 @@
+This is simple photo gallery, indexing images found in /data/images.

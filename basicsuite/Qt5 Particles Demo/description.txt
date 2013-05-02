@@ -1,0 +1,1 @@
+This demo offers a few samples of what Qt Quick 2.0's new particle system can do.
