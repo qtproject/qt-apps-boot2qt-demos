@@ -9,7 +9,7 @@ Item {
 
     property real inputX: 0.5;
     property real feedbackX: inputX
-    property string nameX: "Displacement"
+    property string nameX: "Dissolution"
 
     property real inputY: 0.5;
     property real feedbackY: effect.amplitude
@@ -68,7 +68,6 @@ Item {
             uniform lowp float t;
             uniform lowp float tlength;
             uniform highp float amplitude;
-            uniform lowp float qt_Opacity;
 
             attribute highp vec4 qt_Vertex;
             attribute highp vec2 qt_MultiTexCoord0;
@@ -102,6 +101,7 @@ Item {
 
             uniform lowp float t;
             uniform lowp float tlength;
+            uniform lowp float qt_Opacity;
 
             varying highp vec2 vTexCoord;
             varying lowp float vOpacity;
@@ -118,7 +118,7 @@ Item {
 
                 float particlify = smoothstep(1.0 - vOpacity, 1.0, rand(vTexCoord)) * vOpacity;
 
-                gl_FragColor = tex * mix(vOpacity, particlify, opacity);
+                gl_FragColor = tex * mix(vOpacity, particlify, opacity) * qt_Opacity;
             }
 
             "
