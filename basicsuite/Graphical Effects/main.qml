@@ -107,7 +107,6 @@ Item {
         property real padding: 20
 
         onPaint: {
-            print("painting the canvas...");
             var ctx = canvas.getContext("2d");
 
             var w = canvas.width
