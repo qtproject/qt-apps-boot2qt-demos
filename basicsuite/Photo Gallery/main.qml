@@ -80,7 +80,6 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    print("doing stuff..")
                     root.showBigImage(filePath, box.x - grid.contentX, box.y - grid.contentY, image);
                 }
             }
@@ -92,8 +91,6 @@ Item {
         fakeBigImage.y = itemY;
         fakeBigImage.sourceSize = image.sourceSize;
         fakeBigImage.source = filePath;
-
-        print("painted sizes: ", fakeBigImage.paintedHeight, fakeBigImage.paintedWidth)
 
         beginEnterLargeAnimation.running = true;
     }
