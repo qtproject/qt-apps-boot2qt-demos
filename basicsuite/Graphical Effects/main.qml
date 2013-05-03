@@ -38,7 +38,7 @@ Item {
         ListElement { name: "Hue / Saturation"; file: "effect_HueSaturation.qml" }
         ListElement { name: "Opacity Mask"; file: "effect_OpacityMask.qml" }
         ListElement { name: "Threshold Mask"; file: "effect_ThresholdMask.qml" }
-        ListElement { name: "Wave (costom)"; file: "effect_CustomWave.qml" }
+        ListElement { name: "Wave (custom)"; file: "effect_CustomWave.qml" }
         ListElement { name: "Dissolve (custom)"; file: "effect_CustomDissolve.qml" }
     }
 
