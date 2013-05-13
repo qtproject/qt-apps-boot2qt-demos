@@ -38,11 +38,26 @@
 **
 ****************************************************************************/
 
-DemoMain {
+import QtQuick 2.0
 
-    width: 854
-    height: 480
+Item {
+    id: root
 
-    useDropShadow: false;
-    useSimpleGradient: true;
+    width: 1280
+    height: 720
+
+    property real widthFactor: root.width / root.height;
+
+    DemoMain {
+        width: 720 * root.widthFactor
+        height: 720
+
+        anchors.centerIn: parent
+
+        scale: root.height / height
+
+        useDropShadow: false;
+        useSimpleGradient: true;
+    }
+
 }
