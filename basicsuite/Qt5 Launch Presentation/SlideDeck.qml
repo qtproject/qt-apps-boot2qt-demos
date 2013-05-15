@@ -88,11 +88,9 @@ OpacityTransitionPresentation {
 It is an application written with Qt Quick, based on Qt 5. The source code is available from:
 https://qt.gitorious.org/qt-labs/qt5-launch-demo
 
-
 We hope you will enjoy Qt 5 as much as we have enjoyed creating it.
 
-
-            [tap to advance]"
+[tap to advance]"
 
 //        Image {
 //            source: "images/qt-logo.png"
