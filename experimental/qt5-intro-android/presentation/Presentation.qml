@@ -101,6 +101,9 @@ Item {
                 root.focus = true;
             }
         }
+        timer.stop()
+        if (slides[currentSlide].shouldTimeout)
+            timer.start()
     }
 
     function goToPreviousSlide() {
@@ -116,6 +119,7 @@ Item {
                root.focus = true;
            }
         }
+        timer.stop()
     }
 
     function goToUserSlide() {
@@ -132,10 +136,17 @@ Item {
                root.focus = true;
            }
         }
+        timer.stop()
+    }
+
+    Timer {
+        id: timer
+        interval: slides[currentSlide].timeout > 0 ? slides[currentSlide].timeout : 7000
+        running: false
+        onTriggered: goToNextSlide()
     }
 
     focus: true
-
 
     Keys.onSpacePressed: goToNextSlide()
     Keys.onRightPressed: goToNextSlide()
@@ -210,6 +221,23 @@ Item {
             property string notes: root.slides[root.currentSlide].notes;
             text: notes == "" ? "Slide has no notes..." : notes;
             font.italic: notes == "";
+        }
+    }
+
+    Text {
+        id: tapToAdvance
+        color: textColor
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: parent.height * 0.01
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: "[ Tap to advance ]"
+        font.family: fontFamily
+        font.pixelSize: slides[currentSlide].baseFontSize
+        opacity: slides[currentSlide].showTapToAdvance ? 1.0 : 0.0
+        visible: opacity > 0.0
+
+        Behavior on opacity {
+               NumberAnimation { duration: 400 }
         }
     }
 }

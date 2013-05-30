@@ -83,11 +83,17 @@ OpacityTransitionPresentation {
     Slide {
         id: introSlide
 
-        writeInText: "The following is a quick tour of what is new in Qt 5.
+        centeredText: "The following is a quick tour of what is new in Qt 5.
 
-It is an application written with Qt Quick, based on Qt 5.
+It is an application written with Qt Quick, based on Qt 5."
 
-We hope you will enjoy Qt 5 as much as we have enjoyed creating it.
+        + (masterWidth < masterHeight ? "
+
+For an optimal experience, try watching it in the landscape orientation.
+
+" : " ")
+
++ "We hope you will enjoy Qt 5 as much as we have enjoyed creating it.
 
 [tap to advance]"
 
@@ -102,11 +108,13 @@ We hope you will enjoy Qt 5 as much as we have enjoyed creating it.
     Slide {
         centeredText: "Introducing"
         fontScale: 2
+        timeout: 2000
     }
 
     Slide {
         centeredText: "Qt 5"
         fontScale: 4;
+        timeout: 2000
     }
 
 
@@ -138,11 +146,11 @@ Wayland support - Wayland-compatible Qt backend and compositor framework"
          title: "Qt for Android"
          writeInText:
  "
- Qt 5.1 allows you to write Android apps using Qt Quick or Qt Widgets.
+Qt 5.1 allows you to write Android apps using Qt Quick or Qt Widgets.
 
- We support QML media player functionality, as well as a set of commonly used sensors in QtSensors.
+We support QML media player functionality, as well as a set of commonly used sensors in QtSensors.
 
- With Qt Creator you can develop your apps, deploy them directly to a device, and debug them on the device.
+With Qt Creator you can develop your apps, deploy them directly to a device, and debug them on the device.
  "
      }
 
@@ -150,7 +158,7 @@ Wayland support - Wayland-compatible Qt backend and compositor framework"
      writeInText:
  "For this preliminary release, we are focusing on the developer experience, working to enable Qt developers to easily run and test their applications on Android devices.
 
- You can easily deploy your app to an app store with Qt 5.1, but we recommend waiting until Qt 5.2 for an even smoother experience."
+You can easily deploy your app to an app store with Qt 5.1, but we recommend waiting until Qt 5.2 for an even smoother experience."
      }
 
 
@@ -162,7 +170,7 @@ Wayland support - Wayland-compatible Qt backend and compositor framework"
     ExamplesSlide { }
 
     FontSlide { }
-    CanvasSlide { }
+    // CanvasSlide { }
     ParticleSlide { }
     ShaderSlide { }
 
@@ -219,14 +227,15 @@ Wayland support - Wayland-compatible Qt backend and compositor framework"
         title: "Links"
         contentFormat: Text.RichText
         content: [
-            "Qt Project: <a href=\"http://qt-project.org\">qt-project.org</a>",
-            "Qt by Digia: <a href=\"http://qt.digia.com\">qt.digia.com</a>",
+            "<span style=\"
+             Qt Project: <a style=\"color: #ffffff\" href=\"http://qt-project.org\">qt-project.org</a>",
+            "Qt by Digia: <a style=\"color: #ffffff\" href=\"http://qt.digia.com\">qt.digia.com</a>",
             "Follow us on Twitter",
-            "  <a href=\"https://twitter.com/qtproject\">@QtProject</a>",
-            "  <a href=\"https://twitter.com/QtbyDigia\">@QtByDigia</a>",
+            "  <a style=\"color: #ffffff\" href=\"https://twitter.com/qtproject\">@QtProject</a>",
+            "  <a style=\"color: #ffffff\" href=\"https://twitter.com/QtbyDigia\">@QtByDigia</a>",
             "Find us on Facebook:",
-            "  <a href=\"https://www.facebook.com/QtProject\">Qt Project</a>",
-            "  <a href=\"https://www.facebook.com/Qt\">Qt by Digia</a>",
+            "  <a style=\"color: #ffffff\" href=\"https://www.facebook.com/QtProject\">Qt Project</a>",
+            "  <a style=\"color: #ffffff\" href=\"https://www.facebook.com/Qt\">Qt by Digia</a>",
                  ];
 
         Image {
@@ -238,6 +247,7 @@ Wayland support - Wayland-compatible Qt backend and compositor framework"
             anchors.right: parent.right
             anchors.rightMargin: parent.width * 0.15
             fillMode: Image.PreserveAspectFit
+            visible: parent.masterWidth > parent.masterHeight
         }
 
     }

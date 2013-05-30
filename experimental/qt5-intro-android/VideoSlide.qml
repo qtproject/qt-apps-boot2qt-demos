@@ -50,6 +50,7 @@ Slide {
 
     title: "Qt Multimedia - Video"
     focus: true
+    shouldTimeout: false
 
     Video {
         id: video

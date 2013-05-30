@@ -151,4 +151,9 @@ OTHER_FILES += \
     DemoMain.qml \
     CanvasSlide.qml \
     CameraSlide.qml \
-    Button.qml
+    Button.qml \
+    presentation/SlideCounter.qml \
+    presentation/Slide.qml \
+    presentation/Presentation.qml \
+    presentation/CodeSlide.qml \
+    presentation/Clock.qml

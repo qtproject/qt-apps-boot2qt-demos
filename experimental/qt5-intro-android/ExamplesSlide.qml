@@ -45,10 +45,14 @@ Slide
 {
     id: slide
 
-    title: "Qt Quick 2"
+    title: "Qt Quick 2 Interactive Demos"
+    shouldTimeout: false
 
     Row {
-        anchors.fill: parent
+        id: exampleRow
+        anchors.centerIn: parent
+        height: parent.height
+        width: item1.width + spacing * 3 + (item2.visible ? item2.width : 0) + (item3.visible ? item3.width : 0)
 
         spacing: Math.max(10, (width - 320 * 3) / 2)
 
@@ -57,26 +61,54 @@ Slide
             width: 320
             height: 480
             clip: true
-            Loader {
-                id: load1
+            MouseArea {
+                anchors.fill: parent
+
+                Loader {
+                    id: load1
+                }
             }
+
         }
 
         Item {
             id: item2
             width: 320
             height: 480
-            visible: item1.width + parent.spacing + width <= parent.width
+            visible: masterWidth > masterHeight
             clip: true;
-            Loader {
-                id: load2
+            MouseArea {
+                anchors.fill: parent
+                Loader {
+                    id: load2
+                }
             }
         }
 
-        Loader {
-            id: load3
-            visible: item1.width + item2.width + parent.spacing * 2 + width <= parent.width
+        Item {
+            id: item3
+            width: 320
+            height: 480
+            visible: masterWidth > masterHeight
+            clip: true;
+            MouseArea {
+                Loader {
+                    id: load3
+                }
+                anchors.fill: parent
+            }
         }
+    }      
+
+    Text {
+        id: showMore
+        text: "Rotate the device for more"
+        color: textColor
+        anchors.top: exampleRow.bottom
+        font.family: slides[currentSlide].fontFamily
+        font.pixelSize: slides[currentSlide].fontSize * 0.6
+        visible: masterWidth < masterHeight
+        anchors.horizontalCenter: parent.horizontalCenter
     }
 
     onVisibleChanged: {

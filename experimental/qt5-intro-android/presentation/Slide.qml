@@ -51,6 +51,9 @@ Item {
     id: slide
 
     property bool isSlide: true;
+    property bool shouldTimeout: true
+    property real timeout: 0
+    property bool showTapToAdvance: !shouldTimeout
 
     property string title;
     property variant content: []
@@ -128,7 +131,7 @@ Item {
         NumberAnimation on length {
             from: 0;
             to: slide.writeInText.length;
-            duration: slide.textAnimating ? slide.writeInText.length * 30 : 1;
+            duration: slide.textAnimating ? slide.writeInText.length * 10 : 1;
             running: slide.visible && parent.visible && slide.writeInText.length > 0
         }
 

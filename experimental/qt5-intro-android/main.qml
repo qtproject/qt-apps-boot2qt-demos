@@ -40,11 +40,12 @@
 
 import QtQuick 2.0
 
-Item {
+Rectangle {
     id: root
 
     width: 1280
     height: 720
+    color: "black"
 
     property real widthFactor: root.width / root.height;
 

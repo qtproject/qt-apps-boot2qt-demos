@@ -47,7 +47,7 @@ Slide {
 
     title: "Qt Quick -  Canvas"
 
-
+    shouldTimeout: false
 
     Rectangle {
         height: parent.height
@@ -153,9 +153,6 @@ ctx.restore();
                 }
 
         }
-
-
-
 
     }
 }

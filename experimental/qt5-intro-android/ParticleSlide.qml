@@ -46,6 +46,7 @@ Slide
     id: slide
 
     title: "Qt Quick -  Particle System"
+    shouldTimeout: false
 
     Row {
         anchors.fill: parent

@@ -76,10 +76,10 @@ Presentation {
         PropertyAction { target: deck; property: "inTransition"; value: true }
         PropertyAction { target: toSlide; property: "visible"; value: true }
         ParallelAnimation {
-            NumberAnimation { target: fromSlide; property: "opacity"; from: 1; to: 0; duration: deck.transitionTime; easing.type: Easing.OutQuart }
-            NumberAnimation { target: fromSlide; property: "scale"; from: 1; to: 0.7; duration: deck.transitionTime; easing.type: Easing.InOutQuart }
-            NumberAnimation { target: toSlide; property: "opacity"; from: 0; to: 1; duration: deck.transitionTime; easing.type: Easing.InQuart }
-            NumberAnimation { target: toSlide; property: "scale"; from: 1.1; to: 1; duration: deck.transitionTime; easing.type: Easing.InOutQuart }
+            NumberAnimation { target: fromSlide; property: "opacity"; from: 1; to: 0; duration: 1; easing.type: Easing.OutQuart }
+            NumberAnimation { target: fromSlide; property: "scale"; from: 1; to: 0.7; duration: 1; easing.type: Easing.InOutQuart }
+            NumberAnimation { target: toSlide; property: "opacity"; from: 0; to: 1; duration: 1; easing.type: Easing.InQuart }
+            NumberAnimation { target: toSlide; property: "scale"; from: 1.1; to: 1; duration: 1; easing.type: Easing.InOutQuart }
         }
         PropertyAction { target: fromSlide; property: "visible"; value: false }
         PropertyAction { target: fromSlide; property: "scale"; value: 1 }
