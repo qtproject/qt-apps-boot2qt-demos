@@ -227,8 +227,7 @@ You can easily deploy your app to an app store with Qt 5.1, but we recommend wai
         title: "Links"
         contentFormat: Text.RichText
         content: [
-            "<span style=\"
-             Qt Project: <a style=\"color: #ffffff\" href=\"http://qt-project.org\">qt-project.org</a>",
+            "Qt Project: <a style=\"color: #ffffff\" href=\"http://qt-project.org\">qt-project.org</a>",
             "Qt by Digia: <a style=\"color: #ffffff\" href=\"http://qt.digia.com\">qt.digia.com</a>",
             "Follow us on Twitter",
             "  <a style=\"color: #ffffff\" href=\"https://twitter.com/qtproject\">@QtProject</a>",
