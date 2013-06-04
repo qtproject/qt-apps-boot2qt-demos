@@ -54,9 +54,6 @@ Rectangle {
 
                 Layout.fillWidth: true
 
-                contentWidth: powerButtonColumn.implicitWidth
-                contentHeight: powerButtonColumn.implicitHeight
-
                 RowLayout {
                     id: powerButtonColumn
 
@@ -85,9 +82,6 @@ Rectangle {
 
                 Layout.fillWidth: true
 
-                contentWidth: displayGrid.implicitWidth
-                contentHeight: displayGrid.implicitHeight
-
                 GridLayout {
                     id: displayGrid
 
@@ -95,8 +89,8 @@ Rectangle {
                     flow: GridLayout.TopToBottom
                     anchors.fill: parent
 
-                    Label { text: "Brightness: " }
-                    Label { text: "Display FPS: " }
+                    Label { text: "Brightness: "; }
+                    Label { text: "Display FPS: "; }
 
                     Slider {
                         maximumValue: 255

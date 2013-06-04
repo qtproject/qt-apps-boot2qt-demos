@@ -86,7 +86,7 @@ Item {
             anchors.margins: 20
             style: touchStyle
             text: "Dont press me"
-            onClicked: if (pageStack) pageStack.pop()
+            onClicked: if (stackView) stackView.pop()
         }
 
     }
@@ -94,7 +94,7 @@ Item {
     Component {
         id: touchStyle
         ButtonStyle {
-            background: Item {
+            panel: Item {
                 implicitHeight: 50
                 implicitWidth: 320
                 BorderImage {
@@ -106,10 +106,15 @@ Item {
                     border.right: 8
                     anchors.margins: control.pressed ? -4 : 0
                     source: control.pressed ? "../images/button_pressed.png" : "../images/button_default.png"
+                    Text {
+                        text: control.text
+                        anchors.centerIn: parent
+                        color: "white"
+                        font.pixelSize: 23
+                        renderType: Text.NativeRendering
+                    }
                 }
             }
-            foregroundColor: "white"
-            font.pixelSize: 23
         }
     }
 }

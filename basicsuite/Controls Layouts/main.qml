@@ -54,7 +54,6 @@ Rectangle {
     }
 
     property int margin: 11
-
     width: 1280
     height: 720
 
@@ -65,8 +64,6 @@ Rectangle {
         GroupBox {
             id: rowBox
             title: "Row layout"
-            contentWidth: rowLayout.implicitWidth
-            contentHeight: rowLayout.implicitHeight
             Layout.fillWidth: true
 
             RowLayout {
@@ -85,8 +82,6 @@ Rectangle {
         GroupBox {
             id: gridBox
             title: "Grid layout"
-            contentWidth: gridLayout.implicitWidth
-            contentHeight: gridLayout.implicitHeight
             Layout.fillWidth: true
 
             GridLayout {
@@ -115,8 +110,7 @@ Rectangle {
         TextArea {
             id: t3
             text: "This fills the whole cell"
-            width: 200
-            height: 400
+            Layout.minimumHeight: 30
             Layout.fillHeight: true
             Layout.fillWidth: true
         }

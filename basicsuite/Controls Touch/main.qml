@@ -38,10 +38,6 @@
 **
 ****************************************************************************/
 
-
-
-
-
 import QtQuick 2.1
 import QtQuick.Controls 1.0
 import "content"
@@ -58,8 +54,8 @@ Item {
     // Implements back key navigation
     Keys.onReleased: {
         if (event.key === Qt.Key_Back) {
-            if (pageStack.depth > 1) {
-                pageStack.pop();
+            if (stackView.depth > 1) {
+                stackView.pop();
                 event.accepted = true;
             } else { Qt.quit(); }
         }
@@ -77,7 +73,7 @@ Item {
             width: opacity ? 60 : 0
             anchors.left: parent.left
             anchors.leftMargin: 20
-            opacity: pageStack.depth > 1 ? 1 : 0
+            opacity: stackView.depth > 1 ? 1 : 0
             anchors.verticalCenter: parent.verticalCenter
             antialiasing: true
             height: 60
@@ -92,7 +88,7 @@ Item {
                 id: backmouse
                 anchors.fill: parent
                 anchors.margins: -10
-                onClicked: pageStack.pop()
+                onClicked: stackView.pop()
             }
         }
 
@@ -131,11 +127,9 @@ Item {
     }
 
     StackView {
-        id: pageStack
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.top: toolbar.bottom
+        id: stackView
+        anchors.fill: parent
+        anchors.topMargin: toolbar.height
 
         initialItem: Item {
             width: parent.width
@@ -145,7 +139,7 @@ Item {
                 anchors.fill: parent
                 delegate: AndroidDelegate {
                     text: title
-                    onClicked: pageStack.push(Qt.resolvedUrl(page))
+                    onClicked: stackView.push(Qt.resolvedUrl(page))
                 }
             }
         }
