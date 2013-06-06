@@ -31,6 +31,11 @@ Rectangle {
         source: "BrightnessController.qml"
     }
 
+    Loader {
+        id: networkControllerLoader
+        source: "NetworkController.qml"
+    }
+
     Flickable {
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
@@ -106,6 +111,40 @@ Rectangle {
                     CheckBox {
                         onCheckedChanged: engine.fpsEnabled = checked;
                     }
+                }
+            }
+
+            GroupBox {
+                id: networkOptions
+                title: "Network Options"
+
+                Layout.fillWidth: true
+
+                GridLayout {
+                    id: networkGrid
+
+                    rows: 2
+                    columns: 3
+                    flow: GridLayout.TopToBottom
+                    anchors.fill: parent
+
+                    Label { text: "Hostname: "; }
+                    Label { text: "IP address: "; }
+
+                    TextField {
+                        id: hostname
+                        text: if (networkControllerLoader.item != undefined) { networkControllerLoader.item.getHostname(); }
+                        Layout.fillWidth: true
+                    }
+
+                    Label { text: if (networkControllerLoader.item != undefined) { networkControllerLoader.item.getIPAddress(); } }
+
+                    Button {
+                        text: "Change hostname"
+                        onClicked: networkControllerLoader.item.setHostname(hostname.text);
+                        enabled: networkControllerLoader.item != undefined
+                    }
+
                 }
             }
         }
