@@ -18,7 +18,8 @@ Rectangle
 
         onOnlineChanged: print(online ? "QML: WifiManager is online" : "QML: WifiManager is not online...");
 
-        scanning: ready && connectedSSID == "";
+        //scanning: ready && connectedSSID == "";
+        scanning: ready
     }
 
     Component {
@@ -82,7 +83,7 @@ Rectangle
                 anchors.margins: 20
                 anchors.right: parent.right
                 anchors.top: parent.top
-                color: "white"
+                color: "lightblue"
                 border.color: "lightgray"
             }
 
@@ -104,11 +105,12 @@ Rectangle
 
             TextInput {
                 id: passwordInput
+                //echoMode: TextInput.PasswordEchoOnEdit
                 y: 100
                 width: 300
                 height: 50
                 anchors.horizontalCenter: parent.horizontalCenter
-                font.pixelSize: 14
+                font.pixelSize: 18
             }
 
             Rectangle {
