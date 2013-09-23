@@ -1,0 +1,4 @@
+This demo utilizes the accelerometer and light sensor readings in an application.
+
+For the accelometer, tilting the device moves the bubble around. For the light sensor,
+exposing the device to different lighting conditions changes the display.
