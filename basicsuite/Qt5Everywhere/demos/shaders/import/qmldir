@@ -1,0 +1,2 @@
+module ShaderReader
+plugin shaderreader
