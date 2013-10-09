@@ -46,7 +46,7 @@ Rectangle {
     id: fileBrowser
     color: "transparent"
 
-    property string folder: "file:///cache"
+    property string folder: "file:///data/videos"
 
     signal fileSelected(string file)
 
