@@ -5,7 +5,7 @@ Item {
     id: controlsRoot
     anchors.fill: parent
 
-    property alias cameraMode: cameraModeControl.selectedValue
+//    property alias cameraMode: cameraModeControl.selectedValue
 
     property alias requestedZoom: zoomControl.requestedZoom
     property alias actualZoom: zoomControl.actualZoom
@@ -37,26 +37,26 @@ Item {
         anchors.bottomMargin: 50
     }
 
-    CameraSetting {
-        id: cameraModeControl
-        anchors.right: parent.right
-        anchors.rightMargin: 20
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 20
-        title: "MODE"
-        model: ListModel {
-            ListElement {
-                name: "Picture"
-                value: Camera.CaptureStillImage
-            }
-            ListElement {
-                name: "Video"
-                value: Camera.CaptureVideo
-            }
-        }
-        onCountChanged: currentIndex = 0
-        enabled: controlsRoot.captureReady
-    }
+//    CameraSetting {
+//        id: cameraModeControl
+//        anchors.right: parent.right
+//        anchors.rightMargin: 20
+//        anchors.bottom: parent.bottom
+//        anchors.bottomMargin: 20
+//        title: "MODE"
+//        model: ListModel {
+//            ListElement {
+//                name: "Picture"
+//                value: Camera.CaptureStillImage
+//            }
+//            ListElement {
+//                name: "Video"
+//                value: Camera.CaptureVideo
+//            }
+//        }
+//        onCountChanged: currentIndex = 0
+//        enabled: controlsRoot.captureReady
+//    }
 
     RecordingTime {
         anchors.right: parent.right

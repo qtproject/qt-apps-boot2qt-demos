@@ -1,5 +1,5 @@
 This example demonstrates the use of the camera features of Qt Multimedia with Qt Quick.
 
-It can take pictures and record videos. Files are saved inside the 'DCIM' folder on the external storage.
+Demo can be used to take pictures. Files are saved inside the /data/images/ folder and can be viewed with the "Photo Gallery" application.
 
 Camera parameters such as flash mode, scene mode or white balance can be changed. The availability of parameters depends on what the camera driver provides.

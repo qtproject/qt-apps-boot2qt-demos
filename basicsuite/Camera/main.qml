@@ -43,7 +43,7 @@ Rectangle {
 
         onLockStatusChanged: {
             if (camera.lockStatus === Camera.Locked && captureWhenLocked) {
-                camera.imageCapture.capture();
+                camera.imageCapture.captureToLocation("/data/images/");
                 captureWhenLocked = false;
             }
         }
@@ -160,7 +160,7 @@ Rectangle {
         actualZoom: camera.digitalZoom
         maximumZoom: camera.maximumDigitalZoom
 
-        onCameraModeChanged: camera.captureMode = controls.cameraMode
+        //onCameraModeChanged: camera.captureMode = controls.cameraMode
 
         onFlashModeChanged: if (visible) camera.flash.mode = controls.flashMode
         onFocusModeChanged: if (visible) camera.focus.focusMode = controls.focusMode
@@ -195,7 +195,7 @@ Rectangle {
                     camera.captureWhenLocked = true;
                     camera.searchAndLock();
                 } else {
-                    camera.imageCapture.capture();
+                    camera.imageCapture.captureToLocation("/data/images/");
                 }
             }
         }
