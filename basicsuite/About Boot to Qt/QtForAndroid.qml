@@ -8,7 +8,7 @@ Column {
     spacing: engine.smallFontSize()
 
     Title {
-        text: "Boot2Qt vs Qt for Android"
+        text: "Boot to Qt vs Qt for Android"
     }
 
     ContentText {
@@ -19,12 +19,11 @@ Column {
                can run on Android devices. For developers writing applications
                for the Android ecosystem, Qt for Android is the right choice.
 
-               <p align="justify">Boot2Qt tries to strip down the Android stack to the bare minimum,
-               relying only on basic Linux features. The majority of the Android stack,
-               such as <i>SurfaceFlinger</i> or <i>DalvikVM</i> is not running in
-               Boot2Qt, resulting in faster startup times, lower memory consumption
-               and overall better performance.
-               '
+               <p align="justify"><b>Boot to Qt for embedded Android</b> tries to strip down
+               the Android stack to the bare minimum, relying only on basic Linux features.
+               The majority of the Android stack, such as <i>Dalvik virtual machine</i> is
+               not running in Boot to Qt, resulting in faster startup times, lower memory consumption
+               and overall better performance.'
     }
 
     Column {
@@ -45,4 +44,10 @@ Column {
         Box { text: "Embedded Hardware"; accentColor: "steelblue"}
     }
 
+    ContentText {
+        width: parent.width
+        text: '<p align="justify"><b>Boot to Qt for embedded Linux</b> is build from scratch using
+               Yocto 1.4 tools to contain only components required in the embedded device,
+               resulting in smaller image sizes while keeping valuable development tools available.'
+    }
 }

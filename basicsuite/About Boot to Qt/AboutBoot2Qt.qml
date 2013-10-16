@@ -16,12 +16,20 @@ Column {
     ContentText {
         id: brief
         width: parent.width
-        text: '<p align="justify">Boot to Qt is the working name for a light-weight UI stack for embedded linux,
-               based on the Qt Framework by Digia. Boot to Qt places Qt on top of an Android
-               kernel/baselayer and offers an elegant means of developing beautiful and
-               performant embedded devices.
+        text: '<p align="justify">Boot to Qt is a light-weight UI stack for embedded systems, based on the Qt Framework by Digia,
+               offering an elegant means of developing beautiful and performant embedded devices. It supports two different
+               operating systems:
+               <ul>
+                 <li><b>Boot to Qt for embedded Android</b> places Qt on top of an Android (version 4.1 or higher)
+                 kernel/baselayer.</li>
+                 <li><b>Boot to Qt for embedded Linux</b> places Qt on top of an Linux kernel/baselayer, built using
+                 Yocto 1.4 \'Dylan\' release.</li>
+               </ul>
+               Both versions have been tested and verified on a number of different hardware configurations.
+               Boot to Qt support is not limited to the devices used as reference platforms, it can be made to run on a
+               variety of hardware.
 
-               <p align="justify">Boot to Qt is a commercial-only SDK offering which includes a ready-made stack
+               <p align="justify">Boot to Qt is part of a commercial-only SDK offering which includes a ready-made stack
                with full Qt Creator integration. The SDK allows building and running on device
                with just a button. Embedded development has never been this easy!'
     }
@@ -33,7 +41,7 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
         Box { text: "Application"; accentColor: "coral" }
         Box { text: "Qt Framework"; accentColor: Qt.rgba(0.64, 0.82, 0.15) }
-        Box { text: "Android Baselayer"; accentColor: "steelblue" }
+        Box { text: "Android/Linux Baselayer"; accentColor: "steelblue" }
         Box { text: "Embedded Hardware"; accentColor: "steelblue"}
     }
 
@@ -42,7 +50,7 @@ Column {
 
         width: parent.width
 
-        text: '<p align="justify">Boot to Qt runs on top of Android 4.0 based kernels and has been tested and verified on
+        text: '<p align="justify">Boot to Qt has been tested and verified on
                a number of different hardware configurations, including:
                <ul>
                  <li>Google Nexus 7 - NVIDIA Tegra3 Quad Core, 1 GB RAM</li>
