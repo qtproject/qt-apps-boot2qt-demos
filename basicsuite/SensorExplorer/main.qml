@@ -50,12 +50,12 @@ Item {
     id: root
     width: 800
     height: 1280
+
     Rectangle {
         id: main
-        width: root.height
-        height: root.width
+        width: root.width
+        height: root.height
         anchors.centerIn: parent
-        rotation: -90
 
         //! [1]
         SensorExplorer {
