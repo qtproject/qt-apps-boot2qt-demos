@@ -1,1 +1,1 @@
-This example provides a list of all available sensors installed on the system for which Qt has a backend. Start a sensor to see how values changes depending from environment and user-device interaction.
+This example provides a list of all available sensors installed on the system for which Qt has a backend. Start a sensor to see how values change depending from environment and user-device interaction.
