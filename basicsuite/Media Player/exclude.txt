@@ -1,1 +1,1 @@
-android_beagleboard
+android-beagleboard:linux-raspberrypi:
