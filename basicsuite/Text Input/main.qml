@@ -40,77 +40,73 @@
 
 import QtQuick 2.0
 
-Image {
-    source: "background.png"
+Flickable {
+    id: flickable
 
-    Flickable {
-        id: flickable
+    property real scrollMarginVertical: 20
 
-        property real scrollMarginVertical: 20
+    anchors.fill: parent
+    contentWidth: content.width
+    contentHeight: content.height
+    interactive: contentHeight > height
+    flickableDirection: Flickable.VerticalFlick
+    children: ScrollBar {}
 
-        anchors.fill: parent
-        contentWidth: content.width
-        contentHeight: content.height
-        interactive: contentHeight > height
-        flickableDirection: Flickable.VerticalFlick
-        children: ScrollBar {}
+    MouseArea  {
+        id: content
 
-        MouseArea  {
-            id: content
+        width: flickable.width
+        height: textEditors.height + 24
 
-            width: flickable.width
-            height: textEditors.height + 24
+        onClicked: focus = true
 
-            onClicked: focus = true
+        Column {
+            id: textEditors
+            spacing: 15
+            x: 12; y: 12
+            width: parent.width - 26
 
-            Column {
-                id: textEditors
-                spacing: 15
-                x: 12; y: 12
-                width: parent.width - 26
+            Text {
+                color: "#EEEEEE"
+                text: "Tap fields to enter text"
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pixelSize: 22
+            }
+            TextField {
+                width: parent.width
+                previewText: "One line field"
+                enterKeyText: "Next"
+                enterKeyEnabled: text.length > 0
+                onEnterKeyClicked: passwordField.focus = true
+            }
+            TextField {
+                id: passwordField
 
-                Text {
-                    color: "#EEEEEE"
-                    text: "Tap fields to enter text"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    font.pixelSize: 22
-                }
-                TextField {
-                    width: parent.width
-                    previewText: "One line field"
-                    enterKeyText: "Next"
-                    enterKeyEnabled: text.length > 0
-                    onEnterKeyClicked: passwordField.focus = true
-                }
-                TextField {
-                    id: passwordField
+                width: parent.width
+                echoMode: TextInput.PasswordEchoOnEdit
+                previewText: "Password field"
+                inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
+                enterKeyText: "Next"
+                enterKeyEnabled: text.length > 0
+                onEnterKeyClicked: numberField.focus = true
+            }
+            TextField {
+                id: numberField
 
-                    width: parent.width
-                    echoMode: TextInput.PasswordEchoOnEdit
-                    previewText: "Password field"
-                    inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
-                    enterKeyText: "Next"
-                    enterKeyEnabled: text.length > 0
-                    onEnterKeyClicked: numberField.focus = true
-                }
-                TextField {
-                    id: numberField
+                validator: RegExpValidator { regExp: /^[0-9\+\-\#\*\ ]{6,}$/ }
+                width: parent.width
+                previewText: "Phone number field"
+                inputMethodHints: Qt.ImhDialableCharactersOnly
+                enterKeyText: "Next"
+                enterKeyEnabled: text.length > 0
+                onEnterKeyClicked: textArea.focus = true
+            }
+            TextArea {
+                id: textArea
 
-                    validator: RegExpValidator { regExp: /^[0-9\+\-\#\*\ ]{6,}$/ }
-                    width: parent.width
-                    previewText: "Phone number field"
-                    inputMethodHints: Qt.ImhDialableCharactersOnly
-                    enterKeyText: "Next"
-                    enterKeyEnabled: text.length > 0
-                    onEnterKeyClicked: textArea.focus = true
-                }
-                TextArea {
-                    id: textArea
-
-                    width: parent.width
-                    previewText: "Multiple lines field"
-                    height: Math.max(206, implicitHeight)
-                }
+                width: parent.width
+                previewText: "Multiple lines field"
+                height: Math.max(206, implicitHeight)
             }
         }
     }
