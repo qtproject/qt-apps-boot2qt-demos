@@ -48,11 +48,10 @@ Image {
 
         property real scrollMarginVertical: 20
 
-        width: parent.width
+        anchors.fill: parent
         contentWidth: content.width
         contentHeight: content.height
         interactive: contentHeight > height
-        height: Qt.inputMethod.keyboardRectangle.y
         flickableDirection: Flickable.VerticalFlick
         children: ScrollBar {}
 
@@ -62,10 +61,7 @@ Image {
             width: flickable.width
             height: textEditors.height + 24
 
-            onClicked: {
-                if (Qt.inputMethod.inputItem)
-                    Qt.inputMethod.inputItem.focus = false
-            }
+            onClicked: focus = true
 
             Column {
                 id: textEditors
