@@ -1,0 +1,111 @@
+/****************************************************************************
+**
+** Copyright (C) 2013 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+
+/*!
+    \contentspage{b2qt-demos.html}{Qt Enterprise Embedded Examples and Demos}
+    \group b2qt-demos
+    \title Qt Enterprise Embedded Examples and Demos
+
+    \SDK has a number of examples and demos. These are included in the
+    \B2Q images, available in the launcher that is run by default at
+    startup.
+
+    In Qt Creator, you can find and open them from \b Welcome > \b Examples
+    by selecting a \c {Boot2Qt} version of Qt from the drop-down list.
+*/
+
+/*!
+    \example About Boot to Qt
+    \title About Boot to Qt
+    \ingroup b2qt-demos
+    \brief Displays information about the Boot to Qt software stack.
+*/
+
+/*!
+    \example Camera
+    \title Camera
+    \ingroup b2qt-demos
+    \brief Demonstrates using camera in a QML application.
+*/
+
+/*!
+    \example Controls Layouts
+    \title Controls Layouts
+    \ingroup b2qt-demos
+    \brief Demonstrates using Qt Quick Controls Layouts.
+*/
+
+/*!
+    \example Controls Touch
+    \title Controls Touch
+    \ingroup b2qt-demos
+    \brief Demonstrates a touch UI implemented with Qt Quick Controls.
+*/
+
+/*!
+    \example Graphical Effects
+    \title Graphical Effects
+    \ingroup b2qt-demos
+    \brief Demonstrates the different graphical effects that can be used in a QML application.
+*/
+
+/*!
+    \example Media Player
+    \title Media Player
+    \ingroup b2qt-demos
+    \brief A media player implemented in QML.
+*/
+
+/*!
+    \example Photo Gallery
+    \title Photo Gallery
+    \ingroup b2qt-demos
+    \brief A photo gallery implemented in QML.
+*/
+
+/*!
+    \example Qt5 Cinematic Demo
+    \title Qt5 Cinematic Demo
+    \ingroup b2qt-demos
+    \brief A cool demonstration of the graphical prowess of Qt 5 and Qt Quick 2.
+*/
+
+/*!
+    \example Qt5Everywhere
+    \title Qt 5 Everywhere
+    \ingroup b2qt-demos
+    \brief Highlights the versatility and cross-platform capability of Qt
+
+    The Qt 5 Everywhere demo shows how to use different user interface styles in several platforms and device types with one source code.
+*/
+
+/*!
+    \example Sensors
+    \title Sensors
+    \ingroup b2qt-demos
+    \brief Demostrates using the accelerometer and light sensors in a QML application.
+*/
+
+/*!
+    \example Text Input
+    \title Text Input
+    \ingroup b2qt-demos
+    \brief Demostrates text input capabilities and the virtual keyboard in a QML application.
+*/
+
