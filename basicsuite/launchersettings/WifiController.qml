@@ -38,12 +38,21 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtDroid.Utils 1.0
 import QtQuick 2.0
+import Qt.labs.wifi 0.1 as Wifi
 
 QtObject {
-    function setBrightness(value)
+    function createWifiGroupBox()
     {
-        DroidUtils.setDisplayBrightness(value)
+        if (Wifi.Interface.wifiSupported()) {
+            var component = Qt.createComponent("WifiGroupBox.qml");
+            var wifi = component.createObject(wifiOptions.contentItem);
+            if (wifi == null) {
+                wifiOptions.visible = false
+                print("Error creating WifiGroupBox");
+            }
+        } else {
+            wifiOptions.visible = false
+        }
     }
 }

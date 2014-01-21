@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: For any questions to Digia, please use the contact form at
 ** http://qt.digia.com/
 **
@@ -41,33 +41,15 @@
 import QtQuick 2.0
 import Qt.labs.wifi 0.1
 
-Rectangle
-{
-    id: root
-
-    color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1);
-
-    QWifiManager {
-        id: wifiManager;
-
-        Component.onCompleted: start();
-
-        onReadyChanged: {
-            print("QML: QWifiManager is now connected...");
-        }
-
-        onOnlineChanged: print(online ? "QML: WifiManager is online" : "QML: WifiManager is not online...");
-
-        //scanning: ready && connectedSSID == "";
-        scanning: ready
-    }
-
+Item {
     Component {
         id: listDelegate
-
         Rectangle {
             id: delegateBackground
             property bool expanded: false
+            property bool connected: wifiManager.connectedSSID == network.ssid
+            property variant networkModel: model
+            property alias ssidText: ssidLabel.text
             height: expanded ? 300 : 70
             clip: true // ### fixme
 
@@ -77,8 +59,7 @@ Rectangle
 
             gradient: Gradient {
                 GradientStop { position: 0; color: "white" }
-                GradientStop { position: 67 / delegateBackground.height; color: "lightgray" }
-                GradientStop { position: 1; color: "gray" }
+                GradientStop { position: 1; color: "lightgray" }
             }
 
             Text {
@@ -86,9 +67,9 @@ Rectangle
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.margins: 10
-                font.pixelSize: 24
+                font.pixelSize: 20
                 font.bold: true
-                text: network.ssid + (wifiManager.connectedSSID == network.ssid ? " (connected)" : "");
+                text: network.ssid + (connected ? " (connected)" : "");
             }
 
             Text {
@@ -145,10 +126,10 @@ Rectangle
 
             TextInput {
                 id: passwordInput
-                //echoMode: TextInput.PasswordEchoOnEdit
                 y: 100
                 width: 300
                 height: 50
+                text: ""
                 anchors.horizontalCenter: parent.horizontalCenter
                 font.pixelSize: 18
             }
@@ -160,6 +141,7 @@ Rectangle
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: passwordInput.width
                 height: passwordInputBackground.height
+                enabled: wifiManager.networkState != WifiManager.ObtainingIPAddress
 
                 gradient: Gradient {
                     GradientStop { position: 0; color: "white" }
@@ -171,12 +153,20 @@ Rectangle
                 Text {
                     anchors.centerIn: parent
                     font.pixelSize: 24
-                    text: "Connect"
+                    text: connected ? "Disconnect" : "Connect"
                 }
                 MouseArea {
                     id: buttonMouse
                     anchors.fill: parent
-                    onClicked: wifiManager.connect(network, passwordInput.text);
+                    onClicked: {
+                        networkView.currentIndex = index
+                        if (connected) {
+                            wifiManager.disconnect()
+                        } else {
+                            networkView.activeNetwork = networkView.currentItem
+                            wifiManager.connect(network, passwordInput.text);
+                        }
+                    }
                 }
             }
 
@@ -184,16 +174,26 @@ Rectangle
     }
 
     ListView {
-        anchors.fill: root
+        id: networkView
+        anchors.fill: parent
         model: wifiManager.networks
-        delegate: listDelegate;
-    }
+        delegate: listDelegate
 
-    Image {
-        source: wifiManager.online ? "http://img3.imageshack.us/img3/9870/magepicture.jpg" : ""
-        anchors.bottom: parent.bottom
+        property variant activeNetwork: ""
+        property variant networkState: wifiManager.networkState
 
-        width: parent.width
-        height: sourceSize.height * (width / sourceSize.width);
+        onNetworkStateChanged: {
+            if (activeNetwork) {
+                var ssid = activeNetwork.networkModel.ssid
+                var state = ""
+                if (networkState == WifiManager.ObtainingIPAddress)
+                    state = " (obtaining ip..)"
+                else if (networkState == WifiManager.DhcpRequestFailed)
+                    state = " (dhcp request failed)"
+                else if (networkState == WifiManager.Connected)
+                    state = " (connected)"
+                activeNetwork.ssidText = ssid + state
+            }
+        }
     }
 }

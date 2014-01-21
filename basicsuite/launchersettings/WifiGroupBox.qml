@@ -38,12 +38,55 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtDroid.Utils 1.0
 import QtQuick 2.0
+import QtQuick.Controls 1.0
+import QtQuick.Layouts 1.0
 
-QtObject {
-    function setBrightness(value)
-    {
-        DroidUtils.setDisplayBrightness(value)
+import Qt.labs.wifi 0.1
+
+ColumnLayout {
+
+    anchors.fill:parent
+
+    WifiManager {
+        id: wifiManager
+        scanning: backendReady
+    }
+
+    ColumnLayout {
+        anchors.fill: parent
+
+        RowLayout {
+
+            Button {
+                id: wifiOnOffButton
+                text: (wifiManager.backendReady) ? "Switch Off" : "Switch On"
+                onClicked: {
+                    if (wifiManager.backendReady) {
+                        if (networkList.visible)
+                            networkList.visible = false
+                        wifiManager.stop()
+                    } else {
+                        wifiManager.start()
+                    }
+                }
+            }
+
+            Button {
+                id: listNetworksButton
+                visible: wifiManager.backendReady
+                text: (networkList.visible) ? "Hide wifi networks"
+                                            : "List available wifi networks"
+                onClicked: networkList.visible = !networkList.visible
+            }
+        }
+
+        NetworkList {
+            id: networkList
+            implicitHeight: 400
+            Layout.fillWidth: true
+            visible: false
+            clip: true
+        }
     }
 }

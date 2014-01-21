@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: For any questions to Digia, please use the contact form at
 ** http://qt.digia.com/
 **
@@ -44,7 +44,7 @@ import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 
 Rectangle {
-    id: root;
+    id: root
 
     gradient: Gradient {
         GradientStop { position: 0; color: "white" }
@@ -76,16 +76,19 @@ Rectangle {
         source: "NetworkController.qml"
     }
 
-    Flickable {
+    Loader {
+        id: wifiControllerLoader
+        source: "WifiController.qml"
+    }
+
+    ScrollView {
+
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.margins: margin
         anchors.topMargin: 50
         height: parent.height
-        width: mainLayout.width
-
-        contentHeight: mainLayout.height
-        contentWidth: mainLayout.width
+        width: mainLayout.width + 40
 
         ColumnLayout {
             id: mainLayout
@@ -95,12 +98,12 @@ Rectangle {
 
             GroupBox {
                 id: powerOptions
-                title: "Power Options"
+                title: "Power"
 
                 Layout.fillWidth: true
 
                 RowLayout {
-                    id: powerButtonColumn
+                    id: powerButtonRow
 
                     anchors.fill: parent
 
@@ -123,7 +126,7 @@ Rectangle {
 
             GroupBox {
                 id: displayOptions
-                title: "Display Options"
+                title: "Display"
 
                 Layout.fillWidth: true
 
@@ -156,7 +159,7 @@ Rectangle {
 
             GroupBox {
                 id: networkOptions
-                title: "Network Options"
+                title: "Network"
 
                 Layout.fillWidth: true
 
@@ -186,6 +189,19 @@ Rectangle {
                     }
 
                 }
+            }
+
+            GroupBox {
+                id: wifiOptions
+                title: "Wifi"
+                Layout.fillWidth: true
+            }
+
+            Component.onCompleted: {
+                if (wifiControllerLoader.item != undefined)
+                    wifiControllerLoader.item.createWifiGroupBox()
+                else
+                    wifiOptions.visible = false
             }
         }
     }
