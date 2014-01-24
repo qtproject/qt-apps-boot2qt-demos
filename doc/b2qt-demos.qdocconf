@@ -17,7 +17,7 @@ examples.fileextensions      = "*.cpp *.h *.js *.xq *.svg *.xml *.ui *.qhp *.qhc
 examples.imageextensions     = "*.png *.jpg *.gif"
 
 exampledirs                  = ../basicsuite
-examplesinstallpath          = ../../../../sources/b2qt-demos/basicsuite
+examplesinstallpath          = ../../../Boot2Qt-2.x/sources/b2qt-demos/basicsuite
 
 qhp.projects                 = QtEnterpriseEmbeddedDemos
 
