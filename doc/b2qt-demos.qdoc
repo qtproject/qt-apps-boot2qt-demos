@@ -45,13 +45,6 @@
 */
 
 /*!
-    \example controls-layouts
-    \title Controls Layouts
-    \ingroup b2qt-demos
-    \brief Demonstrates using Qt Quick Controls Layouts.
-*/
-
-/*!
     \example controls-touch
     \title Controls Touch
     \ingroup b2qt-demos
@@ -110,8 +103,10 @@
 */
 
 /*!
+    \omit
     \example launchersettings
     \title Launcher Settings
     \ingroup b2qt-demos
     \brief Displays information and settings available for the Boot to Qt launcher.
+    \endomit
 */
