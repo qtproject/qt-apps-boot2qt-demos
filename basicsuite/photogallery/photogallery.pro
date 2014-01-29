@@ -1,6 +1,7 @@
 TARGET = photogallery
 
 include(../shared/shared.pri)
+b2qtdemo_deploy_defaults()
 
 content.files = \
     *.qml \

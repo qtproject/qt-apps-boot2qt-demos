@@ -22,6 +22,7 @@
 #include <QtGui/QFontDatabase>
 #include <QtGui/QScreen>
 #include <QtGui/QPalette>
+#include <QtCore/QRegExp>
 
 #include <QtQuick/QQuickView>
 
@@ -34,7 +35,7 @@
 
 int main(int argc, char **argv)
 {
-    qputenv("QT_IM_MODULE", QByteArray("b2qtinputcontext"));
+    //qputenv("QT_IM_MODULE", QByteArray("qtvkb"));
 
     QGuiApplication app(argc, argv);
     QString path = app.applicationDirPath();
@@ -49,7 +50,7 @@ int main(int argc, char **argv)
     QString target = qgetenv("B2QT_BASE") + "-" + qgetenv("B2QT_PLATFORM");
     QFile excludeFile(path + QStringLiteral("/exclude.txt"));
     if (excludeFile.open(QFile::ReadOnly)) {
-        const QStringList excludeList = QString::fromUtf8(excludeFile.readAll()).split(":");
+        const QStringList excludeList = QString::fromUtf8(excludeFile.readAll()).split(QRegExp(":|\\s+"));
         if (excludeList.contains(target))
             qDebug("Warning: This example may not be fully functional on this platform");
         excludeFile.close();
@@ -73,7 +74,7 @@ int main(int argc, char **argv)
     view.rootContext()->setContextProperty("engine", &engine);
     view.setColor(Qt::black);
     view.setResizeMode(QQuickView::SizeRootObjectToView);
-    view.setSource(QUrl::fromLocalFile(path + QStringLiteral("/main.qml")));
+    view.setSource(QUrl::fromLocalFile(path + QStringLiteral("/loader.qml")));
     view.show();
 
     app.exec();
