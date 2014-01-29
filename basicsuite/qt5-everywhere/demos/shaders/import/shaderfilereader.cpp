@@ -41,12 +41,19 @@
 #include "shaderfilereader.h"
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
+#include <QtCore/QDir>
+#include <QtCore/QDebug>
 
 ShaderFileReader::ShaderFileReader(QObject* parent)
     : QObject(parent)
 {
     if (qEnvironmentVariableIsEmpty("QT_SHADER_PATH"))
-        setenv("QT_SHADER_PATH", "/data/user/qt/Qt5Everywhere/demos/shaders/",1);
+        setenv("QT_SHADER_PATH", "/data/user/qt/qt5-everywhere/demos/shaders/",1);
+    // check if directory contains shader files
+    QByteArray shaderPath(qgetenv("QT_SHADER_PATH").append("shaders/"));
+    QDir shaderDir(shaderPath);
+    if (shaderDir.entryInfoList(QStringList() << "*.fsh").length() < 1)
+        qWarning() << "ShaderFileReader: can not find shader files in " << shaderPath;
 }
 
 ShaderFileReader::~ShaderFileReader()
