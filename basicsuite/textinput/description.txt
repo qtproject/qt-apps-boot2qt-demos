@@ -1,0 +1,3 @@
+This examples illustrates how to handle input on touch devices.
+
+The Boot to Qt stack comes with Qt Virtual Keyboard - a framework that consists of a C++ back end with support for custom input methods, as well as a reference keyboard front end implemented in QML, supporting multiple languages.

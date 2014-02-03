@@ -31,63 +31,56 @@
 */
 
 /*!
-    \example About Boot to Qt
+    \example about-b2qt
     \title About Boot to Qt
     \ingroup b2qt-demos
     \brief Displays information about the Boot to Qt software stack.
 */
 
 /*!
-    \example Camera
+    \example camera
     \title Camera
     \ingroup b2qt-demos
     \brief Demonstrates using camera in a QML application.
 */
 
 /*!
-    \example Controls Layouts
-    \title Controls Layouts
-    \ingroup b2qt-demos
-    \brief Demonstrates using Qt Quick Controls Layouts.
-*/
-
-/*!
-    \example Controls Touch
+    \example controls-touch
     \title Controls Touch
     \ingroup b2qt-demos
     \brief Demonstrates a touch UI implemented with Qt Quick Controls.
 */
 
 /*!
-    \example Graphical Effects
+    \example graphicaleffects
     \title Graphical Effects
     \ingroup b2qt-demos
     \brief Demonstrates the different graphical effects that can be used in a QML application.
 */
 
 /*!
-    \example Media Player
+    \example mediaplayer
     \title Media Player
     \ingroup b2qt-demos
     \brief A media player implemented in QML.
 */
 
 /*!
-    \example Photo Gallery
+    \example photogallery
     \title Photo Gallery
     \ingroup b2qt-demos
     \brief A photo gallery implemented in QML.
 */
 
 /*!
-    \example Qt5 Cinematic Demo
+    \example qt5-cinematicdemo
     \title Qt5 Cinematic Demo
     \ingroup b2qt-demos
     \brief A cool demonstration of the graphical prowess of Qt 5 and Qt Quick 2.
 */
 
 /*!
-    \example Qt5Everywhere
+    \example qt5-everywhere
     \title Qt 5 Everywhere
     \ingroup b2qt-demos
     \brief Highlights the versatility and cross-platform capability of Qt
@@ -96,16 +89,24 @@
 */
 
 /*!
-    \example Sensors
+    \example sensors
     \title Sensors
     \ingroup b2qt-demos
     \brief Demostrates using the accelerometer and light sensors in a QML application.
 */
 
 /*!
-    \example Text Input
+    \example textinput
     \title Text Input
     \ingroup b2qt-demos
     \brief Demostrates text input capabilities and the virtual keyboard in a QML application.
 */
 
+/*!
+    \omit
+    \example launchersettings
+    \title Launcher Settings
+    \ingroup b2qt-demos
+    \brief Displays information and settings available for the Boot to Qt launcher.
+    \endomit
+*/

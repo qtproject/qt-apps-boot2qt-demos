@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 SUBDIRS += \
-    Qt5Everywhere \
-    Camera \
-    SensorExplorer
+    qt5-everywhere \
+    camera \
+    sensorexplorer
