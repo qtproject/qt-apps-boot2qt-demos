@@ -15,6 +15,8 @@ defineTest(b2qtdemo_deploy_defaults) {
     commonFiles.path = $$DESTPATH
     OTHER_FILES += $${commonFiles.files}
     INSTALLS += commonFiles
+    export(commonFiles.files)
+    export(commonFiles.path)
     export(OTHER_FILES)
     export(INSTALLS)
 }
