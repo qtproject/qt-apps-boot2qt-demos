@@ -193,6 +193,40 @@
 */
 
 /*!
+    \example enterprise-charts
+    \title Charts
+    \ingroup b2qt-demos
+    \brief Showcases the different types of charts available from the Qt Charts library.
+
+    \image b2qt-demo-enterprise-charts.jpg
+
+    Qt Charts is part of the Qt Enterprise addons package which provides a set of easy to use
+    chart components. This demo showcases the different charts that are available as QML types.
+*/
+
+/*!
+    \example enterprise-dashboard
+    \title Dashboard
+    \ingroup b2qt-demos
+    \brief A car dashboard created using Qt Quick Enterprise Controls.
+
+    \image b2qt-demo-enterprise-dashboard.jpg
+
+    This example project demonstrates using several CircularGauge controls to create a car dashboard.
+*/
+
+/*!
+    \example enterprise-gallery
+    \title Enterprise Controls Gallery
+    \ingroup b2qt-demos
+    \brief An interactive showcase for Qt Quick Enterprise Controls.
+
+    \image b2qt-demo-enterprise-gallery.jpg
+
+    This example project demonstrates the various UI controls provided by Qt Quick Enterprise Controls.
+*/
+
+/*!
     \omit
     \example launchersettings
     \title Launcher Settings
