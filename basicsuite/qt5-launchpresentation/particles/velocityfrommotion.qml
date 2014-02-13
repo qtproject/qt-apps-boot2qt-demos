@@ -47,6 +47,7 @@ Item {
 
     height: 480
     width: 320
+    visible: true
 
     MouseArea {
         id: mouseArea
