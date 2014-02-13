@@ -249,7 +249,7 @@ function drawPointer(context, angle, len, thickness, color){
 
                     if (root.dialStyle === 1) x1-=clockContainer.width*0.01
 
-                    context.font = 'bold '+Math.floor(clockContainer.width*.1)+'px Arial'
+                    context.font = 'bold '+Math.floor(clockContainer.width*.1)+'px sans-serif'
 
 
                     if (i >= 10)
