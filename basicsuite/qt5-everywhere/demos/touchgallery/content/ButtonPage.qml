@@ -97,7 +97,7 @@ Item {
         ButtonStyle {
             panel: Item {
                 implicitHeight: 50
-                implicitWidth: 320
+                implicitWidth: 300
                 BorderImage {
                     anchors.fill: parent
                     antialiasing: true

@@ -81,9 +81,9 @@ CustomAppWindow {
         }
 
         Text {
-            font.pixelSize: app.height*.07
+            font.pixelSize: app.height*.06
             Behavior on x { NumberAnimation{ easing.type: Easing.OutCubic} }
-            x: backButton.x + backButton.width + 20
+            x: backButton.x + backButton.width + 10
             anchors.verticalCenter: parent.verticalCenter
             color: "white"
             text: "Widget Gallery"

@@ -84,7 +84,7 @@ Item {
                     Text {
                         anchors.centerIn: parent
                         color: "white"
-                        text: tab.title.toUpperCase()
+                        text: styleData.title
                         font.pixelSize: 16
                     }
                     Rectangle {
