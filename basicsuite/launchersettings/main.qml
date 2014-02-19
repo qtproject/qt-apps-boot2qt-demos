@@ -150,6 +150,7 @@ Rectangle {
                 title: "Power"
                 Layout.fillWidth: true
                 style: groupBoxStyle
+                implicitWidth: 0
 
                 RowLayout {
                     id: powerButtonRow
@@ -181,6 +182,7 @@ Rectangle {
                 title: "Display"
                 style: groupBoxStyle
                 Layout.fillWidth: true
+                implicitWidth: 0
 
                 GridLayout {
                     id: displayGrid
@@ -214,6 +216,7 @@ Rectangle {
                 title: "Network"
                 style: groupBoxStyle
                 Layout.fillWidth: true
+                implicitWidth: 0
 
                 GridLayout {
                     id: networkGrid
