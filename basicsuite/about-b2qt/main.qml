@@ -106,8 +106,8 @@ Item {
 
                 Item { width: 1; height: engine.smallFontSize() }
                 AboutBoot2Qt { }
-                QtFramework { }
                 QtForAndroid { }
+                QtFramework { }
                 Image {
                     id: codeLessImage
                     source: "codeless.png"
