@@ -1,4 +1,5 @@
-QT += quick
+# widget dependecy is required by QtCharts demo
+QT += quick widgets
 
 DESTPATH = /data/user/$$TARGET
 target.path = $$DESTPATH

@@ -16,8 +16,9 @@
 **
 ****************************************************************************/
 #include <QtCore/QDebug>
-
-#include <QtGui/QGuiApplication>
+// QtWidget (QApplication) dependecy is required by QtCharts demo,
+// when QtWidget dependecy is not required use QGuiApplication from QtGui module
+#include <QtWidgets/QApplication>
 #include <QtGui/QFont>
 #include <QtGui/QFontDatabase>
 #include <QtGui/QScreen>
@@ -37,7 +38,7 @@ int main(int argc, char **argv)
 {
     //qputenv("QT_IM_MODULE", QByteArray("qtvkb"));
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
     QString path = app.applicationDirPath();
 
     QPalette pal;
