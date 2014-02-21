@@ -1,0 +1,1 @@
+This demo shows how to use different user interface styles in several platforms and device types with one source code. It contains several Qt Quick 2 applications which you can launch by tapping each device.

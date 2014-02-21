@@ -1,0 +1,1 @@
+This is a simple photo gallery, showing images found in /data/images. Images captured with the Camera demo will also appear in this folder.

@@ -1,6 +1,0 @@
-This examples illustrates how Qt can handle input on touch devices.
-
-The launcher loads a custom platform input context plugin and contains a virtual keyboard. When a text control in Qt Quick gets focus, the input context will trigger the virtual keyboard to show on screen and clicks in the virtual keyboard are delegated to the text control.
-
-Our demo virtual keyboard has support for english, finnish and arabic. The input context plugin API is plugin based and can be replaced with whatever the user desiers. Qt has a ready made plugin for Maliit, an open-source, cross-platform input method framework for mobile and embedded.
-

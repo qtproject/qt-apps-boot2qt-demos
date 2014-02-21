@@ -1,0 +1,3 @@
+Demonstrates using the accelerometer and light sensors in a QML application.
+
+Tilting the device moves the bubble around, based on readings from the accelerometer sensor. For the light sensor, exposing the device to different lighting conditions changes the displayed image.

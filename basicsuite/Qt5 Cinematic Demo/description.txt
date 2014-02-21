@@ -1,5 +1,0 @@
-The Qt5 Cinematic Experience is a demo by "QUIt Coding", a small group of talented individuals enjoying software development with cutting edge technologies. They are official members of the Qt Ambassador Program.
-
-The demo shows off a number features of Qt Quick 2.0. A nicely styled list control with movie covers with lighting effects. Particles and transitions. The information roll-down curvy curtain and is implemented using inline GLSL in the QML file.
-
-The source code for this demo and more awesome looking Qt Quick stuff is available from quitcoding.com.

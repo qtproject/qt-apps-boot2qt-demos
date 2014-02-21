@@ -1,0 +1,46 @@
+include(html-offline.qdocconf)
+
+naturallanguage              = en_US
+outputencoding               = UTF-8
+sourceencoding               = UTF-8
+
+project                      = QtEnterpriseEmbeddedDemos
+description                  = Qt Enterprise Embedded Examples and Demos
+version                      = 2.0.0
+
+sourcedirs                   = .
+imagedirs                   += images
+
+sources.fileextensions       = "*.qdoc"
+
+examples.fileextensions      = "*.cpp *.h *.js *.xq *.svg *.xml *.ui *.qhp *.qhcp *.qml *.css"
+examples.imageextensions     = "*.png *.jpg *.gif"
+
+exampledirs                  = ../basicsuite
+examplesinstallpath          = ../../../Boot2Qt-2.x/sources/b2qt-demos/basicsuite
+
+qhp.projects                 = QtEnterpriseEmbeddedDemos
+
+qhp.QtEnterpriseEmbeddedDemos.file                = b2qt-demos.qhp
+qhp.QtEnterpriseEmbeddedDemos.namespace           = com.digia.b2qt-demos.200
+qhp.QtEnterpriseEmbeddedDemos.virtualFolder       = b2qt-demos
+qhp.QtEnterpriseEmbeddedDemos.indexTitle          = Qt Enterprise Embedded Examples and Demos
+qhp.QtEnterpriseEmbeddedDemos.indexRoot           =
+
+qhp.QtEnterpriseEmbeddedDemos.subprojects                  = demos
+qhp.QtEnterpriseEmbeddedDemos.subprojects.demos.title      = Qt Enterprise Embedded Examples and Demos
+qhp.QtEnterpriseEmbeddedDemos.subprojects.demos.indexTitle = Qt Enterprise Embedded Examples and Demos
+
+manifestmeta.filters               = thumbnail
+#manifestmeta.thumbnail.attributes  = "imageUrl:qthelp\://com.digia.b2qt-demos.200/b2qt-demos/images/b2qt-demo.png"
+manifestmeta.thumbnail.tags        = "b2qt,qtee"
+manifestmeta.thumbnail.names       = "QtEnterpriseEmbeddedDemos/*"
+
+# Add an image used in example manifests to qhp
+HTML.extraimages                             += images/b2qt-demo.png
+qhp.QtEnterpriseEmbeddedDemos.extraFiles     += images/b2qt-demo.png
+
+macro.B2Q                    = "Boot to Qt"
+macro.SDK                    = "Qt Enterprise Embedded"
+
+navigation.landingpage = "Qt Enterprise Embedded Examples and Demos"

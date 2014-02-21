@@ -1,0 +1,3 @@
+The "About Boot to Qt" provides an introduction to what Boot to Qt is all about.
+
+It talks briefly about how the software stack is built up, rough hardware requirements and how Boot to Qt differs from the more traditional Qt editions.

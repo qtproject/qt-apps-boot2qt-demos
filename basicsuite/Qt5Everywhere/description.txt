@@ -1,1 +1,0 @@
-This demo contains several Qt Quick 2 applications which you can launch by tapping the devices.
