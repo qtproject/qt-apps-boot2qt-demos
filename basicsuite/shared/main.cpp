@@ -75,7 +75,13 @@ int main(int argc, char **argv)
     view.rootContext()->setContextProperty("engine", &engine);
     view.setColor(Qt::black);
     view.setResizeMode(QQuickView::SizeRootObjectToView);
-    view.setSource(QUrl::fromLocalFile(path + QStringLiteral("/loader.qml")));
+
+    QSize screenSize = QGuiApplication::primaryScreen()->size();
+    QString mainFile = screenSize.width() < screenSize.height()
+        ? QStringLiteral("/main_landscape.qml")
+        : QStringLiteral("/SharedMain.qml");
+
+    view.setSource(QUrl::fromLocalFile(path + mainFile));
     view.show();
 
     app.exec();
