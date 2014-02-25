@@ -77,7 +77,6 @@ Flickable {
                 width: parent.width
                 previewText: "One line field"
                 enterKeyText: "Next"
-                enterKeyEnabled: text.length > 0
                 onEnterKeyClicked: passwordField.focus = true
             }
             TextField {
@@ -88,7 +87,6 @@ Flickable {
                 previewText: "Password field"
                 inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
                 enterKeyText: "Next"
-                enterKeyEnabled: text.length > 0
                 onEnterKeyClicked: phoneField.focus = true
             }
             TextField {
@@ -99,7 +97,6 @@ Flickable {
                 previewText: "Phone number field"
                 inputMethodHints: Qt.ImhDialableCharactersOnly
                 enterKeyText: "Next"
-                enterKeyEnabled: text.length > 0
                 onEnterKeyClicked: numberField.focus = true
             }
             TextField {
@@ -110,7 +107,6 @@ Flickable {
                 previewText: "Decimal number field"
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
                 enterKeyText: "Next"
-                enterKeyEnabled: text.length > 0
                 onEnterKeyClicked: textArea.focus = true
             }
             TextArea {
