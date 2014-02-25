@@ -12,8 +12,9 @@ HEADERS += camerautils.h
 pluginfiles.files += \
     qmldir \
 
-target.path += $$[QT_INSTALL_QML]/CameraUtils
-pluginfiles.path += $$[QT_INSTALL_QML]/CameraUtils
+B2QT_DEPLOYPATH = /data/user/qt/qmlplugins/CameraUtils
+target.path += $$B2QT_DEPLOYPATH
+pluginfiles.path += $$B2QT_DEPLOYPATH
 
 INSTALLS += target pluginfiles
 

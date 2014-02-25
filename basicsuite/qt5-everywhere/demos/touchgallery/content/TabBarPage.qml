@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the Qt Quick Controls module of the Qt Toolkit.
@@ -84,7 +84,7 @@ Item {
                     Text {
                         anchors.centerIn: parent
                         color: "white"
-                        text: tab.title.toUpperCase()
+                        text: styleData.title
                         font.pixelSize: 16
                     }
                     Rectangle {

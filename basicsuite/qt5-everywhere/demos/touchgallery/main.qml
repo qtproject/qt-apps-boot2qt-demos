@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the Qt Quick Controls module of the Qt Toolkit.
@@ -81,9 +81,9 @@ CustomAppWindow {
         }
 
         Text {
-            font.pixelSize: app.height*.07
+            font.pixelSize: app.height*.06
             Behavior on x { NumberAnimation{ easing.type: Easing.OutCubic} }
-            x: backButton.x + backButton.width + 20
+            x: backButton.x + backButton.width + 10
             anchors.verticalCenter: parent.verticalCenter
             color: "white"
             text: "Widget Gallery"

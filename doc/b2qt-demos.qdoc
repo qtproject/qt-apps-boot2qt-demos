@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc
+** Copyright (C) 2014 Digia Plc
 ** All rights reserved.
 ** For any questions to Digia, please use the contact form at
 ** http://qt.digia.com/
@@ -35,6 +35,13 @@
     \title About Boot to Qt
     \ingroup b2qt-demos
     \brief Displays information about the Boot to Qt software stack.
+
+    \image b2qt-demo-about-b2qt.jpg
+
+    The \e {About Boot to Qt} demo provides an introduction to what Boot to Qt is all about.
+
+    It talks briefly about how the software stack is built up, rough hardware requirements
+    and how Boot to Qt differs from the more traditional Qt editions.
 */
 
 /*!
@@ -42,6 +49,17 @@
     \title Camera
     \ingroup b2qt-demos
     \brief Demonstrates using camera in a QML application.
+
+    \image b2qt-demo-camera.jpg
+
+    This example demonstrates the use of the camera features provided by Qt Multimedia with
+    Qt Quick.
+
+    Demo can be used to take pictures. Files are saved inside the \c {/data/images/} folder
+    and can be then viewed with the \l {Photo Gallery} demo application.
+
+    Camera parameters such as flash mode, scene mode or white balance can be changed. The
+    availability of parameters depends on what the camera driver provides.
 */
 
 /*!
@@ -49,6 +67,14 @@
     \title Controls Touch
     \ingroup b2qt-demos
     \brief Demonstrates a touch UI implemented with Qt Quick Controls.
+
+    \image b2qt-demo-controls-touch.jpg
+
+    The purpose of this example is to show Qt Quick Controls in practice. The example uses a
+    StackView to navigate between pages and illustrates the use of many of the controls provided
+    by Qt Quick Control, including Button, Slider, ProgressBar, TabBar and TextInput types. The
+    style in the example is a custom style made to look like the Android theme, it is written
+    purely in QML.
 */
 
 /*!
@@ -56,6 +82,14 @@
     \title Graphical Effects
     \ingroup b2qt-demos
     \brief Demonstrates the different graphical effects that can be used in a QML application.
+
+    \image b2qt-demo-graphicaleffects.jpg
+
+    This example shows the Qt Quick 2.0 ShaderEffect type and the Qt Graphical Effects module. Qt Quick
+    2.0 provides the ability to use inline GLSL in your Qt Quick applications to create stunning visual
+    effects. However, as UIs typically reuse many of the same effects, the Qt Graphical Effects module
+    provides a set of predefined, commonly used effects. This includes blur, drop-shadows, glow,
+    blending, opacity masks and more.
 */
 
 /*!
@@ -63,6 +97,12 @@
     \title Media Player
     \ingroup b2qt-demos
     \brief A media player implemented in QML.
+
+    \image b2qt-demo-mediaplayer.jpg
+    The Media Player example demonstrates the use of the media playback features of Qt Multimedia with
+    Qt Quick.
+
+    It can play from a file or from a network source, both videos and music.
 */
 
 /*!
@@ -70,13 +110,44 @@
     \title Photo Gallery
     \ingroup b2qt-demos
     \brief A photo gallery implemented in QML.
+
+    \image b2qt-demo-photogallery.jpg
+
+    This is a simple photo gallery, showing images found in \c {/data/images} directory.
 */
 
 /*!
     \example qt5-cinematicdemo
-    \title Qt5 Cinematic Demo
+    \title Qt 5 Cinematic Demo
     \ingroup b2qt-demos
     \brief A cool demonstration of the graphical prowess of Qt 5 and Qt Quick 2.
+
+    \image b2qt-demo-qt5-cinematicdemo.jpg
+
+    The Qt5 Cinematic Experience is a demo by "QUIt Coding", a small group of talented individuals
+    enjoying software development with cutting edge technologies. They are official members of the
+    Qt Ambassador Program.
+
+    The demo shows off a number features of Qt Quick 2.0. A nicely styled list control of movie
+    covers with lighting effects, particles and transitions. The information roll-down curvy
+    curtain is implemented using inline GLSL in the QML file.
+
+    More awesome looking Qt Quick examples are available from \l {http://quitcoding.com}.
+*/
+
+/*!
+    \example qt5-launchpresentation
+    \title Qt 5 Launch Presentation
+    \ingroup b2qt-demos
+    \brief A quick tour of what is new in Qt 5.
+
+    \image b2qt-demo-qt5-launchpresentation.jpg
+
+    This is an application written with Qt Quick, based on Qt 5.
+
+    The source code is also available here: \l {https://qt.gitorious.org/qt-labs/qt5-launch-demo}.
+    The demo makes use of the QML Presentation System, available from
+    \c {ssh://codereview.qt-project.org/qt-labs/qml-presentation-system.git} repository.
 */
 
 /*!
@@ -85,21 +156,76 @@
     \ingroup b2qt-demos
     \brief Highlights the versatility and cross-platform capability of Qt
 
-    The Qt 5 Everywhere demo shows how to use different user interface styles in several platforms and device types with one source code.
+    \image b2qt-demo-qt5-everywhere.jpg
+
+    The Qt 5 Everywhere demo shows how to use different user interface styles in several platforms
+    and device types with one source code.
+
+    The demo contains several Qt Quick 2 applications which you can launch by tapping the devices.
 */
 
 /*!
+    \omit
     \example sensors
     \title Sensors
     \ingroup b2qt-demos
-    \brief Demostrates using the accelerometer and light sensors in a QML application.
+    \brief Demonstrates using the accelerometer and light sensors in a QML application.
+
+    \image b2qt-demo-sensors.jpg
+
+    Tilting the device moves the bubble around, based on readings from the accelerometer sensor.
+    For the light sensor, exposing the device to different lighting conditions changes the
+    displayed image.
+    \endomit
 */
 
 /*!
     \example textinput
     \title Text Input
     \ingroup b2qt-demos
-    \brief Demostrates text input capabilities and the virtual keyboard in a QML application.
+    \brief Demonstrates text input capabilities and the virtual keyboard in a QML application.
+
+    \image b2qt-demo-textinput.jpg
+
+    This example illustrates how to handle input on touch devices.
+
+    The Boot to Qt stack comes with Qt Virtual Keyboard - a framework that consists of a C++ back
+    end with support for custom input methods, as well as a reference keyboard front end
+    implemented in QML, supporting multiple languages.
+*/
+
+/*!
+    \example enterprise-charts
+    \title Charts
+    \ingroup b2qt-demos
+    \brief Showcases the different types of charts available from the Qt Charts library.
+
+    \image b2qt-demo-enterprise-charts.jpg
+
+    Qt Charts is part of the Qt Enterprise addons package which provides a set of easy to use
+    chart components. This demo showcases the different charts that are available as QML types.
+*/
+
+/*!
+    \example enterprise-dashboard
+    \title Dashboard
+    \ingroup b2qt-demos
+    \brief A car dashboard created using Qt Quick Enterprise Controls.
+
+    \image b2qt-demo-enterprise-dashboard.jpg
+
+    This example project demonstrates using several CircularGauge controls to create a car dashboard.
+*/
+
+/*!
+    \example enterprise-gallery
+    \title Enterprise Controls Gallery
+    \ingroup b2qt-demos
+    \brief An interactive showcase for Qt Quick Enterprise Controls.
+
+    \image b2qt-demo-enterprise-gallery.jpg
+
+    This example project demonstrates the various UI controls provided by Qt Quick Enterprise Controls.
 */
 
 /*!

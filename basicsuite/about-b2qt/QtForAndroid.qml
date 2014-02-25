@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: For any questions to Digia, please use the contact form at
 ** http://qt.digia.com/
 **
@@ -87,7 +87,7 @@ Column {
     ContentText {
         width: parent.width
         text: '<p align="justify"><b>Boot to Qt for embedded Linux</b> is build from scratch using
-               Yocto 1.4 tools to contain only components required in the embedded device,
+               Yocto 1.5 tools to contain only components required in the embedded device,
                resulting in smaller image sizes while keeping valuable development tools available.'
     }
 }

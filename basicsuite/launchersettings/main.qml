@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: For any questions to Digia, please use the contact form at
@@ -42,65 +42,115 @@ import QtQuick 2.0
 
 import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
+import QtQuick.Controls.Styles 1.0
+import QtQuick.Controls.Private 1.0
 
 Rectangle {
     id: root
-
-    gradient: Gradient {
-        GradientStop { position: 0; color: "white" }
-        GradientStop { position: 1; color: "lightgray" }
-    }
-
     width: 1280
     height: 800
-
+    color: "#212126"
     property int margin: 10
+    property alias buttonStyle: buttonStyle
 
-    Loader {
-        id: rebootActionLoader
-        source: "RebootAction.qml"
+    // ******************************* STYLES **********************************
+    Component {
+        id: buttonStyle
+        ButtonStyle {
+            panel: Item {
+                implicitHeight: 50
+                implicitWidth: 320
+                BorderImage {
+                    anchors.fill: parent
+                    antialiasing: true
+                    border.bottom: 8
+                    border.top: 8
+                    border.left: 8
+                    border.right: 8
+                    anchors.margins: control.pressed ? -4 : 0
+                    source: control.pressed ? "images/button_pressed.png" : "images/button_default.png"
+                    Text {
+                        text: control.text
+                        anchors.centerIn: parent
+                        color: "white"
+                        font.pixelSize: 23
+                        renderType: Text.NativeRendering
+                    }
+                }
+            }
+        }
     }
 
-    Loader {
-        id: poweroffActionLoader
-        source: "PoweroffAction.qml"
+    // GroupBoxStyle currently is not available as a public API, so we write our own...
+    Component {
+        id: groupBoxStyle
+        Style {
+            // The margin from the content item to the groupbox
+            padding {
+                top: (control.title.length > 0 ? TextSingleton.implicitHeight : 0) + 30
+                left: 8
+                right: 8
+                bottom: 8
+            }
+            // The groupbox frame
+            property Component panel: Item {
+                anchors.fill: parent
+
+                Text {
+                    id: label
+                    anchors.bottom: borderImage.top
+                    anchors.margins: 2
+                    text: control.title
+                    font.pixelSize: 22
+                    color: "white"
+                    renderType: Text.NativeRendering
+                }
+
+                BorderImage {
+                    id: borderImage
+                    anchors.fill: parent
+                    anchors.topMargin: padding.top - 7
+                    source: "images/groupbox.png"
+                    border.left: 4
+                    border.right: 4
+                    border.top: 4
+                    border.bottom: 4
+                }
+            }
+        }
     }
 
-    Loader {
-        id: brightnessControllerLoader
-        source: "BrightnessController.qml"
-    }
+    // ******************************** UI ****************************************
+    Loader { id: rebootActionLoader; source: "RebootAction.qml" }
+    Loader { id: poweroffActionLoader; source: "PoweroffAction.qml" }
+    Loader { id: brightnessControllerLoader; source: "BrightnessController.qml" }
+    Loader { id: networkControllerLoader; source: "NetworkController.qml" }
+    Loader { id: wifiControllerLoader; source: "WifiController.qml" }
 
-    Loader {
-        id: networkControllerLoader
-        source: "NetworkController.qml"
-    }
-
-    Loader {
-        id: wifiControllerLoader
-        source: "WifiController.qml"
-    }
-
-    ScrollView {
-
+    Flickable {
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.margins: margin
         anchors.topMargin: 50
         height: parent.height
-        width: mainLayout.width + 40
+        width: mainLayout.width
+        contentHeight: mainLayout.height + 100
+        contentWidth: mainLayout.width
+        flickableDirection: Flickable.VerticalFlick
 
         ColumnLayout {
             id: mainLayout
-
-            height: implicitHeight;
-            width: Math.min(root.width, root.height);
+            width: 800
+            height: implicitHeight
+            anchors.left: parent.left
+            anchors.right: parent.right
 
             GroupBox {
                 id: powerOptions
                 title: "Power"
-
                 Layout.fillWidth: true
+                style: groupBoxStyle
+                implicitWidth: 0
 
                 RowLayout {
                     id: powerButtonRow
@@ -108,13 +158,16 @@ Rectangle {
                     anchors.fill: parent
 
                     Button {
+                        style: buttonStyle
                         text: "Shut Down"
                         Layout.fillWidth: true
                         action: poweroffActionLoader.item;
                         enabled: action != undefined
+
                     }
 
                     Button {
+                        style: buttonStyle
                         text: "Reboot"
                         Layout.fillWidth: true
                         action: rebootActionLoader.item;
@@ -127,8 +180,9 @@ Rectangle {
             GroupBox {
                 id: displayOptions
                 title: "Display"
-
+                style: groupBoxStyle
                 Layout.fillWidth: true
+                implicitWidth: 0
 
                 GridLayout {
                     id: displayGrid
@@ -137,8 +191,8 @@ Rectangle {
                     flow: GridLayout.TopToBottom
                     anchors.fill: parent
 
-                    Label { text: "Brightness: "; }
-                    Label { text: "Display FPS: "; }
+                    Label { text: "Brightness: "; font.pixelSize: 18; color: "white" }
+                    Label { text: "Display FPS: "; font.pixelSize: 18; color: "white" }
 
                     Slider {
                         maximumValue: 255
@@ -160,8 +214,9 @@ Rectangle {
             GroupBox {
                 id: networkOptions
                 title: "Network"
-
+                style: groupBoxStyle
                 Layout.fillWidth: true
+                implicitWidth: 0
 
                 GridLayout {
                     id: networkGrid
@@ -171,18 +226,26 @@ Rectangle {
                     flow: GridLayout.TopToBottom
                     anchors.fill: parent
 
-                    Label { text: "Hostname: "; }
-                    Label { text: "IP address: "; }
+                    Label { text: "Hostname: "; font.pixelSize: 18; color: "white" }
+                    Label { text: "IP address: "; font.pixelSize: 18; color: "white"}
 
                     TextField {
                         id: hostname
+                        implicitHeight: hostnameButton.height - 8
                         text: if (networkControllerLoader.item != undefined) { networkControllerLoader.item.getHostname(); }
+                        font.pixelSize: 18
                         Layout.fillWidth: true
                     }
 
-                    Label { text: if (networkControllerLoader.item != undefined) { networkControllerLoader.item.getIPAddress(); } }
+                    Label {
+                        text: if (networkControllerLoader.item != undefined) { networkControllerLoader.item.getIPAddress(); }
+                        font.pixelSize: 18
+                        color: "white"
+                    }
 
                     Button {
+                        id: hostnameButton
+                        style: buttonStyle
                         text: "Change hostname"
                         onClicked: networkControllerLoader.item.setHostname(hostname.text);
                         enabled: networkControllerLoader.item != undefined
@@ -194,6 +257,7 @@ Rectangle {
             GroupBox {
                 id: wifiOptions
                 title: "Wifi"
+                style: groupBoxStyle
                 Layout.fillWidth: true
             }
 

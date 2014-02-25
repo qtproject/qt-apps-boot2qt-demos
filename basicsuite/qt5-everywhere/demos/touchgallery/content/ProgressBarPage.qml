@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the Qt Quick Controls module of the Qt Toolkit.
@@ -73,14 +73,14 @@ Item {
         ProgressBar {
             anchors.margins: 20
             style: touchStyle
-            width: 400
+            width: 300
             value: progress
         }
 
         ProgressBar {
             anchors.margins: 20
             style: touchStyle
-            width: 400
+            width: 300
             value: 1 - progress
         }
 
@@ -88,7 +88,7 @@ Item {
             anchors.margins: 20
             style: touchStyle
             value: 1
-            width: 400
+            width: 300
         }
 
     }

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the examples of the Qt Toolkit.
@@ -101,6 +101,22 @@ FocusScope {
                 border {width:1; color: "#888888"}
                 radius: height/2
 
+
+                Item {
+                    id: networkErrorBox
+                    opacity: 0
+                    anchors.fill: parent
+
+                    Text {
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                        anchors.rightMargin: parent.width * 0.1
+                        text: qsTr("Sorry! No network connection")
+                        font.pixelSize: stationList.height*.1;
+                        color: "white"
+                        smooth: true
+                    }
+                }
 
                 PathView {
                     enabled: root.activeFocus
@@ -214,6 +230,14 @@ FocusScope {
             query: "/radio/channel"
             XmlRole {name: "title"; query: "title/string()"}
             XmlRole {name: "url"; query: "url/string()"}
+
+            onStatusChanged: {
+                if (status == XmlListModel.Ready) {
+                    networkErrorBox.opacity = 0;
+                } else if (status == XmlListModel.Error) {
+                    networkErrorBox.opacity = 1;
+                }
+            }
         }
 
         VolumeButton {

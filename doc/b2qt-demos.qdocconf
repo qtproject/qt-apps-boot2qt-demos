@@ -31,9 +31,8 @@ qhp.QtEnterpriseEmbeddedDemos.subprojects                  = demos
 qhp.QtEnterpriseEmbeddedDemos.subprojects.demos.title      = Qt Enterprise Embedded Examples and Demos
 qhp.QtEnterpriseEmbeddedDemos.subprojects.demos.indexTitle = Qt Enterprise Embedded Examples and Demos
 
-# Add a thumbnail for all examples
 manifestmeta.filters               = thumbnail
-manifestmeta.thumbnail.attributes  = "imageUrl:qthelp\://com.digia.b2qt-demos.200/b2qt-demos/images/b2qt-demo.png"
+#manifestmeta.thumbnail.attributes  = "imageUrl:qthelp\://com.digia.b2qt-demos.200/b2qt-demos/images/b2qt-demo.png"
 manifestmeta.thumbnail.tags        = "b2qt,qtee"
 manifestmeta.thumbnail.names       = "QtEnterpriseEmbeddedDemos/*"
 

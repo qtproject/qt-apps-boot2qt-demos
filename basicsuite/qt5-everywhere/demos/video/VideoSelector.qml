@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the examples of the Qt Toolkit.
@@ -67,6 +67,29 @@ Item {
         XmlRole  { name: "thumbnail"; query: "thumbnail/string()" }
         XmlRole { name: "title"; query: "title/string()" }
         XmlRole { name: "link"; query: "link/string()" }
+
+        onStatusChanged: {
+            if (status == XmlListModel.Ready) {
+                networkErrorBox.opacity = 0.0
+            } else if (status == XmlListModel.Error) {
+                networkErrorBox.opacity = 1.0
+            }
+        }
+    }
+
+    Item {
+        id: networkErrorBox
+        opacity: 0
+        anchors.fill: parent
+
+        Text {
+            anchors.centerIn: parent
+            text: qsTr("Sorry! No network connection")
+            font.family: uiFont;
+            font.pixelSize: tileFontSize * 2;
+            color: textColor
+            smooth: true
+        }
     }
 
     // Grid view

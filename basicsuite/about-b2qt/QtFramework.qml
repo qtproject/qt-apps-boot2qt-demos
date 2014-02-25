@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: For any questions to Digia, please use the contact form at
 ** http://qt.digia.com/
 **
@@ -59,9 +59,9 @@ Column {
                and mobile platforms.
                <ul>
                 <li><b>Qt Framework</b> - intuitive APIs for C++ and CSS/JavaScript-like
-                    programming with Qt Quick for rapid UI creation<\li>
+                    programming with Qt Quick for rapid UI creation</li><br>
                 <li><b>Qt Creator IDE</b> - powerful cross-platform integrated
-                    development environment, including UI designer tools and on-device debugging</li>
+                    development environment, including UI designer tools and on-device debugging</li><br>
                 <li><b>Tools and toolchains</b> - internationalization support, embedded toolchains
                     and more.</li>
                </ul>

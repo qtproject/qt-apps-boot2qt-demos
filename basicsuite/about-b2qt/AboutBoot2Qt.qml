@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: For any questions to Digia, please use the contact form at
 ** http://qt.digia.com/
 **
@@ -50,28 +50,18 @@ Column {
 
     Title {
         id: title
-        text: "Boot to Qt"
+        text: "Qt Enterprise Embedded"
     }
 
     ContentText {
         id: brief
         width: parent.width
-        text: '<p align="justify">Boot to Qt is a light-weight UI stack for embedded systems, based on the Qt Framework by Digia,
-               offering an elegant means of developing beautiful and performant embedded devices. It supports two different
-               operating systems:
-               <ul>
-                 <li><b>Boot to Qt for embedded Android</b> places Qt on top of an Android (version 4.1 or higher)
-                 kernel/baselayer.</li>
-                 <li><b>Boot to Qt for embedded Linux</b> places Qt on top of an Linux kernel/baselayer, built using
-                 Yocto 1.4 \'Dylan\' release.</li>
-               </ul>
-               Both versions have been tested and verified on a number of different hardware configurations.
-               Boot to Qt support is not limited to the devices used as reference platforms, it can be made to run on a
-               variety of hardware.
-
-               <p align="justify">Boot to Qt is part of a commercial-only SDK offering which includes a ready-made stack
-               with full Qt Creator integration. The SDK allows building and running on device
-               with just a button. Embedded development has never been this easy!'
+        text: '<p align="justify">Qt Enterprise Embedded provides a fully-integrated solution
+               to get you started immediately with software development on your embedded device
+               with a tailored user experience for embedded Linux and embedded Android. It
+               supports your key requirements for high performance, minimal footprint together
+               with Qt’s flexible full-framework modular architecture to deliver unparalleled
+               scalability.'
     }
 
     Column {
@@ -90,20 +80,41 @@ Column {
 
         width: parent.width
 
-        text: '<p align="justify">Boot to Qt has been tested and verified on
-               a number of different hardware configurations, including:
+        text: '<p align="justify">Qt Enterprise Embedded gives you shorter time-to-market
+               providing you with the productivity-enhancing tools and value-adding components.
+               You are up-to-speed with development and prototyping since day one. You can just
+               focus on writing your application with Qt.<br>
+               <p align="justify">Qt Enterprise Embedded provides you with the following:
                <ul>
-                 <li>Google Nexus 7 - NVIDIA Tegra3 Quad Core, 1 GB RAM</li>
-                 <li>Beagle Board xM - ARM Coretex A8 1GHz, 512 MB RAM, PowerVR SGX 530</li>
-                 <li>Freescale i.MX 6 - ARM Cortex A9 1.2GHz, 1 GB RAM, Vivante GC2000</li>
+                 <li><b>A full-blown, productivity enhancing development environment</b>,
+                     installed on a Linux development desktop. This self-contained environment
+                     is installed and updated through one online installer and features the Qt
+                     Creator Enterprise IDE, with features that facilitate the whole product
+                     creation lifecycle: UI designer, code editor, direct device deployment
+                     via USB or IP, emulator, on-device debugging and profiling.</li><br>
+                 <li><b>Shorter time-to-market with the Boot to Qt Software Stack</b>. A
+                     light-weight, Qt-optimized, full software stack that is installed into
+                     the actual target device. The stack comes in two flavors, Embedded Android
+                     and Embedded Linux. The pre-built stack gets you up-to-speed with prototyping
+                     in no time and with our professional tooling you can customize the stack into
+                     your exact production needs.</li><br>
+                 <li><b>Full power and scalability of Qt on Embedded</b>. Leverage the
+                     cross-platform C++ native APIs for maximum performance on both beautiful
+                     user interfaces as well as non-GUI operations. With C++, you have full control
+                     over your application code. You can also configure Qt Enterprise Embedded
+                     directly from the source codes into a large variety of supported hardware and
+                     operating systems. As with any Qt project, the same application can be deployed
+                     natively to desktop and mobile OS targets as well.</li><br>
+                 <li><b>Value-Adding Components</b>. No need to re-implement the wheel! Full Qt
+                     Enterprise libraries give you a shortcut on development time providing ready-made
+                     solutions, such as a comprehensive virtual keyboard, charts and industrial UI
+                     controls.
                </ul>
-               Rough minimal requirements for running Boot to Qt are:
-               <ul>
-                 <li>256Mb of RAM</li>
-                 <li>500Mhz CPU, 1Ghz preferred for 60 FPS velvet UIs</li>
-                 <li>OpenGL ES 2.0 support</li>
-                 <li>Android 4.0+ compatible hardware</li>
-               </ul>
+
+               <p align="justify">Qt Enterprise Embedded includes <b>Boot to Qt</b>, a light-weight,
+               Qt-optimized, full software stack for embedded systems that is installed into the actual
+               target device. The Boot to Qt stack can be made to run on a variety of hardware - Qt
+               Enterprise Embedded comes with pre-built images for several reference devices.
               '
     }
 }

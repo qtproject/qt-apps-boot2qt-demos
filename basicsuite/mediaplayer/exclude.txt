@@ -1,1 +1,3 @@
-android-beagleboard:
+android-beaglebone
+android-emulator
+linux-beaglebone

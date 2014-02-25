@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: For any questions to Digia, please use the contact form at
 ** http://qt.digia.com/
 **
@@ -147,7 +147,7 @@ Item {
             varying lowp float vOpacity;
 
             // Noise function from: http://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl
-            highp float rand(vec2 n) {
+            highp float rand(highp vec2 n) {
                 return fract(sin(dot(n.xy, vec2(12.9898, 78.233))) * 43758.5453);
             }
 

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the Qt Quick Controls module of the Qt Toolkit.
@@ -97,7 +97,7 @@ Item {
         ButtonStyle {
             panel: Item {
                 implicitHeight: 50
-                implicitWidth: 320
+                implicitWidth: 300
                 BorderImage {
                     anchors.fill: parent
                     antialiasing: true

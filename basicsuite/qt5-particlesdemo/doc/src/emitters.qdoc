@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the documentation of the Qt Toolkit.
@@ -29,6 +29,8 @@
     \example qt5-particlesdemo
     \ingroup b2qt-demos
     \brief This is a collection of examples using Emitters in the QML particle system.
+
+    \image b2qt-demo-qt5-particlesdemo.jpg
 
     This is a collection of small QML examples relating to using Emitters in the particle system.
     Each example is a small QML file emphasizing a particular element or feature.

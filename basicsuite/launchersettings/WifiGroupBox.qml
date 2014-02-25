@@ -60,6 +60,8 @@ ColumnLayout {
 
             Button {
                 id: wifiOnOffButton
+                Layout.fillWidth: true
+                style: root.buttonStyle
                 text: (wifiManager.backendReady) ? "Switch Off" : "Switch On"
                 onClicked: {
                     if (wifiManager.backendReady) {
@@ -74,6 +76,8 @@ ColumnLayout {
 
             Button {
                 id: listNetworksButton
+                Layout.fillWidth: true
+                style: root.buttonStyle
                 visible: wifiManager.backendReady
                 text: (networkList.visible) ? "Hide wifi networks"
                                             : "List available wifi networks"

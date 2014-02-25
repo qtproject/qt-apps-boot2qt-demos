@@ -1,13 +1,20 @@
-CXX_MODULE = qml
-TARGET = shaderreader
-TARGETPATH = ShaderReader
-IMPORT_VERSION = 1.0
+TEMPLATE = lib
+CONFIG += plugin
 
-QT += quick
+TARGET = shaderreader
+
+QT += qml quick
 
 SOURCES = main.cpp \
           shaderfilereader.cpp \
 
 HEADERS = shaderfilereader.h \
 
-load(qml_plugin)
+pluginfiles.files += \
+    qmldir \
+
+B2QT_DEPLOYPATH = /data/user/qt/qmlplugins/ShaderReader
+target.path += $$B2QT_DEPLOYPATH
+pluginfiles.path += $$B2QT_DEPLOYPATH
+
+INSTALLS += target pluginfiles

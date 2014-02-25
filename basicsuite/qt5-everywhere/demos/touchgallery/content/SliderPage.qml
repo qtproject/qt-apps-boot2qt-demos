@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the Qt Quick Controls module of the Qt Toolkit.
@@ -53,16 +53,19 @@ Item {
 
         Slider {
             anchors.margins: 20
+            width: 280
             style: touchStyle
             value: 0
         }
         Slider {
             anchors.margins: 20
+            width: 280
             style: touchStyle
             value: 0.5
         }
         Slider {
             anchors.margins: 20
+            width: 280
             style: touchStyle
             value: 1.0
         }

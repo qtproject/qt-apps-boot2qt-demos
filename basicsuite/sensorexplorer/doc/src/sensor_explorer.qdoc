@@ -31,8 +31,11 @@
     \brief The Sensor Explorer example demonstrates how to read the meta-data of available sensors.
     \ingroup b2qt-demos
 
-    \section2 Sensor Explorer in QML
+    \image b2qt-demo-sensorexplorer.jpg
 
+    This example provides a list of all available sensors installed on the system for which Qt has
+    a backend. Start a sensor to see how values change depending from environment and user-device
+    interaction.
 
     This example is divided into two parts:
 

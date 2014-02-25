@@ -105,7 +105,7 @@ ctx.fill();
 ctx.stroke();
 
 ctx.fillStyle = 'aquamarine'
-ctx.font = '20px sansserif'
+ctx.font = '20px sans-serif'
 ctx.fillText('HTML Canvas API!', 100, 300);
 ctx.fillText('Imperative Drawing!', 100, 340);
 

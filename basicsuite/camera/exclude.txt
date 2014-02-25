@@ -1,1 +1,8 @@
-android-beagleboard:linux-iMX6:linux-raspberrypi:
+android-beaglebone
+android-iMX6
+android-emulator
+linux-beagleboard
+linux-beaglebone
+linux-iMX6
+linux-raspberrypi
+linux-emulator

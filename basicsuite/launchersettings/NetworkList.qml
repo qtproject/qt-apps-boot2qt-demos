@@ -39,7 +39,11 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
+import QtQuick.Controls 1.0
 import Qt.labs.wifi 0.1
+
+// ### TODO
+// - only 1 delagate open at the time
 
 Item {
     Component {
@@ -50,17 +54,15 @@ Item {
             property bool connected: wifiManager.connectedSSID == network.ssid
             property variant networkModel: model
             property alias ssidText: ssidLabel.text
-            height: expanded ? 300 : 70
+            height: (expanded ? (connected ? 180: 260) : 70)
             clip: true // ### fixme
+            color: "#5C5C5C"
+            border.color: "black"
+            border.width: 1
 
             Behavior on height { NumberAnimation { duration: 500; easing.type: Easing.InOutCubic } }
 
             width: parent.width
-
-            gradient: Gradient {
-                GradientStop { position: 0; color: "white" }
-                GradientStop { position: 1; color: "lightgray" }
-            }
 
             Text {
                 id: ssidLabel
@@ -69,6 +71,7 @@ Item {
                 anchors.margins: 10
                 font.pixelSize: 20
                 font.bold: true
+                color: "#E6E6E6"
                 text: network.ssid + (connected ? " (connected)" : "");
             }
 
@@ -79,7 +82,7 @@ Item {
                 anchors.margins: 5
                 anchors.leftMargin: 40
                 text: network.bssid
-                color: "gray"
+                color: "#E6E6E6"
                 font.pixelSize: ssidLabel.font.pixelSize * 0.5
             }
 
@@ -91,7 +94,7 @@ Item {
                       + (network.supportsWPA ? "WPA " : "")
                       + (network.supportsWEP ? "WEP " : "")
                       + (network.supportsWPS ? "WPS " : "");
-                color: "gray"
+                color: "#E6E6E6"
                 font.pixelSize: ssidLabel.font.pixelSize * 0.5
                 font.italic: true
             }
@@ -104,8 +107,8 @@ Item {
                 anchors.margins: 20
                 anchors.right: parent.right
                 anchors.top: parent.top
-                color: "lightblue"
-                border.color: "lightgray"
+                color: "#BF8888"
+                border.color: "#212126"
             }
 
             MouseArea {
@@ -115,61 +118,32 @@ Item {
                 }
             }
 
-            Rectangle {
-                id: passwordInputBackground
-                anchors.fill: passwordInput
-                anchors.margins: -5
-                color: "white"
-                radius: 5
-                border.color: "gray"
-            }
-
-            TextInput {
+            TextField {
                 id: passwordInput
                 y: 100
-                width: 300
                 height: 50
-                text: ""
+                width: 300
+                placeholderText: "Enter Password"
+                visible: !connected
                 anchors.horizontalCenter: parent.horizontalCenter
                 font.pixelSize: 18
             }
 
-            Rectangle {
-                id: connectButton
-                anchors.top: passwordInput.bottom
-                anchors.margins: 20
+            Button {
+                style: root.buttonStyle
+                y: passwordInput.visible ? passwordInput.y + passwordInput.height + 20 : passwordInput.y
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: passwordInput.width
-                height: passwordInputBackground.height
-                enabled: wifiManager.networkState != WifiManager.ObtainingIPAddress
-
-                gradient: Gradient {
-                    GradientStop { position: 0; color: "white" }
-                    GradientStop { position: 1; color: buttonMouse.pressed ? "steelblue" : "lightsteelblue" }
-                }
-
-                border.color: "gray"
-
-                Text {
-                    anchors.centerIn: parent
-                    font.pixelSize: 24
-                    text: connected ? "Disconnect" : "Connect"
-                }
-                MouseArea {
-                    id: buttonMouse
-                    anchors.fill: parent
-                    onClicked: {
-                        networkView.currentIndex = index
-                        if (connected) {
-                            wifiManager.disconnect()
-                        } else {
-                            networkView.activeNetwork = networkView.currentItem
-                            wifiManager.connect(network, passwordInput.text);
-                        }
+                text: connected ? "Disconnect" : "Connect"
+                onClicked: {
+                    networkView.currentIndex = index
+                    if (connected) {
+                        wifiManager.disconnect()
+                    } else {
+                        networkView.activeNetwork = networkView.currentItem
+                        wifiManager.connect(network, passwordInput.text);
                     }
                 }
             }
-
         }
     }
 
