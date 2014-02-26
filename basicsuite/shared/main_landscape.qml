@@ -21,7 +21,7 @@ Item {
     width: 800
     height: 1280
 
-    Main {
+    SharedMain {
         anchors.centerIn: parent
         width: parent.height
         height: parent.width
