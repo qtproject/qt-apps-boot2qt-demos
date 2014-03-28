@@ -101,7 +101,7 @@ void QSensorItem::setStart(bool run)
 */
 QString QSensorItem::id()
 {
-    return (_qsensor ? _qsensor->description() : "");
+    return (_qsensor ? (!_qsensor->description().isEmpty() ? _qsensor->description() : _qsensor->identifier()) : "");
 }
 
 /*
