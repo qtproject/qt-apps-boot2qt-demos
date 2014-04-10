@@ -87,25 +87,15 @@ Flickable {
                 previewText: "Password field"
                 inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
                 enterKeyText: "Next"
-                onEnterKeyClicked: phoneField.focus = true
-            }
-            TextField {
-                id: phoneField
-
-                validator: RegExpValidator { regExp: /^[0-9\+\-\#\*\ ]{6,}$/ }
-                width: parent.width
-                previewText: "Phone number field"
-                inputMethodHints: Qt.ImhDialableCharactersOnly
-                enterKeyText: "Next"
                 onEnterKeyClicked: numberField.focus = true
             }
             TextField {
                 id: numberField
 
-                validator: RegExpValidator { regExp: /^[0-9\+\-\ .]{6,}$/ }
+                validator: RegExpValidator { regExp: /^[0-9\+\-\#\*\ ]{6,}$/ }
                 width: parent.width
-                previewText: "Decimal number field"
-                inputMethodHints: Qt.ImhFormattedNumbersOnly
+                previewText: "Phone number field"
+                inputMethodHints: Qt.ImhDialableCharactersOnly
                 enterKeyText: "Next"
                 onEnterKeyClicked: textArea.focus = true
             }
