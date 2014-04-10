@@ -19,7 +19,7 @@
 ****************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Enterprise.Controls.Styles 1.0
+import QtQuick.Enterprise.Controls.Styles 1.1
 
 Item {
     // This enum is actually keyboard-related, but it serves its purpose

@@ -24,12 +24,14 @@ import QtQuick.Controls 1.0
 import QtQuick.Controls.Styles 1.0
 import QtQuick.Controls.Private 1.0
 import QtQuick.Dialogs 1.0
-import QtQuick.Enterprise.Controls 1.0
-import QtQuick.Enterprise.Controls.Styles 1.0
+import QtQuick.Enterprise.Controls 1.1
+import QtQuick.Enterprise.Controls.Styles 1.1
+import QtQuick.Layouts 1.0
 import QtQuick.Window 2.1
 
 Rectangle {
     id: root
+    objectName: "window"
     visible: true
     width: 480
     height: 800
@@ -42,8 +44,9 @@ Rectangle {
     }
 
     property bool isScreenPortrait: height > width
-    property color fontColor: "white"
-    readonly property color lightBackgroundColor: "#ccc"
+    property color lightFontColor: "#222"
+    property color darkFontColor: "#e7e7e7"
+    readonly property color lightBackgroundColor: "#cccccc"
     readonly property color darkBackgroundColor: "#161616"
     property real customizerPropertySpacing: 10
     property real colorPickerRowSpacing: 8
@@ -53,34 +56,69 @@ Rectangle {
     property Component dial: ControlView {
         darkBackground: false
 
-        control: Dial {
-            id: dial
-            width: root.toPixels(0.3)
-            height: width
+        control: Column {
+            id: dialColumn
+            width: controlBounds.width
+            height: controlBounds.height - spacing
+            spacing: root.toPixels(0.05)
 
-            /*!
-                Determines whether the dial animates its rotation to the new value when
-                a single click or touch is received on the dial.
-            */
-            property bool animate: customizerItem.animate
+            Column {
+                id: volumeColumn
+                width: parent.width
+                height: (dialColumn.height - dialColumn.spacing) / 2
+                spacing: height * 0.025
 
-            Behavior on value {
-                enabled: dial.animate && !dial.pressed
-                NumberAnimation {
-                    duration: 300
-                    easing.type: Easing.OutSine
+                Dial {
+                    id: volumeDial
+                    width: parent.width
+                    height: volumeColumn.height - volumeText.height - volumeColumn.spacing
+
+                    /*!
+                        Determines whether the dial animates its rotation to the new value when
+                        a single click or touch is received on the dial.
+                    */
+                    property bool animate: customizerItem.animate
+
+                    Behavior on value {
+                        enabled: volumeDial.animate && !volumeDial.pressed
+                        NumberAnimation {
+                            duration: 300
+                            easing.type: Easing.OutSine
+                        }
+                    }
+                }
+
+                ControlLabel {
+                    id: volumeText
+                    text: "Volume"
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
 
-            Text {
-                text: "Volume"
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: dial.bottom
-                anchors.topMargin: 10
-                font.pixelSize: root.toPixels(0.045)
-                color: "#4e4e4e"
-                styleColor: "#ffffff"
-                style: Text.Raised
+            Column {
+                id: trebleColumn
+                width: parent.width
+                height: (dialColumn.height - dialColumn.spacing) / 2
+                spacing: height * 0.025
+
+                Dial {
+                    id: dial2
+                    width: parent.width
+                    height: trebleColumn.height - trebleText.height - trebleColumn.spacing
+
+                    stepSize: 1
+                    maximumValue: 10
+
+                    style: DialStyle {
+                        labelInset: outerRadius * 0
+                    }
+                }
+
+                ControlLabel {
+                    id: trebleText
+                    text: "Treble"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
             }
         }
 
@@ -91,10 +129,9 @@ Rectangle {
 
             CustomizerLabel {
                 text: "Animate"
-                color: "black"
             }
 
-            CustomizerCheckBox {
+            CustomizerSwitch {
                 id: animateCheckBox
             }
         }
@@ -115,8 +152,8 @@ Rectangle {
         id: gaugeView
         control: Gauge {
             id: gauge
-            width: orientation === Qt.Vertical ? root.toPixels(0.15) : gaugeView.controlBounds.width * 0.65
-            height: orientation === Qt.Vertical ? root.toPixels(0.65) : gaugeView.controlBounds.height * 0.15
+            width: orientation === Qt.Vertical ? gaugeView.controlBounds.height * 0.3 : gaugeView.controlBounds.width
+            height: orientation === Qt.Vertical ? gaugeView.controlBounds.height : gaugeView.controlBounds.height * 0.3
             anchors.centerIn: parent
 
             minimumValue: 0
@@ -150,7 +187,7 @@ Rectangle {
                 text: "Vertical orientation"
             }
 
-            CustomizerCheckBox {
+            CustomizerSwitch {
                 id: orientationCheckBox
                 checked: true
             }
@@ -159,7 +196,7 @@ Rectangle {
                 text: controlItem.orientation === Qt.Vertical ? "Left align" : "Top align"
             }
 
-            CustomizerCheckBox {
+            CustomizerSwitch {
                 id: alignCheckBox
                 checked: true
             }
@@ -179,6 +216,67 @@ Rectangle {
 
     property Component pieMenu: PieMenuControlView {}
 
+    property Component statusIndicator: ControlView {
+        id: statusIndicatorView
+        darkBackground: false
+
+        Timer {
+            id: recordingFlashTimer
+            running: true
+            repeat: true
+            interval: 1000
+        }
+
+        ColumnLayout {
+            id: indicatorLayout
+            width: statusIndicatorView.controlBounds.width * 0.25
+            height: statusIndicatorView.controlBounds.height * 0.75
+            anchors.centerIn: parent
+
+            Repeater {
+                model: ListModel {
+                    id: indicatorModel
+                    ListElement {
+                        name: "Power"
+                        indicatorColor: "green"
+                    }
+                    ListElement {
+                        name: "Recording"
+                        indicatorColor: "red"
+                    }
+                }
+
+                ColumnLayout {
+                    Layout.preferredWidth: indicatorLayout.width
+//                    Layout.preferredHeight: indicatorLayout.height * 0.25
+                    spacing: 0
+
+                    StatusIndicator {
+                        id: indicator
+                        color: indicatorColor
+                        Layout.preferredWidth: statusIndicatorView.controlBounds.width * 0.07
+                        Layout.preferredHeight: Layout.preferredWidth
+                        Layout.alignment: Qt.AlignHCenter
+                        on: true
+
+                        Connections {
+                            target: recordingFlashTimer
+                            onTriggered: if (name == "Recording") indicator.on = !indicator.on
+                        }
+                    }
+                    ControlLabel {
+                        id: indicatorLabel
+                        text: name
+//                        elide: Text.ElideRight
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.maximumWidth: parent.width
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                }
+            }
+        }
+    }
+
     FontLoader {
         id: openSans
         Component.onCompleted: {
@@ -196,6 +294,7 @@ Rectangle {
         "Dial": dial,
         "Gauge": gauge,
         "PieMenu": pieMenu,
+        "StatusIndicator": statusIndicator,
         "ToggleButton": toggleButton
     }
 
@@ -217,9 +316,12 @@ Rectangle {
                 ListElement {
                     title: "Gauge"
                 }
-                //ListElement {
-                //    title: "PieMenu"
-                //}
+//                ListElement {
+//                    title: "PieMenu"
+//                }
+                ListElement {
+                    title: "StatusIndicator"
+                }
                 ListElement {
                     title: "ToggleButton"
                 }
@@ -238,7 +340,7 @@ Rectangle {
                 }
 
                 style: BlackButtonStyle {
-                    fontColor: root.fontColor
+                    fontColor: root.darkFontColor
                 }
 
                 onClicked: {
