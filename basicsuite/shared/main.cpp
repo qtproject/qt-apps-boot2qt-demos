@@ -25,6 +25,9 @@
 #include <QtGui/QPalette>
 #include <QtCore/QRegExp>
 
+#if (QT_VERSION < QT_VERSION_CHECK(5, 3, 0))
+#include <QtQuick/QQuickItem>
+#endif
 #include <QtQuick/QQuickView>
 
 #include <QtQml/QQmlEngine>
@@ -70,6 +73,11 @@ int main(int argc, char **argv)
     }
 
     QQuickView view;
+#if (QT_VERSION < QT_VERSION_CHECK(5, 3, 0))
+    // Ensure the width and height are valid because of QTBUG-36938.
+    QObject::connect(&view, SIGNAL(widthChanged(int)), view.contentItem(), SLOT(setWidth(int)));
+    QObject::connect(&view, SIGNAL(heightChanged(int)), view.contentItem(), SLOT(setHeight(int)));
+#endif
 
     DummyEngine engine;
     view.rootContext()->setContextProperty("engine", &engine);
