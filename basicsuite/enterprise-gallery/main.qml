@@ -316,9 +316,9 @@ Rectangle {
                 ListElement {
                     title: "Gauge"
                 }
-                ListElement {
-                    title: "PieMenu"
-                }
+//                ListElement {
+//                    title: "PieMenu"
+//                }
                 ListElement {
                     title: "StatusIndicator"
                 }
