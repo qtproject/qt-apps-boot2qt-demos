@@ -49,7 +49,7 @@ FocusScope {
     property int fontPixelSize: 32
     property string previewText
     property string enterKeyText
-    property bool enterKeyEnabled: true
+    property bool enterKeyEnabled: enterKeyText.length === 0 || editor.text.length > 0 || editor.inputMethodComposing
     property alias mouseParent: mouseArea.parent
 
     implicitHeight: editor.height + 12
@@ -86,6 +86,8 @@ FocusScope {
         parent: textBase
         anchors.fill: parent
         onClicked: {
+            if (editor.inputMethodComposing)
+                Qt.inputMethod.commit()
             var positionInEditor = mapToItem(editor, mouseX, mouseY)
             var cursorPosition = editor.positionAt(positionInEditor.x, positionInEditor.y)
             editor.cursorPosition = cursorPosition

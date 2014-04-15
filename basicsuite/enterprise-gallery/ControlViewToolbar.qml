@@ -76,7 +76,6 @@ BlackButtonBackground {
         Image {
             source: "images/icon-settings.png"
             anchors.centerIn: parent
-            scale: -1
         }
     }
 }
