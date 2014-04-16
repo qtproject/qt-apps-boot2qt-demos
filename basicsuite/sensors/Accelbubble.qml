@@ -42,6 +42,33 @@ import QtQuick 2.0
 import QtSensors 5.0
 
 Item {
+    function calc() {
+        if (xAnimation.running || yAnimation.running)
+            return
+
+        var newX = (bubble.x + calcRoll(accel.reading.x, accel.reading.y, accel.reading.z) * .8)
+        var newY = (bubble.y - calcPitch(accel.reading.x, accel.reading.y, accel.reading.z) * .8)
+
+        if (newX < 0)
+            newX = 0
+        if (newY < 0)
+            newY = 0
+
+        var right = field.width - bubble.width
+        var bottom = field.height - bubble.height
+
+        if (newX > right)
+            newX = right
+        if (newY > bottom)
+            newY = bottom
+
+        bubble.x = newX
+        bubble.y = newY
+
+        yBehavior.enabled = true
+        xBehavior.enabled = true
+    }
+
     Rectangle {
         id: field
         color: "lightblue"
@@ -52,26 +79,13 @@ Item {
         Accelerometer {
             id: accel
             active:true
-            onReadingChanged: {
-                var newX = (bubble.x + calcRoll(accel.reading.x, accel.reading.y, accel.reading.z) * .1)
-                var newY = (bubble.y - calcPitch(accel.reading.x, accel.reading.y, accel.reading.z) * .1)
+        }
 
-                if (newX < 0)
-                    newX = 0
-                if (newY < 0)
-                    newY = 0
-
-                var right = field.width - bubble.width
-                var bottom = field.height - bubble.height
-
-                if (newX > right)
-                    newX = right
-                if (newY > bottom)
-                    newY = bottom
-
-                bubble.x = newX
-                bubble.y = newY
-            }
+        Timer {
+            interval: 100
+            running: true
+            repeat: true
+            onTriggered: calc()
         }
 
         Image {
@@ -85,15 +99,23 @@ Item {
             smooth: true
 
             Behavior on y {
+                id: yBehavior
+                enabled: false
                 SmoothedAnimation {
+                    id: yAnimation
                     easing.type: Easing.Linear
-                    duration: 100
+                    duration: 40
+                    onRunningChanged: calc()
                 }
             }
             Behavior on x {
+                id: xBehavior
+                enabled: false
                 SmoothedAnimation {
+                    id: xAnimation
                     easing.type: Easing.Linear
-                    duration: 100
+                    duration: 40
+                    onRunningChanged: calc()
                 }
             }
         }

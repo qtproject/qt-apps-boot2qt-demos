@@ -1,36 +1,7 @@
+# use the global Qt template with modifications to the html footer
+include($QT_INSTALL_DOCS/global/qt-html-templates-offline.qdocconf)
+
 HTML.nobreadcrumbs    = "true"
-
-HTML.stylesheets      = template/style/offline.css
-
-# Copy images used by the template to images folder in output directory
-HTML.extraimages      = template/images/bgrContent.png \
-                        template/images/blu_dot.png \
-                        template/images/btn_next.png \
-                        template/images/btn_prev.png \
-                        template/images/ico_note.png \
-                        template/images/ico_note_attention.png \
-                        template/images/ico_out.png \
-                        template/images/arrow_bc.png \
-                        template/images/home.png
-
-# Add style-related files into qch package
-qhp.extraFiles       += style/offline.css \
-                        images/bgrContent.png \
-                        images/blu_dot.png \
-                        images/btn_next.png \
-                        images/btn_prev.png \
-                        images/ico_note.png \
-                        images/ico_note_attention.png \
-                        images/ico_out.png \
-                        images/home.png \
-                        images/arrow_bc.png
-
-HTML.headerstyles = \
-    "  <link rel=\"stylesheet\" type=\"text/css\" href=\"style/offline.css\" />\n"
-
-HTML.endheader = \
-    "</head>\n" \
-    "<body>\n"
 
 HTML.footer = \
     "  <div class=\"ft\">\n" \

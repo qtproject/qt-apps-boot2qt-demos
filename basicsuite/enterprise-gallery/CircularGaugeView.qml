@@ -20,7 +20,7 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.0
-import QtQuick.Enterprise.Controls 1.0
+import QtQuick.Enterprise.Controls 1.1
 
 ControlView {
     id: controlView
@@ -66,8 +66,8 @@ ControlView {
         id: gauge
         minimumValue: customizerItem.minimumValue
         maximumValue: customizerItem.maximumValue
-        width: root.toPixels(0.65)
-        height: width
+        width: controlBounds.width
+        height: controlBounds.height
 
         value: accelerating ? maximumValue : 0
         style: styleMap[customizerItem.currentStylePath]
@@ -174,7 +174,7 @@ ControlView {
             minimumValue: 0
             value: 0
             maximumValue: 360
-            stepSize: labelStepSizeSlider.stepSize
+            stepSize: 1
         }
 
         CustomizerLabel {
@@ -184,9 +184,9 @@ ControlView {
         CustomizerSlider {
             id: maximumValueSlider
             minimumValue: 0
-            value: 220
+            value: 240
             maximumValue: 300
-            stepSize: labelStepSizeSlider.stepSize
+            stepSize: 1
         }
 
         CustomizerLabel {

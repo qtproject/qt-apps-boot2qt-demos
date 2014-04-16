@@ -19,27 +19,10 @@
 ****************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Controls.Styles 1.0
 
-CheckBox {
-    id: checkBox
-    anchors.horizontalCenter: parent.horizontalCenter
-    width: root.width * 0.04
-    height: width
-
-    style: CheckBoxStyle {
-        indicator: Rectangle {
-            color: "#666"
-            height: control.height
-            width: height
-
-            Rectangle {
-                anchors.fill: parent
-                anchors.margins: Math.round(checkBox.width * 0.1)
-                color: "#111"
-                visible: control.checked
-            }
-        }
-    }
+Text {
+    font.pixelSize: Math.min(32, root.toPixels(0.045))
+    color: "#4e4e4e"
+    styleColor: "#ffffff"
+    style: Text.Raised
 }

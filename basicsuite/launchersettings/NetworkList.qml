@@ -42,9 +42,6 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 import Qt.labs.wifi 0.1
 
-// ### TODO
-// - only 1 delagate open at the time
-
 Item {
     Component {
         id: listDelegate
@@ -52,17 +49,28 @@ Item {
             id: delegateBackground
             property bool expanded: false
             property bool connected: wifiManager.connectedSSID == network.ssid
-            property variant networkModel: model
-            property alias ssidText: ssidLabel.text
+            property bool actingNetwork: networkView.currentNetworkSsid == network.ssid
             height: (expanded ? (connected ? 180: 260) : 70)
+            width: parent.width
             clip: true // ### fixme
             color: "#5C5C5C"
             border.color: "black"
             border.width: 1
 
-            Behavior on height { NumberAnimation { duration: 500; easing.type: Easing.InOutCubic } }
+            onExpandedChanged: {
+                if (expanded) {
+                    if (networkView.hasExpandedDelegate)
+                        networkView.expandedDelegate.expanded = false
+                    networkView.expandedDelegate = this
+                } else {
+                    networkView.expandedDelegate = 0
+                }
+            }
 
-            width: parent.width
+            Component.onDestruction: if (expanded) networkView.expandedDelegate = 0
+            onHeightChanged: if (expanded) networkView.positionViewAtIndex(index, ListView.Contain)
+
+            Behavior on height { NumberAnimation { duration: 500; easing.type: Easing.InOutCubic } }
 
             Text {
                 id: ssidLabel
@@ -72,7 +80,7 @@ Item {
                 font.pixelSize: 20
                 font.bold: true
                 color: "#E6E6E6"
-                text: network.ssid + (connected ? " (connected)" : "");
+                text: network.ssid + (actingNetwork ? networkView.networkStateText : "");
             }
 
             Text {
@@ -113,9 +121,7 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: {
-                    parent.expanded = !expanded
-                }
+                onClicked: parent.expanded = !expanded
             }
 
             TextField {
@@ -134,15 +140,8 @@ Item {
                 y: passwordInput.visible ? passwordInput.y + passwordInput.height + 20 : passwordInput.y
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: connected ? "Disconnect" : "Connect"
-                onClicked: {
-                    networkView.currentIndex = index
-                    if (connected) {
-                        wifiManager.disconnect()
-                    } else {
-                        networkView.activeNetwork = networkView.currentItem
-                        wifiManager.connect(network, passwordInput.text);
-                    }
-                }
+                onClicked: connected ? wifiManager.disconnect()
+                                     : wifiManager.connect(network, passwordInput.text);
             }
         }
     }
@@ -153,20 +152,28 @@ Item {
         model: wifiManager.networks
         delegate: listDelegate
 
-        property variant activeNetwork: ""
-        property variant networkState: wifiManager.networkState
+        property string networkStateText: ""
+        property string currentNetworkSsid: ""
+        property variant expandedDelegate: 0
+        property bool hasExpandedDelegate: expandedDelegate != 0
 
-        onNetworkStateChanged: {
-            if (activeNetwork) {
-                var ssid = activeNetwork.networkModel.ssid
-                var state = ""
-                if (networkState == WifiManager.ObtainingIPAddress)
-                    state = " (obtaining ip..)"
-                else if (networkState == WifiManager.DhcpRequestFailed)
-                    state = " (dhcp request failed)"
-                else if (networkState == WifiManager.Connected)
-                    state = " (connected)"
-                activeNetwork.ssidText = ssid + state
+        Connections {
+            target: wifiManager
+            onNetworkStateChanged: {
+                networkView.currentNetworkSsid = network.ssid
+                var networkStateText = ""
+                var state = wifiManager.networkState
+                if (state == WifiManager.ObtainingIPAddress)
+                    networkStateText = " (obtaining ip..)"
+                else if (state == WifiManager.DhcpRequestFailed)
+                    networkStateText = " (dhcp request failed)"
+                else if (state == WifiManager.Connected)
+                    networkStateText = " (connected)"
+                else if (state == WifiManager.Authenticating)
+                    networkStateText = " (authenticating..)"
+                else if (state == WifiManager.HandshakeFailed)
+                    networkStateText = " (wrong password)"
+                networkView.networkStateText = networkStateText
             }
         }
     }

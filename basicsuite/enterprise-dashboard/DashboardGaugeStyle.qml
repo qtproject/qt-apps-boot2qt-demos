@@ -19,7 +19,7 @@
 ****************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Enterprise.Controls.Styles 1.0
+import QtQuick.Enterprise.Controls.Styles 1.1
 
 CircularGaugeStyle {
     tickmarkInset: toPixels(0.04)

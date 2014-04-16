@@ -21,7 +21,7 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 1.0
-import QtQuick.Enterprise.Controls 1.0
+import QtQuick.Enterprise.Controls 1.1
 
 Rectangle {
     id: view
@@ -94,34 +94,7 @@ Rectangle {
             anchors.fill: parent
 
             onClicked: {
-                pieMenu.popup(touchArea.mouseX, touchArea.mouseY)
-            }
-        }
-
-        Item {
-            width: labelText.width
-            height: labelText.height
-            anchors.bottom: pieMenu.top
-            anchors.bottomMargin: 10
-            anchors.horizontalCenter: pieMenu.horizontalCenter
-            visible: pieMenu.visible
-
-            Item {
-                id: labelBlurGuard
-                anchors.centerIn: parent
-                width: labelText.implicitWidth * 2
-                height: labelText.implicitHeight * 2
-
-                Text {
-                    id: labelText
-                    font.pointSize: 20
-                    text: pieMenu.currentIndex !== -1 ? pieMenu.menuItems[pieMenu.currentIndex].text : ""
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.centerIn: parent
-                    color: "#ccc"
-                    antialiasing: true
-                }
+                pieMenu.popup(touchArea.mouseX, touchArea.mouseY);
             }
         }
 

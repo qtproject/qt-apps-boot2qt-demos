@@ -19,8 +19,8 @@
 ****************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Enterprise.Controls.Styles 1.1
+import QtQuick.Controls 1.1
 
-CircularGaugeStyle {
-    labelStepSize: 20
+Switch {
+    anchors.horizontalCenter: parent.horizontalCenter
 }
