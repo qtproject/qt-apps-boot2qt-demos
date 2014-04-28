@@ -18,7 +18,7 @@
 **
 ****************************************************************************/
 
-import QtQuick.Enterprise.Controls.Styles 1.0
+import QtQuick.Enterprise.Controls.Styles 1.1
 
 PieMenuStyle {
     backgroundColor: "#222"

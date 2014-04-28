@@ -165,7 +165,6 @@
 */
 
 /*!
-    \omit
     \example sensors
     \title Sensors
     \ingroup b2qt-demos
@@ -176,7 +175,6 @@
     Tilting the device moves the bubble around, based on readings from the accelerometer sensor.
     For the light sensor, exposing the device to different lighting conditions changes the
     displayed image.
-    \endomit
 */
 
 /*!
@@ -229,10 +227,8 @@
 */
 
 /*!
-    \omit
     \example launchersettings
     \title Launcher Settings
     \ingroup b2qt-demos
     \brief Displays information and settings available for the Boot to Qt launcher.
-    \endomit
 */

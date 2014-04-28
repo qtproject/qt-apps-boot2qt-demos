@@ -44,6 +44,7 @@ import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.0
 import QtQuick.Controls.Private 1.0
+import QtQuick.Window 2.1
 
 Rectangle {
     id: root
@@ -73,7 +74,7 @@ Rectangle {
                         text: control.text
                         anchors.centerIn: parent
                         color: "white"
-                        font.pixelSize: 23
+                        font.pixelSize: 22
                         renderType: Text.NativeRendering
                     }
                 }
@@ -140,7 +141,8 @@ Rectangle {
 
         ColumnLayout {
             id: mainLayout
-            width: 800
+            // can not use size of "root" here, it will shrink UI when virtual keyboard is open
+            width: Math.min(Screen.width, Screen.height)
             height: implicitHeight
             anchors.left: parent.left
             anchors.right: parent.right
@@ -247,6 +249,7 @@ Rectangle {
                         id: hostnameButton
                         style: buttonStyle
                         text: "Change hostname"
+                        implicitWidth: 260
                         onClicked: networkControllerLoader.item.setHostname(hostname.text);
                         enabled: networkControllerLoader.item != undefined
                     }

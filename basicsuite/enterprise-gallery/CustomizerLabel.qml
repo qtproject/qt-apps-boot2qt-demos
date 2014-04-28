@@ -21,7 +21,7 @@
 import QtQuick 2.0
 
 Text {
-    color: fontColor
+    color: darkBackground ? root.darkFontColor : root.lightFontColor
     font.pixelSize: root.toPixels(0.04)
     font.family: openSans.name
     anchors.horizontalCenter: parent.horizontalCenter

@@ -40,12 +40,13 @@
 ****************************************************************************/
 import QtQuick 2.0
 import QtQuick.Particles 2.0
+import QtQuick.Window 2.1
 
 Item {
     id: root
 
-    width: 1280
-    height: 800
+    width : Screen.height > Screen.width ? Screen.height : Screen.width
+    height : Screen.height > Screen.width ? Screen.width : Screen.height
 
 //    Rectangle {
 //        anchors.fill: parent
