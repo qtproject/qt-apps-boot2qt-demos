@@ -108,7 +108,7 @@ Item {
             }
 
             Rectangle {
-                width: Math.max(100 + network.signalStrength, 0) / 100 * parent.width;
+                id: signalStrengthBar
                 height: 20
                 radius: 10
                 antialiasing: true
@@ -117,6 +117,15 @@ Item {
                 anchors.top: parent.top
                 color: "#BF8888"
                 border.color: "#212126"
+
+                property int strengthBarWidth: Math.max(100 + network.signalStrength, 0) / 100 * parent.width
+                onStrengthBarWidthChanged: {
+                    if (strengthBarWidth > parent.width * 0.7)
+                        signalStrengthBar.width = parent.width * 0.7
+                    else
+                        signalStrengthBar.width = strengthBarWidth
+                }
+
             }
 
             MouseArea {
