@@ -1,5 +1,8 @@
 TEMPLATE = subdirs
 SUBDIRS += \
-    qt5-everywhere \
-    camera \
     sensorexplorer
+
+qtHaveModule(multimedia) {
+    SUBDIRS += qt5-everywhere \
+               camera
+}
