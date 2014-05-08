@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+      body {
+        margin: 0px;
+        overflow: hidden;
+      }
+      canvas {
+/*        -webkit-transform: scale3d(2.0, 2.0, 1.0);
+        -webkit-transform-origin: 0 0 0;
+        -moz-transform: scale3d(2.0, 2.0, 1.0);
+        -moz-transform-origin: 0 0 0;*/
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <script src="three.min.js"></script>
+    <script id="vsChecker" type="x-shader/x-vertex">
+varying vec2 vUv;
+void main()
+{
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}
+    </script>
+    <script id="fsChecker" type="x-shader/x-fragment">
+varying vec2 vUv;
+uniform float dy;
+void main()
+{
+    vec3 c = vec3(0.0);
+    float x = 4.0 * vUv.x;
+    float y = 4.0 * vUv.y + dy;
+    if (fract(x) > 0.5 ^^ fract(y) > 0.5)
+        c = vec3(1.0);
+    gl_FragColor = vec4(c, 1.0);
+}
+    </script>
+    <script src="qtlogo.js"></script>
+    <script src="helloqt.js"></script>
+  </body>
+
+</html>
