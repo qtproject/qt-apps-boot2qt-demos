@@ -6,3 +6,4 @@ linux-beaglebone
 linux-iMX6
 linux-raspberrypi
 linux-emulator
+linux-imx6qsabresdcd
