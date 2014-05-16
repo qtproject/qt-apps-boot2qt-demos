@@ -20,6 +20,8 @@
 
 #include <QObject>
 #include <QSize>
+#include <QString>
+#include <QUrl>
 
 class QQmlEngine;
 class QQuickItem;
@@ -36,6 +38,7 @@ class DummyEngine : public QObject
 public:
     explicit DummyEngine(QObject *parent = 0);
 
+    Q_INVOKABLE QUrl fromUserInput(const QString &userInput) { return QUrl::fromUserInput(userInput); }
     Q_INVOKABLE int smallFontSize() const { return qMax<int>(m_dpcm * 0.4, 10); }
     Q_INVOKABLE int fontSize() const { return qMax<int>(m_dpcm * 0.6, 14); }
     Q_INVOKABLE int titleFontSize() const { return qMax<int>(m_dpcm * 0.9, 20); }
