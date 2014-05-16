@@ -1,1 +1,1 @@
-095. QtDatavisualization 3D - Surface Multiseries Example
+095. Qt Data Visualization 3D - Surface Multiseries
