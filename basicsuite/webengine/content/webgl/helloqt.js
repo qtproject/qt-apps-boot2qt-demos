@@ -2,8 +2,8 @@ var shadow = false;
 
 var container = document.getElementById("container");
 var camera = null;
-var scene = new THREE.Scene();
-var renderer = new THREE.WebGLRenderer({ antialias: false /*true*/ });
+var scene;
+var renderer;
 var cbTexture;
 var cbScene;
 var cbCamera;
@@ -196,6 +196,16 @@ var onMouseMove = function (e) {
 };
 
 var main = function () {
+    scene = new THREE.Scene();
+    try {
+        renderer = new THREE.WebGLRenderer({ antialias: false /*true*/ });
+    } catch (e) {
+        console.log("Could not create WebGLRenderer.");
+        container.innerHTML = noWebGLMessage= "<div style=\"font-family: monospace; font-size: 13px; margin: 5em auto 0px; padding: 2em; width: 400px; "
+            + "height 100px; text-align: center; background-color: rgb(238, 238, 238);\">WebGLRenderer could not be created.</div>";
+        return;
+    }
+
     container.appendChild(renderer.domElement);
     onResize();
     window.addEventListener("resize", onResize);
