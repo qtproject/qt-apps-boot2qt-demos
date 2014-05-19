@@ -87,7 +87,7 @@ Column {
     ContentText {
         width: parent.width
         text: '<p align="justify"><b>Boot to Qt for embedded Linux</b> is build from scratch using
-               Yocto 1.5 tools to contain only components required in the embedded device,
+               Yocto tools to contain only components required in the embedded device,
                resulting in smaller image sizes while keeping valuable development tools available.'
     }
 }
