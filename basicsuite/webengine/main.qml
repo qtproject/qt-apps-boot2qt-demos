@@ -183,8 +183,10 @@ Rectangle {
                 iconSource: pageView.opacity == 1 ? "ui/icons/window.png" : "ui/icons/home.png"
                 onClicked: {
                     if (pageView.opacity == 0) {
+                        pageView.enabled = true
                         pageView.opacity = 1
                     } else {
+                        pageView.enabled = false
                         pageView.opacity = 0
                     }
                 }
