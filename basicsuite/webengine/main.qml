@@ -44,6 +44,8 @@ import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import QtWebEngine 0.9
 
+import "ui"
+
 Rectangle {
     id: root
     z: 0
@@ -53,7 +55,8 @@ Rectangle {
     width: 1280
     height: 800
 
-    property url defaultUrl: "content/webgl/helloqt.html"
+    property url defaultUrl: "about:blank"
+    function load(url) { mainWebView.url = url }
 
     WebEngineView {
         id: mainWebView
@@ -64,6 +67,15 @@ Rectangle {
                 addressBar.cursorPosition = 0
                 toolBar.state = "address"
             }
+        }
+    }
+
+    PageView {
+        id: pageView
+        visible: true
+        opacity: 1
+        Behavior on opacity {
+            NumberAnimation { duration: 250 }
         }
     }
 
@@ -163,6 +175,19 @@ Rectangle {
                 Layout.fillHeight: true
                 iconSource: mainWebView.loading ? "ui/icons/process-stop.png" : "ui/icons/view-refresh.png"
                 onClicked: mainWebView.loading ? mainWebView.stop() : mainWebView.reload()
+            }
+            ToolButton {
+                id: homeButton
+                width: 20
+                Layout.fillHeight: true
+                iconSource: pageView.opacity == 1 ? "ui/icons/window.png" : "ui/icons/home.png"
+                onClicked: {
+                    if (pageView.opacity == 0) {
+                        pageView.opacity = 1
+                    } else {
+                        pageView.opacity = 0
+                    }
+                }
             }
             TextField {
                 id: addressBar
