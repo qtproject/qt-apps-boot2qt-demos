@@ -47,7 +47,7 @@ Rectangle {
     color: "#AAAAAA"
     visible: true
 
-    property real fontPointSize: 12
+    property real fontPointSize: 13
 
     function show() {
         enabled = true
@@ -63,9 +63,10 @@ Rectangle {
     ColumnLayout {
         id: links
         anchors {
-            bottom: localContent.top
+            bottom: parent.bottom
+            top: parent.top
             horizontalCenter: parent.horizontalCenter
-            bottomMargin: 50
+            margins: 50
         }
         Text {
             text: "http://www.google.com"
@@ -112,11 +113,9 @@ Rectangle {
                 }
             }
         }
-    }
     RowLayout {
         id: localContent
         anchors {
-            centerIn: parent
             margins: 50
         }
         Image {
@@ -143,5 +142,6 @@ Rectangle {
                 }
             }
         }
-    }
+    } // RowLayout
+    } // ColumnLayout
 }
