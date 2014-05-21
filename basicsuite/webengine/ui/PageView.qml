@@ -44,8 +44,11 @@ import QtQuick.Layouts 1.1
 
 Rectangle {
     id: root
-    color: "darkgrey"
+    color: "#AAAAAA"
     visible: true
+
+    property real fontPointSize: 12
+
     function show() {
         enabled = true
         opacity = 1
@@ -57,9 +60,64 @@ Rectangle {
     anchors {
         fill: parent
     }
-    RowLayout {
+    ColumnLayout {
+        id: links
         anchors {
-            centerIn: root
+            bottom: localContent.top
+            horizontalCenter: parent.horizontalCenter
+            bottomMargin: 50
+        }
+        Text {
+            text: "http://www.google.com"
+            font.pointSize: fontPointSize
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            Layout.fillWidth: true
+            Layout.preferredHeight: 60
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    load(Qt.resolvedUrl(parent.text))
+                    hide()
+                }
+            }
+        }
+        Text {
+            text: "http://qt.digia.com"
+            font.pointSize: fontPointSize
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            Layout.fillWidth: true
+            Layout.preferredHeight: 60
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    load(Qt.resolvedUrl(parent.text))
+                    hide()
+                }
+            }
+        }
+        Text {
+            text: "http://qt-project.org/doc/qt-5"
+            font.pointSize: fontPointSize
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            Layout.fillWidth: true
+            Layout.preferredHeight: 60
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    load(Qt.resolvedUrl(parent.text))
+                    hide()
+                }
+            }
+        }
+    }
+    RowLayout {
+        id: localContent
+        anchors {
+            centerIn: parent
+            margins: 50
         }
         Image {
             sourceSize.width: 300
