@@ -180,14 +180,12 @@ Rectangle {
                 id: homeButton
                 width: 20
                 Layout.fillHeight: true
-                iconSource: pageView.opacity == 1 ? "ui/icons/window.png" : "ui/icons/home.png"
+                iconSource: pageView.enabled ? "ui/icons/window.png" : "ui/icons/home.png"
                 onClicked: {
-                    if (pageView.opacity == 0) {
-                        pageView.enabled = true
-                        pageView.opacity = 1
+                    if (pageView.enabled) {
+                        pageView.hide()
                     } else {
-                        pageView.enabled = false
-                        pageView.opacity = 0
+                        pageView.show()
                     }
                 }
             }
@@ -213,6 +211,7 @@ Rectangle {
                 Layout.fillWidth: true
                 text: mainWebView.url
                 onAccepted: {
+                    pageView.hide()
                     mainWebView.url = engine.fromUserInput(text)
                 }
             }

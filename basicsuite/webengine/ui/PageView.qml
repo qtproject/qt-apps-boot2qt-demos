@@ -46,6 +46,14 @@ Rectangle {
     id: root
     color: "darkgrey"
     visible: true
+    function show() {
+        enabled = true
+        opacity = 1
+    }
+    function hide() {
+        enabled = false
+        opacity = 0
+    }
     anchors {
         fill: parent
     }
@@ -61,7 +69,7 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: {
                     load(Qt.resolvedUrl("../content/webgl/helloqt.html"))
-                    homeButton.clicked()
+                    hide()
                 }
             }
         }
@@ -73,7 +81,7 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: {
                     load(Qt.resolvedUrl("../content/csstetrahedron/index.html"))
-                    homeButton.clicked()
+                    hide()
                 }
             }
         }
