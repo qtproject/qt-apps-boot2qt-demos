@@ -43,6 +43,5 @@ import QtDroid.Utils 1.0
 
 Action
 {
-    text: "Reboot"
     onTriggered: DroidUtils.rebootSystem();
 }

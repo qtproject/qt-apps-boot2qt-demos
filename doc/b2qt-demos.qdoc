@@ -216,6 +216,17 @@
 */
 
 /*!
+    \example enterprise-qtdatavis3d
+    \title Qt Data Visualization
+    \ingroup b2qt-demos
+    \brief An interactive showcase for Qt Data Visualization 3D.
+
+    \image b2qt-demo-enterprise-qtdatavis3d.jpg
+
+    This example demonstrates how to use the Qt Data Visualization module to display 3D data visualizations in QML.
+*/
+
+/*!
     \example enterprise-gallery
     \title Enterprise Controls Gallery
     \ingroup b2qt-demos

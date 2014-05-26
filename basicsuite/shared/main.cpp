@@ -34,14 +34,27 @@
 #include <QtQml/QQmlContext>
 #include <QtQml/QQmlComponent>
 
-#include "engine.h"
+#if defined(USE_QTWEBENGINE)
+#include <qtwebengineglobal.h>
+#endif
 
+#include "engine.h"
 
 int main(int argc, char **argv)
 {
     //qputenv("QT_IM_MODULE", QByteArray("qtvkb"));
 
     QApplication app(argc, argv);
+
+
+#if defined(USE_QTWEBENGINE)
+    // This is currently needed by all QtWebEngine applications using the HW accelerated QQuickWebView.
+    // It enables sharing the QOpenGLContext of all QQuickWindows of the application.
+    // We have to do so until we expose a public API for it in Qt or choose to enable it
+    // by default earliest in Qt 5.4.0.
+    QWebEngine::initialize();
+#endif
+
     QString path = app.applicationDirPath();
 
     QPalette pal;

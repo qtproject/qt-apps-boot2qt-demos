@@ -1,1 +1,7 @@
-android-beaglebone:android-iMX6:linux-iMX6:linux-raspberrypi:linux-beagleboard:linux-beaglebone
+android-beaglebone
+android-iMX6
+linux-iMX6
+linux-raspberrypi
+linux-beagleboard
+linux-beaglebone
+linux-imx6qsabresd

@@ -1,6 +1,11 @@
 # widget dependecy is required by QtCharts demo
 QT += quick widgets
 
+qtHaveModule(webengine) {
+    DEFINES += USE_QTWEBENGINE
+    QT += webengine
+}
+
 DESTPATH = /data/user/$$TARGET
 target.path = $$DESTPATH
 

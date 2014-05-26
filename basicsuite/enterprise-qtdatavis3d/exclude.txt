@@ -1,0 +1,2 @@
+linux-raspberrypi
+android-beaglebone

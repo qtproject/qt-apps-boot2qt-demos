@@ -40,6 +40,7 @@
 ****************************************************************************/
 
 import QtQuick 2.0
+import QtQuick.Enterprise.VirtualKeyboard 1.0
 
 TextBase {
     id: textField
@@ -51,6 +52,7 @@ TextBase {
     property alias inputMethodHints: textInput.inputMethodHints
     property alias validator: textInput.validator
     property alias echoMode: textInput.echoMode
+    property int passwordMaskDelay: 1000
 
     editor: textInput
     mouseParent: flickable
@@ -70,8 +72,9 @@ TextBase {
         TextInput {
             id: textInput
 
-            property alias enterKeyText: textField.enterKeyText
-            property alias enterKeyEnabled: textField.enterKeyEnabled
+            EnterKeyAction.actionId: textField.enterKeyAction
+            EnterKeyAction.label: textField.enterKeyText
+            EnterKeyAction.enabled: textField.enterKeyEnabled
 
             y: 6
             focus: true
@@ -83,6 +86,13 @@ TextBase {
             selectedTextColor: Qt.rgba(0.0, 0.0, 0.0, 0.8)
             width: Math.max(flickable.width, implicitWidth)-2
             onActiveFocusChanged: if (!activeFocus) deselect()
+
+            Binding {
+                target: textInput
+                property: "passwordMaskDelay"
+                value: textField.passwordMaskDelay
+                when: textInput.hasOwnProperty("passwordMaskDelay")
+            }
         }
     }
 }

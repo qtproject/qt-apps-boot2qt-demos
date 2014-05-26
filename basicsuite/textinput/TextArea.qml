@@ -40,6 +40,7 @@
 ****************************************************************************/
 
 import QtQuick 2.0
+import QtQuick.Enterprise.VirtualKeyboard 1.0
 
 TextBase {
     id: textArea
@@ -64,8 +65,9 @@ TextBase {
     TextEdit {
         id: textEdit
 
-        property alias enterKeyText: textArea.enterKeyText
-        property alias enterKeyEnabled: textArea.enterKeyEnabled
+        EnterKeyAction.actionId: textArea.enterKeyAction
+        EnterKeyAction.label: textArea.enterKeyText
+        EnterKeyAction.enabled: textArea.enterKeyEnabled
 
         y: 6
         focus: true
@@ -77,7 +79,6 @@ TextBase {
         selectionColor: Qt.rgba(1.0, 1.0, 1.0, 0.5)
         selectedTextColor: Qt.rgba(0.0, 0.0, 0.0, 0.8)
         anchors { left: parent.left; right: parent.right; margins: 12 }
-
         onActiveFocusChanged: if (!activeFocus) deselect()
     }
 }

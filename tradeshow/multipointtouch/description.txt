@@ -1,0 +1,5 @@
+On touch screens, this demo visualizes up to five simultaneous touch points.
+
+The graphics are created using the Qt Quick Particles module.
+
+

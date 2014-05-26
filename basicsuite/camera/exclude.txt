@@ -1,8 +1,10 @@
 android-beaglebone
 android-iMX6
 android-emulator
+android-nexus7v2
 linux-beagleboard
 linux-beaglebone
 linux-iMX6
 linux-raspberrypi
 linux-emulator
+linux-imx6qsabresd
