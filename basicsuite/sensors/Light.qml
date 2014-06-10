@@ -83,7 +83,7 @@ Item {
         LightSensor {
             active: true
             onReadingChanged: {
-                illuminanceLevel.text = "Illuminance: " + reading.illuminance
+                illuminanceLevel.text = "Illuminance: " + reading.illuminance.toFixed(2);
             }
         }
     }
