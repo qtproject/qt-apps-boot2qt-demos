@@ -55,27 +55,18 @@ Rectangle {
     width: 1280
     height: 800
 
-    property url defaultUrl: "about:blank"
+    property url defaultUrl: Qt.resolvedUrl("content/index.html")
     function load(url) { mainWebView.url = url }
 
     WebEngineView {
         id: mainWebView
         anchors.fill: parent
-        url: Qt.resolvedUrl(defaultUrl)
+        url: defaultUrl
         onLoadingChanged: {
             if (!loading) {
                 addressBar.cursorPosition = 0
                 toolBar.state = "address"
             }
-        }
-    }
-
-    PageView {
-        id: pageView
-        visible: true
-        opacity: 1
-        Behavior on opacity {
-            NumberAnimation { duration: 250 }
         }
     }
 
@@ -180,13 +171,9 @@ Rectangle {
                 id: homeButton
                 width: 20
                 Layout.fillHeight: true
-                iconSource: pageView.enabled ? "ui/icons/window.png" : "ui/icons/home.png"
+                iconSource: "ui/icons/home.png"
                 onClicked: {
-                    if (pageView.enabled) {
-                        pageView.hide()
-                    } else {
-                        pageView.show()
-                    }
+                    load(defaultUrl)
                 }
             }
             TextField {
@@ -211,7 +198,6 @@ Rectangle {
                 Layout.fillWidth: true
                 text: mainWebView.url
                 onAccepted: {
-                    pageView.hide()
                     mainWebView.url = engine.fromUserInput(text)
                 }
             }
