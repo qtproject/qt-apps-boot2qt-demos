@@ -58,15 +58,38 @@ Rectangle {
     property url defaultUrl: Qt.resolvedUrl("content/index.html")
     function load(url) { mainWebView.url = url }
 
+    ErrorPage {
+        id: errorPage
+        anchors.fill: parent
+        displayingError: false
+    }
+
     WebEngineView {
         id: mainWebView
         anchors.fill: parent
         url: defaultUrl
+        visible: !errorPage.displayingError
         onLoadingChanged: {
             if (!loading) {
                 addressBar.cursorPosition = 0
                 toolBar.state = "address"
             }
+            var loadError = loadRequest.errorDomain
+            if (loadError == WebEngineView.NoErrorDomain) {
+                errorPage.displayingError = false
+                return;
+            }
+            errorPage.displayingError = true
+            if (loadError == WebEngineView.InternalErrorDomain)
+                errorPage.mainMessage = "Internal error"
+            else if (loadError == WebEngineView.ConnectionErrorDomain)
+                errorPage.mainMessage = "Unable to connect to the Internet"
+            else if (loadError == WebEngineView.CertificateErrorDomain)
+                errorPage.mainMessage = "Certificate error"
+            else if (loadError == WebEngineView.DnsErrorDomain)
+                errorPage.mainMessage = "Unable to resolve the server's DNS address"
+            else // HTTP and FTP
+                errorPage.mainMessage = "Protocol error"
         }
     }
 
