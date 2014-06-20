@@ -41,6 +41,7 @@
 
 import QtQuick 2.1
 import QtQuick.Controls 1.1
+import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
 import QtWebEngine 0.9
 
@@ -114,7 +115,7 @@ Rectangle {
         color: "black"
         opacity: 1
 
-        height: addressBar.height + showToolBarButton.height + 50
+        height: addressBar.height + showToolBarButton.height + 60
         y: 0
 
         Behavior on y {
@@ -135,6 +136,7 @@ Rectangle {
         Timer {
             id: hideTimer
             interval: 2000
+            running: false
             onTriggered: {
                 if (addressBar.activeFocus)
                     return;
@@ -160,7 +162,22 @@ Rectangle {
 
         RowLayout {
             id: addressRow
-            height: 65
+
+            Component {
+                id: navigationButtonStyle
+                ButtonStyle {
+                    background: Rectangle {
+                        anchors.fill: parent
+                        color: control.pressed ? "grey" : "transparent"
+                        radius: 5
+                        Image {
+                            anchors.fill: parent
+                            anchors.margins: 6
+                            source: control.icon
+                        }
+                    }
+                }
+            }
             anchors {
                 top: parent.top
                 bottom: showToolBarButton.top
@@ -172,31 +189,37 @@ Rectangle {
             ToolButton {
                 id: backButton
                 Layout.fillHeight: true
-                iconSource: "ui/icons/go-previous.png"
+                Layout.minimumWidth: height
+                property string icon: "ui/icons/go-previous.png"
                 onClicked: mainWebView.goBack()
                 enabled: mainWebView.canGoBack
+                style: navigationButtonStyle
             }
             ToolButton {
                 id: forwardButton
                 Layout.fillHeight: true
-                iconSource: "ui/icons/go-next.png"
+                Layout.minimumWidth: height
+                property string icon: "ui/icons/go-next.png"
                 onClicked: mainWebView.goForward()
                 enabled: mainWebView.canGoForward
+                style: navigationButtonStyle
             }
             ToolButton {
                 id: reloadButton
                 Layout.fillHeight: true
-                iconSource: mainWebView.loading ? "ui/icons/process-stop.png" : "ui/icons/view-refresh.png"
+                Layout.minimumWidth: height
+                property string icon: mainWebView.loading ? "ui/icons/process-stop.png" : "ui/icons/view-refresh.png"
                 onClicked: mainWebView.loading ? mainWebView.stop() : mainWebView.reload()
+                style: navigationButtonStyle
             }
             ToolButton {
                 id: homeButton
                 width: 20
                 Layout.fillHeight: true
-                iconSource: "ui/icons/home.png"
-                onClicked: {
-                    load(defaultUrl)
-                }
+                Layout.minimumWidth: height
+                property string icon: "ui/icons/home.png"
+                onClicked: load(defaultUrl)
+                style: navigationButtonStyle
             }
             TextField {
                 id: addressBar
@@ -228,7 +251,9 @@ Rectangle {
         ToolButton {
             id: showToolBarButton
             height: 25
-            iconSource: (toolBar.state == "hidden") ? "ui/icons/down.png" : "ui/icons/up.png"
+            width: height
+            property string icon: (toolBar.state == "hidden") ? "ui/icons/down.png" : "ui/icons/up.png"
+            style: navigationButtonStyle
             onClicked: {
                 if (toolBar.state == "hidden") {
                     toolBar.state = "address"
