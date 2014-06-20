@@ -72,7 +72,6 @@ Rectangle {
         onLoadingChanged: {
             if (!loading) {
                 addressBar.cursorPosition = 0
-                toolBar.state = "address"
             }
             var loadError = loadRequest.errorDomain
             if (loadError == WebEngineView.NoErrorDomain) {
@@ -91,6 +90,7 @@ Rectangle {
             else // HTTP and FTP
                 errorPage.mainMessage = "Protocol error"
         }
+        onActiveFocusChanged: activeFocus ? hideTimer.running = true : toolBar.state = "address"
     }
 
     MultiPointTouchArea {
@@ -134,13 +134,12 @@ Rectangle {
 
         Timer {
             id: hideTimer
-            interval: 3000
-            running: (toolBar.state == "address" || toolBar.state == "") && !addressBar.activeFocus
+            interval: 2000
             onTriggered: {
-                if (toolBar.state == "address")
-                    toolBar.state = "hidden"
-                if (toolBar.state == "")
-                    toolBar.state = "address"
+                if (addressBar.activeFocus)
+                    return;
+                toolBar.state = "hidden"
+                running = false
             }
         }
 
@@ -231,9 +230,11 @@ Rectangle {
             height: 25
             iconSource: (toolBar.state == "hidden") ? "ui/icons/down.png" : "ui/icons/up.png"
             onClicked: {
-                if (toolBar.state == "hidden")
+                if (toolBar.state == "hidden") {
                     toolBar.state = "address"
-                else
+                    addressBar.forceActiveFocus()
+                    addressBar.selectAll()
+                } else
                     toolBar.state = "hidden"
             }
             anchors {
