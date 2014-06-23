@@ -40,32 +40,14 @@
 ****************************************************************************/
 import QtQuick 2.0
 
-Rectangle {
-    id: root
+Text {
+
+    property color qtlightblue: '#14aaff'
 
     width: parent.width
-    height: label.font.pixelSize * 3
-
-    radius: 4
-
-    antialiasing: true
-
-    property alias text: label.text;
-
-    property color accentColor: "palegreen"
-
-    gradient: Gradient {
-        GradientStop { position: 0; color: root.accentColor; }
-        GradientStop { position: 1; color: Qt.darker(Qt.darker(root.accentColor)); }
-    }
-
-    Text {
-        id: label
-        font.pixelSize: engine.smallFontSize()
-        font.bold: true;
-        color: "white"
-        anchors.centerIn: parent
-        horizontalAlignment: Text.AlignHCenter
-    }
-
+    horizontalAlignment: Text.AlignLeft
+    wrapMode: Text.WordWrap
+    font.pixelSize: engine.fontSize()
+    font.bold: true
+    color: qtlightblue
 }
