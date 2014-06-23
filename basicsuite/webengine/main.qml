@@ -115,7 +115,7 @@ Rectangle {
         color: "black"
         opacity: 1
 
-        height: addressBar.height + showToolBarButton.height + 60
+        height: addressBar.height + showToolBarButton.height + 40
         y: 0
 
         Behavior on y {
@@ -184,7 +184,7 @@ Rectangle {
                 left: parent.left
                 right: parent.right
                 margins: 10
-                topMargin: 40
+                topMargin: 30
             }
             ToolButton {
                 id: backButton
@@ -225,8 +225,8 @@ Rectangle {
                 id: addressBar
                 focus: true
                 textColor: "black"
-                implicitHeight: 40
-                font.pointSize: 10
+                implicitHeight: 50
+                font.pixelSize: 25
                 inputMethodHints: Qt.ImhUrlCharactersOnly | Qt.ImhNoPredictiveText
                 Image {
                     anchors {
@@ -250,7 +250,7 @@ Rectangle {
 
         ToolButton {
             id: showToolBarButton
-            height: 25
+            height: 30
             width: height
             property string icon: (toolBar.state == "hidden") ? "ui/icons/down.png" : "ui/icons/up.png"
             style: navigationButtonStyle
