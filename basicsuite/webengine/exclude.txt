@@ -3,4 +3,3 @@ linux-emulator
 linux-raspberrypi
 linux-beaglebone
 android-beaglebone
-android-nexus7v2
