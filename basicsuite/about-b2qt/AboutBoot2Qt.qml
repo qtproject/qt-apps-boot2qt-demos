@@ -251,7 +251,7 @@ Column {
     }
     ContentText {
         width: parent.width
-        text: '<p align="justify">Qt is powering millions of everyday embedded devices user by over 70 industries. The Qt developer
+        text: '<p align="justify">Qt is powering millions of everyday embedded devices used by over 70 industries. The Qt developer
                community consists of hundreds of thousands of enthusiastic developers.</p>'
     }
     ContentText {
