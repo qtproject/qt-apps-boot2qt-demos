@@ -86,7 +86,7 @@ Column {
             spacing: 10
             width: parent.width
 
-            Box{ text: "Complete Development Environment\nwith Qt Creator IDE";
+            Box{ text: "Complete\nDevelopment Environment\nwith Qt Creator IDE";
                 width: (row1.width - row1.spacing) / 2; height: column1.height; accentColor: qtmediumgreen }
 
             Column {
