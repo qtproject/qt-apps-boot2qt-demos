@@ -66,8 +66,8 @@ Column {
         text: '<p align="justify">Qt Enterprise Embedded provides a fully-integrated solution
                to get you started immediately with software development on your embedded device
                with a tailored user experience for embedded Linux and embedded Android. It
-               supports your key requirements for high performance and minimal footprint together
-               with Qt’s flexible full-framework modular architecture to deliver unparalleled
+               supports your key requirements for high performance and minimal footprint, and together
+               with Qt - a full framework with modular architecture - delivers unparalleled
                scalability. The development cycle is as rapid as it gets with fully integrated
                embedded tooling, pre-configured software stack and a collection of value-add components.</p>'
     }
@@ -109,9 +109,9 @@ Column {
         width: parent.width
         text: '<p align="justify">Leverage the cross-platform C++ native APIs for maximum performance on both beautiful
                          user interfaces as well as non-GUI operations. With C++, you have full control
-                         over your application code and direct device access. You can also configure Qt Enterprise Embedded
-                         directly from the source codes into a large variety of supported hardware and
-                         operating systems. As with any Qt project, the same application can be deployed
+                         over your application code and direct device access. You can also create custom configurations
+                         of Qt Enterprise Embedded, targeting a large variety of supported hardware and
+                         operating systems with ease. As with any Qt project, the same application can be deployed
                          natively to desktop and mobile OS targets as well.</p>'
     }
 
@@ -123,7 +123,7 @@ Column {
         width: parent.width
         text: '<p align="justify">With <strong>Qt Quick</strong> you can create beautiful and modern touch-based UIs
             with maximum performance. Just like everything you find from this demo launcher!</p>
-            <p align="justify">Should you want dynamic web content and HTML5, the <strong>Qt WebEngine</strong> gives you full
+            <p align="justify">Should you want dynamic web content and HTML5, the <strong>Qt WebEngine</strong> gives you a
             Chromium-based browser engine with comprehensive HTML5 feature support. Mix and match with Qt Quick to get the best
             of both worlds!</p>'
     }
