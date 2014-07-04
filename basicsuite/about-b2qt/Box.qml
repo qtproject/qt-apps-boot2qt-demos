@@ -56,7 +56,7 @@ Rectangle {
 
     gradient: Gradient {
         GradientStop { position: 0; color: root.accentColor; }
-        GradientStop { position: 1; color: "black"; }
+        GradientStop { position: 1; color: Qt.darker(Qt.darker(root.accentColor)); }
     }
 
     Text {
@@ -65,6 +65,7 @@ Rectangle {
         font.bold: true;
         color: "white"
         anchors.centerIn: parent
+        horizontalAlignment: Text.AlignHCenter
     }
 
 }

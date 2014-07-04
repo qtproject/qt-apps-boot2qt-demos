@@ -42,30 +42,30 @@ import QtQuick 2.0
 import QtSensors 5.0
 import QtSensors 5.0 as Sensors
 
-Item {
+Rectangle {
     id: root
-    width: 800
-    height: 1280
+    anchors.fill: parent
 
     Component {
         id: sensorExample
         Rectangle {
             id: main
-            width: root.height
-            height: root.width
-            rotation: 90
+            width: root.width
+            height: root.height
+            anchors.centerIn: parent
+            color: "blue"
             border.width: 1
+            Accelbubble {
+                id: bubble
+                width: parent.width / 2
+                height: parent.height
+            }
             Light {
-                id: lys
-                width: main.width
-                height: main.height / 2
+                anchors.left: bubble.right
+                width: parent.width / 2
+                height: parent.height
             }
 
-            Accelbubble {
-                width: main.width
-                height: main.height / 2
-                anchors.top: lys.bottom
-            }
         }
     }
 
@@ -74,10 +74,14 @@ Item {
         Rectangle {
             width: root.width
             height: root.height
+            color: "black"
             Text {
-                font.pixelSize: 22
+                font.pixelSize: 80
+                width: parent.width * 0.8
                 anchors.centerIn: parent
+                color: "white"
                 text: "It appears that this device doesn't provide the required sensors!"
+                wrapMode: Text.WordWrap
             }
         }
     }

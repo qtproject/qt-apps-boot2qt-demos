@@ -48,11 +48,6 @@ Item {
     width : Screen.height > Screen.width ? Screen.height : Screen.width
     height : Screen.height > Screen.width ? Screen.width : Screen.height
 
-//    Rectangle {
-//        anchors.fill: parent
-//        color: "black"
-//    }
-
     Flickable {
         id: flick
         property real inertia: 0.4
@@ -70,8 +65,6 @@ Item {
 
         property real topOvershoot: Math.max(0, contentItem.y);
         property real bottomOvershoot: Math.max(0, root.height - (contentItem.height + contentItem.y));
-//        onTopOvershootChanged: print("Top Overshoot:", topOvershoot);
-//        onBottomOvershootChanged: print("Bottom Overshoot:", bottomOvershoot);
 
         Item {
             id: shiftTrickery
@@ -107,8 +100,6 @@ Item {
 
                 Item { width: 1; height: engine.smallFontSize() }
                 AboutBoot2Qt { }
-                QtForAndroid { }
-                QtFramework { }
                 Image {
                     id: codeLessImage
                     source: "codeless.png"

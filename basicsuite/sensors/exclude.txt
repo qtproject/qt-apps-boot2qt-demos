@@ -5,3 +5,4 @@ linux-raspberrypi
 linux-beagleboard
 linux-beaglebone
 linux-imx6qsabresd
+linux-apalis-imx6

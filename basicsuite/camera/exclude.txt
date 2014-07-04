@@ -8,3 +8,4 @@ linux-iMX6
 linux-raspberrypi
 linux-emulator
 linux-imx6qsabresd
+linux-apalis-imx6

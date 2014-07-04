@@ -41,90 +41,68 @@
 import QtQuick 2.0
 import QtSensors 5.0
 
-Item {
-    function calc() {
-        if (xAnimation.running || yAnimation.running)
-            return
+Rectangle {
+    id: area
+    color: "lightblue"
+    border.width: 1
+    border.color: "darkblue"
+    property real velocityX: 0
+    property real velocityY: 0
 
-        var newX = (bubble.x + calcRoll(accel.reading.x, accel.reading.y, accel.reading.z) * .8)
-        var newY = (bubble.y - calcPitch(accel.reading.x, accel.reading.y, accel.reading.z) * .8)
+    function updatePosition() {
+        velocityX += accel.reading.y
+        velocityY += accel.reading.x
 
-        if (newX < 0)
+        velocityX *= 0.95
+        velocityY *= 0.95
+
+        var newX = bubble.x + velocityX
+        var newY = bubble.y + velocityY
+        var right = area.width - bubble.width
+        var bottom = area.height - bubble.height
+
+        if (newX < 0) {
             newX = 0
-        if (newY < 0)
+            velocityX = -velocityX * 0.9
+        }
+        if (newY < 0) {
             newY = 0
+            velocityY = -velocityY * 0.9
+        }
 
-        var right = field.width - bubble.width
-        var bottom = field.height - bubble.height
-
-        if (newX > right)
+        if (newX > right) {
             newX = right
-        if (newY > bottom)
+            velocityX = -velocityX * 0.9
+        }
+        if (newY > bottom) {
             newY = bottom
+            velocityY = -velocityY * 0.9
+        }
 
         bubble.x = newX
         bubble.y = newY
-
-        yBehavior.enabled = true
-        xBehavior.enabled = true
     }
 
-    Rectangle {
-        id: field
-        color: "lightblue"
-        border.width: 1
-        border.color: "darkblue"
-        width: parent.width
-        height: parent.height
-        Accelerometer {
-            id: accel
-            active:true
-        }
-
-        Timer {
-            interval: 100
-            running: true
-            repeat: true
-            onTriggered: calc()
-        }
-
-        Image {
-            id: bubble
-            source: "bluebubble.png"
-            property real centerX: parent.width / 2
-            property real centerY: parent.height / 2;
-            property real bubbleCenter: bubble.width / 2
-            x: centerX - bubbleCenter
-            y: centerY - bubbleCenter
-            smooth: true
-
-            Behavior on y {
-                id: yBehavior
-                enabled: false
-                SmoothedAnimation {
-                    id: yAnimation
-                    easing.type: Easing.Linear
-                    duration: 40
-                    onRunningChanged: calc()
-                }
-            }
-            Behavior on x {
-                id: xBehavior
-                enabled: false
-                SmoothedAnimation {
-                    id: xAnimation
-                    easing.type: Easing.Linear
-                    duration: 40
-                    onRunningChanged: calc()
-                }
-            }
-        }
+    Accelerometer {
+        id: accel
+        active:true
     }
 
-    function calcPitch(x,y,z) {
-        return Math.atan(y / Math.sqrt(x*x + z*z)) * 57.2957795;
+    Component.onCompleted: timer.running = true
+
+    Timer {
+        id: timer
+        interval: 16
+        running: false
+        repeat: true
+        onTriggered: updatePosition()
     }
-    function calcRoll(x,y,z) {
-         return Math.atan(x / Math.sqrt(y*y + z*z)) * 57.2957795;
+
+    Image {
+        id: bubble
+        source: "bluebubble.png"
+        smooth: true
+        x: parent.width/2 - bubble.width/2
+        y: parent.height/2 - bubble.height/2
     }
 }

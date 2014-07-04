@@ -46,11 +46,18 @@ Column {
 
     width: parent.width
 
-    spacing: engine.smallFontSize()
+    spacing: engine.smallFontSize() * 2
 
-    Title {
-        id: title
-        text: "Qt Enterprise Embedded"
+    property color qtlightgreen: '#80c342'
+    property color qtmediumgreen: '#328930'
+    property color qtdarkgreen: '#006325'
+    property color qtdarkblue: '#14148c'
+    property color qtlightblue: '#14aaff'
+    property color qtpurple: '#ae32a0'
+    property color qtred: '#b40000'
+
+    ColouredTitle {
+        text: "MEET Qt ENTERPRISE EMBEDDED"
     }
 
     ContentText {
@@ -59,62 +66,221 @@ Column {
         text: '<p align="justify">Qt Enterprise Embedded provides a fully-integrated solution
                to get you started immediately with software development on your embedded device
                with a tailored user experience for embedded Linux and embedded Android. It
-               supports your key requirements for high performance, minimal footprint together
-               with Qt’s flexible full-framework modular architecture to deliver unparalleled
-               scalability.'
+               supports your key requirements for high performance and minimal footprint, and together
+               with Qt - a full framework with modular architecture - delivers unparalleled
+               scalability. The development cycle is as rapid as it gets with fully integrated
+               embedded tooling, pre-configured software stack and a collection of value-add components.</p>'
     }
 
+    // Large overview picture
     Column {
-        id: diagram
-        spacing: 1
-        width: parent.width * 0.5
+        width: parent.width
         anchors.horizontalCenter: parent.horizontalCenter
-        Box { text: "Application"; accentColor: "coral" }
-        Box { text: "Qt Framework"; accentColor: Qt.rgba(0.64, 0.82, 0.15) }
-        Box { text: "Android/Linux Baselayer"; accentColor: "steelblue" }
-        Box { text: "Embedded Hardware"; accentColor: "steelblue"}
+        spacing: 10
+
+        Box{ text: "Cross-Platform Qt Libraries"; width: parent.width; accentColor: qtlightgreen }
+        Box{ text: "Value-Add Components"; width: parent.width; accentColor: qtlightgreen }
+
+        Row {
+            id: row1
+            spacing: 10
+            width: parent.width
+
+            Box{ text: "Complete\nDevelopment Environment\nwith Qt Creator IDE";
+                width: (row1.width - row1.spacing) / 2; height: column1.height; accentColor: qtmediumgreen }
+
+            Column {
+                id: column1
+                width: (row1.width - row1.spacing ) / 2
+                spacing: row1.spacing
+
+
+                Box{ text: "Boot to Qt\nSoftware Stack\nfor HW"; accentColor: qtdarkblue; height: b2.height * 3 }
+                Box{ id: b2; text: "Build-Your-Own-Stack Tooling"; accentColor: qtdarkblue; }
+            }
+        }
+    } // end overview picture
+
+    ColouredTitle {
+        text: "POWER OF CROSS-PLATFORM Qt"
     }
 
     ContentText {
-        id: description
-
         width: parent.width
-
-        text: '<p align="justify">Qt Enterprise Embedded gives you shorter time-to-market
-               providing you with the productivity-enhancing tools and value-adding components.
-               You are up-to-speed with development and prototyping since day one. You can just
-               focus on writing your application with Qt.<br>
-               <p align="justify">Qt Enterprise Embedded provides you with the following:
-               <ul>
-                 <li><b>A full-blown, productivity enhancing development environment</b>,
-                     installed on a Linux development desktop. This self-contained environment
-                     is installed and updated through one online installer and features the Qt
-                     Creator Enterprise IDE, with features that facilitate the whole product
-                     creation lifecycle: UI designer, code editor, direct device deployment
-                     via USB or IP, emulator, on-device debugging and profiling.</li><br>
-                 <li><b>Shorter time-to-market with the Boot to Qt Software Stack</b>. A
-                     light-weight, Qt-optimized, full software stack that is installed into
-                     the actual target device. The stack comes in two flavors, Embedded Android
-                     and Embedded Linux. The pre-built stack gets you up-to-speed with prototyping
-                     in no time and with our professional tooling you can customize the stack into
-                     your exact production needs.</li><br>
-                 <li><b>Full power and scalability of Qt on Embedded</b>. Leverage the
-                     cross-platform C++ native APIs for maximum performance on both beautiful
-                     user interfaces as well as non-GUI operations. With C++, you have full control
-                     over your application code. You can also configure Qt Enterprise Embedded
-                     directly from the source codes into a large variety of supported hardware and
-                     operating systems. As with any Qt project, the same application can be deployed
-                     natively to desktop and mobile OS targets as well.</li><br>
-                 <li><b>Value-Adding Components</b>. No need to re-implement the wheel! Full Qt
-                     Enterprise libraries give you a shortcut on development time providing ready-made
-                     solutions, such as a comprehensive virtual keyboard, charts and industrial UI
-                     controls.
-               </ul>
-
-               <p align="justify">Qt Enterprise Embedded includes <b>Boot to Qt</b>, a light-weight,
-               Qt-optimized, full software stack for embedded systems that is installed into the actual
-               target device. The Boot to Qt stack can be made to run on a variety of hardware - Qt
-               Enterprise Embedded comes with pre-built images for several reference devices.
-              '
+        text: '<p align="justify">Leverage the cross-platform C++ native APIs for maximum performance on both beautiful
+                         user interfaces as well as non-GUI operations. With C++, you have full control
+                         over your application code and direct device access. You can also create custom configurations
+                         of Qt Enterprise Embedded, targeting a large variety of supported hardware and
+                         operating systems with ease. As with any Qt project, the same application can be deployed
+                         natively to desktop and mobile OS targets as well.</p>'
     }
+
+    HighlightText {
+        text: "Velvet-Like Native UIs, HTML5 or Both!"
+    }
+
+    ContentText {
+        width: parent.width
+        text: '<p align="justify">With <strong>Qt Quick</strong> you can create beautiful and modern touch-based UIs
+            with maximum performance. Just like everything you find from this demo launcher!</p>
+            <p align="justify">Should you want dynamic web content and HTML5, the <strong>Qt WebEngine</strong> gives you a
+            Chromium-based browser engine with comprehensive HTML5 feature support. Mix and match with Qt Quick to get the best
+            of both worlds!</p>'
+    }
+
+    ColouredTitle {
+        text: "SHORTER TIME-TO-MARKET"
+    }
+
+    HighlightText {
+        text: "Full Embedded Development Environment"
+    }
+
+    ContentText {
+        width: parent.width
+        text: '<p align="justify">A full-blown, productivity enhancing development environment,
+        installed on a Linux development desktop. This self-contained environment
+        is installed and updated through one online installer and features the Qt
+        Creator Enterprise IDE, with features that facilitate the whole product
+        creation lifecycle: UI designer, code editor, direct device deployment
+        via USB or IP, emulator, on-device debugging and profiling.</p>'
+    }
+
+
+    HighlightText {
+        text: "Boot to Qt Software Stack -\nEmbedded Prototyping Couldn't Get Any Simpler!"
+    }
+
+    Row {
+        width: parent.width
+        spacing: 30
+
+        ContentText {
+            width: (parent.width - parent.spacing ) / 2
+
+            text: '<p align="justify">The <strong>Boot to Qt</strong> software stack gets you
+               immediately started with software development on your embedded device
+               with a tailored user experience for embedded Linux and embedded Android. It
+               supports your key requirements for high performance, minimal footprint together
+               with Qt’s flexible full-framework modular architecture to deliver unparalleled
+               scalability.</p><p align="justify">The Boot to Qt stack can be made to run on a variety
+               of hardware with the provided <strong>Build-Your-Own-Stack</strong> tooling. It comes
+               pre-built for several reference devices with the installation of Qt Enterprise Embedded.</p>'
+        }
+
+        Column {
+            spacing: 5
+            width: ( parent.width - parent.spacing ) / 2
+            Box { text: "Application"; accentColor: qtpurple }
+            Box { text: "Qt Framework"; accentColor: qtlightgreen }
+            Box { text: "Android/Linux Baselayer"; accentColor: qtdarkblue }
+            Box { text: "Embedded Hardware"; accentColor: qtdarkblue }
+        }
+
+
+    }
+
+    HighlightText {
+        text: "Value-Add Components - No Need to Re-Invent the Wheel!"
+    }
+    ContentText {
+        width: parent.width
+        text: '<p align="justify">The Qt libraries come with a lot of high-level functionality for
+               various parts of your application. On top of that, we\'ve extended Qt Enterprise Embedded
+               to contain all the important things you need to create your embedded device, such as:</p>'
+    }
+
+
+    // The "grid" layout for key add-ons
+    Row {
+        width: parent.width * 0.9
+        spacing: 30
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        Column {
+            spacing: 10
+            width: parent.width * 0.4
+
+            HighlightText {
+                color: qtlightgreen
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: engine.smallFontSize()
+                text: "Virtual Keyboard"
+            }
+            HighlightText {
+                color: qtlightgreen
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: engine.smallFontSize()
+
+                text: "Dynamic and Static Charting"
+            }
+            HighlightText {
+                color: qtlightgreen
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: engine.smallFontSize()
+
+                text: "Pre-Built UI Controls"
+            }
+        }
+        Column {
+            spacing: 10
+            width: parent.width * 0.4
+            HighlightText {
+                color: qtlightgreen
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: engine.smallFontSize()
+                text: "3D Data Visualization"
+            }
+            HighlightText {
+                color: qtlightgreen
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: engine.smallFontSize()
+                text: "Qt Quick Compiler"
+            }
+            HighlightText {
+                color: qtlightgreen
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: engine.smallFontSize()
+                text: "Additional Tooling"
+            }
+        }
+    } // end of "grid" layout
+
+    ColouredTitle {
+        text: "TRUSTED TECHNOLOGY PARTNER"
+    }
+    ContentText {
+        width: parent.width
+        text: '<p align="justify">Qt is powering millions of everyday embedded devices used by over 70 industries. The Qt developer
+               community consists of hundreds of thousands of enthusiastic developers.</p>'
+    }
+    ContentText {
+        width: parent.width
+        text: '<p align="justify">With Qt Enterprise Embedded you are never alone with your device creation. You get
+               <strong>full support and portfolio of Digia Qt Professional Services</strong>
+               to help you pass all obstacles and reach your markets faster with outstanding quality.</p>'
+    }
+
+    ColouredTitle {
+        text: "GETTING STARTED WITH DEVELOPMENT"
+    }
+    ContentText {
+        width: parent.width
+        text: '<p align="justify">Play around with the demos in this launcher to see the power of Qt and get your
+                free evaluation version of Qt Enterprise Embedded with the Boot to Qt images
+                for common developer boards from</p>'
+    }
+    HighlightText {
+        text: "http://qt.digia.com/QtEnterpriseEmbedded"
+        color: qtpurple
+        font.bold: true
+        horizontalAlignment: Text.AlignHCenter
+    }
+    ContentText {
+        width: parent.width
+        text: '<p align="justify">With an online installer, you\'ll get the out-of-the-box
+                pre-configured development environment, Qt Creator IDE, and you can start your
+                embedded development immediately!</p>'
+    }
+
 }

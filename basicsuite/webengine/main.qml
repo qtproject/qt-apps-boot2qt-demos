@@ -41,6 +41,7 @@
 
 import QtQuick 2.1
 import QtQuick.Controls 1.1
+import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
 import QtWebEngine 0.9
 
@@ -55,28 +56,42 @@ Rectangle {
     width: 1280
     height: 800
 
-    property url defaultUrl: "about:blank"
+    property url defaultUrl: Qt.resolvedUrl("content/index.html")
     function load(url) { mainWebView.url = url }
+
+    ErrorPage {
+        id: errorPage
+        anchors.fill: parent
+        displayingError: false
+    }
 
     WebEngineView {
         id: mainWebView
         anchors.fill: parent
-        url: Qt.resolvedUrl(defaultUrl)
+        url: defaultUrl
+        visible: !errorPage.displayingError
         onLoadingChanged: {
             if (!loading) {
                 addressBar.cursorPosition = 0
-                toolBar.state = "address"
             }
+            var loadError = loadRequest.errorDomain
+            if (loadError == WebEngineView.NoErrorDomain) {
+                errorPage.displayingError = false
+                return;
+            }
+            errorPage.displayingError = true
+            if (loadError == WebEngineView.InternalErrorDomain)
+                errorPage.mainMessage = "Internal error"
+            else if (loadError == WebEngineView.ConnectionErrorDomain)
+                errorPage.mainMessage = "Unable to connect to the Internet"
+            else if (loadError == WebEngineView.CertificateErrorDomain)
+                errorPage.mainMessage = "Certificate error"
+            else if (loadError == WebEngineView.DnsErrorDomain)
+                errorPage.mainMessage = "Unable to resolve the server's DNS address"
+            else // HTTP and FTP
+                errorPage.mainMessage = "Protocol error"
         }
-    }
-
-    PageView {
-        id: pageView
-        visible: true
-        opacity: 1
-        Behavior on opacity {
-            NumberAnimation { duration: 250 }
-        }
+        onActiveFocusChanged: activeFocus ? hideTimer.running = true : toolBar.state = "address"
     }
 
     MultiPointTouchArea {
@@ -100,7 +115,7 @@ Rectangle {
         color: "black"
         opacity: 1
 
-        height: addressBar.height + showToolBarButton.height + 50
+        height: addressBar.height + showToolBarButton.height + 40
         y: 0
 
         Behavior on y {
@@ -120,13 +135,13 @@ Rectangle {
 
         Timer {
             id: hideTimer
-            interval: 3000
-            running: (toolBar.state == "address" || toolBar.state == "") && !addressBar.activeFocus
+            interval: 2000
+            running: false
             onTriggered: {
-                if (toolBar.state == "address")
-                    toolBar.state = "hidden"
-                if (toolBar.state == "")
-                    toolBar.state = "address"
+                if (addressBar.activeFocus)
+                    return;
+                toolBar.state = "hidden"
+                running = false
             }
         }
 
@@ -147,54 +162,71 @@ Rectangle {
 
         RowLayout {
             id: addressRow
-            height: 65
+
+            Component {
+                id: navigationButtonStyle
+                ButtonStyle {
+                    background: Rectangle {
+                        anchors.fill: parent
+                        color: control.pressed ? "grey" : "transparent"
+                        radius: 5
+                        Image {
+                            anchors.fill: parent
+                            anchors.margins: 6
+                            source: control.icon
+                        }
+                    }
+                }
+            }
             anchors {
                 top: parent.top
                 bottom: showToolBarButton.top
                 left: parent.left
                 right: parent.right
                 margins: 10
-                topMargin: 40
+                topMargin: 30
             }
             ToolButton {
                 id: backButton
                 Layout.fillHeight: true
-                iconSource: "ui/icons/go-previous.png"
+                Layout.minimumWidth: height
+                property string icon: "ui/icons/go-previous.png"
                 onClicked: mainWebView.goBack()
                 enabled: mainWebView.canGoBack
+                style: navigationButtonStyle
             }
             ToolButton {
                 id: forwardButton
                 Layout.fillHeight: true
-                iconSource: "ui/icons/go-next.png"
+                Layout.minimumWidth: height
+                property string icon: "ui/icons/go-next.png"
                 onClicked: mainWebView.goForward()
                 enabled: mainWebView.canGoForward
+                style: navigationButtonStyle
             }
             ToolButton {
                 id: reloadButton
                 Layout.fillHeight: true
-                iconSource: mainWebView.loading ? "ui/icons/process-stop.png" : "ui/icons/view-refresh.png"
+                Layout.minimumWidth: height
+                property string icon: mainWebView.loading ? "ui/icons/process-stop.png" : "ui/icons/view-refresh.png"
                 onClicked: mainWebView.loading ? mainWebView.stop() : mainWebView.reload()
+                style: navigationButtonStyle
             }
             ToolButton {
                 id: homeButton
                 width: 20
                 Layout.fillHeight: true
-                iconSource: pageView.enabled ? "ui/icons/window.png" : "ui/icons/home.png"
-                onClicked: {
-                    if (pageView.enabled) {
-                        pageView.hide()
-                    } else {
-                        pageView.show()
-                    }
-                }
+                Layout.minimumWidth: height
+                property string icon: "ui/icons/home.png"
+                onClicked: load(defaultUrl)
+                style: navigationButtonStyle
             }
             TextField {
                 id: addressBar
                 focus: true
                 textColor: "black"
-                implicitHeight: 40
-                font.pointSize: 10
+                implicitHeight: 50
+                font.pixelSize: 25
                 inputMethodHints: Qt.ImhUrlCharactersOnly | Qt.ImhNoPredictiveText
                 Image {
                     anchors {
@@ -211,7 +243,6 @@ Rectangle {
                 Layout.fillWidth: true
                 text: mainWebView.url
                 onAccepted: {
-                    pageView.hide()
                     mainWebView.url = engine.fromUserInput(text)
                 }
             }
@@ -219,12 +250,16 @@ Rectangle {
 
         ToolButton {
             id: showToolBarButton
-            height: 25
-            iconSource: (toolBar.state == "hidden") ? "ui/icons/down.png" : "ui/icons/up.png"
+            height: 30
+            width: height
+            property string icon: (toolBar.state == "hidden") ? "ui/icons/down.png" : "ui/icons/up.png"
+            style: navigationButtonStyle
             onClicked: {
-                if (toolBar.state == "hidden")
+                if (toolBar.state == "hidden") {
                     toolBar.state = "address"
-                else
+                    addressBar.forceActiveFocus()
+                    addressBar.selectAll()
+                } else
                     toolBar.state = "hidden"
             }
             anchors {

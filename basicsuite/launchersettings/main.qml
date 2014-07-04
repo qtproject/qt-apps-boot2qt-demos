@@ -243,6 +243,7 @@ Rectangle {
                         text: if (networkControllerLoader.item != undefined) { networkControllerLoader.item.getIPAddress(); }
                         font.pixelSize: 18
                         color: "white"
+                        Layout.columnSpan: 2
                     }
 
                     Button {
