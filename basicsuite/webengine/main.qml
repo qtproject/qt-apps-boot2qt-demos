@@ -56,7 +56,7 @@ Rectangle {
     width: 1280
     height: 800
 
-    property url defaultUrl: Qt.resolvedUrl("content/index.html")
+    property url defaultUrl: Qt.resolvedUrl("about:blank")
     function load(url) { mainWebView.url = url }
 
     ErrorPage {
@@ -92,6 +92,13 @@ Rectangle {
                 errorPage.mainMessage = "Protocol error"
         }
         onActiveFocusChanged: activeFocus ? hideTimer.running = true : toolBar.state = "address"
+
+        Timer {
+            interval: 1500
+            running: false
+            onTriggered: defaultUrl = Qt.resolvedUrl("content/index.html")
+            Component.onCompleted: start()
+        }
     }
 
     MultiPointTouchArea {
