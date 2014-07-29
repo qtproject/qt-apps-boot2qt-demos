@@ -49,9 +49,38 @@ Rectangle {
     property real velocityX: 0
     property real velocityY: 0
 
+    // Calculate effective rotation
+    function getRotation() {
+        var rot = rotation
+        var newParent = parent
+
+        while (newParent) {
+            rot += newParent.rotation
+            newParent = newParent.parent
+        }
+        return rot%360
+    }
+
     function updatePosition() {
-        velocityX += accel.reading.y
-        velocityY += accel.reading.x
+        var actualRotation = getRotation();
+
+        // Transform accelerometer readings according
+        // to actual rotation of item
+        if (actualRotation == 0) {
+            velocityX -= accel.reading.x
+            velocityY += accel.reading.y
+        } else if (actualRotation == 90 || actualRotation == -270) {
+            velocityX += accel.reading.y
+            velocityY += accel.reading.x
+        } else if (actualRotation == 180 || actualRotation == -180) {
+            velocityX += accel.reading.x
+            velocityY -= accel.reading.y
+        } else if (actualRotation == 270 || actualRotation == -90) {
+            velocityX -= accel.reading.y
+            velocityY -= accel.reading.x
+        } else {
+            console.debug("The screen rotation of the device has to be a multiple of 90 degrees.")
+        }
 
         velocityX *= 0.95
         velocityY *= 0.95
