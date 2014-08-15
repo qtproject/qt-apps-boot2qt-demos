@@ -208,6 +208,7 @@ Rectangle {
                         }
                     }
                     CheckBox {
+                        checked: engine.fpsEnabled
                         onCheckedChanged: engine.fpsEnabled = checked;
                     }
                 }
