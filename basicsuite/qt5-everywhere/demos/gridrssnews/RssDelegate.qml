@@ -86,8 +86,6 @@ Rectangle {
             anchors.bottom: parent.bottom
             color: "Black"
             opacity: 0.5
-            visible: iconImage.source
-
         }
 
         Text {

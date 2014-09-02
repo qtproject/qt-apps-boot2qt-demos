@@ -142,6 +142,7 @@ Item {
                 visible: !connected
                 anchors.horizontalCenter: parent.horizontalCenter
                 font.pixelSize: 18
+                inputMethodHints: Qt.ImhNoPredictiveText
             }
 
             Button {
