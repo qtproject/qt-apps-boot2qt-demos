@@ -38,7 +38,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick.Controls 1.0
+import QtQuick.Controls 1.2
 import QtDroid.Utils 1.0
 
 Action

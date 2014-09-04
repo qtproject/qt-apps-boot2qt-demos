@@ -39,7 +39,7 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
-import QtQuick.Controls 1.0
+import QtQuick.Controls 1.2
 import Qt.labs.wifi 0.1
 
 Item {

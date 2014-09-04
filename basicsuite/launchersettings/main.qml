@@ -40,11 +40,12 @@
 ****************************************************************************/
 import QtQuick 2.0
 
-import QtQuick.Controls 1.0
+import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.0
-import QtQuick.Controls.Styles 1.0
+import QtQuick.Controls.Styles 1.2
 import QtQuick.Controls.Private 1.0
 import QtQuick.Window 2.1
+import QtQuick.Enterprise.VirtualKeyboard.Settings 1.0
 
 Rectangle {
     id: root
@@ -117,6 +118,53 @@ Rectangle {
                     border.top: 4
                     border.bottom: 4
                 }
+            }
+        }
+    }
+
+    Component {
+        id: checkboxStyle
+        CheckBoxStyle {
+            indicator: Rectangle {
+                    implicitWidth: 36
+                    implicitHeight: 36
+                    radius: 10
+                    border.color: "black"
+                    border.width: 2
+                    Rectangle {
+                        visible: control.checked
+                        color: "#45b7e2"
+                        border.color: "darkblue"
+                        radius: 10
+                        anchors.margins: 4
+                        anchors.fill: parent
+                    }
+            }
+        }
+    }
+
+    Component {
+        id: radioButtonStyle
+        RadioButtonStyle {
+            indicator: Rectangle {
+                implicitWidth: 36
+                implicitHeight: 36
+                radius: 20
+                border.color: "black"
+                border.width: 2
+                Rectangle {
+                    anchors.fill: parent
+                    visible: control.checked
+                    color: "#45b7e2"
+                    border.color: "darkblue"
+                    radius: 20
+                    anchors.margins: 4
+                }
+            }
+            label: Label {
+                text: control.text
+                font.pixelSize: 18
+                color: "white"
             }
         }
     }
@@ -208,9 +256,48 @@ Rectangle {
                         }
                     }
                     CheckBox {
+                        style: checkboxStyle
                         checked: engine.fpsEnabled
-                        onCheckedChanged: engine.fpsEnabled = checked;
+                        onCheckedChanged: engine.fpsEnabled = checked
                     }
+                }
+            }
+
+            GroupBox {
+                id: vkbOptions
+                title: "Virtual Keyboard Style"
+                style: groupBoxStyle
+                Layout.fillWidth: true
+                implicitWidth: 0
+
+                function updateVKBStyle(styleRadioButton) {
+                    VirtualKeyboardSettings.styleName = styleRadioButton.text.toLowerCase()
+                }
+
+                Row {
+                    spacing: 30
+                    ExclusiveGroup { id: vkbStyleGroup }
+                    RadioButton {
+                        id: defaultStyle
+                        style: radioButtonStyle
+                        text: "Default"
+                        exclusiveGroup: vkbStyleGroup
+                        onClicked: vkbOptions.updateVKBStyle(defaultStyle)
+                    }
+                    RadioButton {
+                        id: retroStyle
+                        style: radioButtonStyle
+                        text: "Retro"
+                        exclusiveGroup: vkbStyleGroup
+                        onClicked: vkbOptions.updateVKBStyle(retroStyle)
+                    }
+                }
+
+                Component.onCompleted: {
+                   if (VirtualKeyboardSettings.styleName == "default")
+                       defaultStyle.checked = true
+                   if (VirtualKeyboardSettings.styleName == "retro")
+                       retroStyle.checked = true
                 }
             }
 
