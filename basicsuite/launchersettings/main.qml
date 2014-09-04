@@ -52,7 +52,6 @@ Rectangle {
     width: 1280
     height: 800
     color: "#212126"
-    property int margin: 10
     property alias buttonStyle: buttonStyle
 
     // ******************************* STYLES **********************************
@@ -179,13 +178,14 @@ Rectangle {
     Flickable {
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.margins: margin
+        anchors.margins: 10
         anchors.topMargin: 50
         height: parent.height
-        width: mainLayout.width
+        width: parent.width
         contentHeight: mainLayout.height + 100
         contentWidth: mainLayout.width
         flickableDirection: Flickable.VerticalFlick
+        leftMargin: (width - contentWidth) / 2
 
         ColumnLayout {
             id: mainLayout
