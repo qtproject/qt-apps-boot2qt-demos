@@ -45,6 +45,7 @@ import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.0
 import QtQuick.Controls.Private 1.0
 import QtQuick.Window 2.1
+import B2Qt.Utils 1.0
 
 Rectangle {
     id: root
@@ -122,10 +123,6 @@ Rectangle {
     }
 
     // ******************************** UI ****************************************
-    Loader { id: rebootActionLoader; source: "RebootAction.qml" }
-    Loader { id: poweroffActionLoader; source: "PoweroffAction.qml" }
-    Loader { id: brightnessControllerLoader; source: "BrightnessController.qml" }
-    Loader { id: networkControllerLoader; source: "NetworkController.qml" }
     Loader { id: wifiControllerLoader; source: "WifiController.qml" }
 
     Flickable {
@@ -163,20 +160,16 @@ Rectangle {
                         style: buttonStyle
                         text: "Shut Down"
                         Layout.fillWidth: true
-                        action: poweroffActionLoader.item;
-                        enabled: action != undefined
-
+                        onClicked: B2QtDevice.powerOff();
                     }
 
                     Button {
                         style: buttonStyle
                         text: "Reboot"
                         Layout.fillWidth: true
-                        action: rebootActionLoader.item;
-                        enabled: action != undefined
+                        onClicked: B2QtDevice.reboot();
                     }
                 }
-
             }
 
             GroupBox {
@@ -197,20 +190,23 @@ Rectangle {
                     Label { text: "Display FPS: "; font.pixelSize: 18; color: "white" }
 
                     Slider {
+                        id: brightnessSlider
                         maximumValue: 255
                         minimumValue: 1
-                        value: 255
                         Layout.fillWidth: true
-                        onValueChanged: {
-                            if (brightnessControllerLoader.item != undefined) {
-                                brightnessControllerLoader.item.setBrightness(value);
-                            }
-                        }
+                        value: B2QtDevice.displayBrightness
                     }
+
                     CheckBox {
                         checked: engine.fpsEnabled
                         onCheckedChanged: engine.fpsEnabled = checked;
                     }
+                }
+
+                Binding {
+                    target: B2QtDevice
+                    property: "displayBrightness"
+                    value: brightnessSlider.value
                 }
             }
 
@@ -235,13 +231,21 @@ Rectangle {
                     TextField {
                         id: hostname
                         implicitHeight: hostnameButton.height - 8
-                        text: if (networkControllerLoader.item != undefined) { networkControllerLoader.item.getHostname(); }
+                        text: B2QtDevice.hostname
+                        placeholderText: "Enter hostname"
+                        inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhNoPredictiveText
                         font.pixelSize: 18
                         Layout.fillWidth: true
+                        onAccepted: {
+                            Qt.inputMethod.commit()
+                            Qt.inputMethod.hide()
+                            B2QtDevice.setHostname(hostname.text)
+                            hostname.focus = false
+                        }
                     }
 
                     Label {
-                        text: if (networkControllerLoader.item != undefined) { networkControllerLoader.item.getIPAddress(); }
+                        text: B2QtDevice.ipAddress
                         font.pixelSize: 18
                         color: "white"
                         Layout.columnSpan: 2
@@ -252,10 +256,8 @@ Rectangle {
                         style: buttonStyle
                         text: "Change hostname"
                         implicitWidth: 260
-                        onClicked: networkControllerLoader.item.setHostname(hostname.text);
-                        enabled: networkControllerLoader.item != undefined
+                        onClicked: hostname.accepted()
                     }
-
                 }
             }
 
