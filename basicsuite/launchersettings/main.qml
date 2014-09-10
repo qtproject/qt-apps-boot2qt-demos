@@ -45,7 +45,7 @@ import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Controls.Private 1.0
 import QtQuick.Window 2.1
-import QtQuick.Enterprise.VirtualKeyboard.Settings 1.0
+import QtQuick.Enterprise.VirtualKeyboard.Settings 1.2
 
 Rectangle {
     id: root
