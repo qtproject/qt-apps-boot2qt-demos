@@ -43,7 +43,7 @@ import QtQuick 2.1
 import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
-import QtWebEngine 0.9
+import QtWebEngine 1.0
 
 import "ui"
 
