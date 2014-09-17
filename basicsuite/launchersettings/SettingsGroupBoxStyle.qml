@@ -40,56 +40,42 @@
 ****************************************************************************/
 import QtQuick 2.2
 import QtQuick.Controls 1.2
-import QtQuick.Layouts 1.0
-import Qt.labs.wifi 0.1
+import QtQuick.Controls.Styles 1.2
+import QtQuick.Controls.Private 1.0
 
-ColumnLayout {
-
-    anchors.fill:parent
-
-    WifiManager {
-        id: wifiManager
-        scanning: backendReady
+// GroupBoxStyle currently is not available as a public API,
+// so we write our own by importing private Styles API.
+Style {
+    // The margin from the content item to the groupbox
+    padding {
+        top: (control.title.length > 0 ? TextSingleton.implicitHeight : 0) + 30
+        left: 8
+        right: 8
+        bottom: 8
     }
-
-    ColumnLayout {
+    // The groupbox frame
+    property Component panel: Item {
         anchors.fill: parent
 
-        RowLayout {
-
-            Button {
-                id: wifiOnOffButton
-                Layout.fillWidth: true
-                style: SettingsButtonStyle {}
-                text: (wifiManager.backendReady) ? "Switch Off" : "Switch On"
-                onClicked: {
-                    if (wifiManager.backendReady) {
-                        if (networkList.visible)
-                            networkList.visible = false
-                        wifiManager.stop()
-                    } else {
-                        wifiManager.start()
-                    }
-                }
-            }
-
-            Button {
-                id: listNetworksButton
-                Layout.fillWidth: true
-                style: SettingsButtonStyle {}
-                visible: wifiManager.backendReady
-                text: (networkList.visible) ? "Hide wifi networks"
-                                            : "List available wifi networks"
-                onClicked: networkList.visible = !networkList.visible
-            }
+        Text {
+            id: label
+            anchors.bottom: borderImage.top
+            anchors.margins: 2
+            text: control.title
+            font.pixelSize: engine.smallFontSize() * 1.1
+            color: "white"
+            renderType: Text.NativeRendering
         }
 
-        WifiNetworkList {
-            id: networkList
-            implicitHeight: engine.centimeter(7)
-            Layout.fillWidth: true
-            visible: false
-            clip: true
+        BorderImage {
+            id: borderImage
+            anchors.fill: parent
+            anchors.topMargin: padding.top - 7
+            source: "images/groupbox.png"
+            border.left: 4
+            border.right: 4
+            border.top: 4
+            border.bottom: 4
         }
     }
 }

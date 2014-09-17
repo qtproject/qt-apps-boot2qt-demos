@@ -38,21 +38,24 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
-import Qt.labs.wifi 0.1 as Wifi
+import QtQuick 2.2
+import QtQuick.Controls 1.2
+import QtQuick.Controls.Styles 1.2
 
-QtObject {
-    function createWifiGroupBox()
-    {
-        if (Wifi.Interface.wifiSupported()) {
-            var component = Qt.createComponent("WifiGroupBox.qml");
-            var wifi = component.createObject(wifiOptions.contentItem);
-            if (wifi == null) {
-                wifiOptions.visible = false
-                print("Error creating WifiGroupBox");
+CheckBoxStyle {
+    indicator: Rectangle {
+            implicitWidth: engine.mm(7)
+            implicitHeight: engine.mm(7)
+            radius: 10
+            border.color: "black"
+            border.width: 2
+            Rectangle {
+                visible: control.checked
+                color: "#45b7e2"
+                border.color: "darkblue"
+                radius: 10
+                anchors.margins: engine.mm(1)
+                anchors.fill: parent
             }
-        } else {
-            wifiOptions.visible = false
-        }
     }
 }

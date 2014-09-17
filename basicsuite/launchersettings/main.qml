@@ -38,211 +38,94 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
-
+import QtQuick 2.2
 import QtQuick.Controls 1.2
-import QtQuick.Layouts 1.0
+import QtQuick.Layouts 1.1
 import QtQuick.Controls.Styles 1.2
-import QtQuick.Controls.Private 1.0
-import QtQuick.Window 2.1
 import QtQuick.Enterprise.VirtualKeyboard.Settings 1.2
+import Qt.labs.wifi 0.1 as Wifi
 
 Rectangle {
-    id: root
-    width: 1280
-    height: 800
+    anchors.fill: parent
     color: "#212126"
-    property alias buttonStyle: buttonStyle
 
-    // ******************************* STYLES **********************************
-    Component {
-        id: buttonStyle
-        ButtonStyle {
-            panel: Item {
-                implicitHeight: 50
-                implicitWidth: 320
-                BorderImage {
-                    anchors.fill: parent
-                    antialiasing: true
-                    border.bottom: 8
-                    border.top: 8
-                    border.left: 8
-                    border.right: 8
-                    anchors.margins: control.pressed ? -4 : 0
-                    source: control.pressed ? "images/button_pressed.png" : "images/button_default.png"
-                    Text {
-                        text: control.text
-                        anchors.centerIn: parent
-                        color: "white"
-                        font.pixelSize: 22
-                        renderType: Text.NativeRendering
-                    }
-                }
-            }
-        }
-    }
-
-    // GroupBoxStyle currently is not available as a public API, so we write our own...
-    Component {
-        id: groupBoxStyle
-        Style {
-            // The margin from the content item to the groupbox
-            padding {
-                top: (control.title.length > 0 ? TextSingleton.implicitHeight : 0) + 30
-                left: 8
-                right: 8
-                bottom: 8
-            }
-            // The groupbox frame
-            property Component panel: Item {
-                anchors.fill: parent
-
-                Text {
-                    id: label
-                    anchors.bottom: borderImage.top
-                    anchors.margins: 2
-                    text: control.title
-                    font.pixelSize: 22
-                    color: "white"
-                    renderType: Text.NativeRendering
-                }
-
-                BorderImage {
-                    id: borderImage
-                    anchors.fill: parent
-                    anchors.topMargin: padding.top - 7
-                    source: "images/groupbox.png"
-                    border.left: 4
-                    border.right: 4
-                    border.top: 4
-                    border.bottom: 4
-                }
-            }
-        }
-    }
-
-    Component {
-        id: checkboxStyle
-        CheckBoxStyle {
-            indicator: Rectangle {
-                    implicitWidth: 36
-                    implicitHeight: 36
-                    radius: 10
-                    border.color: "black"
-                    border.width: 2
-                    Rectangle {
-                        visible: control.checked
-                        color: "#45b7e2"
-                        border.color: "darkblue"
-                        radius: 10
-                        anchors.margins: 4
-                        anchors.fill: parent
-                    }
-            }
-        }
-    }
-
-    Component {
-        id: radioButtonStyle
-        RadioButtonStyle {
-            indicator: Rectangle {
-                implicitWidth: 36
-                implicitHeight: 36
-                radius: 20
-                border.color: "black"
-                border.width: 2
-                Rectangle {
-                    anchors.fill: parent
-                    visible: control.checked
-                    color: "#45b7e2"
-                    border.color: "darkblue"
-                    radius: 20
-                    anchors.margins: 4
-                }
-            }
-            label: Label {
-                text: control.text
-                font.pixelSize: 18
-                color: "white"
-            }
-        }
-    }
-
-    // ******************************** UI ****************************************
     Loader { id: rebootActionLoader; source: "RebootAction.qml" }
     Loader { id: poweroffActionLoader; source: "PoweroffAction.qml" }
     Loader { id: brightnessControllerLoader; source: "BrightnessController.qml" }
     Loader { id: networkControllerLoader; source: "NetworkController.qml" }
-    Loader { id: wifiControllerLoader; source: "WifiController.qml" }
 
     Flickable {
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.margins: 10
-        anchors.topMargin: 50
+        anchors.topMargin: engine.mm(5)
         height: parent.height
         width: parent.width
-        contentHeight: mainLayout.height + 100
+        contentHeight: mainLayout.height + engine.centimeter(2)
         contentWidth: mainLayout.width
         flickableDirection: Flickable.VerticalFlick
-        leftMargin: (width - contentWidth) / 2
+        leftMargin: (width - contentWidth) * 0.5
 
         ColumnLayout {
             id: mainLayout
-            // can not use size of "root" here, it will shrink UI when virtual keyboard is open
-            width: Math.min(Screen.width, Screen.height)
+            width: Math.min(engine.screenWidth(), engine.screenHeight())
             height: implicitHeight
             anchors.left: parent.left
             anchors.right: parent.right
+            spacing: engine.mm(4)
 
             GroupBox {
                 id: powerOptions
                 title: "Power"
                 Layout.fillWidth: true
-                style: groupBoxStyle
+                style: SettingsGroupBoxStyle {}
                 implicitWidth: 0
+                height: implicitHeight
 
                 RowLayout {
-                    id: powerButtonRow
-
                     anchors.fill: parent
 
                     Button {
-                        style: buttonStyle
+                        style: SettingsButtonStyle {}
                         text: "Shut Down"
                         Layout.fillWidth: true
                         action: poweroffActionLoader.item;
                         enabled: action != undefined
-
                     }
 
                     Button {
-                        style: buttonStyle
+                        style: SettingsButtonStyle {}
                         text: "Reboot"
                         Layout.fillWidth: true
                         action: rebootActionLoader.item;
                         enabled: action != undefined
                     }
                 }
-
             }
 
             GroupBox {
                 id: displayOptions
                 title: "Display"
-                style: groupBoxStyle
+                style: SettingsGroupBoxStyle {}
                 Layout.fillWidth: true
                 implicitWidth: 0
+                height: implicitHeight
 
                 GridLayout {
-                    id: displayGrid
-
                     rows: 2
                     flow: GridLayout.TopToBottom
                     anchors.fill: parent
 
-                    Label { text: "Brightness: "; font.pixelSize: 18; color: "white" }
-                    Label { text: "Display FPS: "; font.pixelSize: 18; color: "white" }
+                    Label {
+                        text: "Brightness: "
+                        font.pixelSize: engine.smallFontSize() * 0.8
+                        color: "white"
+                    }
+
+                    Label {
+                        text: "Display FPS: "
+                        font.pixelSize: engine.smallFontSize() * 0.8
+                        color: "white"
+                    }
 
                     Slider {
                         maximumValue: 255
@@ -254,9 +137,20 @@ Rectangle {
                                 brightnessControllerLoader.item.setBrightness(value);
                             }
                         }
+                        style: SliderStyle {
+                            handle: Rectangle {
+                                anchors.centerIn: parent
+                                color: "white"
+                                border.color: "gray"
+                                border.width: 2
+                                width: engine.mm(6)
+                                height: engine.mm(6)
+                                radius: 20
+                            }
+                        }
                     }
                     CheckBox {
-                        style: checkboxStyle
+                        style: SettingsCheckBoxStyle {}
                         checked: engine.fpsEnabled
                         onCheckedChanged: engine.fpsEnabled = checked
                     }
@@ -266,27 +160,26 @@ Rectangle {
             GroupBox {
                 id: vkbOptions
                 title: "Virtual Keyboard Style"
-                style: groupBoxStyle
+                style: SettingsGroupBoxStyle {}
                 Layout.fillWidth: true
-                implicitWidth: 0
 
                 function updateVKBStyle(styleRadioButton) {
                     VirtualKeyboardSettings.styleName = styleRadioButton.text.toLowerCase()
                 }
 
                 Row {
-                    spacing: 30
+                    spacing: engine.mm(6)
                     ExclusiveGroup { id: vkbStyleGroup }
                     RadioButton {
                         id: defaultStyle
-                        style: radioButtonStyle
+                        style: SettingsRadioButtonStyle {}
                         text: "Default"
                         exclusiveGroup: vkbStyleGroup
                         onClicked: vkbOptions.updateVKBStyle(defaultStyle)
                     }
                     RadioButton {
                         id: retroStyle
-                        style: radioButtonStyle
+                        style: SettingsRadioButtonStyle {}
                         text: "Retro"
                         exclusiveGroup: vkbStyleGroup
                         onClicked: vkbOptions.updateVKBStyle(retroStyle)
@@ -304,41 +197,48 @@ Rectangle {
             GroupBox {
                 id: networkOptions
                 title: "Network"
-                style: groupBoxStyle
+                style: SettingsGroupBoxStyle {}
                 Layout.fillWidth: true
                 implicitWidth: 0
+                height: implicitHeight
 
                 GridLayout {
-                    id: networkGrid
-
                     rows: 2
                     columns: 3
                     flow: GridLayout.TopToBottom
                     anchors.fill: parent
 
-                    Label { text: "Hostname: "; font.pixelSize: 18; color: "white" }
-                    Label { text: "IP address: "; font.pixelSize: 18; color: "white"}
+                    Label {
+                        text: "Hostname: "
+                        font.pixelSize: engine.smallFontSize() * 0.8
+                        color: "white"
+                    }
+
+                    Label {
+                        text: "IP address: "
+                        font.pixelSize: engine.smallFontSize() * 0.8
+                        color: "white"
+                    }
 
                     TextField {
                         id: hostname
-                        implicitHeight: hostnameButton.height - 8
                         text: if (networkControllerLoader.item != undefined) { networkControllerLoader.item.getHostname(); }
-                        font.pixelSize: 18
+                        font.pixelSize: engine.smallFontSize()
                         Layout.fillWidth: true
+                        Layout.preferredHeight: font.pixelSize * 2.4
                     }
 
                     Label {
                         text: if (networkControllerLoader.item != undefined) { networkControllerLoader.item.getIPAddress(); }
-                        font.pixelSize: 18
+                        font.pixelSize: engine.smallFontSize()
                         color: "white"
                         Layout.columnSpan: 2
                     }
 
                     Button {
                         id: hostnameButton
-                        style: buttonStyle
+                        style: SettingsButtonStyle {}
                         text: "Change hostname"
-                        implicitWidth: 260
                         onClicked: networkControllerLoader.item.setHostname(hostname.text);
                         enabled: networkControllerLoader.item != undefined
                     }
@@ -349,15 +249,23 @@ Rectangle {
             GroupBox {
                 id: wifiOptions
                 title: "Wifi"
-                style: groupBoxStyle
+                style: SettingsGroupBoxStyle {}
                 Layout.fillWidth: true
-            }
+                visible: false
 
-            Component.onCompleted: {
-                if (wifiControllerLoader.item != undefined)
-                    wifiControllerLoader.item.createWifiGroupBox()
-                else
-                    wifiOptions.visible = false
+                function createWifiGroupBox()
+                {
+                    if (Wifi.Interface.wifiSupported()) {
+                        var component = Qt.createComponent("WifiGroupBox.qml")
+                        var wifi = component.createObject(wifiOptions.contentItem)
+                        if (wifi)
+                            wifiOptions.visible = true
+                        else
+                            print("Error creating WifiGroupBox")
+                    }
+                }
+
+                Component.onCompleted: wifiOptions.createWifiGroupBox()
             }
         }
     }

@@ -16,7 +16,7 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
-import QtQuick.Enterprise.VirtualKeyboard 1.1
+import QtQuick.Enterprise.VirtualKeyboard 1.2
 
 Item {
     id: root
@@ -26,7 +26,6 @@ Item {
         anchors.top: parent.top
         anchors.right: parent.right
         anchors.bottom: inputPanel.top
-
         source: "main.qml"
     }
 

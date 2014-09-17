@@ -40,56 +40,29 @@
 ****************************************************************************/
 import QtQuick 2.2
 import QtQuick.Controls 1.2
-import QtQuick.Layouts 1.0
-import Qt.labs.wifi 0.1
+import QtQuick.Controls.Styles 1.2
 
-ColumnLayout {
+ButtonStyle {
+    panel: Item {
+        implicitHeight: engine.smallFontSize() * 2.4
+        implicitWidth: engine.centimeter() * 5
 
-    anchors.fill:parent
-
-    WifiManager {
-        id: wifiManager
-        scanning: backendReady
-    }
-
-    ColumnLayout {
-        anchors.fill: parent
-
-        RowLayout {
-
-            Button {
-                id: wifiOnOffButton
-                Layout.fillWidth: true
-                style: SettingsButtonStyle {}
-                text: (wifiManager.backendReady) ? "Switch Off" : "Switch On"
-                onClicked: {
-                    if (wifiManager.backendReady) {
-                        if (networkList.visible)
-                            networkList.visible = false
-                        wifiManager.stop()
-                    } else {
-                        wifiManager.start()
-                    }
-                }
+        BorderImage {
+            anchors.fill: parent
+            antialiasing: true
+            border.bottom: 8
+            border.top: 8
+            border.left: 8
+            border.right: 8
+            anchors.margins: control.pressed ? -4 : 0
+            source: control.pressed ? "images/button_pressed.png" : "images/button_default.png"
+            Text {
+                text: control.text
+                anchors.centerIn: parent
+                color: "white"
+                font.pixelSize: engine.smallFontSize()
+                renderType: Text.NativeRendering
             }
-
-            Button {
-                id: listNetworksButton
-                Layout.fillWidth: true
-                style: SettingsButtonStyle {}
-                visible: wifiManager.backendReady
-                text: (networkList.visible) ? "Hide wifi networks"
-                                            : "List available wifi networks"
-                onClicked: networkList.visible = !networkList.visible
-            }
-        }
-
-        WifiNetworkList {
-            id: networkList
-            implicitHeight: engine.centimeter(7)
-            Layout.fillWidth: true
-            visible: false
-            clip: true
         }
     }
 }

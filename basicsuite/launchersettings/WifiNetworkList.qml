@@ -38,7 +38,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
+import QtQuick 2.2
 import QtQuick.Controls 1.2
 import Qt.labs.wifi 0.1
 
@@ -46,11 +46,13 @@ Item {
     Component {
         id: listDelegate
         Rectangle {
-            id: delegateBackground
             property bool expanded: false
             property bool connected: wifiManager.connectedSSID == network.ssid
             property bool actingNetwork: networkView.currentNetworkSsid == network.ssid
-            height: (expanded ? (connected ? 180: 260) : 70)
+            property int notExpandedHeight: ssidLabel.height + bssidLabel.height + engine.mm(4)
+            property int expandedHeight: notExpandedHeight + passwordInput.height + connectionButton.height + engine.mm(7)
+            property int connectedExpandedHeight: notExpandedHeight + connectionButton.height + engine.mm(4)
+            height: (expanded ? (connected ? connectedExpandedHeight : expandedHeight) : notExpandedHeight)
             width: parent.width
             clip: true // ### fixme
             color: "#5C5C5C"
@@ -76,8 +78,9 @@ Item {
                 id: ssidLabel
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.margins: 10
-                font.pixelSize: 20
+                anchors.margins: engine.mm(1)
+                anchors.leftMargin: engine.mm(2)
+                font.pixelSize: engine.smallFontSize()
                 font.bold: true
                 color: "#E6E6E6"
                 text: network.ssid + (actingNetwork ? networkView.networkStateText : "");
@@ -87,41 +90,43 @@ Item {
                 id: bssidLabel
                 anchors.top: ssidLabel.bottom
                 anchors.left: parent.left
-                anchors.margins: 5
-                anchors.leftMargin: 40
+                anchors.margins: engine.mm(1)
+                anchors.leftMargin: engine.mm(6)
                 text: network.bssid
                 color: "#E6E6E6"
-                font.pixelSize: ssidLabel.font.pixelSize * 0.5
+                font.pixelSize: ssidLabel.font.pixelSize * 0.8
             }
 
             Text {
                 id: flagsLabel
-                x: 200
                 anchors.top: bssidLabel.top
+                anchors.left: bssidLabel.right
+                anchors.leftMargin: engine.mm(7)
                 text: (network.supportsWPA2 ? "WPA2 " : "")
                       + (network.supportsWPA ? "WPA " : "")
                       + (network.supportsWEP ? "WEP " : "")
                       + (network.supportsWPS ? "WPS " : "");
                 color: "#E6E6E6"
-                font.pixelSize: ssidLabel.font.pixelSize * 0.5
+                font.pixelSize: ssidLabel.font.pixelSize * 0.8
                 font.italic: true
             }
 
             Rectangle {
                 id: signalStrengthBar
-                height: 20
-                radius: 10
+                height: engine.mm(3)
+                radius: 20
                 antialiasing: true
-                anchors.margins: 20
+                anchors.margins: engine.mm(2)
                 anchors.right: parent.right
                 anchors.top: parent.top
                 color: "#BF8888"
                 border.color: "#212126"
-
+                // ### TODO - Qt Wifi library should provide alternative methods
+                // of describing signal strength besides dBm.
                 property int strengthBarWidth: Math.max(100 + network.signalStrength, 0) / 100 * parent.width
                 onStrengthBarWidthChanged: {
-                    if (strengthBarWidth > parent.width * 0.7)
-                        signalStrengthBar.width = parent.width * 0.7
+                    if (strengthBarWidth > parent.width * 0.55)
+                        signalStrengthBar.width = parent.width * 0.55
                     else
                         signalStrengthBar.width = strengthBarWidth
                 }
@@ -135,19 +140,24 @@ Item {
 
             TextField {
                 id: passwordInput
-                y: 100
-                height: 50
-                width: 300
+                anchors.top: flagsLabel.bottom
+                anchors.topMargin: engine.mm(3)
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width * 0.36
+                height: font.pixelSize * 2.4
                 placeholderText: "Enter Password"
                 visible: !connected
-                anchors.horizontalCenter: parent.horizontalCenter
-                font.pixelSize: 18
+                font.pixelSize: engine.smallFontSize() * 0.8
+                echoMode: TextInput.Password
                 inputMethodHints: Qt.ImhNoPredictiveText
             }
 
             Button {
-                style: root.buttonStyle
-                y: passwordInput.visible ? passwordInput.y + passwordInput.height + 20 : passwordInput.y
+                id: connectionButton
+                style: SettingsButtonStyle {}
+                y: connected ? passwordInput.y
+                             : passwordInput.y + passwordInput.height + engine.mm(2)
+                width: passwordInput.width
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: connected ? "Disconnect" : "Connect"
                 onClicked: connected ? wifiManager.disconnect()

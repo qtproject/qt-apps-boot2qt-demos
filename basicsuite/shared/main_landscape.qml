@@ -18,9 +18,8 @@
 import QtQuick 2.0
 
 Item {
-    width: 800
-    height: 1280
-
+    width: engine.screenWidth()
+    height: engine.screenHeight()
     SharedMain {
         anchors.centerIn: parent
         width: parent.height

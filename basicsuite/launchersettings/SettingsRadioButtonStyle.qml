@@ -40,56 +40,27 @@
 ****************************************************************************/
 import QtQuick 2.2
 import QtQuick.Controls 1.2
-import QtQuick.Layouts 1.0
-import Qt.labs.wifi 0.1
+import QtQuick.Controls.Styles 1.2
 
-ColumnLayout {
-
-    anchors.fill:parent
-
-    WifiManager {
-        id: wifiManager
-        scanning: backendReady
+RadioButtonStyle {
+    indicator: Rectangle {
+        implicitWidth: engine.mm(7)
+        implicitHeight: engine.mm(7)
+        radius: 40
+        border.color: "black"
+        border.width: 2
+        Rectangle {
+            anchors.fill: parent
+            visible: control.checked
+            color: "#45b7e2"
+            border.color: "darkblue"
+            radius: 40
+            anchors.margins: engine.mm(1)
+        }
     }
-
-    ColumnLayout {
-        anchors.fill: parent
-
-        RowLayout {
-
-            Button {
-                id: wifiOnOffButton
-                Layout.fillWidth: true
-                style: SettingsButtonStyle {}
-                text: (wifiManager.backendReady) ? "Switch Off" : "Switch On"
-                onClicked: {
-                    if (wifiManager.backendReady) {
-                        if (networkList.visible)
-                            networkList.visible = false
-                        wifiManager.stop()
-                    } else {
-                        wifiManager.start()
-                    }
-                }
-            }
-
-            Button {
-                id: listNetworksButton
-                Layout.fillWidth: true
-                style: SettingsButtonStyle {}
-                visible: wifiManager.backendReady
-                text: (networkList.visible) ? "Hide wifi networks"
-                                            : "List available wifi networks"
-                onClicked: networkList.visible = !networkList.visible
-            }
-        }
-
-        WifiNetworkList {
-            id: networkList
-            implicitHeight: engine.centimeter(7)
-            Layout.fillWidth: true
-            visible: false
-            clip: true
-        }
+    label: Label {
+        text: control.text
+        font.pixelSize: engine.smallFontSize() * 0.8
+        color: "white"
     }
 }
