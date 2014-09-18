@@ -30,7 +30,7 @@ Face.prototype.init = function(cube, type) {
     this._color = null;
     this._node = OZ.DOM.elm("div", {className:"face face"+type, width:Face.SIZE+"px", height:Face.SIZE+"px", position:"absolute", left:"0px", top:"0px"});
     OZ.CSS3.set(this._node, "box-sizing", "border-box");
-//	OZ.CSS3.set(this._node, "backface-visibility", "hidden");
+    OZ.CSS3.set(this._node, "backface-visibility", "hidden");
 
     switch (type) {
         case Face.LEFT:
@@ -126,8 +126,8 @@ Cube.prototype.prepareColorChange = function(sourceCube, rotation) {
 }
 
 Cube.prototype.commitColorChange = function() {
-//	var parent = this._node.parentNode;
-//	parent.removeChild(this._node);
+    var parent = this._node.parentNode;
+    parent.removeChild(this._node);
 
     OZ.DOM.clear(this._node);
     this._faces = {};
@@ -139,7 +139,7 @@ Cube.prototype.commitColorChange = function() {
 
     this._rotation = null;
     this._update();
-//	parent.appendChild(this._node);
+    parent.appendChild(this._node);
 }
 
 Cube.prototype._rotateType = function(type, rotation) {
