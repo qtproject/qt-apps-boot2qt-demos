@@ -7,10 +7,10 @@ graphical capabilities.
  Requirements:
 
  - Qt 5, including QtDeclarative, QtGraphicalEffects and QtMultimedia.
-   Commercial URL: http://qt.digia.com 
+   Commercial URL: http://www.qt.io
    Open Source URL: http://qt-project.org
 
- - The QML Presentation System: 
+ - The QML Presentation System:
    URL: https://qt.gitorious.org/qt-labs/qml-presentation-system
    git: git clone https://git.gitorious.org/qt-labs/qml-presentation-system.git
 
@@ -23,7 +23,7 @@ graphical capabilities.
 ------------------------------------------------------------------------
  Running:
 
-To run the demo, start it using the Qt Quick 2.0 'qmlscene' tool. 
+To run the demo, start it using the Qt Quick 2.0 'qmlscene' tool.
 
 > qmlscene main.qml
 
@@ -47,5 +47,5 @@ must be added to the QML import path and the path to QtWebProcess must be
 added to PATH for the demo to run.
 
 The slides have been written for the resolution 1280x720. When resized
-some of the spacing and content will look a bit odd. Any patches to 
+some of the spacing and content will look a bit odd. Any patches to
 fix this will be welcomed :)
