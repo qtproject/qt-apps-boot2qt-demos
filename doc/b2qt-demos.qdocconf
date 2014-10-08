@@ -6,7 +6,7 @@ sourceencoding               = UTF-8
 
 project                      = QtEnterpriseEmbeddedDemos
 description                  = Qt Enterprise Embedded Examples and Demos
-version                      = 3.1.1
+version                      = 3.2.0
 
 sourcedirs                   = .
 imagedirs                   += images
@@ -21,7 +21,7 @@ exampledirs                  = ../basicsuite
 qhp.projects                 = QtEnterpriseEmbeddedDemos
 
 qhp.QtEnterpriseEmbeddedDemos.file                = b2qt-demos.qhp
-qhp.QtEnterpriseEmbeddedDemos.namespace           = com.digia.b2qt-demos.311
+qhp.QtEnterpriseEmbeddedDemos.namespace           = com.digia.b2qt-demos.320
 qhp.QtEnterpriseEmbeddedDemos.virtualFolder       = b2qt-demos
 qhp.QtEnterpriseEmbeddedDemos.indexTitle          = Qt Enterprise Embedded Examples and Demos
 qhp.QtEnterpriseEmbeddedDemos.indexRoot           =
