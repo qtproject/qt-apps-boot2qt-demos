@@ -4,7 +4,8 @@ include(../shared/shared.pri)
 b2qtdemo_deploy_defaults()
 
 content.files = \
-    qml/*.qml \
+    *.qml \
+    qml \
     fonts \
     images
 content.path = $$DESTPATH
