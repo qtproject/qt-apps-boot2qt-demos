@@ -255,9 +255,6 @@ Item {
         source: ShaderEffectSource { sourceItem: viewItem; hideSource: true }
         rightHeight: 0
         leftHeight: rightHeight
-        Behavior on leftHeight {
-            SpringAnimation { spring: .4; damping: .05; mass: .5 }
-        }
         // Hide smoothly when curtain closes
         opacity: 0.004 * rightHeight
     }
