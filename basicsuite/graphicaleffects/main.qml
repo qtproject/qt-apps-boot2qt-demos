@@ -178,6 +178,15 @@ Item {
 
             ctx.stroke();
         }
+
+        Rectangle {
+            color: "red"
+            width: parent.width / 20
+            height: width
+            radius: width / 2
+            x: canvas.padding + loader.item.inputX * (parent.width - 2*canvas.padding) - width/2
+            y: canvas.padding + (1-loader.item.inputY) * (parent.height - 2*canvas.padding) - width/2
+        }
     }
 
     Text {
