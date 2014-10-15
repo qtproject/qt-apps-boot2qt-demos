@@ -2,7 +2,7 @@
 **
 ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: For any questions to Digia, please use the contact form at
-** http://qt.digia.com/
+** http://www.qt.io
 **
 ** This file is part of the examples of the Qt Enterprise Embedded.
 **
@@ -38,10 +38,9 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
-import QtQuick.Controls 1.0
+import QtQuick 2.2
+import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.0
-
 import Qt.labs.wifi 0.1
 
 ColumnLayout {
@@ -61,7 +60,7 @@ ColumnLayout {
             Button {
                 id: wifiOnOffButton
                 Layout.fillWidth: true
-                style: root.buttonStyle
+                style: SettingsButtonStyle {}
                 text: (wifiManager.backendReady) ? "Switch Off" : "Switch On"
                 onClicked: {
                     if (wifiManager.backendReady) {
@@ -77,7 +76,7 @@ ColumnLayout {
             Button {
                 id: listNetworksButton
                 Layout.fillWidth: true
-                style: root.buttonStyle
+                style: SettingsButtonStyle {}
                 visible: wifiManager.backendReady
                 text: (networkList.visible) ? "Hide wifi networks"
                                             : "List available wifi networks"
@@ -85,9 +84,9 @@ ColumnLayout {
             }
         }
 
-        NetworkList {
+        WifiNetworkList {
             id: networkList
-            implicitHeight: 400
+            implicitHeight: engine.centimeter(7)
             Layout.fillWidth: true
             visible: false
             clip: true

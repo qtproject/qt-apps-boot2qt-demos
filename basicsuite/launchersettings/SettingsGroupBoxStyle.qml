@@ -38,48 +38,44 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
+import QtQuick 2.2
+import QtQuick.Controls 1.2
+import QtQuick.Controls.Styles 1.2
+import QtQuick.Controls.Private 1.0
 
-Rectangle {
-    id: root
-    anchors.fill: parent
-    color: "black"
-    opacity: 0
-    enabled: opacity !== 0
+// GroupBoxStyle currently is not available as a public API,
+// so we write our own by importing private Styles API.
+Style {
+    // The margin from the content item to the groupbox
+    padding {
+        top: (control.title.length > 0 ? TextSingleton.implicitHeight : 0) + 30
+        left: 8
+        right: 8
+        bottom: 8
+    }
+    // The groupbox frame
+    property Component panel: Item {
+        anchors.fill: parent
 
-    property string previewSrc: ""
-
-    onOpacityChanged: {
-        if (opacity === 1 && previewSrc !== "") {
-            previewImage.source = previewSrc;
-            previewSrc = "";
+        Text {
+            id: label
+            anchors.bottom: borderImage.top
+            anchors.margins: 2
+            text: control.title
+            font.pixelSize: engine.smallFontSize() * 1.1
+            color: "white"
+            renderType: Text.NativeRendering
         }
-    }
 
-    Behavior on opacity { NumberAnimation { duration: 100 } }
-
-    function show() {
-        previewImage.source = "";
-        opacity = 1;
-    }
-
-    function setPreview(preview) {
-        if (root.opacity === 1)
-            previewImage.source = preview;
-        else
-            root.previewSrc = preview;
-    }
-
-    Image {
-        id: previewImage
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectFit
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            root.opacity = 0;
+        BorderImage {
+            id: borderImage
+            anchors.fill: parent
+            anchors.topMargin: padding.top - 7
+            source: "images/groupbox.png"
+            border.left: 4
+            border.right: 4
+            border.top: 4
+            border.bottom: 4
         }
     }
 }

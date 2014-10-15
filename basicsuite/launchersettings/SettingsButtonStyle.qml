@@ -38,48 +38,31 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
+import QtQuick 2.2
+import QtQuick.Controls 1.2
+import QtQuick.Controls.Styles 1.2
 
-Rectangle {
-    id: root
-    anchors.fill: parent
-    color: "black"
-    opacity: 0
-    enabled: opacity !== 0
+ButtonStyle {
+    panel: Item {
+        implicitHeight: engine.smallFontSize() * 2.4
+        implicitWidth: engine.centimeter() * 5
 
-    property string previewSrc: ""
-
-    onOpacityChanged: {
-        if (opacity === 1 && previewSrc !== "") {
-            previewImage.source = previewSrc;
-            previewSrc = "";
-        }
-    }
-
-    Behavior on opacity { NumberAnimation { duration: 100 } }
-
-    function show() {
-        previewImage.source = "";
-        opacity = 1;
-    }
-
-    function setPreview(preview) {
-        if (root.opacity === 1)
-            previewImage.source = preview;
-        else
-            root.previewSrc = preview;
-    }
-
-    Image {
-        id: previewImage
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectFit
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            root.opacity = 0;
+        BorderImage {
+            anchors.fill: parent
+            antialiasing: true
+            border.bottom: 8
+            border.top: 8
+            border.left: 8
+            border.right: 8
+            anchors.margins: control.pressed ? -4 : 0
+            source: control.pressed ? "images/button_pressed.png" : "images/button_default.png"
+            Text {
+                text: control.text
+                anchors.centerIn: parent
+                color: "white"
+                font.pixelSize: engine.smallFontSize()
+                renderType: Text.NativeRendering
+            }
         }
     }
 }

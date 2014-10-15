@@ -2,7 +2,7 @@
 **
 ** Copyright (C) 2014 Digia Plc
 ** All rights reserved.
-** For any questions to Digia, please use contact form at http://qt.digia.com
+** For any questions to Digia, please use contact form at http://www.qt.io
 **
 ** This file is part of Qt Enterprise Embedded.
 **
@@ -12,15 +12,14 @@
 ** a written agreement between you and Digia.
 **
 ** If you have questions regarding the use of this file, please use
-** contact form at http://qt.digia.com
+** contact form at http://www.qt.io
 **
 ****************************************************************************/
 import QtQuick 2.0
 
 Item {
-    width: 800
-    height: 1280
-
+    width: engine.screenWidth()
+    height: engine.screenHeight()
     SharedMain {
         anchors.centerIn: parent
         width: parent.height

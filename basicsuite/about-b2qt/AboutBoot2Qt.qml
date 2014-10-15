@@ -2,7 +2,7 @@
 **
 ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: For any questions to Digia, please use the contact form at
-** http://qt.digia.com/
+** http://www.qt.io
 **
 ** This file is part of the examples of the Qt Enterprise Embedded.
 **
@@ -271,7 +271,7 @@ Column {
                 for common developer boards from</p>'
     }
     HighlightText {
-        text: "http://qt.digia.com/QtEnterpriseEmbedded"
+        text: "http://www.qt.io"
         color: qtpurple
         font.bold: true
         horizontalAlignment: Text.AlignHCenter

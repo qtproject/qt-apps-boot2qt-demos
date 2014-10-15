@@ -5,6 +5,7 @@ b2qtdemo_deploy_defaults()
 
 content.files = \
     *.qml \
+    qml \
     fonts \
     images
 content.path = $$DESTPATH
