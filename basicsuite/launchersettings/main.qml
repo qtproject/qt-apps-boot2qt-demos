@@ -43,7 +43,7 @@ import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Enterprise.VirtualKeyboard.Settings 1.2
-import Qt.labs.wifi 0.1 as Wifi
+import B2Qt.Wifi 1.0
 import B2Qt.Utils 1.0
 
 Rectangle {
@@ -259,7 +259,7 @@ Rectangle {
 
                 function createWifiGroupBox()
                 {
-                    if (Wifi.Interface.wifiSupported()) {
+                    if (WifiDevice.wifiSupported()) {
                         var component = Qt.createComponent("WifiGroupBox.qml")
                         var wifi = component.createObject(wifiOptions.contentItem)
                         if (wifi)

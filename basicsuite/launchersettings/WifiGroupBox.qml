@@ -41,55 +41,69 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.0
-import Qt.labs.wifi 0.1
+import B2Qt.Wifi 1.0
 
 ColumnLayout {
+    anchors.fill: parent
 
-    anchors.fill:parent
-
-    WifiManager {
-        id: wifiManager
-        scanning: backendReady
+    Binding {
+        target: WifiManager
+        property: "scanning"
+        value: networkList.visible
     }
 
-    ColumnLayout {
-        anchors.fill: parent
+    RowLayout {
 
-        RowLayout {
-
-            Button {
-                id: wifiOnOffButton
-                Layout.fillWidth: true
-                style: SettingsButtonStyle {}
-                text: (wifiManager.backendReady) ? "Switch Off" : "Switch On"
-                onClicked: {
-                    if (wifiManager.backendReady) {
-                        if (networkList.visible)
-                            networkList.visible = false
-                        wifiManager.stop()
-                    } else {
-                        wifiManager.start()
-                    }
+        Button {
+            id: wifiOnOffButton
+            Layout.fillWidth: true
+            style: SettingsButtonStyle {}
+            onClicked: {
+                if (WifiManager.backendState === WifiManager.Running) {
+                    if (networkList.visible)
+                        networkList.visible = false
+                    WifiManager.stop()
+                } else if (WifiManager.backendState === WifiManager.NotRunning) {
+                    WifiManager.start()
                 }
             }
 
-            Button {
-                id: listNetworksButton
-                Layout.fillWidth: true
-                style: SettingsButtonStyle {}
-                visible: wifiManager.backendReady
-                text: (networkList.visible) ? "Hide wifi networks"
-                                            : "List available wifi networks"
-                onClicked: networkList.visible = !networkList.visible
+            function updateButtonText(backendState)
+            {
+                if (backendState === WifiManager.Initializing)
+                    wifiOnOffButton.text = "Initializing..."
+                if (backendState === WifiManager.Terminating)
+                    wifiOnOffButton.text = "Terminating..."
+                if (backendState === WifiManager.NotRunning)
+                    wifiOnOffButton.text = "Switch On"
+                if (backendState === WifiManager.Running)
+                    wifiOnOffButton.text = "Switch Off"
+            }
+
+            Component.onCompleted: updateButtonText(WifiManager.backendState)
+            Connections {
+                target: WifiManager
+                onBackendStateChanged: wifiOnOffButton.updateButtonText(backendState)
             }
         }
 
-        WifiNetworkList {
-            id: networkList
-            implicitHeight: engine.centimeter(7)
+        Button {
+            id: listNetworksButton
             Layout.fillWidth: true
-            visible: false
-            clip: true
+            style: SettingsButtonStyle {}
+            visible: WifiManager.backendState === WifiManager.Running
+            text: networkList.visible ? "Hide wifi networks"
+                                      : "List available wifi networks"
+            onClicked: networkList.visible = !networkList.visible
         }
     }
+
+    WifiNetworkList {
+        id: networkList
+        implicitHeight: engine.centimeter(7)
+        Layout.fillWidth: true
+        visible: false
+        clip: true
+    }
 }
+
