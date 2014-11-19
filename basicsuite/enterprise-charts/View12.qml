@@ -2,66 +2,73 @@
 **
 ** Copyright (C) 2014 Digia Plc
 ** All rights reserved.
-** For any questions to Digia, please use contact form at http://www.qt.io
+** For any questions to Digia, please use contact form at http://qt.io
 **
-** This file is part of the Qt Enterprise Charts Add-on.
+** This file is part of the Qt Charts module.
 **
-** $QT_BEGIN_LICENSE$
-** Licensees holding valid Qt Enterprise licenses may use this file in
-** accordance with the Qt Enterprise License Agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and Digia.
+** Licensees holding valid commercial license for Qt may use this file in
+** accordance with the Qt License Agreement provided with the Software
+** or, alternatively, in accordance with the terms contained in a written
+** agreement between you and Digia.
 **
 ** If you have questions regarding the use of this file, please use
-** contact form at http://www.qt.io
-** $QT_END_LICENSE$
+** contact form at http://qt.io
 **
 ****************************************************************************/
 
 import QtQuick 2.0
-import QtCommercial.Chart 1.3
+import QtCharts 2.0
 
 Rectangle {
     anchors.fill: parent
+
     //![1]
-    PolarChartView {
-        title: "Two Series, Common Axes"
+    ChartView {
+        id: chart
+        title: "Production costs"
         anchors.fill: parent
         legend.visible: false
+        antialiasing: true
 
-        ValueAxis {
-            id: axisAngular
-            min: 0
-            max: 20
-            tickCount: 9
+        PieSeries {
+            id: pieOuter
+            size: 0.96
+            holeSize: 0.7
+            PieSlice { id: slice; label: "Alpha"; value: 19511; color: "#8AB846"; borderColor: "#163430" }
+            PieSlice { label: "Epsilon"; value: 11105; color: "#C0EEFF"; borderColor: "#3B391C" }
+            PieSlice { label: "Psi"; value: 9352; color: "#DF8939"; borderColor: "#13060C" }
         }
 
-        ValueAxis {
-            id: axisRadial
-            min: -0.5
-            max: 1.5
-        }
+        PieSeries {
+            size: 0.7
+            id: pieInner
+            holeSize: 0.25
 
-        SplineSeries {
-            id: series1
-            axisAngular: axisAngular
-            axisRadial: axisRadial
-            pointsVisible: true
-        }
+            PieSlice { label: "Materials"; value: 10334; color: "#8AB846"; borderColor: "#163430" }
+            PieSlice { label: "Employee"; value: 3066; color: "#AAE356"; borderColor: "#163430" }
+            PieSlice { label: "Logistics"; value: 6111; color: "#99CC4E"; borderColor: "#163430" }
 
-        ScatterSeries {
-            id: series2
-            axisAngular: axisAngular
-            axisRadial: axisRadial
-            markerSize: 10
+            PieSlice { label: "Materials"; value: 7371; color: "#C0EEFF"; borderColor: "#3B391C" }
+            PieSlice { label: "Employee"; value: 2443; color: "#C9FAFF"; borderColor: "#3B391C" }
+            PieSlice { label: "Logistics"; value: 1291; color: "#B0FAFF"; borderColor: "#3B391C" }
+
+            PieSlice { label: "Materials"; value: 4022; color: "#DF8939"; borderColor: "#13060C" }
+            PieSlice { label: "Employee"; value: 3998; color: "#FC9D42"; borderColor: "#13060C" }
+            PieSlice { label: "Logistics"; value: 1332; color: "#F2963F"; borderColor: "#13060C" }
         }
     }
 
-    // Add data dynamically to the series
     Component.onCompleted: {
-        for (var i = 0; i <= 20; i++) {
-            series1.append(i, Math.random());
-            series2.append(i, Math.random());
+        // Set the common slice properties dynamically for convenience
+        for (var i = 0; i < pieOuter.count; i++) {
+            pieOuter.at(i).labelPosition = PieSlice.LabelOutside;
+            pieOuter.at(i).labelVisible = true;
+            pieOuter.at(i).borderWidth = 3;
+        }
+        for (var i = 0; i < pieInner.count; i++) {
+            pieInner.at(i).labelPosition = PieSlice.LabelInsideNormal;
+            pieInner.at(i).labelVisible = true;
+            pieInner.at(i).borderWidth = 2;
         }
     }
     //![1]

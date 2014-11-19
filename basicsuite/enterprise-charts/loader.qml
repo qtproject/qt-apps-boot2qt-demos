@@ -30,7 +30,7 @@ Item {
             var o = co.createObject(container)
         } else {
             console.log(co.errorString())
-            console.log("QtCommercial.Chart 1.1 not available")
+            console.log("QtCharts 2.0 not available")
             console.log("Please use correct QML_IMPORT_PATH export")
          }
     }
