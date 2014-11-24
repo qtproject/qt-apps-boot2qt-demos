@@ -1,2 +1,3 @@
 linux-raspberrypi
 android-beaglebone
+linux-colibri-vf

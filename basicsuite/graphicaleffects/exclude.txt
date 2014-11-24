@@ -1,2 +1,3 @@
 linux-beaglebone
 android-beaglebone
+linux-colibri-vf

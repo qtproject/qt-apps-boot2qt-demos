@@ -7,3 +7,4 @@ linux-beaglebone
 linux-raspberrypi
 linux-emulator
 linux-apalis-imx6
+linux-colibri-vf

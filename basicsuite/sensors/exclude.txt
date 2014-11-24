@@ -7,3 +7,4 @@ linux-beaglebone
 linux-imx6qsabresd
 linux-apalis-imx6
 linux-tibidabo
+linux-colibri-vf
