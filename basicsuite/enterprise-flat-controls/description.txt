@@ -1,0 +1,1 @@
+The Flat Style Gallery example showcases the Qt Quick Controls. This demo combines both the standard Qt Quick Controls as well as the Qt Quick Enterprise Controls both of which are using the new Flat style. The Flat style for Qt Quick Controls has a modern look and feel and is perfect for the touch driven interfaces commonly developed by device creators.

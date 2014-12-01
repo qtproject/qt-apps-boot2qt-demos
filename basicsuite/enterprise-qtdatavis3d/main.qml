@@ -124,107 +124,102 @@ Item {
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         spacing: 0
-
-        GroupBox {
-            //title: "Layer Selection"
+        Column {
             Layout.fillWidth: true
-            flat: true
-            Column {
-                spacing: 5
-                ToggleButton {
-                    id: layerOneToggle
-                    text: "Ground\n Layer"
-                    checked: true
-                    width: toPixels(0.12)
-                    height: width
-                }
+            spacing: 5
+            ToggleButton {
+                id: layerOneToggle
+                text: "Ground\n Layer"
+                checked: true
+                width: toPixels(0.12)
+                height: width
+                style: ToggleButtonStyle { }
+            }
 
-                ToggleButton {
-                    id: layerTwoToggle
-                    text: "Sea\n Layer"
-                    checked: true
-                    width: toPixels(0.12)
-                    height: width
-                }
+            ToggleButton {
+                id: layerTwoToggle
+                text: "Sea\n Layer"
+                checked: true
+                width: toPixels(0.12)
+                height: width
+                style: ToggleButtonStyle { }
+            }
 
-                ToggleButton {
-                    id: layerThreeToggle
-                    text: "Tectonic\n Layer"
-                    checked: true
-                    width: toPixels(0.12)
-                    height: width
+            ToggleButton {
+                id: layerThreeToggle
+                text: "Tectonic\n Layer"
+                checked: true
+                width: toPixels(0.12)
+                height: width
+                style: ToggleButtonStyle { }
+            }
+        }
+
+        Column {
+            Layout.fillWidth: true
+            spacing: 5
+            ToggleButton {
+                id: layerOneGrid
+                text: "Ground\n as\n Grid"
+                width: toPixels(0.12)
+                height: width
+                style: ToggleButtonStyle { }
+                onCheckedChanged: {
+                    if (checked)
+                        layerOneSeries.drawMode = Surface3DSeries.DrawWireframe
+                    else
+                        layerOneSeries.drawMode = Surface3DSeries.DrawSurface
+                }
+            }
+
+            ToggleButton {
+                id: layerTwoGrid
+                text: "Sea\n as\n Grid"
+                width: toPixels(0.12)
+                height: width
+                style: ToggleButtonStyle { }
+                onCheckedChanged: {
+                    if (checked)
+                        layerTwoSeries.drawMode = Surface3DSeries.DrawWireframe
+                    else
+                        layerTwoSeries.drawMode = Surface3DSeries.DrawSurface
+                }
+            }
+
+            ToggleButton {
+                id: layerThreeGrid
+                text: "Tectonic\n as\n Grid"
+                width: toPixels(0.12)
+                height: width
+                style: ToggleButtonStyle { }
+                onCheckedChanged: {
+                    if (checked)
+                        layerThreeSeries.drawMode = Surface3DSeries.DrawWireframe
+                    else
+                        layerThreeSeries.drawMode = Surface3DSeries.DrawSurface
                 }
             }
         }
 
-        GroupBox {
-            //title: "Layer Style"
+        Column {
             Layout.fillWidth: true
-            flat: true
-            Column {
-                spacing: 5
-                ToggleButton {
-                    id: layerOneGrid
-                    text: "Ground\n as\n Grid"
-                    width: toPixels(0.12)
-                    height: width
-                    onCheckedChanged: {
-                        if (checked)
-                            layerOneSeries.drawMode = Surface3DSeries.DrawWireframe
-                        else
-                            layerOneSeries.drawMode = Surface3DSeries.DrawSurface
-                    }
-                }
-
-                ToggleButton {
-                    id: layerTwoGrid
-                    text: "Sea\n as\n Grid"
-                    width: toPixels(0.12)
-                    height: width
-                    onCheckedChanged: {
-                        if (checked)
-                            layerTwoSeries.drawMode = Surface3DSeries.DrawWireframe
-                        else
-                            layerTwoSeries.drawMode = Surface3DSeries.DrawSurface
-                    }
-                }
-
-                ToggleButton {
-                    id: layerThreeGrid
-                    text: "Tectonic\n as\n Grid"
-                    width: toPixels(0.12)
-                    height: width
-                    onCheckedChanged: {
-                        if (checked)
-                            layerThreeSeries.drawMode = Surface3DSeries.DrawWireframe
-                        else
-                            layerThreeSeries.drawMode = Surface3DSeries.DrawSurface
-                    }
-                }
-            }
-        }
-
-        GroupBox {
-           Layout.fillWidth: true
-           flat: true
-            Column {
-                spacing: 5
-                ToggleButton {
-                    id: sliceButton
-                    text: "Slice\n All\n Layers"
-                    width: toPixels(0.12)
-                    height: width
-                    onClicked: {
-                        if (surfaceLayers.selectionMode & AbstractGraph3D.SelectionMultiSeries) {
-                            surfaceLayers.selectionMode = AbstractGraph3D.SelectionRow
-                                    | AbstractGraph3D.SelectionSlice
-                            text = "Slice\n All\n Layers"
-                        } else {
-                            surfaceLayers.selectionMode = AbstractGraph3D.SelectionRow
-                                    | AbstractGraph3D.SelectionSlice
-                                    | AbstractGraph3D.SelectionMultiSeries
-                            text = "Slice\n One\n Layer"
-                        }
+            spacing: 5
+            ToggleButton {
+                id: sliceButton
+                text: "Slice\n All\n Layers"
+                width: toPixels(0.12)
+                height: width
+                style: ToggleButtonStyle { }
+                onClicked: {
+                    if (surfaceLayers.selectionMode & AbstractGraph3D.SelectionMultiSeries) {
+                        surfaceLayers.selectionMode = AbstractGraph3D.SelectionRow
+                                | AbstractGraph3D.SelectionSlice
+                        text = "Slice\n All\n Layers"
+                    } else {
+                        surfaceLayers.selectionMode = AbstractGraph3D.SelectionRow
+                                | AbstractGraph3D.SelectionSlice
+                                | AbstractGraph3D.SelectionMultiSeries
+                        text = "Slice\n One\n Layer"
                     }
                 }
             }
