@@ -162,6 +162,7 @@ Item {
                                     text: modelData
                                     font.family: Flat.FlatStyle.fontFamily
                                     Layout.preferredWidth: fontMetrics.advanceWidth("Second")
+                                    renderType: Text.QtRendering
                                 }
                                 Switch { checked: index == 0 }
                             }
@@ -223,6 +224,7 @@ Item {
                                     Label {
                                         text: "Camera " + (index + 1)
                                         font.family: Flat.FlatStyle.fontFamily
+                                        renderType: Text.QtRendering
                                     }
                                 }
                             }

@@ -135,6 +135,7 @@ Rectangle {
                     font.family: Flat.FlatStyle.fontFamily
                     font.pixelSize: Math.round(16 * Flat.FlatStyle.scaleFactor)
                     color: "white"
+                    renderType: Text.QtRendering
                     anchors.left: parent.left
                     anchors.leftMargin: menuMargins
                     anchors.verticalCenter: parent.verticalCenter
@@ -170,6 +171,7 @@ Rectangle {
                         font.pixelSize: Math.round(15 * Flat.FlatStyle.scaleFactor)
                         font.family: Flat.FlatStyle.fontFamily
                         color: delegateItem.ListView.isCurrentItem ? Flat.FlatStyle.styleColor : Flat.FlatStyle.defaultColor
+                        renderType: Text.QtRendering
                         anchors.left: parent.left
                         anchors.leftMargin: menuMargins
                         anchors.verticalCenter: parent.verticalCenter
@@ -320,6 +322,7 @@ Rectangle {
                     font.family: Flat.FlatStyle.fontFamily
                     font.pixelSize: Math.round(16 * Flat.FlatStyle.scaleFactor)
                     color: "white"
+                    renderType: Text.QtRendering
                     anchors.left: parent.left
                     anchors.leftMargin: menuMargins
                     anchors.verticalCenter: parent.verticalCenter
@@ -394,6 +397,7 @@ Rectangle {
                         fontSizeMode: Text.Fit
                         verticalAlignment: Text.AlignVCenter
                         color: Flat.FlatStyle.defaultColor
+                        renderType: Text.QtRendering
                     }
 
                     CheckBox {
@@ -416,6 +420,7 @@ Rectangle {
                         font.pixelSize: Math.round(15 * Flat.FlatStyle.scaleFactor)
                         anchors.verticalCenter: parent.verticalCenter
                         color: Flat.FlatStyle.defaultColor
+                        renderType: Text.QtRendering
                     }
                 }
 
