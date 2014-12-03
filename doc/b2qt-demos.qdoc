@@ -209,6 +209,19 @@
 */
 
 /*!
+    \example enterprise-flat-controls
+    \title Enterprise Flat Controls
+    \ingroup b2qt-demos
+    \brief The Flat Style Gallery example showcases the Qt Quick Controls.
+
+    \image b2qt-demo-enterprise-flat-controls.jpg
+
+    This demo combines both the standard Quick Controls as well as the Qt Quick Enterprise Controls
+    both of which are using the new Flat style. The Flat style for Qt Quick Controls has a modern
+    look and feel and is perfect for the touch driven interfaces commonly developed by device creators.
+*/
+
+/*!
     \example launchersettings
     \title Launcher Settings
     \ingroup b2qt-demos
