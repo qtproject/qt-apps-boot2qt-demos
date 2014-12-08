@@ -4,8 +4,8 @@ naturallanguage              = en_US
 outputencoding               = UTF-8
 sourceencoding               = UTF-8
 
-project                      = QtEnterpriseEmbeddedDemos
-description                  = Qt Enterprise Embedded Examples and Demos
+project                      = QtforDeviceCreationDemos
+description                  = Qt 5.4 for Device Creation Examples and Demos
 version                      = 4.0.0
 
 sourcedirs                   = .
@@ -18,21 +18,21 @@ examples.imageextensions     = "*.png *.jpg *.gif"
 
 exampledirs                  = ../basicsuite
 
-qhp.projects                 = QtEnterpriseEmbeddedDemos
+qhp.projects                 = QtforDeviceCreationDemos
 
-qhp.QtEnterpriseEmbeddedDemos.file                = b2qt-demos.qhp
-qhp.QtEnterpriseEmbeddedDemos.namespace           = com.digia.b2qt-demos.400
-qhp.QtEnterpriseEmbeddedDemos.virtualFolder       = b2qt-demos
-qhp.QtEnterpriseEmbeddedDemos.indexTitle          = Qt Enterprise Embedded Examples and Demos
-qhp.QtEnterpriseEmbeddedDemos.indexRoot           =
+qhp.QtforDeviceCreationDemos.file                = b2qt-demos.qhp
+qhp.QtforDeviceCreationDemos.namespace           = com.digia.b2qt-demos.400
+qhp.QtforDeviceCreationDemos.virtualFolder       = b2qt-demos
+qhp.QtforDeviceCreationDemos.indexTitle          = Qt 5.4 for Device Creation Examples and Demos
+qhp.QtforDeviceCreationDemos.indexRoot           =
 
-qhp.QtEnterpriseEmbeddedDemos.subprojects         = demos
+qhp.QtforDeviceCreationDemos.subprojects         = demos
 
 manifestmeta.filters         = b2qt
 manifestmeta.b2qt.tags       = "b2qt,qtee"
-manifestmeta.b2qt.names      = "QtEnterpriseEmbeddedDemos/*"
+manifestmeta.b2qt.names      = "QtforDeviceCreationDemos/*"
 
 macro.B2Q                    = "Boot to Qt"
-macro.SDK                    = "Qt Enterprise Embedded"
+macro.SDK                    = "Qt for Device Creation"
 
-navigation.landingpage = "Qt Enterprise Embedded Examples and Demos"
+navigation.landingpage = "Qt 5.4 for Device Creation Examples and Demos"

@@ -1,1 +1,1 @@
-000. About Qt Enterprise Embedded
+000. About Qt for Device Creation

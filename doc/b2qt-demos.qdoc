@@ -18,9 +18,8 @@
 ****************************************************************************/
 
 /*!
-    \contentspage{b2qt-demos.html}{Qt Enterprise Embedded Examples and Demos}
-    \group b2qt-demos
-    \title Qt Enterprise Embedded Examples and Demos
+    \page index.html
+    \title Qt 5.4 for Device Creation Examples and Demos
 
     \SDK has a number of examples and demos. These are included in the
     \B2Q images, available in the launcher that is run by default at
@@ -28,17 +27,19 @@
 
     In Qt Creator, you can find and open them from \b Welcome > \b Examples
     by selecting a \c {Boot2Qt} version of Qt from the drop-down list.
+
+    \annotatedlist b2qt-demos
 */
 
 /*!
     \example about-b2qt
-    \title About Qt Enterprise Embedded
+    \title About Qt for Device Creation
     \ingroup b2qt-demos
-    \brief Displays information about Qt Enterprise Embedded.
+    \brief Displays information about Qt for Device Creation.
 
     \image b2qt-demo-about-b2qt.jpg
 
-    A demo that provides an introduction to what Qt Enterprise Embedded is all about.
+    A demo that provides an introduction to what Qt for Device Creation is all about.
 */
 
 /*!

@@ -1,1 +1,1 @@
-The "About Qt Enterprise Embedded" provides an introduction to what Qt Enterprise Embedded is all about.
+Provides an introduction to what Qt for Device Creation is all about.
