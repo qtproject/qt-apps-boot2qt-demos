@@ -1,0 +1,14 @@
+The demo builds libfreenect from a submodule and link to the static library version into a QtQuick plugin.
+
+To run the demo on desktop run:
+
+git submodule update --init
+qmake && make && ./runHere.sh
+
+To install on the device do (with the cross-compiled Qt's qmake):
+
+git submodule update --init
+~/Qt/Boot2Qt-4.x/imx6qsabresd-eLinux/qt5/bin/qmake && make && ./deploy.sh
+
+
+The deploy.sh script will also take care of installing the udev rule necessary to have access to the Kinect through USB.

@@ -1,0 +1,1 @@
+Show an example of external sensor data integration in a QtQuick user interface.
