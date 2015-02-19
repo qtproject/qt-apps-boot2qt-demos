@@ -103,26 +103,17 @@ Item {
                 font.italic: true
             }
 
-            Rectangle {
+            ProgressBar {
                 id: signalStrengthBar
                 height: engine.mm(3)
-                radius: 20
-                antialiasing: true
+                width: networkBox.width * 0.5
                 anchors.margins: engine.mm(2)
                 anchors.right: parent.right
                 anchors.top: parent.top
-                color: "#BF8888"
-                border.color: "#212126"
-                // ### TODO - Qt Wifi library should provide alternative methods
-                // of describing signal strength besides dBm.
-                property int strengthBarWidth: Math.max(100 + signalStrength, 0) / 100 * parent.width
-                onStrengthBarWidthChanged: {
-                    if (strengthBarWidth > parent.width * 0.55)
-                        signalStrengthBar.width = parent.width * 0.55
-                    else
-                        signalStrengthBar.width = strengthBarWidth
-                }
-
+                minimumValue: 0
+                maximumValue: 100
+                property int level: signalStrength
+                onLevelChanged: signalStrengthBar.value = level
             }
 
             MouseArea {
