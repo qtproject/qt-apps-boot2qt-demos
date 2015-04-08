@@ -1,1 +1,1 @@
-The dashboard demo uses Qt Quick Enterprise Controls to create a digital dashboard for a car.
+The dashboard demo uses Qt Quick Extras to create a digital dashboard for a car.
