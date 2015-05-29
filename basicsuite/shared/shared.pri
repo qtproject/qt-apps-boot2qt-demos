@@ -17,8 +17,7 @@ HEADERS += $$PWD/engine.h
 defineTest(b2qtdemo_deploy_defaults) {
     commonFiles.files = \
                         exclude.txt \
-                        ../shared/SharedMain.qml \
-                        ../shared/main_landscape.qml
+                        ../shared/SharedMain.qml
     commonFiles.path = $$DESTPATH
     OTHER_FILES += $${commonFiles.files}
     INSTALLS += commonFiles
