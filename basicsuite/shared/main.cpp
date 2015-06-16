@@ -24,11 +24,9 @@
 #include <QtGui/QScreen>
 #include <QtGui/QPalette>
 #include <QtCore/QRegExp>
+#include <QtCore/QFile>
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 3, 0))
-#include <QtQuick/QQuickItem>
-#endif
-#include <QtQuick/QQuickView>
+#include <QtQml/QQmlApplicationEngine>
 
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlContext>
@@ -84,25 +82,11 @@ int main(int argc, char **argv)
         QGuiApplication::setFont(font);
     }
 
-    QQuickView view;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 3, 0))
-    // Ensure the width and height are valid because of QTBUG-36938.
-    QObject::connect(&view, SIGNAL(widthChanged(int)), view.contentItem(), SLOT(setWidth(int)));
-    QObject::connect(&view, SIGNAL(heightChanged(int)), view.contentItem(), SLOT(setHeight(int)));
-#endif
-
     DummyEngine engine;
-    view.rootContext()->setContextProperty("engine", &engine);
-    view.setColor(Qt::black);
-    view.setResizeMode(QQuickView::SizeRootObjectToView);
 
-    QSize screenSize = QGuiApplication::primaryScreen()->size();
-    QString mainFile = screenSize.width() < screenSize.height()
-        ? QStringLiteral("/main_landscape.qml")
-        : QStringLiteral("/SharedMain.qml");
-
-    view.setSource(QUrl::fromLocalFile(path + mainFile));
-    view.show();
+    QQmlApplicationEngine applicationengine;
+    applicationengine.rootContext()->setContextProperty("engine", &engine);
+    applicationengine.load(QUrl::fromLocalFile(path + "/SharedMain.qml"));
 
     app.exec();
 }
