@@ -251,6 +251,69 @@ Rectangle {
             }
 
             GroupBox {
+                id: dpiOptions
+                title: "Physical screen size"
+                style: SettingsGroupBoxStyle {}
+                Layout.fillWidth: true
+                implicitWidth: 0
+                height: implicitHeight
+
+                GridLayout {
+                    rows: 2
+                    columns: 2
+                    anchors.fill: parent
+
+                    RowLayout {
+                        Layout.columnSpan: 2
+                        Label {
+                            text: "Override (needs restart)"
+                            font.pixelSize: engine.smallFontSize() * 0.8
+                            color: "white"
+                        }
+                        CheckBox {
+                            id: physSizeCb
+                            style: SettingsCheckBoxStyle {}
+                            checked: B2QtDevice.physicalScreenSizeOverride
+                            onCheckedChanged: B2QtDevice.physicalScreenSizeOverride = checked
+                        }
+                    }
+
+                    Label {
+                        visible: physSizeCb.checked
+                        text: "Size: " + physSizeSlider.value + " inches"
+                        font.pixelSize: engine.smallFontSize() * 0.8
+                        color: "white"
+                    }
+
+                    Slider {
+                        visible: physSizeCb.checked
+                        id: physSizeSlider
+                        maximumValue: 60
+                        minimumValue: 4
+                        Layout.fillWidth: true
+                        value: B2QtDevice.physicalScreenSizeInch
+                        stepSize: 1
+                        style: SliderStyle {
+                            handle: Rectangle {
+                                anchors.centerIn: parent
+                                color: "white"
+                                border.color: "gray"
+                                border.width: 2
+                                width: engine.mm(6)
+                                height: engine.mm(6)
+                                radius: 20
+                            }
+                        }
+                    }
+                    Binding {
+                        target: B2QtDevice
+                        property: "physicalScreenSizeInch"
+                        value: physSizeSlider.value
+                    }
+                }
+            }
+
+            GroupBox {
                 id: wifiOptions
                 title: "Wifi"
                 style: SettingsGroupBoxStyle {}
