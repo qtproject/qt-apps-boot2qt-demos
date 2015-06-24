@@ -104,6 +104,21 @@
 */
 
 /*!
+    \example planets
+    \title Qt Canvas3D Planets
+    \ingroup b2qt-demos
+    \brief Demonstrates the usage of Qt Canvas 3D, a WebGL-like API for QML, and popular JavaScript frameworks like three.js.
+
+    \image b2qt-demo-planets.jpg
+
+    The demo uses Qt Quick and Canvas 3D in combination with \l{http://threejs.org/}{three.js},
+    \l{https://github.com/jeromeetienne/threex.planets}{threex.planets}, and Qt Quick
+    Controls. Tapping on a planet changes the view and moves to the chosen planet. Use the sliders
+    to adjust the zoom levels and viewing distance. Tapping outside the controls moves the focus
+    back to the solar view.
+*/
+
+/*!
     \example qt5-cinematicdemo
     \title Qt 5 Cinematic Demo
     \ingroup b2qt-demos
