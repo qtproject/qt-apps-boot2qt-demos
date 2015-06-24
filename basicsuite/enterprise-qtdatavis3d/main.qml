@@ -17,13 +17,11 @@
 ****************************************************************************/
 
 import QtQuick 2.1
-import QtQuick.Layouts 1.0
-import QtQuick.Controls 1.0
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Extras 1.4
 import QtDataVisualization 1.0
 import "."
-
-import QtQuick.Enterprise.Controls 1.1
-import QtQuick.Enterprise.Controls.Styles 1.1
 
 Item {
     id: mainview
