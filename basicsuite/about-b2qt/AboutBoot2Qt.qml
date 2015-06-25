@@ -65,11 +65,11 @@ Column {
         width: parent.width
         text: '<p align="justify">Qt for Device Creation provides a fully-integrated solution
                to get you started immediately with software development on your embedded device
-               with a tailored user experience for embedded Linux and embedded Android. It
-               supports your key requirements for high performance and minimal footprint, and together
-               with Qt - a full framework with modular architecture - delivers unparalleled
-               scalability. The development cycle is as rapid as it gets with fully integrated
-               embedded tooling, pre-configured software stack and a collection of value-add components.</p>'
+               with a tailored user experience for embedded Linux. It supports your key requirements
+               for high performance and minimal footprint, and together with Qt - a full framework
+               with modular architecture - delivers unparalleled scalability. The development cycle
+               is as rapid as it gets with fully integrated embedded tooling, pre-configured software
+               stack and a collection of value-add components.</p>'
     }
 
     // Large overview picture
@@ -160,10 +160,10 @@ Column {
 
             text: '<p align="justify">The <strong>Boot to Qt</strong> software stack gets you
                immediately started with software development on your embedded device
-               with a tailored user experience for embedded Linux and embedded Android. It
-               supports your key requirements for high performance, minimal footprint together
-               with Qt’s flexible full-framework modular architecture to deliver unparalleled
-               scalability.</p><p align="justify">The Boot to Qt stack can be made to run on a variety
+               with a tailored user experience for embedded Linux. It supports your key requirements
+               for high performance, minimal footprint together with Qt’s flexible full-framework
+               modular architecture to deliver unparalleled scalability.</p>
+               <p align="justify">The Boot to Qt stack can be made to run on a variety
                of hardware with the provided <strong>Build-Your-Own-Stack</strong> tooling. It comes
                pre-built for several reference devices with the installation of Qt for Device Creation.</p>'
         }
@@ -173,7 +173,7 @@ Column {
             width: ( parent.width - parent.spacing ) / 2
             Box { text: "Application"; accentColor: qtpurple }
             Box { text: "Qt Framework"; accentColor: qtlightgreen }
-            Box { text: "Android/Linux Baselayer"; accentColor: qtdarkblue }
+            Box { text: "Linux Baselayer"; accentColor: qtdarkblue }
             Box { text: "Embedded Hardware"; accentColor: qtdarkblue }
         }
 
