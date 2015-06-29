@@ -134,6 +134,7 @@ Item {
         }
 
         CameraSetting {
+            visible: false // ### not functional in 5.5.0
             id: expCompControl
             title: "EV"
             model: ListModel {
@@ -188,6 +189,7 @@ Item {
     }
 
     CaptureControl {
+        visible: false // ### not functional in 5.5.0
         id: captureControl
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right

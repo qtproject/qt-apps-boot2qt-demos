@@ -67,7 +67,8 @@ Rectangle {
         property bool updateFocusPointMode: true
         property bool captureWhenLocked: false
 
-        Component.onCompleted: cameraUtils.setCamera(camera)
+        // ### breaks in 5.5.0
+        // Component.onCompleted: cameraUtils.setCamera(camera)
 
         digitalZoom: controls.requestedZoom
         captureMode: Camera.CaptureStillImage
