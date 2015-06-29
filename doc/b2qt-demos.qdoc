@@ -104,7 +104,7 @@
 */
 
 /*!
-    \example planets
+    \example canvas3d-planets
     \title Qt Canvas3D Planets
     \ingroup b2qt-demos
     \brief Demonstrates the usage of Qt Canvas 3D, a WebGL-like API for QML, and popular JavaScript frameworks like three.js.
