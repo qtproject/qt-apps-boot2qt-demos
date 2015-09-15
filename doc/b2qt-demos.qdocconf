@@ -6,7 +6,7 @@ sourceencoding               = UTF-8
 
 project                      = QtforDeviceCreationDemos
 description                  = Qt 5.5 for Device Creation Examples and Demos
-version                      = 5.5.0
+version                      = 5.5.1
 
 sourcedirs                   = .
 imagedirs                   += images
@@ -21,7 +21,7 @@ exampledirs                  = ../basicsuite
 qhp.projects                 = QtforDeviceCreationDemos
 
 qhp.QtforDeviceCreationDemos.file                = b2qt-demos.qhp
-qhp.QtforDeviceCreationDemos.namespace           = com.digia.b2qt-demos.550
+qhp.QtforDeviceCreationDemos.namespace           = com.digia.b2qt-demos.551
 qhp.QtforDeviceCreationDemos.virtualFolder       = b2qt-demos
 qhp.QtforDeviceCreationDemos.indexTitle          = Qt 5.5 for Device Creation Examples and Demos
 qhp.QtforDeviceCreationDemos.indexRoot           =
