@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/Screen.qml</file>
+        <file>qml/Chrome.qml</file>
+        <file>qml/MyButton.qml</file>
+        <file>qml/LaunchButton.qml</file>
+        <file>qml/TimedButton.qml</file>
+    </qresource>
+</RCC>
