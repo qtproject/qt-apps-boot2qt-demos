@@ -49,6 +49,5 @@ Text {
     wrapMode: Text.WordWrap
 
     font.pixelSize: engine.titleFontSize()
-    font.bold: true
     color: qtlightgreen
 }

@@ -41,7 +41,7 @@
 import QtQuick 2.0
 
 Text {
-    color: "white"
+    color: "black"
     font.pixelSize: engine.smallFontSize()
     textFormat: Text.RichText
     wrapMode: Text.WordWrap
