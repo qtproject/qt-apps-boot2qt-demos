@@ -53,6 +53,7 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
+    qputenv("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1");
     registerTypes();
     QQmlApplicationEngine appEngine(QUrl("qrc:///qml/main.qml"));
 
