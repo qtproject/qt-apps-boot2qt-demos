@@ -48,16 +48,15 @@ Column {
 
     spacing: engine.smallFontSize() * 2
 
-    property color qtlightgreen: '#80c342'
-    property color qtmediumgreen: '#328930'
-    property color qtdarkgreen: '#006325'
-    property color qtdarkblue: '#14148c'
-    property color qtlightblue: '#14aaff'
-    property color qtpurple: '#ae32a0'
-    property color qtred: '#b40000'
+    property color grayStroke: '#929495'
+    property color grayText: '#585a5c'
+    property color grayBackground: '#d3d3d3'
+    property color greenStroke: '#80c342'
+    property color greenText: '#5caa15'
+    property color greenBackground: '#5caa15'
 
-    ColouredTitle {
-        text: "MEET Qt FOR DEVICE CREATION"
+    Title {
+        text: "Meet Qt for Device Creation"
     }
 
     ContentText {
@@ -78,8 +77,8 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: 10
 
-        Box{ text: "Cross-Platform Qt Libraries"; width: parent.width; accentColor: qtlightgreen }
-        Box{ text: "Value-Add Components"; width: parent.width; accentColor: qtlightgreen }
+        Box{ text: "Cross-Platform Qt Libraries"; width: parent.width;  }
+        Box{ text: "Value-Add Components"; width: parent.width;  }
 
         Row {
             id: row1
@@ -87,7 +86,7 @@ Column {
             width: parent.width
 
             Box{ text: "Complete\nDevelopment Environment\nwith Qt Creator IDE";
-                width: (row1.width - row1.spacing) / 2; height: column1.height; accentColor: qtmediumgreen }
+                width: (row1.width - row1.spacing) / 2; height: column1.height; }
 
             Column {
                 id: column1
@@ -95,14 +94,14 @@ Column {
                 spacing: row1.spacing
 
 
-                Box{ text: "Boot to Qt\nSoftware Stack\nfor HW"; accentColor: qtdarkblue; height: b2.height * 3 }
-                Box{ id: b2; text: "Build-Your-Own-Stack Tooling"; accentColor: qtdarkblue; }
+                Box{ text: "Boot to Qt\nSoftware Stack\nfor HW"; borderColor: root.grayStroke; backgroundColor: root.grayBackground; textColor: root.grayText; height: b2.height * 3 }
+                Box{ id: b2; text: "Build-Your-Own-Stack Tooling"; borderColor: root.grayStroke; backgroundColor: root.grayBackground; textColor: root.grayText; }
             }
         }
     } // end overview picture
 
-    ColouredTitle {
-        text: "POWER OF CROSS-PLATFORM Qt"
+    Title {
+        text: "Power of Cross-Platform Qt"
     }
 
     ContentText {
@@ -115,8 +114,9 @@ Column {
                          natively to desktop and mobile OS targets as well.</p>'
     }
 
-    HighlightText {
+    Text {
         text: "Velvet-Like Native UIs, HTML5 or Both!"
+        font.pixelSize: engine.fontSize()
     }
 
     ContentText {
@@ -128,12 +128,13 @@ Column {
             of both worlds!</p>'
     }
 
-    ColouredTitle {
-        text: "SHORTER TIME-TO-MARKET"
+    Title {
+        text: "Shorter Time-to-Market"
     }
 
-    HighlightText {
+    Text {
         text: "Full Embedded Development Environment"
+        font.pixelSize: engine.fontSize()
     }
 
     ContentText {
@@ -147,8 +148,9 @@ Column {
     }
 
 
-    HighlightText {
+    Text {
         text: "Boot to Qt Software Stack -\nEmbedded Prototyping Couldn't Get Any Simpler!"
+        font.pixelSize: engine.fontSize()
     }
 
     Row {
@@ -171,17 +173,18 @@ Column {
         Column {
             spacing: 5
             width: ( parent.width - parent.spacing ) / 2
-            Box { text: "Application"; accentColor: qtpurple }
-            Box { text: "Qt Framework"; accentColor: qtlightgreen }
-            Box { text: "Linux Baselayer"; accentColor: qtdarkblue }
-            Box { text: "Embedded Hardware"; accentColor: qtdarkblue }
+            Box { text: "Application"; }
+            Box { text: "Qt Framework"; }
+            Box { text: "Linux Baselayer"; }
+            Box { text: "Embedded Hardware"; }
         }
 
 
     }
 
-    HighlightText {
+    Text {
         text: "Value-Add Components - No Need to Re-Invent the Wheel!"
+        font.pixelSize: engine.fontSize()
     }
     ContentText {
         width: parent.width
@@ -201,21 +204,18 @@ Column {
             spacing: 10
             width: parent.width * 0.4
 
-            HighlightText {
-                color: qtlightgreen
+            Text {
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: engine.smallFontSize()
                 text: "Virtual Keyboard"
             }
-            HighlightText {
-                color: qtlightgreen
+            Text {
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: engine.smallFontSize()
 
                 text: "Dynamic and Static Charting"
             }
-            HighlightText {
-                color: qtlightgreen
+            Text {
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: engine.smallFontSize()
 
@@ -225,20 +225,17 @@ Column {
         Column {
             spacing: 10
             width: parent.width * 0.4
-            HighlightText {
-                color: qtlightgreen
+            Text {
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: engine.smallFontSize()
                 text: "3D Data Visualization"
             }
-            HighlightText {
-                color: qtlightgreen
+            Text {
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: engine.smallFontSize()
                 text: "Qt Quick Compiler"
             }
-            HighlightText {
-                color: qtlightgreen
+            Text {
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: engine.smallFontSize()
                 text: "Additional Tooling"
@@ -246,8 +243,8 @@ Column {
         }
     } // end of "grid" layout
 
-    ColouredTitle {
-        text: "TRUSTED TECHNOLOGY PARTNER"
+    Title {
+        text: "Trusted Technology Partner"
     }
     ContentText {
         width: parent.width
@@ -261,8 +258,8 @@ Column {
                to help you pass all obstacles and reach your markets faster with outstanding quality.</p>'
     }
 
-    ColouredTitle {
-        text: "GETTING STARTED WITH DEVELOPMENT"
+    Title {
+        text: "Getting Started With Development"
     }
     ContentText {
         width: parent.width
@@ -270,10 +267,11 @@ Column {
                 free evaluation version of Qt for Device Creation with the Boot to Qt images
                 for common developer boards from</p>'
     }
-    HighlightText {
-        text: "http://www.qt.io"
-        color: qtpurple
-        font.bold: true
+    Text {
+        text: "Visit Qt.io"
+        width: parent.width
+        color: root.greenText
+        font.pixelSize: engine.titleFontSize()
         horizontalAlignment: Text.AlignHCenter
     }
     ContentText {

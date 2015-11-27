@@ -117,7 +117,7 @@ Item {
 
         ImageParticle {
             id: imageParticle
-            source: "particle.png"
+            source: "particle_star2.png"
             color: "#80c342"
             alpha: 0
             colorVariation: 0.3

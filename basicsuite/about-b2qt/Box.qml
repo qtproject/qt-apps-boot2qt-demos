@@ -41,29 +41,27 @@
 import QtQuick 2.0
 
 Rectangle {
-    id: root
+    id: box
 
     width: parent.width
     height: label.font.pixelSize * 3
-
-    radius: 4
 
     antialiasing: true
 
     property alias text: label.text;
 
-    property color accentColor: "palegreen"
+    property color borderColor: '#80c342'
+    property color backgroundColor: "transparent"
+    property color textColor: '#5caa15'
 
-    gradient: Gradient {
-        GradientStop { position: 0; color: root.accentColor; }
-        GradientStop { position: 1; color: Qt.darker(Qt.darker(root.accentColor)); }
-    }
+    color: backgroundColor
+    border.color: borderColor
+    border.width: 2
 
     Text {
         id: label
         font.pixelSize: engine.smallFontSize()
-        font.bold: true;
-        color: "white"
+        color: textColor
         anchors.centerIn: parent
         horizontalAlignment: Text.AlignHCenter
     }
