@@ -62,6 +62,30 @@ WaylandOutput {
             id: launcher
         }
 
+
+        Rectangle {
+            id: curtain
+            color: "black"
+            anchors.fill: parent
+            opacity: 0
+            z: 100
+        }
+
+        SequentialAnimation {
+            id: quitAnimation
+
+            PropertyAnimation {
+                target: curtain
+                property: "opacity"
+                duration: 500
+                to: 1
+                easing.type: Easing.InQuad
+            }
+            ScriptAction {
+                script: Qt.quit()
+            }
+        }
+
         Rectangle {
             id: sidebar
 
@@ -140,26 +164,26 @@ WaylandOutput {
                     height: 30
                     width: sidebar.width - 10
                     text.text: "Launch wiggly"
-                    executable: "/tmp/wiggly"
+                    executable: "./wiggly"
                 }
                 LaunchButton {
                     height: 30
                     width: sidebar.width - 10
                     text.text: "Launch analog clock"
-                    executable: "/tmp/analogclock"
+                    executable: "./analogclock"
                 }
                 LaunchButton {
                     height: 30
                     width: sidebar.width - 10
                     text.text: "Launch digital clock"
-                    executable: "/tmp/digitalclock"
+                    executable: "./digitalclock"
                 }
                 TimedButton {
                     //visible: false
                     height: 50
                     width: sidebar.width - 10
                     text: "Quit"
-                    onTriggered: Qt.quit()
+                    onTriggered: quitAnimation.start()
                 }
             }
         }

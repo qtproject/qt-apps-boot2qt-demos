@@ -54,7 +54,11 @@ Rectangle {
         },
         State {
             name: "PRESSED"
+        },
+        State {
+            name: "TRIGGERED"
         }
+
     ]
 
     transitions: [ Transition {
@@ -111,8 +115,10 @@ Rectangle {
         onReleased: {
             if (containsMouse && parent.percent >= 100) {
                 parent.triggered()
+                parent.state = "TRIGGERED"
+            } else {
+                parent.state = "UNPRESSED"
             }
-            parent.state = "UNPRESSED"
         }
 
         onPositionChanged: {
