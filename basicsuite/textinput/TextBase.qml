@@ -1,46 +1,26 @@
-/****************************************************************************
+/******************************************************************************
 **
-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-** Contact: For any questions to Digia, please use the contact form at
-** http://www.qt.io
+** Copyright (C) 2015 The Qt Company Ltd.
+** Contact: http://www.qt.io/licensing/
 **
-** This file is part of the examples of the Qt Enterprise Embedded.
+** This file is part of the Qt Enterprise Embedded.
 **
-** $QT_BEGIN_LICENSE:BSD$
-** You may use this file under the terms of the BSD license as follows:
+** $QT_BEGIN_LICENSE:COMM$
 **
-** "Redistribution and use in source and binary forms, with or without
-** modification, are permitted provided that the following conditions are
-** met:
-**   * Redistributions of source code must retain the above copyright
-**     notice, this list of conditions and the following disclaimer.
-**   * Redistributions in binary form must reproduce the above copyright
-**     notice, this list of conditions and the following disclaimer in
-**     the documentation and/or other materials provided with the
-**     distribution.
-**   * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
-**     of its contributors may be used to endorse or promote products derived
-**     from this software without specific prior written permission.
-**
-**
-** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see http://www.qt.io/terms-conditions. For further
+** information use the contact form at http://www.qt.io/contact-us.
 **
 ** $QT_END_LICENSE$
 **
-****************************************************************************/
+******************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Enterprise.VirtualKeyboard 1.1
+import QtQuick.Enterprise.VirtualKeyboard 2.0
 
 FocusScope {
     id: textBase
@@ -52,7 +32,6 @@ FocusScope {
     property int enterKeyAction: EnterKeyAction.None
     property string enterKeyText
     property bool enterKeyEnabled: enterKeyAction === EnterKeyAction.None || editor.text.length > 0 || editor.inputMethodComposing
-    property alias mouseParent: mouseArea.parent
 
     implicitHeight: editor.height + 12
 
@@ -67,34 +46,19 @@ FocusScope {
         // background
         radius: 5.0
         anchors.fill: parent
-        color: Qt.rgba(1.0, 1.0, 1.0, 0.2)
-        border { width: editor.activeFocus ? 2 : 0; color: "#CCCCCC" }
+        color: "#FFFFFF"
+        border { width: 1; color: editor.activeFocus ? "#5CAA15" : "#BDBEBF" }
     }
     Text {
         id: previewText
 
         y: 8
-        color: "#CCCCCC"
+        clip: true
+        color: "#a0a1a2"
         visible: previewTextActive
         text: textBase.previewText
         font.pixelSize: 28
         anchors { left: parent.left; right: parent.right; margins: 12 }
 
-    }
-    MouseArea {
-        id: mouseArea
-
-        z: 1
-        parent: textBase
-        anchors.fill: parent
-        onClicked: {
-            if (editor.inputMethodComposing)
-                Qt.inputMethod.commit()
-            var positionInEditor = mapToItem(editor, mouseX, mouseY)
-            var cursorPosition = editor.positionAt(positionInEditor.x, positionInEditor.y)
-            editor.cursorPosition = cursorPosition
-            editor.forceActiveFocus()
-            Qt.inputMethod.show()
-        }
     }
 }
