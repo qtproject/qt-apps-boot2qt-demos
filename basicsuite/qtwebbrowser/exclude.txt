@@ -1,0 +1,4 @@
+linux-emulator
+linux-raspberrypi
+linux-beaglebone
+linux-colibri-vf
