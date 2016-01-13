@@ -1,50 +1,86 @@
-/****************************************************************************
+/******************************************************************************
 **
-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-** Contact: For any questions to Digia, please use the contact form at
-** http://www.qt.io
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: http://www.qt.io/licensing/
 **
-** This file is part of the examples of the Qt Enterprise Embedded.
+** This file is part of the Qt Enterprise Embedded.
 **
-** $QT_BEGIN_LICENSE:BSD$
-** You may use this file under the terms of the BSD license as follows:
+** $QT_BEGIN_LICENSE:COMM$
 **
-** "Redistribution and use in source and binary forms, with or without
-** modification, are permitted provided that the following conditions are
-** met:
-**   * Redistributions of source code must retain the above copyright
-**     notice, this list of conditions and the following disclaimer.
-**   * Redistributions in binary form must reproduce the above copyright
-**     notice, this list of conditions and the following disclaimer in
-**     the documentation and/or other materials provided with the
-**     distribution.
-**   * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
-**     of its contributors may be used to endorse or promote products derived
-**     from this software without specific prior written permission.
-**
-**
-** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see http://www.qt.io/terms-conditions. For further
+** information use the contact form at http://www.qt.io/contact-us.
 **
 ** $QT_END_LICENSE$
 **
-****************************************************************************/
+******************************************************************************/
 import QtQuick 2.2
-import QtQuick.Controls 1.2
+import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
 import B2Qt.Wifi 1.0
 
 ColumnLayout {
-    anchors.fill: parent
+
+    RowLayout {
+
+        Label {
+            text: qsTr("Wi-Fi")
+            font.pixelSize: engine.titleFontSize() *.8
+            Layout.leftMargin: 0
+            Layout.preferredWidth: mainLayout.column1Width
+        }
+
+        Switch {
+            id: wifiOnOffButton
+            Layout.bottomMargin: 0
+
+            onCheckedChanged: {
+                if (checked && WifiManager.backendState === WifiManager.NotRunning) {
+                    WifiManager.start()
+                    return
+                }
+
+                if (!checked && WifiManager.backendState === WifiManager.Running) {
+                    if (networkList.visible)
+                        networkList.visible = false
+                    WifiManager.stop()
+                }
+            }
+
+            function updateButtonText(backendState)
+            {
+                if (backendState === WifiManager.Initializing) {
+                    wifiOnOffText.text = qsTr("Initializing...")
+                } else if (backendState === WifiManager.Terminating) {
+                    wifiOnOffText.text = qsTr("Terminating...")
+                } else if (backendState === WifiManager.NotRunning) {
+                    wifiOnOffText.text = qsTr("Off")
+                    wifiOnOffButton.checked = false
+                } else if (backendState === WifiManager.Running) {
+                    wifiOnOffText.text = qsTr("On")
+                    wifiOnOffButton.checked = true
+                }
+            }
+
+            Component.onCompleted: updateButtonText(WifiManager.backendState)
+
+            Connections {
+                target: WifiManager
+                onBackendStateChanged: wifiOnOffButton.updateButtonText(backendState)
+            }
+        }
+
+        Text {
+            id: wifiOnOffText
+            text: qsTr("%1%").arg(Math.round(brightnessSlider.value / brightnessSlider.maximumValue * 100))
+            font.pixelSize: engine.smallFontSize()
+            Layout.leftMargin: mainLayout.width * .05
+        }
+    }
 
     Binding {
         target: WifiManager
@@ -52,58 +88,23 @@ ColumnLayout {
         value: networkList.visible
     }
 
-    RowLayout {
-
-        Button {
-            id: wifiOnOffButton
-            Layout.fillWidth: true
-            style: SettingsButtonStyle {}
-            onClicked: {
-                if (WifiManager.backendState === WifiManager.Running) {
-                    if (networkList.visible)
-                        networkList.visible = false
-                    WifiManager.stop()
-                } else if (WifiManager.backendState === WifiManager.NotRunning) {
-                    WifiManager.start()
-                }
-            }
-
-            function updateButtonText(backendState)
-            {
-                if (backendState === WifiManager.Initializing)
-                    wifiOnOffButton.text = "Initializing..."
-                if (backendState === WifiManager.Terminating)
-                    wifiOnOffButton.text = "Terminating..."
-                if (backendState === WifiManager.NotRunning)
-                    wifiOnOffButton.text = "Switch On"
-                if (backendState === WifiManager.Running)
-                    wifiOnOffButton.text = "Switch Off"
-            }
-
-            Component.onCompleted: updateButtonText(WifiManager.backendState)
-            Connections {
-                target: WifiManager
-                onBackendStateChanged: wifiOnOffButton.updateButtonText(backendState)
-            }
-        }
-
-        Button {
-            id: listNetworksButton
-            Layout.fillWidth: true
-            style: SettingsButtonStyle {}
-            visible: WifiManager.backendState === WifiManager.Running
-            text: networkList.visible ? "Hide wifi networks"
-                                      : "List available wifi networks"
-            onClicked: networkList.visible = !networkList.visible
-        }
+    Button {
+        id: listNetworksButton
+        Layout.leftMargin: mainLayout.column1Width
+        Layout.topMargin: engine.mm(6)
+        Layout.preferredWidth: mainLayout.width * .4
+        visible: WifiManager.backendState === WifiManager.Running
+        text: networkList.visible ? qsTr("Hide Wi-Fi networks")
+                                  : qsTr("List available Wi-Fi networks")
+        onClicked: networkList.visible = !networkList.visible
     }
 
     WifiNetworkList {
         id: networkList
         implicitHeight: engine.centimeter(7)
         Layout.fillWidth: true
+        Layout.leftMargin: mainLayout.column1Width
         visible: false
         clip: true
     }
 }
-

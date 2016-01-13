@@ -1,60 +1,38 @@
-/****************************************************************************
+/******************************************************************************
 **
-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-** Contact: For any questions to Digia, please use the contact form at
-** http://www.qt.io
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: http://www.qt.io/licensing/
 **
-** This file is part of the examples of the Qt Enterprise Embedded.
+** This file is part of the Qt Enterprise Embedded.
 **
-** $QT_BEGIN_LICENSE:BSD$
-** You may use this file under the terms of the BSD license as follows:
+** $QT_BEGIN_LICENSE:COMM$
 **
-** "Redistribution and use in source and binary forms, with or without
-** modification, are permitted provided that the following conditions are
-** met:
-**   * Redistributions of source code must retain the above copyright
-**     notice, this list of conditions and the following disclaimer.
-**   * Redistributions in binary form must reproduce the above copyright
-**     notice, this list of conditions and the following disclaimer in
-**     the documentation and/or other materials provided with the
-**     distribution.
-**   * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
-**     of its contributors may be used to endorse or promote products derived
-**     from this software without specific prior written permission.
-**
-**
-** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see http://www.qt.io/terms-conditions. For further
+** information use the contact form at http://www.qt.io/contact-us.
 **
 ** $QT_END_LICENSE$
 **
-****************************************************************************/
+******************************************************************************/
 import QtQuick 2.2
-import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
-import QtQuick.Controls.Styles 1.2
-import QtQuick.Enterprise.VirtualKeyboard.Settings 1.2
+import QtQuick.Controls 1.4
+import QtQuick.Enterprise.VirtualKeyboard.Settings 2.0
 import B2Qt.Wifi 1.0
 import B2Qt.Utils 1.0
 
 Rectangle {
     anchors.fill: parent
-    color: "#212126"
-
+    color: "white"
 
     Flickable {
         anchors.top: parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: engine.mm(5)
+        anchors.horizontalCenter: parent.horizontalCenter
         height: parent.height
         width: parent.width
         contentHeight: mainLayout.height + engine.centimeter(2)
@@ -66,116 +44,194 @@ Rectangle {
             id: mainLayout
             width: Math.min(engine.screenWidth(), engine.screenHeight())
             height: implicitHeight
-            anchors.left: parent.left
-            anchors.right: parent.right
-            spacing: engine.mm(4)
+            anchors.horizontalCenter: parent.horizontalCenter
 
-            GroupBox {
-                id: powerOptions
-                title: "Power"
-                Layout.fillWidth: true
-                style: SettingsGroupBoxStyle {}
-                implicitWidth: 0
-                height: implicitHeight
+            property int defaultMargin: width * .1
+            property int column1Width: width * .25
 
-                RowLayout {
-                    anchors.fill: parent
+            Label {
+                text: qsTr("Demo Launcher Settings")
+                font.pixelSize: engine.titleFontSize()
+                Layout.topMargin: height
+                Layout.bottomMargin: height
+            }
 
-                    Button {
-                        style: SettingsButtonStyle {}
-                        text: "Shut Down"
-                        Layout.fillWidth: true
-                        onClicked: B2QtDevice.powerOff();
+            SettingTitle {
+                titleText: qsTr("Network")
+                iconSource: "images/Network_icon.png"
+                smallText: qsTr("Current hostname: %1").arg(B2QtDevice.hostname)
+            }
+
+            GridLayout {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                Layout.bottomMargin: engine.mm(3)
+                columns: 3
+                rows: 3
+
+                Label {
+                    text: qsTr("Change Hostname:")
+                    font.pixelSize: engine.smallFontSize()
+                    Layout.preferredWidth: mainLayout.column1Width
+                    Layout.leftMargin: mainLayout.defaultMargin
+                }
+
+                TextField {
+                    id: hostname
+                    text: B2QtDevice.hostname
+                    placeholderText: qsTr("Enter hostname")
+                    font.pixelSize: engine.smallFontSize()
+                    inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhNoPredictiveText
+                    Layout.fillWidth: true
+                    Layout.rightMargin: mainLayout.defaultMargin * .25
+                    onAccepted: {
+                        Qt.inputMethod.commit()
+                        Qt.inputMethod.hide()
+                        B2QtDevice.setHostname(hostname.text)
+                        hostname.focus = false
                     }
+                }
 
-                    Button {
-                        style: SettingsButtonStyle {}
-                        text: "Reboot"
-                        Layout.fillWidth: true
-                        onClicked: B2QtDevice.reboot();
-                    }
+                Button {
+                    id: hostnameButton
+
+                    anchors.right: parent.right
+                    text: qsTr("Change")
+
+                    onClicked: hostname.accepted()
+                }
+
+                Label {
+                    text: qsTr("IP Address:")
+                    Layout.preferredWidth: parent.width * .2
+                    font.pixelSize: engine.smallFontSize()
+                    Layout.leftMargin: mainLayout.defaultMargin
+                }
+
+                Label {
+                    text: B2QtDevice.ipAddress
+                    font.pixelSize: engine.smallFontSize()
                 }
             }
 
-            GroupBox {
-                id: displayOptions
-                title: "Display"
-                style: SettingsGroupBoxStyle {}
+            ColumnLayout {
+                id: wifiOptions
                 Layout.fillWidth: true
-                implicitWidth: 0
-                height: implicitHeight
+                Layout.leftMargin: mainLayout.defaultMargin
+                visible: false
 
-                GridLayout {
-                    rows: 2
-                    flow: GridLayout.TopToBottom
-                    anchors.fill: parent
-
-                    Label {
-                        text: "Brightness: "
-                        font.pixelSize: engine.smallFontSize() * 0.8
-                        color: "white"
-                    }
-
-                    Label {
-                        text: "Display FPS: "
-                        font.pixelSize: engine.smallFontSize() * 0.8
-                        color: "white"
-                    }
-
-                    Slider {
-                        id: brightnessSlider
-                        maximumValue: 255
-                        minimumValue: 1
-                        Layout.fillWidth: true
-                        value: B2QtDevice.displayBrightness
-                        style: SliderStyle {
-                            handle: Rectangle {
-                                anchors.centerIn: parent
-                                color: "white"
-                                border.color: "gray"
-                                border.width: 2
-                                width: engine.mm(6)
-                                height: engine.mm(6)
-                                radius: 20
-                            }
+                function createWifiGroupBox()
+                {
+                    if (WifiDevice.wifiSupported()) {
+                        var component = Qt.createComponent("WifiGroupBox.qml")
+                        var wifi = component.createObject(wifiOptions)
+                        if (wifi) {
+                            wifiOptions.visible = true
+                        } else {
+                            print("Error creating WifiGroupBox")
                         }
                     }
+                }
+                Component.onCompleted: wifiOptions.createWifiGroupBox()
+            }
 
-                    CheckBox {
-                        style: SettingsCheckBoxStyle {}
-                        checked: engine.fpsEnabled
-                        onCheckedChanged: engine.fpsEnabled = checked
+            Spacer {}
+
+            SettingTitle {
+                id: vKBSettingsTitle
+                titleText: qsTr("Virtual Keyboard Style")
+                iconSource: "images/Keyboard_icon.png"
+                smallText: qsTr("Preview:")
+            }
+
+            RowLayout {
+                id: row1
+                spacing: 0
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                GridLayout {
+                    id: vKBStyleSelection
+                    anchors.left: parent.left
+                    anchors.right: parent.horizontalCenter
+                    columns: 2
+                    rows: 2
+
+                    function updateVKBStyle(style) {
+                        VirtualKeyboardSettings.styleName = style.toLowerCase()
                     }
+
+                    ExclusiveGroup { id: vkbStyleGroup }
+
+                    Label {
+                        text: qsTr("Default")
+                        Layout.preferredWidth: mainLayout.column1Width
+                        font.pixelSize: engine.smallFontSize()
+                        Layout.leftMargin: mainLayout.defaultMargin
+                    }
+
+                    RadioButton {
+                        id: defaultStyle
+                        exclusiveGroup: vkbStyleGroup
+                        checked: VirtualKeyboardSettings.styleName === "default"
+                        onClicked: vKBStyleSelection.updateVKBStyle("default")
+                    }
+
+                    Label {
+                        text: qsTr("Retro")
+                        Layout.preferredWidth: mainLayout.column1Width
+                        font.pixelSize: engine.smallFontSize()
+                        Layout.leftMargin: mainLayout.defaultMargin
+                    }
+
+                    RadioButton {
+                        id: retroStyle
+                        exclusiveGroup: vkbStyleGroup
+                        checked: VirtualKeyboardSettings.styleName === "retro"
+                        onClicked: vKBStyleSelection.updateVKBStyle("retro")
+                    }
+                }
+
+                Image {
+                    id: vKBPreviewThumbnail
+                    anchors.right: parent.right
+                    Layout.preferredWidth: mainLayout.width *.4
+                    Layout.leftMargin: mainLayout.defaultMargin
+                    source: VirtualKeyboardSettings.styleName === "retro" ?
+                                "images/Keyboard_Thumb_retro.png" :
+                                "images/Keyboard_Thumb_default.png"
+
+                    fillMode: Image.PreserveAspectFit
                 }
             }
 
-            GroupBox {
-                id: vkbOptions
-                title: "Virtual Keyboard Style"
-                style: SettingsGroupBoxStyle {}
-                Layout.fillWidth: true
+            Spacer {}
 
-                function updateVKBStyle(styleRadioButton) {
-                    VirtualKeyboardSettings.styleName = styleRadioButton.text.toLowerCase()
+            SettingTitle {
+                titleText: qsTr("Display")
+                iconSource: "images/Display_icon.png"
+            }
+
+            GridLayout {
+                id: gridLayout
+                anchors.left: parent.left
+                anchors.right: parent.right
+                columns: 3
+                rows: 3
+
+                Label {
+                    text: qsTr("Brightness:")
+                    font.pixelSize: engine.smallFontSize()
+                    Layout.preferredWidth: mainLayout.column1Width
+                    Layout.leftMargin: mainLayout.defaultMargin
                 }
 
-                Row {
-                    spacing: engine.mm(6)
-                    ExclusiveGroup { id: vkbStyleGroup }
-                    RadioButton {
-                        id: defaultStyle
-                        style: SettingsRadioButtonStyle {}
-                        text: "Default"
-                        exclusiveGroup: vkbStyleGroup
-                        onClicked: vkbOptions.updateVKBStyle(defaultStyle)
-                    }
-                    RadioButton {
-                        id: retroStyle
-                        style: SettingsRadioButtonStyle {}
-                        text: "Retro"
-                        exclusiveGroup: vkbStyleGroup
-                        onClicked: vkbOptions.updateVKBStyle(retroStyle)
-                    }
+                Slider {
+                    id: brightnessSlider
+                    maximumValue: 255
+                    minimumValue: 1
+                    Layout.preferredWidth: physicalSizeSlider.width
+                    value: B2QtDevice.displayBrightness
                 }
 
                 Binding {
@@ -184,155 +240,95 @@ Rectangle {
                     value: brightnessSlider.value
                 }
 
-                Component.onCompleted: {
-                   if (VirtualKeyboardSettings.styleName == "default")
-                       defaultStyle.checked = true
-                   if (VirtualKeyboardSettings.styleName == "retro")
-                       retroStyle.checked = true
+                Text {
+                    text: qsTr("%1%").arg(Math.round(brightnessSlider.value / brightnessSlider.maximumValue * 100))
+                    font.pixelSize: engine.smallFontSize()
+                    Layout.leftMargin: mainLayout.width * .05
+                }
+
+                Label {
+                    text: qsTr("Display FPS:")
+                    font.pixelSize: engine.smallFontSize()
+                    Layout.preferredWidth: parent.width * .2
+                    Layout.leftMargin: mainLayout.defaultMargin
+                }
+
+                CheckBox {
+                    checked: engine.fpsEnabled
+                    onCheckedChanged: engine.fpsEnabled = checked
                 }
             }
 
-            GroupBox {
-                id: networkOptions
-                title: "Network"
-                style: SettingsGroupBoxStyle {}
-                Layout.fillWidth: true
-                implicitWidth: 0
-                height: implicitHeight
+            Rectangle {
+                anchors.left: parent.left
+                anchors.leftMargin: mainLayout.defaultMargin
+                anchors.right: parent.right
+                height: advancedDisplaySettings.height + engine.mm(6)
+                color: "#efefef"
 
                 GridLayout {
-                    rows: 2
+                    id: advancedDisplaySettings
+                    anchors { left: parent.left; top:parent.top; right: parent.right }
+                    anchors.margins: engine.mm(3)
                     columns: 3
-                    flow: GridLayout.TopToBottom
-                    anchors.fill: parent
+                    rows: 3
 
                     Label {
-                        text: "Hostname: "
-                        font.pixelSize: engine.smallFontSize() * 0.8
-                        color: "white"
-                    }
-
-                    Label {
-                        text: "IP address: "
-                        font.pixelSize: engine.smallFontSize() * 0.8
-                        color: "white"
-                    }
-
-                    TextField {
-                        id: hostname
-                        text: B2QtDevice.hostname
-                        placeholderText: "Enter hostname"
+                        text: qsTr("Physical Screen Size:")
                         font.pixelSize: engine.smallFontSize()
-                        inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhNoPredictiveText
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: font.pixelSize * 2.4
-                        onAccepted: {
-                            Qt.inputMethod.commit()
-                            Qt.inputMethod.hide()
-                            B2QtDevice.setHostname(hostname.text)
-                            hostname.focus = false
-                        }
-                    }
-
-                    Label {
-                        text: B2QtDevice.ipAddress
-                        font.pixelSize: engine.smallFontSize()
-                        color: "white"
-                        Layout.columnSpan: 2
-                    }
-
-                    Button {
-                        id: hostnameButton
-                        style: SettingsButtonStyle {}
-                        text: "Change hostname"
-                        onClicked: hostname.accepted()
-                    }
-                }
-            }
-
-            GroupBox {
-                id: dpiOptions
-                title: "Physical screen size"
-                style: SettingsGroupBoxStyle {}
-                Layout.fillWidth: true
-                implicitWidth: 0
-                height: implicitHeight
-
-                GridLayout {
-                    rows: 2
-                    columns: 2
-                    anchors.fill: parent
-
-                    RowLayout {
-                        Layout.columnSpan: 2
-                        Label {
-                            text: "Override (needs restart)"
-                            font.pixelSize: engine.smallFontSize() * 0.8
-                            color: "white"
-                        }
-                        CheckBox {
-                            id: physSizeCb
-                            style: SettingsCheckBoxStyle {}
-                            checked: B2QtDevice.physicalScreenSizeOverride
-                            onCheckedChanged: B2QtDevice.physicalScreenSizeOverride = checked
-                        }
-                    }
-
-                    Label {
-                        visible: physSizeCb.checked
-                        text: "Size: " + physSizeSlider.value + " inches"
-                        font.pixelSize: engine.smallFontSize() * 0.8
-                        color: "white"
+                        wrapMode: Text.WordWrap
+                        Layout.preferredWidth: mainLayout.width * .25 - advancedDisplaySettings.anchors.margins
                     }
 
                     Slider {
-                        visible: physSizeCb.checked
-                        id: physSizeSlider
+                        id: physicalSizeSlider
                         maximumValue: 60
                         minimumValue: 4
                         Layout.fillWidth: true
                         value: B2QtDevice.physicalScreenSizeInch
-                        stepSize: 1
-                        style: SliderStyle {
-                            handle: Rectangle {
-                                anchors.centerIn: parent
-                                color: "white"
-                                border.color: "gray"
-                                border.width: 2
-                                width: engine.mm(6)
-                                height: engine.mm(6)
-                                radius: 20
-                            }
-                        }
                     }
-                    Binding {
-                        target: B2QtDevice
-                        property: "physicalScreenSizeInch"
-                        value: physSizeSlider.value
+
+                    Text {
+                        text: qsTr("%1 inches").arg(Math.round(physicalSizeSlider.value))
+                        font.pixelSize: engine.smallFontSize()
+                        Layout.preferredWidth: mainLayout.width * .1
+                        Layout.leftMargin: mainLayout.width * .05
+                    }
+
+                    Label {
+                        text: qsTr("Override\n(needs restart):")
+                        font.pixelSize: engine.smallFontSize()
+                        wrapMode: Text.WordWrap
+                        Layout.preferredWidth: mainLayout.width * .25 - advancedDisplaySettings.anchors.margins
+                    }
+
+                    CheckBox {
+                        checked: B2QtDevice.physicalScreenSizeOverride
+                        onCheckedChanged: B2QtDevice.physicalScreenSizeOverride = checked
                     }
                 }
             }
 
-            GroupBox {
-                id: wifiOptions
-                title: "Wifi"
-                style: SettingsGroupBoxStyle {}
-                Layout.fillWidth: true
-                visible: false
+            Spacer {}
 
-                function createWifiGroupBox()
-                {
-                    if (WifiDevice.wifiSupported()) {
-                        var component = Qt.createComponent("WifiGroupBox.qml")
-                        var wifi = component.createObject(wifiOptions.contentItem)
-                        if (wifi)
-                            wifiOptions.visible = true
-                        else
-                            print("Error creating WifiGroupBox")
-                    }
+            SettingTitle {
+                titleText: qsTr("Power")
+                iconSource: "images/Power_icon.png"
+            }
+
+            RowLayout {
+                spacing: mainLayout.defaultMargin *.25
+
+                Button {
+                    text: qsTr("Shut Down")
+                    Layout.leftMargin: mainLayout.defaultMargin
+                    onClicked: B2QtDevice.powerOff();
                 }
 
-                Component.onCompleted: wifiOptions.createWifiGroupBox()
+                Button {
+                    text: qsTr("Reboot")
+                    onClicked: B2QtDevice.reboot();
+                }
             }
         }
     }
