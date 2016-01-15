@@ -27,10 +27,6 @@ import "."
 Item {
     id: mainview
 
-    function toPixels(percentage) {
-        return percentage * Math.min(mainview.width, mainview.height);
-    }
-
     Item {
         id: surfaceView
         width: mainview.width - buttonLayout.width
@@ -123,6 +119,7 @@ Item {
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         spacing: 0
+        property int buttonWidth: Math.min(engine.centimeter(3), parent.height/7 - engine.mm(2))
         Column {
             Layout.fillWidth: true
             spacing: 5
@@ -130,7 +127,7 @@ Item {
                 id: layerOneToggle
                 text: "Ground\n Layer"
                 checked: true
-                width: toPixels(0.12)
+                width: buttonLayout.buttonWidth
                 height: width
                 style: ToggleButtonStyle { }
             }
@@ -139,7 +136,7 @@ Item {
                 id: layerTwoToggle
                 text: "Sea\n Layer"
                 checked: true
-                width: toPixels(0.12)
+                width: buttonLayout.buttonWidth
                 height: width
                 style: ToggleButtonStyle { }
             }
@@ -148,7 +145,7 @@ Item {
                 id: layerThreeToggle
                 text: "Tectonic\n Layer"
                 checked: true
-                width: toPixels(0.12)
+                width: buttonLayout.buttonWidth
                 height: width
                 style: ToggleButtonStyle { }
             }
@@ -160,7 +157,7 @@ Item {
             ToggleButton {
                 id: layerOneGrid
                 text: "Ground\n as\n Grid"
-                width: toPixels(0.12)
+                width: buttonLayout.buttonWidth
                 height: width
                 style: ToggleButtonStyle { }
                 onCheckedChanged: {
@@ -174,7 +171,7 @@ Item {
             ToggleButton {
                 id: layerTwoGrid
                 text: "Sea\n as\n Grid"
-                width: toPixels(0.12)
+                width: buttonLayout.buttonWidth
                 height: width
                 style: ToggleButtonStyle { }
                 onCheckedChanged: {
@@ -188,8 +185,9 @@ Item {
             ToggleButton {
                 id: layerThreeGrid
                 text: "Tectonic\n as\n Grid"
-                width: toPixels(0.12)
+                width: buttonLayout.buttonWidth
                 height: width
+
                 style: ToggleButtonStyle { }
                 onCheckedChanged: {
                     if (checked)
@@ -206,7 +204,7 @@ Item {
             ToggleButton {
                 id: sliceButton
                 text: "Slice\n All\n Layers"
-                width: toPixels(0.12)
+                width: buttonLayout.buttonWidth
                 height: width
                 style: ToggleButtonStyle { }
                 onClicked: {
