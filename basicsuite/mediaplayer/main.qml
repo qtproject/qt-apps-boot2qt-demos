@@ -257,7 +257,7 @@ FocusScope {
 
     function init() {
         content.init()
-        content.openVideo("file:///data/videos/Qt_EnterpriseEmbedded_1080p.mp4");
+        content.openVideo("file:///data/videos/Qt_video_720p.webm");
     }
 
     function openVideo() {
