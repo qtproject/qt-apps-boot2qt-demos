@@ -38,35 +38,29 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
 import QtQuick 2.0
 import Qt.labs.folderlistmodel 2.0
+import QtQuick.Controls 1.4
 
-Rectangle {
+Item {
     id: fileBrowser
-    color: "transparent"
 
     property string folder: "file:///data/videos"
 
     signal fileSelected(string file)
 
     function selectFile(file) {
-        if (file != "")
-            folder = loader.item.folders.folder
         loader.sourceComponent = undefined
-        if (file != "")
-            fileBrowser.fileSelected("file://" + file)
+        fileBrowser.fileSelected("file://" + file)
     }
 
     Loader {
         id: loader
+        anchors.fill: parent
     }
 
     function show() {
         loader.sourceComponent = fileBrowserComponent
-        loader.item.parent = fileBrowser
-        loader.item.anchors.fill = fileBrowser
-        loader.item.folder = fileBrowser.folder
     }
 
     Component {
@@ -74,340 +68,202 @@ Rectangle {
 
         Rectangle {
             id: root
-            gradient: Gradient {
-                GradientStop { position: 0; color: "#111111" }
-                GradientStop { position: 1; color: "#222222"}
-            }
-            property bool showFocusHighlight: false
-            property variant folders: folders1
-            property variant view: view1
-            property alias folder: folders1.folder
-            property color textColor: "white"
+            color: "white"
+            property alias folder: folders.folder
 
             FolderListModel {
-                id: folders1
-                folder: folder
-            }
-
-            FolderListModel {
-                id: folders2
-                folder: folder
-            }
-
-            SystemPalette {
-                id: palette
+                id: folders
+                folder: fileBrowser.folder
+                nameFilters: [ "*.3g2", "*.3gp", "*.asf", "*.avi", "*.drc", "*.flv", "*.f4v", "*.f4p",
+                    "*.f4a", "*.f4b", "*.gif", "*.gifv", "*.m4v", "*.mkv", "*.mng", "*.mov", "*.qt",
+                    "*.mp4", "*.m4p", "*.m4v", "*.mpg", "*.mp2", "*.mpeg", "*.mpe", "*.mpv", "*.m2v",
+                    "*.mxf", "*.nsv", "*.ogv", "*.ogg", "*.rm", "*.rmvb", "*.roq", "*.svi", "*.vob",
+                    "*.webm", "*.wmv", "*.yuv"]
             }
 
             Component {
                 id: folderDelegate
 
-                Rectangle {
-                    id: wrapper
-                    function launch() {
-                        if (folders.isFolder(index))
-                            down(filePath);
-                        else
-                            fileBrowser.selectFile(filePath)
-                    }
-                    width: root.width
-                    height: 50
-                    color: "transparent"
-
-                    Rectangle {
-                        id: highlight; visible: false
-                        anchors.fill: parent
-                        color: palette.highlight
-                        gradient: Gradient {
-                            GradientStop { id: t1; position: 0.0; color: palette.highlight }
-                            GradientStop { id: t2; position: 1.0; color: Qt.lighter(palette.highlight) }
-                        }
-                    }
-
-                    Item {
-                        width: 40; height: 40
-                        y: 3
-                        x: 5
-                        Image {
-                            source: "images/FileButton.png"
-                            width: 34; height: 34
-                            anchors.centerIn: parent
-                            visible: folders.isFolder(index)
-                        }
-                    }
+                Item {
+                    width: root.width / 5
+                    height: width
 
                     Text {
                         id: nameText
-                        anchors.fill: parent; verticalAlignment: Text.AlignVCenter
+                        anchors { top: parent.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
+                        anchors.topMargin:  -parent.height * .2
+                        anchors.leftMargin:  parent.width * .1
+                        anchors.rightMargin: parent.width * .1
+                        anchors.bottomMargin:  -parent.height * .1
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         text: fileName
-                        anchors.leftMargin: 54
-                        font.pixelSize: 24
-                        color: (wrapper.ListView.isCurrentItem && root.showFocusHighlight) ? palette.highlightedText : textColor
+                        font.pixelSize: parent.height * .1
+                        color: view.currentIndex === index ? "#80c342" : "#46484a"
                         elide: Text.ElideRight
                     }
 
-                    MouseArea {
-                        id: mouseRegion
-                        anchors.fill: parent
-                        onPressed: {
-                            root.showFocusHighlight = false;
-                            wrapper.ListView.view.currentIndex = index;
-                        }
-                        onClicked: { if (folders == wrapper.ListView.view.model) launch() }
-                    }
+                    Item {
+                        id: wrapper
 
-                    states: [
-                        State {
-                            name: "pressed"
-                            when: mouseRegion.pressed
-                            PropertyChanges { target: highlight; visible: true }
-                            PropertyChanges { target: nameText; color: palette.highlightedText }
+                        function launch() {
+                            if (folders.isFolder(index))
+                                down(filePath);
+                            else
+                                fileBrowser.selectFile(filePath)
                         }
-                    ]
+
+                        anchors.fill: parent
+                        anchors.margins: parent.width * .1
+
+                        Image {
+                            anchors.top: parent.top
+                            anchors.topMargin: -view.cellHeight * .2
+                            anchors.right: parent.right
+                            anchors.left: parent.left
+                            anchors.bottom: parent.bottom
+                            fillMode: Image.PreserveAspectFit
+
+                            source:  folders.isFolder(index) ? "images/icon_folder.png" : "images/icon_video.png"
+                        }
+
+                        MouseArea {
+                            id: mouseRegion
+                            anchors.fill: parent
+                            onClicked: { wrapper.launch() }
+                        }
+                    }
                 }
             }
 
-            ListView {
-                id: view1
+            GridView {
+                id: view
                 anchors.top: titleBar.bottom
-                anchors.topMargin: 15
                 anchors.bottom: parent.bottom
                 x: 0
                 width: parent.width
-                model: folders1
+                model: folders
                 delegate: folderDelegate
-                highlight: Rectangle {
-                    color: palette.highlight
-                    visible: root.showFocusHighlight && view1.count != 0
-                    gradient: Gradient {
-                        GradientStop { id: t1; position: 0.0; color: palette.highlight }
-                        GradientStop { id: t2; position: 1.0; color: Qt.lighter(palette.highlight) }
-                    }
-                    width: view1.currentItem == null ? 0 : view1.currentItem.width
-                }
-                highlightMoveVelocity: 1000
-                pressDelay: 100
+                cellWidth: root.width / 5
+                cellHeight: cellWidth
                 focus: true
-                state: "current"
-                states: [
-                    State {
-                        name: "current"
-                        PropertyChanges { target: view1; x: 0 }
-                    },
-                    State {
-                        name: "exitLeft"
-                        PropertyChanges { target: view1; x: -root.width }
-                    },
-                    State {
-                        name: "exitRight"
-                        PropertyChanges { target: view1; x: root.width }
-                    }
-                ]
-                transitions: [
-                    Transition {
-                        to: "current"
-                        SequentialAnimation {
-                            NumberAnimation { properties: "x"; duration: 250 }
-                        }
-                    },
-                    Transition {
-                        NumberAnimation { properties: "x"; duration: 250 }
-                        NumberAnimation { properties: "x"; duration: 250 }
-                    }
-                ]
-                Keys.onPressed: root.keyPressed(event.key)
-            }
 
-            ListView {
-                id: view2
-                anchors.top: titleBar.bottom
-                anchors.topMargin: 15
-                anchors.bottom: parent.bottom
-                x: parent.width
-                width: parent.width
-                model: folders2
-                delegate: folderDelegate
-                highlight: Rectangle {
-                    color: palette.highlight
-                    visible: root.showFocusHighlight && view2.count != 0
-                    gradient: Gradient {
-                        GradientStop { id: t1; position: 0.0; color: palette.highlight }
-                        GradientStop { id: t2; position: 1.0; color: Qt.lighter(palette.highlight) }
-                    }
-                    width: view1.currentItem == null ? 0 : view1.currentItem.width
-                }
-                highlightMoveVelocity: 1000
-                pressDelay: 100
-                states: [
-                    State {
-                        name: "current"
-                        PropertyChanges { target: view2; x: 0 }
-                    },
-                    State {
-                        name: "exitLeft"
-                        PropertyChanges { target: view2; x: -root.width }
-                    },
-                    State {
-                        name: "exitRight"
-                        PropertyChanges { target: view2; x: root.width }
-                    }
-                ]
-                transitions: [
-                    Transition {
-                        to: "current"
-                        SequentialAnimation {
-                            NumberAnimation { properties: "x"; duration: 250 }
-                        }
-                    },
-                    Transition {
-                        NumberAnimation { properties: "x"; duration: 250 }
-                    }
-                ]
-                Keys.onPressed: root.keyPressed(event.key)
-            }
+                Component.onCompleted: forceActiveFocus();
 
-            Keys.onPressed: {
-                root.keyPressed(event.key);
-                if (event.key == Qt.Key_Return || event.key == Qt.Key_Select || event.key == Qt.Key_Right) {
-                    view.currentItem.launch();
-                    event.accepted = true;
-                } else if (event.key == Qt.Key_Left) {
-                    up();
+                Keys.onPressed: {
+                    if (event.key === Qt.Key_Escape) {
+                        fileBrowser.selectFile("")
+                    } else if (event.key === Qt.Key_Return) {
+                        if (folders.isFolder(view.currentIndex)) {
+
+
+                            down(folders.get(view.currentIndex, "filePath"))
+                        } else {
+                            fileBrowser.selectFile(folders.get(view.currentIndex, "filePath"))
+                        }
+
+                    } else if (event.key === Qt.Key_Backspace) {
+                        up()
+                    }
                 }
             }
 
             Rectangle {
                 width: parent.width;
                 height: 70
-                color: "#111111"
-                y: -7
+                color: "#f6f6f6"
                 id: titleBar
 
-                Rectangle {
-                    id: upButton
-                    width: 90
-                    height: titleBar.height - 7
-                    color: "transparent"
-                    Image { anchors.centerIn: parent; source: "images/up.png"; width: 32; height: 32 }
-                    MouseArea { id: upRegion; anchors.centerIn: parent
-                        anchors.fill: parent
-                        onClicked: if (folders.parentFolder != "") up()
-                    }
-                    states: [
-                        State {
-                            name: "pressed"
-                            when: upRegion.pressed
-                            PropertyChanges { target: upButton; color: palette.highlight }
-                        }
-                    ]
+                Button {
+                    id: backButton
+                    text: qsTr("Back")
+                    anchors.left: parent.left
+                    anchors.leftMargin: parent.width * .05
+                    anchors.verticalCenter: parent.verticalCenter
+                    onClicked: up()
                 }
-
-//                Rectangle {
-//                    color: "gray"
-//                    x: 70
-//                    width: 1
-//                    height: 63
-//                }
-
-                Rectangle {
-                    id: cancelButton
-                    width: 100
-                    height: titleBar.height - 7
-                    color: "transparent"
-                    anchors { left: upButton.right; leftMargin: 1; }
-
-                    Text {
-                        anchors { fill: parent; topMargin: 3 }
-                        text: "Cancel"
-                        color: "white"
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        font.pixelSize: 22
-                    }
-
-                    MouseArea {
-                        id: cancelRegion
-                        anchors.fill: parent
-                        onClicked: fileBrowser.selectFile("")
-                    }
-
-                    states: [
-                        State {
-                            name: "pressed"
-                            when: cancelRegion.pressed
-                            PropertyChanges { target: cancelButton; color: palette.highlight }
-                        }
-                    ]
-                }
-
-//                Rectangle {
-//                    color: "gray"
-//                    x: 171
-//                    width: 1
-//                    height: 63
-//                }
 
                 Text {
-                    anchors.left: cancelButton.right; anchors.right: parent.right; height: parent.height
-                    anchors.leftMargin: 4; anchors.rightMargin: 4
+                    anchors.left: backButton.right;
+                    anchors.leftMargin: parent.width * .05
+                    anchors.right: cancelButton.left
+                    anchors.rightMargin: parent.width * .05
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+
                     text: String(folders.folder).replace("file://", "")
-                    color: "white"
-                    elide: Text.ElideLeft; horizontalAlignment: Text.AlignRight; verticalAlignment: Text.AlignVCenter
-                    font.pixelSize: 28
+                    color: "#46484a"
+                    elide: Text.ElideLeft
+                    verticalAlignment: Text.AlignVCenter
+                    font.pixelSize: backButton.height * .8
+                }
+
+                Button {
+                    id: cancelButton
+                    text: qsTr("Cancel")
+                    checkable: true
+                    checked: true
+                    anchors.right: parent.right
+                    anchors.rightMargin: parent.width * .05
+                    anchors.verticalCenter: parent.verticalCenter
+                    onClicked: fileBrowser.selectFile("")
                 }
 
                 Rectangle {
                     width: parent.width
                     anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 3
                     height: 2
-                    color: palette.highlight
+                    color: "#e4e4e4"
                 }
             }
 
             function down(path) {
-                if (folders == folders1) {
-                    view = view2
-                    folders = folders2;
-                    view1.state = "exitLeft";
-                } else {
-                    view = view1
-                    folders = folders1;
-                    view2.state = "exitLeft";
-                }
-                view.x = root.width;
-                view.state = "current";
-                view.focus = true;
-                folders.folder = "file://" + path;
+                if (folderChangeAnimation.running)
+                    return;
+
+                folderChangeAnimation.targetFolder = "file://" + path;
+                folderChangeAnimation.direction = "down"
+                folderChangeAnimation.restart()
             }
 
             function up() {
                 var path = folders.parentFolder;
-                if (folders == folders1) {
-                    view = view2
-                    folders = folders2;
-                    view1.state = "exitRight";
-                } else {
-                    view = view1
-                    folders = folders1;
-                    view2.state = "exitRight";
-                }
-                view.x = -root.width;
-                view.state = "current";
-                view.focus = true;
-                folders.folder = path;
+
+                if (path.toString() === "")
+                    return;
+
+                if (folderChangeAnimation.running)
+                    return;
+
+                folderChangeAnimation.targetFolder = path
+                folderChangeAnimation.direction = "up"
+                folderChangeAnimation.restart()
             }
 
-            function keyPressed(key) {
-                switch (key) {
-                    case Qt.Key_Up:
-                    case Qt.Key_Down:
-                    case Qt.Key_Left:
-                    case Qt.Key_Right:
-                        root.showFocusHighlight = true;
-                    break;
-                    default:
-                        // do nothing
-                    break;
+            SequentialAnimation {
+                id: folderChangeAnimation
+                property string targetFolder: ""
+                property string direction: "up"
+
+                alwaysRunToEnd: true
+
+                NumberAnimation {
+                    target: view
+                    property: "x"
+                    from: 0
+                    to: folderChangeAnimation.direction === "up" ? root.width : -root.width
+                    duration: 250
+                }
+
+                ScriptAction {
+                    script: root.folder = folderChangeAnimation.targetFolder
+                }
+
+                NumberAnimation {
+                    target: view
+                    property: "x"
+                    from: folderChangeAnimation.direction === "up" ? -root.width : root.width
+                    to: 0
+                    duration: 250
                 }
             }
         }

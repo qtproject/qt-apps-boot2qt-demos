@@ -69,6 +69,7 @@ FocusScope {
 
     Component.onCompleted: {
         init();
+        forceActiveFocus();
     }
 
     Content {
