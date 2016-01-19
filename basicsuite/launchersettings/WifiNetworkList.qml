@@ -146,14 +146,13 @@ Item {
                     } else {
                         config.ssid = ssid;
                         config.passphrase = passwordInput.text
-                        var supportedProtocols;
+                        var supportedProtocols = "";
                         if (supportsWPA) supportedProtocols += "WPA "
                         if (supportsWPA2) supportedProtocols += "WPA2 "
                         if (supportsWEP) supportedProtocols += "WEP "
                         if (supportsWPS) supportedProtocols += "WPS "
                         config.protocol = supportedProtocols
-                        if (!WifiManager.connect(config))
-                            print("failed to connect: " + WifiManager.lastError)
+                        WifiManager.connect(config)
                     }
                 }
             }

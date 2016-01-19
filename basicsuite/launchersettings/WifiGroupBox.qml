@@ -81,6 +81,28 @@ ColumnLayout {
         }
     }
 
+    Connections {
+        target: WifiManager
+        onLastErrorChanged: {
+            wifiErrorReporter.text = "error: " + WifiManager.lastError
+            clearErrorTimer.restart()
+        }
+    }
+
+    Text {
+        id: wifiErrorReporter
+        wrapMode: Text.WordWrap
+        Layout.leftMargin: mainLayout.column1Width
+        Layout.topMargin: engine.mm(2)
+        Layout.preferredWidth: mainLayout.width * .4
+        Timer {
+            id: clearErrorTimer
+            repeat: false
+            interval: 6000
+            onTriggered: wifiErrorReporter.text = ""
+        }
+    }
+
     Binding {
         target: WifiManager
         property: "scanning"
@@ -90,7 +112,7 @@ ColumnLayout {
     Button {
         id: listNetworksButton
         Layout.leftMargin: mainLayout.column1Width
-        Layout.topMargin: engine.mm(6)
+        Layout.topMargin: engine.mm(1)
         Layout.preferredWidth: mainLayout.width * .4
         visible: WifiManager.backendState === WifiManager.Running
         text: networkList.visible ? qsTr("Hide Wi-Fi networks")
