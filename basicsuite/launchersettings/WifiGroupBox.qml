@@ -76,7 +76,6 @@ ColumnLayout {
 
         Text {
             id: wifiOnOffText
-            text: qsTr("%1%").arg(Math.round(brightnessSlider.value / brightnessSlider.maximumValue * 100))
             font.pixelSize: engine.smallFontSize()
             Layout.leftMargin: mainLayout.width * .05
         }
