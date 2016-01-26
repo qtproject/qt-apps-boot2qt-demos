@@ -1,6 +1,4 @@
 TEMPLATE = subdirs
-SUBDIRS += \
-    sensorexplorer
 
 qtHaveModule(webengine) {
     SUBDIRS += \
