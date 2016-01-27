@@ -1,3 +1,0 @@
-The Media Player example demonstrates the use of media playback features provided by Qt Multimedia with Qt Quick.
-
-It can play content either from a file or a network source, both videos and music.

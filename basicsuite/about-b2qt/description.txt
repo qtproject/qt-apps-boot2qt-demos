@@ -1,1 +1,0 @@
-Provides an introduction to what Qt for Device Creation is all about.

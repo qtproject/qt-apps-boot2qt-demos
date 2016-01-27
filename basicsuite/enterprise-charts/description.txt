@@ -1,3 +1,0 @@
-This demo presents different types of charts that are available from Qt Charts library.
-
-Qt Charts is part of the Qt Enterprise addons package which provides a set of easy to use chart components. It uses the Qt Graphics View Framework, therefore charts can be easily integrated to modern user interfaces. Qt Charts can be used as QWidgets, QGraphicsWidget, or QML types.

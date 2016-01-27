@@ -1,1 +1,0 @@
-The dashboard demo uses Qt Quick Extras to create a digital dashboard for a car.

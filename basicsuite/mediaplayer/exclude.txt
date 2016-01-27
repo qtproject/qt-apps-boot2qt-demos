@@ -1,4 +1,0 @@
-android-beaglebone
-android-emulator
-linux-beaglebone
-linux-colibri-vf

@@ -1,1 +1,0 @@
-000. About Qt for Device Creation
