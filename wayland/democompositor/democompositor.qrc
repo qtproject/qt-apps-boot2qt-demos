@@ -6,5 +6,15 @@
         <file>qml/MyButton.qml</file>
         <file>qml/LaunchButton.qml</file>
         <file>qml/TimedButton.qml</file>
+        <file>images/icon1.png</file>
+        <file>images/icon2.png</file>
+        <file>images/icon3.png</file>
+        <file>images/icon4.png</file>
+        <file>images/quit.png</file>
+        <file>images/greendot.png</file>
+        <file>images/reddot.png</file>
+        <file>images/graydot.png</file>
+        <file>images/graydots.png</file>
+        <file>images/greendots.png</file>
     </qresource>
 </RCC>

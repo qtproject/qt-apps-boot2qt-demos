@@ -39,8 +39,12 @@ import QtQuick 2.6
 Rectangle {
     id: theButton
 
-    radius: 10
-    color: "lightgray"
+    //radius: 10
+    color: "magenta"
+    property color grooveColor: "cyan"
+    property color textColor: "#777"
+    property alias icon: iconImage
+    property double iconSize: 32
 
     property alias text: buttonText.text
     signal triggered()
@@ -83,23 +87,55 @@ Rectangle {
                 }
     ]
     Rectangle {
-        radius: 10
-        color: "red"
-        anchors.left: parent.left
+        id: timeIndicator
         anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        width: parent.width * percent / 100
-        visible: percent > 0
-    }
-
-    Text {
-        id: buttonText
-        anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.margins: 10
-        text: "[Uninitialized]"
+        height: 10
+        color: grooveColor
+        Rectangle {
+            color: "#e41e25"
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            width: parent.width * percent / 100
+            visible: percent > 0
+        }
     }
+
+    Item {
+        anchors.top: timeIndicator.bottom
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        Item {
+            id: iconRect
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.leftMargin: 5
+            width: iconSize
+            height: iconSize
+            Image {
+                anchors.centerIn: parent
+                id: iconImage
+            }
+        }
+
+
+        Text {
+            id: buttonText
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: iconRect.right
+            anchors.right: parent.right
+            anchors.leftMargin: 10
+
+            color: textColor
+            text: "[Uninitialized]"
+            font.bold: true
+        }
+
+    }
+
 
     MouseArea {
         id: mouser

@@ -47,10 +47,19 @@ WaylandOutput {
     property var windowList: [ ]
     property int hiddenWindowCount
 
+    property bool darkMode: true
+
+    property color backgroundCol: darkMode ?  "#1b1c1d" : "white"
+    property color pressedCol: darkMode ? "#000000" :  "#eeeeee"
+    property color textCol: darkMode ? "#cdcdcd" : "black"
+    property color weakLineCol: darkMode ?  "#2f3d24" : "#d6d6d6" //"#585a5c"????
+    property color weakTextCol: darkMode ? "#585a5c" : "#d6d6d6"
+    property color strongLineCol: darkMode ? "#5caa15" : "#80c342"
+
     window: Window {
         id: screen
 
-        //flags: Qt.FramelessWindowHint
+        flags: Qt.FramelessWindowHint
 
         property QtObject output
 
@@ -97,7 +106,7 @@ WaylandOutput {
 
             width: sidebarWidth
 
-            color: "#6f6d75"
+            color: backgroundCol
 
             Column {
                 anchors.top: parent.top
@@ -105,35 +114,79 @@ WaylandOutput {
                 anchors.right: parent.right
                 z: 1
                 padding: 5
-                spacing: 5
+                spacing: 0
+                Text {
+                    color: weakTextCol
+                    text: "OPEN APPS"
+                    padding: 5
+                }
+
+                Rectangle {
+                    height: 1
+                    width: sidebar.width - 10
+                    color: strongLineCol
+                }
+
                 Repeater {
                     model: windowList
-                    MyButton {
-                        id: winButton
-                        enableAlternate: true
-                        enableSlide: true
-                        property QtObject winItem: modelData
+                    Item {
+                        height: 36
+                        width: 1
+                        Item {
+                            anchors.top:parent.top
+                            anchors.left:parent.left
+                            height: 35
+                            width: sidebar.width - 10
+                            Rectangle {
+                                anchors.fill: parent
+                                color: "#e41e25"
+                                Text {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    leftPadding: 10
+                                    text: "Terminate"
+                                    color: "white"
+                                }
+                            }
 
-                        height: 30
-                        width: sidebar.width - 10
+                            MyButton {
+                                anchors.fill: parent
+                                id: winButton
+                                enableAlternate: true
+                                enableSlide: true
+                                property QtObject winItem: modelData
 
-                        buttonColor: winItem.explicitlyHidden ? "#8f8f9f" : "lightgray"
+                                icon.source: sliding ? "qrc:/images/reddot.png" : (winItem.explicitlyHidden ? "qrc:/images/graydot.png" : "qrc:/images/greendot.png")
+                                //icon.visible: !winItem.explicitlyHidden
 
-                        text.maximumLineCount: 1
-                        text.text: modelData.shellSurface.title.length > 0 ? modelData.shellSurface.title : "Untitled"
-                        text.elide: Text.ElideRight
-                        onTriggered: {
-                            winItem.toggleVisible()
+                                buttonColor: backgroundCol
+                                pressedColor: pressedCol
+
+                                text.maximumLineCount: 1
+                                text.text: modelData.shellSurface.title.length > 0 ? modelData.shellSurface.title : "Untitled"
+                                text.elide: Text.ElideRight
+                                text.color: textCol
+                                onTriggered: {
+                                    winItem.toggleVisible()
+                                }
+                                onAlternateTrigger: {
+                                    //console.log("alt " + winItem + " : " + winItem.shellSurface.surface)
+                                    setFullscreen(winItem)
+
+                                }
+                                onSlideTrigger: {
+                                    //console.log("slide " + winItem + " : " + winItem.shellSurface.surface)
+                                    winItem.shellSurface.surface.client.close()
+                                }
+                            }
+                            Rectangle {
+                                anchors.top: winButton.bottom
+                                height: 1
+                                width: sidebar.width - 10
+                                color: weakLineCol
+                            }
+
                         }
-                        onAlternateTrigger: {
-                            //console.log("alt " + winItem + " : " + winItem.shellSurface.surface)
-                            setFullscreen(winItem)
 
-                        }
-                        onSlideTrigger: {
-                            //console.log("slide " + winItem + " : " + winItem.shellSurface.surface)
-                            winItem.shellSurface.surface.client.close()
-                        }
                     }
                 }
                 Item {
@@ -143,12 +196,22 @@ WaylandOutput {
                 MyButton {
                     height: 50
                     width: sidebar.width - 10
-                    buttonColor: enabled ? "#6fdf7f" : "lightgray"
+                    buttonColor: backgroundCol
+                    pressedColor: pressedCol
                     enabled: windowList.length > 0 && hiddenWindowCount > 0
-                    text.color: enabled ? "black" : "gray"
+                    text.color: enabled ?  strongLineCol : weakTextCol  //"#5caa15" : "#585a5c"
+                    //visible: enabled
                     text.text: "Show all"
+                    iconSize: 21
+                    icon.source: enabled ? "qrc:/images/greendots.png" : "qrc:/images/graydots.png"
                     onTriggered: setFullscreen(null)
                 }
+                Rectangle {
+                    height: 1
+                    width: sidebar.width - 10
+                    color: weakLineCol
+                }
+
             }
 
 
@@ -157,33 +220,79 @@ WaylandOutput {
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
                 padding: 5
-                spacing: 5
+                spacing: 0
 
+                Text {
+                    padding: 5
+                    color: weakTextCol
+                    text: "LAUNCHER"
+                }
+
+                Rectangle {
+                    height: 1
+                    width: sidebar.width - 10
+                    color: strongLineCol
+                }
+
+                Item {
+                    height: 5
+                    width: 1
+                }
+                LaunchButton {
+                    height: 60
+                    width: sidebar.width - 10
+                    buttonColor: backgroundCol
+                    pressedColor: pressedCol
+                    textColor: textCol
+                    text.text: "Clocks"
+                    executable: "./clocks"
+                    icon.source: "qrc:/images/icon1.png"
+                }
 
                 LaunchButton {
-                    height: 30
+                    height: 60
                     width: sidebar.width - 10
-                    text.text: "Launch wiggly"
-                    executable: "./wiggly"
+                    buttonColor: backgroundCol
+                    pressedColor: pressedCol
+                    textColor: textCol
+                    text.text: "RSS News"
+                    executable: "./rssnews"
+                    icon.source: "qrc:/images/icon2.png"
                 }
                 LaunchButton {
-                    height: 30
+                    height: 60
                     width: sidebar.width - 10
-                    text.text: "Launch analog clock"
-                    executable: "./analogclock"
+                    buttonColor: backgroundCol
+                    pressedColor: pressedCol
+                    textColor: textCol
+                    text.text: "StoQt"
+                    executable: "./stocqt"
+                    icon.source: "qrc:/images/icon3.png"
                 }
                 LaunchButton {
-                    height: 30
+                    height: 60
                     width: sidebar.width - 10
-                    text.text: "Launch digital clock"
-                    executable: "./digitalclock"
+                    buttonColor: backgroundCol
+                    pressedColor: pressedCol
+                    textColor: textCol
+                    text.text: "Maps"
+                    executable: "./qml_location_mapviewer"
+                    icon.source: "qrc:/images/icon4.png"
                 }
+
                 TimedButton {
                     //visible: false
-                    height: 50
+                    height: 60
                     width: sidebar.width - 10
-                    text: "Quit"
+                    text: "Shut down"
+
+                    color: backgroundCol
+                    textColor: textCol
+
+                    grooveColor:  pressedCol // "black" ??
+
                     onTriggered: quitAnimation.start()
+                    icon.source: "qrc:/images/quit.png"
                 }
             }
         }
@@ -195,11 +304,11 @@ WaylandOutput {
             anchors.left: sidebar.right
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            enableWSCursor: true
+            enableWSCursor: false
             Rectangle {
                 id: background
                 anchors.fill: parent
-                color: "#8f8d95"
+                color: darkMode ?  "#26282a" : "#f6f6f6"
                 onWidthChanged: output.relayout()
                 onHeightChanged: output.relayout()
             }
