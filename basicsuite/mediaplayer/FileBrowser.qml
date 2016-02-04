@@ -78,7 +78,10 @@ Item {
                     "*.f4a", "*.f4b", "*.gif", "*.gifv", "*.m4v", "*.mkv", "*.mng", "*.mov", "*.qt",
                     "*.mp4", "*.m4p", "*.m4v", "*.mpg", "*.mp2", "*.mpeg", "*.mpe", "*.mpv", "*.m2v",
                     "*.mxf", "*.nsv", "*.ogv", "*.ogg", "*.rm", "*.rmvb", "*.roq", "*.svi", "*.vob",
-                    "*.webm", "*.wmv", "*.yuv"]
+                    "*.webm", "*.wmv", "*.yuv", "*.aa", "*.aac", "*.aax", "*.act", "*.aiff", "*.amr",
+                    "*.ape", "*.au", "*.awb", "*.dct", "*.dss", "*.flac", "*.gsm", "*.m4a", "*.m4b",
+                    "*.m4p", "*.mp3", "*.mpc", "*.ogg", "*.oga", "*.vox", "*.wav", "*.wma"
+                ]
             }
 
             Component {
