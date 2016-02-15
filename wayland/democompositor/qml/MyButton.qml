@@ -37,7 +37,6 @@
 import QtQuick 2.6
 
 Item {
-    //property alias color: rect.color
     property alias text: buttonText
     signal triggered()
     signal alternateTrigger()
@@ -46,7 +45,15 @@ Item {
     property bool enableSlide: false
     property bool longPressed: false
 
-    property color buttonColor: "lightgray"
+    property bool sliding: enableSlide && mouser.drag.active
+
+    property color buttonColor: "magenta"
+    property color pressedColor: "cyan"
+    property color textColor: "#ff0000"
+    property double iconSize: 10
+
+    property alias icon: iconImage
+
     Rectangle {
         id: rect
         anchors.top: parent.top
@@ -54,29 +61,44 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
 
-        radius: 10
-        color: (enableSlide && mouser.drag.active) ? "#df3f1f" : mouser.containsPress ? (longPressed ? "#3faf1f" : "steelblue") : buttonColor
+        color: mouser.containsPress && !mouser.drag.active ? (longPressed ? "#3faf1f" : pressedColor) : buttonColor
+
+        Item {
+            id: iconRect
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.margins: 5
+            width: iconSize
+            height: iconSize
+            Image {
+                anchors.centerIn: parent
+                id: iconImage
+            }
+        }
 
         Text {
+            color: textColor
             anchors.margins: 10
             id: buttonText
             anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
+            anchors.left: iconRect.right
             anchors.right: parent.right
             text: "[Uninitialized]"
         }
+        //opacity:  (enableSlide && mouser.drag.active) ? (1.2 - (x/width)) : 1.0
     }
 
     MouseArea {
         id: mouser
         anchors.fill: parent
-
         onPressed: {
             if (enableSlide) {
                 rect.anchors.left = undefined
                 rect.anchors.right = undefined
             }
         }
+
+        //onPositionChanged: console.log("Mouse move: " + mouse.x + ", " + mouse.y)
 
         onPressAndHold: if (enableAlternate) parent.longPressed = true
         onReleased: {
@@ -96,7 +118,8 @@ Item {
             rect.anchors.right = parent.right
             parent.longPressed = false
         }
-
+        onEntered: console.log("Enter: " + buttonText.text)
+        onExited: console.log("Exit: " + buttonText.text)
         drag.target: rect
         drag.threshold: 5
         drag.axis: Drag.XAxis

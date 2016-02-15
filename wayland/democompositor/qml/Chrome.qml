@@ -36,12 +36,10 @@
 
 import QtQuick 2.0
 import QtWayland.Compositor 1.0
-import QtGraphicalEffects 1.0
 
 Rectangle {
-    border.width: 1
-    border.color: "#102080"
-    color: "#1337af"
+    border.width: 0
+    color: "#1b1c1d"
     id: rootChrome
     property alias surface: surfaceItem.surface
     property alias valid: surfaceItem.valid
@@ -51,24 +49,7 @@ Rectangle {
     property alias destroyAnimation : destroyAnimationImpl
 
     property int marginWidth : 5
-    property int titlebarHeight : 25
-
-    Item {
-        anchors.margins: 1
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: titlebarHeight
-        LinearGradient {
-              anchors.fill: parent
-              start: Qt.point(0, 0)
-              end: Qt.point(0, height)
-              gradient: Gradient {
-                  GradientStop { position: 0.0; color: "steelblue" }
-                  GradientStop { position: 1.0; color: "#1337af" }
-              }
-        }
-    }
+    property int titlebarHeight : 5
 
     function requestSize(w, h) {
         surfaceItem.requestSize(Qt.size(w - 2 * marginWidth, h - titlebarHeight - marginWidth))
@@ -111,7 +92,6 @@ Rectangle {
         }
     ]
 
-
     WaylandQuickItem {
         id: surfaceItem
 
@@ -124,7 +104,6 @@ Rectangle {
         property bool explicitlyHidden: false
         property var shellSurface: ShellSurface {
         }
-
 
         sizeFollowsSurface: false
 
@@ -166,7 +145,6 @@ Rectangle {
                     y: 0
                     width: 0
                     height: 0
-                    //visible: false
                 }
             }
         ]

@@ -41,6 +41,7 @@ MyButton {
     text.text: "Uninitialized"
     text.elide: Text.ElideRight
     text.maximumLineCount: 1
+    iconSize: 32
 
     onTriggered: launcher.launch(executable)
 }
