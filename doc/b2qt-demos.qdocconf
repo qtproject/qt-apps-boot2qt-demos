@@ -16,7 +16,7 @@ sources.fileextensions       = "*.qdoc"
 examples.fileextensions      = "*.cpp *.h *.js *.xq *.svg *.xml *.ui *.qhp *.qhcp *.qml *.css"
 examples.imageextensions     = "*.png *.jpg *.gif"
 
-exampledirs                  = ../basicsuite
+exampledirs                  = ..
 
 qhp.projects                 = QtforDeviceCreationDemos
 
