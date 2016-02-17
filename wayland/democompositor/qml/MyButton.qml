@@ -118,8 +118,6 @@ Item {
             rect.anchors.right = parent.right
             parent.longPressed = false
         }
-        onEntered: console.log("Enter: " + buttonText.text)
-        onExited: console.log("Exit: " + buttonText.text)
         drag.target: rect
         drag.threshold: 5
         drag.axis: Drag.XAxis

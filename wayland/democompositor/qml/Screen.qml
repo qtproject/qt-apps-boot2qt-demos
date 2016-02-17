@@ -246,7 +246,7 @@ WaylandOutput {
                     textColor: textCol
                     text.text: "Clocks"
                     executable: "./clocks"
-                    icon.source: "qrc:/images/icon1.png"
+                    icon.source: "qrc:/images/Icon_Clocks.png"
                 }
 
                 LaunchButton {
@@ -257,7 +257,7 @@ WaylandOutput {
                     textColor: textCol
                     text.text: "RSS News"
                     executable: "./rssnews"
-                    icon.source: "qrc:/images/icon2.png"
+                    icon.source: "qrc:/images/Icon_RSS.png"
                 }
                 LaunchButton {
                     height: 60
@@ -267,7 +267,7 @@ WaylandOutput {
                     textColor: textCol
                     text.text: "StoQt"
                     executable: "./stocqt"
-                    icon.source: "qrc:/images/icon3.png"
+                    icon.source: "qrc:/images/Icon_StocQt.png"
                 }
                 LaunchButton {
                     height: 60
@@ -277,7 +277,7 @@ WaylandOutput {
                     textColor: textCol
                     text.text: "Maps"
                     executable: "./qml_location_mapviewer"
-                    icon.source: "qrc:/images/icon4.png"
+                    icon.source: "qrc:/images/Icon_Maps.png"
                 }
 
                 TimedButton {
