@@ -42,9 +42,9 @@ import QtQuick 2.0
 import QtQuick.Particles 2.0
 import QtQuick.Window 2.1
 
-Item {
+Rectangle {
     id: root
-
+    color: "white"
     width : Screen.height > Screen.width ? Screen.height : Screen.width
     height : Screen.height > Screen.width ? Screen.width : Screen.height
 
