@@ -1,3 +1,0 @@
-This example demonstrates the use of the QtWebEngine WebView with Qt Quick.
-
-Demo can be used to browse the internet (working network connection required) or run the offline web page demos.

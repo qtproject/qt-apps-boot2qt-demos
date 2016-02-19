@@ -1,4 +1,0 @@
-linux-raspberrypi
-linux-beaglebone
-android-beaglebone
-linux-colibri-vf

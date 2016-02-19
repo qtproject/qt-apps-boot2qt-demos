@@ -1,1 +1,0 @@
-The Planets example showcases Qt Canvas 3D. This demo combines WebGL code and three.js with QML and Qt Quick Controls.

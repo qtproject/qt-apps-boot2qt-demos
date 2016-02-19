@@ -1,1 +1,0 @@
-070. Qt Quick Controls - Flat Style Gallery
