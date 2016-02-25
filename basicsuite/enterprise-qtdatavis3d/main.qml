@@ -24,9 +24,9 @@ import QtQuick.Extras 1.4
 import QtDataVisualization 1.0
 import "."
 
-Item {
+Rectangle {
     id: mainview
-
+    color: "black"
     Item {
         id: surfaceView
         width: mainview.width - buttonLayout.width
