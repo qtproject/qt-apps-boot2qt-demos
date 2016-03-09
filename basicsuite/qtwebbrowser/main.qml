@@ -1,5 +1,6 @@
 import QtQuick 2.0
+import WebBrowser 1.0
 
 Loader {
-    source: "tqtc-qtwebbrowser/src/qml/BrowserWindow.qml"
+    source: "qrc:/qml/BrowserWindow.qml"
 }
