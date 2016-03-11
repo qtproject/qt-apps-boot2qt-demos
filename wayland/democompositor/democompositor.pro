@@ -17,3 +17,5 @@ RESOURCES += democompositor.qrc
 HEADERS += \
     processlauncher.h
 
+INSTALLS += target
+target.path = /data/user/$$TARGET
