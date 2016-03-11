@@ -15,7 +15,7 @@ Demo can be used to take photos which are saved in the /data/images/ directory. 
 </description>
 </application>
 
-<application title="Qt Canvas3D - Planets" location="/data/user/qt/canvas3d-planets" main="main.qml" icon="/data/user/qt/canvas3d-planets/preview_l.jpg" exclude="linux-raspberrypi2;linux-raspberrypi;linux-beaglebone;linux-colibri-vf">
+<application title="Qt Canvas3D - Planets" location="/data/user/qt/canvas3d-planets" main="main.qml" icon="/data/user/qt/canvas3d-planets/preview_l.jpg" exclude="linux-emulator;linux-raspberrypi2;linux-raspberrypi;linux-beaglebone;linux-colibri-vf">
 <description>
 The Planets example showcases Qt Canvas 3D. This demo combines WebGL code and three.js with QML and Qt Quick Controls.
 </description>
