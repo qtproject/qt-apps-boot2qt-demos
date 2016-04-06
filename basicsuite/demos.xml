@@ -15,7 +15,7 @@ Demo can be used to take photos which are saved in the /data/images/ directory. 
 </description>
 </application>
 
-<application title="Qt Canvas3D - Planets" location="/data/user/qt/canvas3d-planets" main="main.qml" icon="/data/user/qt/canvas3d-planets/preview_l.jpg" exclude="linux-emulator;linux-raspberrypi2;linux-raspberrypi;linux-beaglebone;linux-colibri-vf">
+<application title="Qt Canvas3D - Planets" location="/data/user/qt/canvas3d-planets" main="main.qml" icon="/data/user/qt/canvas3d-planets/preview_l.jpg" exclude="linux-emulator;linux-raspberrypi3;linux-raspberrypi2;linux-raspberrypi;linux-beaglebone;linux-colibri-vf">
 <description>
 The Planets example showcases Qt Canvas 3D. This demo combines WebGL code and three.js with QML and Qt Quick Controls.
 </description>
@@ -41,7 +41,7 @@ The Flat Style Gallery example showcases the Qt Quick Controls. This demo combin
 </description>
 </application>
 
-<application title="Qt Data Visualization 3D - Surface Multiseries" location="/data/user/qt/enterprise-qtdatavis3d" main="main.qml" icon="/data/user/qt/enterprise-qtdatavis3d/preview_l.jpg" exclude="linux-raspberrypi;linux-raspberrypi2;linux-colibri-vf">
+<application title="Qt Data Visualization 3D - Surface Multiseries" location="/data/user/qt/enterprise-qtdatavis3d" main="main.qml" icon="/data/user/qt/enterprise-qtdatavis3d/preview_l.jpg" exclude="linux-raspberrypi;linux-raspberrypi2;linux-raspberrypi3;linux-colibri-vf">
 <description>
 Shows how to make a 3D surface plot, displaying three layers from three different height map images using Surface3D with Qt Quick.
 </description>
