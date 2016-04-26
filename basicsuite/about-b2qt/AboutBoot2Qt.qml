@@ -254,7 +254,7 @@ Column {
     ContentText {
         width: parent.width
         text: '<p align="justify">With Qt for Device Creation you are never alone with your device creation. You get
-               <strong>full support and portfolio of Digia Qt Professional Services</strong>
+               <strong>full support and portfolio of Qt Professional Services</strong>
                to help you pass all obstacles and reach your markets faster with outstanding quality.</p>'
     }
 
