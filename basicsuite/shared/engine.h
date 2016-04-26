@@ -1,20 +1,23 @@
-/****************************************************************************
+/******************************************************************************
 **
-** Copyright (C) 2014 Digia Plc
-** All rights reserved.
-** For any questions to Digia, please use contact form at http://www.qt.io
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
-** This file is part of Qt Enterprise Embedded.
+** This file is part of Qt for Device Creation.
 **
-** Licensees holding valid Qt Enterprise licenses may use this file in
-** accordance with the Qt Enterprise License Agreement provided with the
+** $QT_BEGIN_LICENSE:COMM$
+**
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and Digia.
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see http://www.qt.io/terms-conditions. For further
+** information use the contact form at http://www.qt.io/contact-us.
 **
-** If you have questions regarding the use of this file, please use
-** contact form at http://www.qt.io
+** $QT_END_LICENSE$
 **
-****************************************************************************/
+******************************************************************************/
 #ifndef ENGINE_H
 #define ENGINE_H
 

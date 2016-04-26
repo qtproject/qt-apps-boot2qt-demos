@@ -1,9 +1,9 @@
 /******************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Contact: https://www.qt.io/licensing/
 **
-** This file is part of the Qt Enterprise Embedded.
+** This file is part of Qt for Device Creation.
 **
 ** $QT_BEGIN_LICENSE:COMM$
 **
