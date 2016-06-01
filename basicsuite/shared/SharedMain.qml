@@ -20,7 +20,7 @@
 ******************************************************************************/
 import QtQuick 2.4
 import QtQuick.Window 2.2
-import QtQuick.Enterprise.VirtualKeyboard 1.2
+import QtQuick.VirtualKeyboard 1.2
 
 Window {
     id: window

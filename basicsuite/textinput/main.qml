@@ -21,8 +21,8 @@
 
 import QtQuick 2.0
 import QtQuick.Window 2.2
-import QtQuick.Enterprise.VirtualKeyboard 2.0
-import QtQuick.Enterprise.VirtualKeyboard.Settings 2.0
+import QtQuick.VirtualKeyboard 2.0
+import QtQuick.VirtualKeyboard.Settings 2.0
 
 Rectangle {
     width: 1280
