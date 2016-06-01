@@ -19,7 +19,7 @@
 **
 ******************************************************************************/
 import QtQuick 2.6
-import com.theqtcompany.settingsui 1.0
+import QtDeviceUtilities.SettingsUI 1.0
 
 SettingsUI {
     id: settingsUI
