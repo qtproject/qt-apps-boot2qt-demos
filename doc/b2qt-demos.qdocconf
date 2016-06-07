@@ -5,8 +5,8 @@ outputencoding               = UTF-8
 sourceencoding               = UTF-8
 
 project                      = QtforDeviceCreationDemos
-description                  = Qt 5.6 for Device Creation Examples and Demos
-version                      = 5.6.0
+description                  = Qt 5.7 for Device Creation Examples and Demos
+version                      = 5.7.0
 
 sourcedirs                   = .
 imagedirs                   += images
@@ -21,9 +21,9 @@ exampledirs                  = ..
 qhp.projects                 = QtforDeviceCreationDemos
 
 qhp.QtforDeviceCreationDemos.file                = b2qt-demos.qhp
-qhp.QtforDeviceCreationDemos.namespace           = com.digia.b2qt-demos.560
+qhp.QtforDeviceCreationDemos.namespace           = com.digia.b2qt-demos.570
 qhp.QtforDeviceCreationDemos.virtualFolder       = b2qt-demos
-qhp.QtforDeviceCreationDemos.indexTitle          = Qt 5.6 for Device Creation Examples and Demos
+qhp.QtforDeviceCreationDemos.indexTitle          = Qt 5.7 for Device Creation Examples and Demos
 qhp.QtforDeviceCreationDemos.indexRoot           =
 
 qhp.QtforDeviceCreationDemos.subprojects         = demos
@@ -35,4 +35,4 @@ manifestmeta.b2qt.names      = "QtforDeviceCreationDemos/*"
 macro.B2Q                    = "Boot to Qt"
 macro.SDK                    = "Qt for Device Creation"
 
-navigation.landingpage = "Qt 5.6 for Device Creation Examples and Demos"
+navigation.landingpage = "Qt 5.7 for Device Creation Examples and Demos"
