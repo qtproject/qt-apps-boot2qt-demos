@@ -3,5 +3,5 @@
 	url = https://github.com/OpenKinect/libfreenect.git
 [submodule "basicsuite/qtwebbrowser/tqtc-qtwebbrowser"]
 	path = basicsuite/qtwebbrowser/tqtc-qtwebbrowser
-	url = ssh://codereview.qt-project.org:29418/qt-apps/tqtc-qtwebbrowser
+	url = ssh://codereview.qt-project.org:29418/qt-apps/qtwebbrowser
 
