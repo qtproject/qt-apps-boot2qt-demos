@@ -66,33 +66,11 @@ WaylandCompositor {
         }
     }
 
-    Component {
-        id: surfaceComponent
-        WaylandSurface {
+    WlShell {
+        id: defaultShell
+        onWlShellSurfaceCreated: {
+            chromeComponent.createObject(defaultOutput.surfaceArea, { "shellSurface": shellSurface } );
+            defaultOutput.relayout();
         }
-    }
-
-    extensions: [
-        Shell {
-            id: defaultShell
-
-
-            onCreateShellSurface: {
-                var item = chromeComponent.createObject(defaultOutput.surfaceArea, { "surface": surface } );
-                item.shellSurface.initialize(defaultShell, surface, client, id);
-            }
-
-            Component.onCompleted: {
-                initialize();
-            }
-        }
-    ]
-
-    onCreateSurface: {
-        var surface = surfaceComponent.createObject(comp, { } );
-        surface.initialize(comp, client, id, version);
-    }
-    onSurfaceCreated: {
-        defaultOutput.relayout()
     }
 }

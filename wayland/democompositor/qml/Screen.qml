@@ -318,7 +318,7 @@ WaylandOutput {
             anchors.left: sidebar.right
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            enableWSCursor: false
+            windowSystemCursorEnabled: false
             Rectangle {
                 id: background
                 anchors.fill: parent

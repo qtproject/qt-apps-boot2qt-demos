@@ -106,7 +106,7 @@ Rectangle {
         }
     ]
 
-    WaylandQuickItem {
+    ShellSurfaceItem {
         id: surfaceItem
 
         anchors.fill: parent
@@ -116,13 +116,11 @@ Rectangle {
         property bool dead: false
         property bool valid: false
         property bool explicitlyHidden: false
-        property var shellSurface: ShellSurface {
-        }
 
         sizeFollowsSurface: false
 
         onSurfaceDestroyed: {
-            view.bufferLock = true;
+            bufferLocked = true;
             x = 0
             y = 0
             rootChrome.destroyAnimation.start();
