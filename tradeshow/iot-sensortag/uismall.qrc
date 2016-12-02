@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/small/StyleSmall.qml</file>
+        <file>resources/small/MainSmall.qml</file>
+        <file>resources/small/images/General/icon_sensor.png</file>
+        <file>resources/small/images/General/separator.png</file>
+        <file>resources/small/images/AmbientTemperature/ambTemp_display_amb.png</file>
+        <file>resources/small/images/Humidity/humidity_max_hum.png</file>
+        <file>resources/small/images/Humidity/humidity_min_hum.png</file>
+        <file>resources/small/images/Humidity/humidity_base_gauge.png</file>
+        <file>resources/small/images/ObjectTemperature/objTemp_base_circle.png</file>
+        <file>resources/small/images/ObjectTemperature/objTemp_display_obj.png</file>
+        <file>resources/small/images/Light/light_base_gauge.png</file>
+        <file>resources/small/images/Light/light_brightness.png</file>
+        <file>resources/small/images/AirPressure/AirPre_base_gauge.png</file>
+        <file>resources/small/images/Toolbar/icon_topbar_sensor.png</file>
+        <file>resources/small/images/Toolbar/topbar_all.png</file>
+        <file>resources/small/images/Toolbar/icon_topbar_cloud.png</file>
+    </qresource>
+</RCC>

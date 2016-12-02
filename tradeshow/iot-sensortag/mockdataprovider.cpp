@@ -1,0 +1,222 @@
+/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the examples of Qt for Device Creation.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/
+#include "mockdataprovider.h"
+#include <QtCore/QDateTime>
+
+MockDataProvider::MockDataProvider(QString id, QObject* parent)
+    : SensorTagDataProvider(id, parent),
+    xAxisG(-10),
+    zAxisG(0),
+    luxIncrease(100),
+    m_smaSamples(0)
+{
+    humidity = 40;
+    irTemperature = 25;
+    barometerCelsiusTemperature = 25;
+    barometerHPa = 1040;
+    magnetometerMicroT_xAxis = 333;
+    magnetometerMicroT_yAxis = 666;
+    magnetometerMicroT_zAxis = 999;
+}
+
+bool MockDataProvider::startDataFetching()
+{
+    // Mock data is immediately available
+    m_state = Connected;
+
+    qsrand(QDateTime::currentMSecsSinceEpoch() / 1000);
+    oneSecondTimer = new QTimer(this);
+    connect(oneSecondTimer, SIGNAL(timeout()), this, SLOT(oneSecondTimerExpired()));
+    oneSecondTimer->start(1000);
+    twentyMillisecondTimer = new QTimer(this);
+    connect(twentyMillisecondTimer, SIGNAL(timeout()), this, SLOT(twentyMsTimerExpired()));
+    twentyMillisecondTimer->start(200);
+    return true;
+}
+
+void MockDataProvider::endDataFetching()
+{
+    oneSecondTimer->stop();
+}
+
+QString MockDataProvider::sensorType() const
+{
+    return QLatin1String("Mock data");
+}
+
+QString MockDataProvider::versionString() const
+{
+    return QLatin1String("1.0");
+}
+
+void MockDataProvider::setTagType(int tagType)
+{
+    m_tagType = tagType;
+}
+
+void MockDataProvider::oneSecondTimerExpired()
+{
+    // Humidity goes randomly up and down between 20% and 60%
+    humidity += static_cast<double>((qrand() % 11)-5)/10;
+    if (humidity > 60)
+        humidity = 60;
+    if (humidity < 20)
+        humidity = 20;
+    emit relativeHumidityChanged();
+
+    // IR temperature goes randomly up OR down by half of a degree. So does barometer temperature.
+    if (qrand() % 2)
+        irTemperature -= 0.5;
+    else
+        irTemperature += 0.5;
+    if (irTemperature > 38)
+        irTemperature = 38;
+    if (irTemperature < 15)
+        irTemperature = 15;
+    emit infraredCelsiusTemperatureChanged();
+    if (qrand() % 2)
+        barometerCelsiusTemperature -= 0.5;
+    else
+        barometerCelsiusTemperature += 0.5;
+    if (barometerCelsiusTemperature > 38)
+        barometerCelsiusTemperature = 38;
+    if (barometerCelsiusTemperature < 15)
+        barometerCelsiusTemperature = 15;
+    emit barometerCelsiusTemperatureChanged();
+    barometerTemperatureAverage = (barometerCelsiusTemperature + m_smaSamples * barometerTemperatureAverage)  / (m_smaSamples + 1);
+    emit barometerCelsiusTemperatureAverageChanged();
+    m_smaSamples++;
+    // Use a limited number of samples. It will eventually give wrong avg values, but this is just a demo...
+    if (m_smaSamples > 10000)
+        m_smaSamples = 0;
+
+    // Light intensity switches between bright and dark (~0 and ~400)
+    lightIntensityLux += luxIncrease;
+    if (lightIntensityLux <= 0)
+        luxIncrease = 100;
+    if (lightIntensityLux >= 400)
+        luxIncrease = -100;
+    emit lightIntensityChanged();
+
+    // Air pressure goes between 1030 and 1050, in 0.05 steps
+    if (qrand() % 2)
+        barometerHPa -= 0.05;
+    else
+        barometerHPa += 0.05;
+    if (barometerHPa > 1050)
+        barometerHPa = 1050;
+    if (barometerHPa < 1030)
+        barometerHPa = 1030;
+    emit barometer_hPaChanged();
+
+}
+
+void MockDataProvider::twentyMsTimerExpired()
+{
+    //Rotate counter-clockwise around Z axis
+    if ((zAxisG > -10) &&
+        (xAxisG <= 0)) {
+        if (zAxisG <= 0) {
+            xAxisG += 2;
+            zAxisG -= 2;
+        } else {
+            xAxisG -= 2;
+            zAxisG -= 2;
+        }
+    } else {
+        if (zAxisG < 0) {
+            xAxisG += 2;
+            zAxisG += 2;
+        } else {
+            xAxisG -= 2;
+            zAxisG += 2;
+        }
+    }
+    accelometer_mG_xAxis = xAxisG * 100;
+    accelometer_mG_zAxis = zAxisG * 100;
+    emit accelometerGChanged();
+    magnetometerMicroT_xAxis += 50;
+    magnetometerMicroT_yAxis += 50;
+    magnetometerMicroT_zAxis += 50;
+    if (magnetometerMicroT_xAxis > 1000)
+        magnetometerMicroT_xAxis -= 1000;
+    if (magnetometerMicroT_yAxis > 1000)
+        magnetometerMicroT_yAxis -= 1000;
+    if (magnetometerMicroT_zAxis > 1000)
+        magnetometerMicroT_zAxis -= 1000;
+    emit magnetometerMicroTChanged();
+
+    rotation_x += 1;
+    if (rotation_x > 360)
+        rotation_x -= 360;
+    rotation_y += 4;
+    if (rotation_y > 360)
+        rotation_y -= 360;
+    rotation_z += 9;
+    if (rotation_z > 360)
+        rotation_z -= 360;
+    emit rotationXChanged();
+    emit rotationYChanged();
+    emit rotationZChanged();
+    // Signal that all values have changed, for easier
+    // value change handling in clients
+    emit rotationValuesChanged();
+
+    gyroscopeX_degPerSec += 1;
+    if (gyroscopeX_degPerSec > 360)
+        gyroscopeX_degPerSec -= 360;
+    gyroscopeY_degPerSec += 4;
+    if (gyroscopeY_degPerSec > 360)
+        gyroscopeY_degPerSec -= 360;
+    gyroscopeZ_degPerSec += 9;
+    if (gyroscopeZ_degPerSec > 360)
+        gyroscopeZ_degPerSec -= 360;
+    emit gyroscopeDegPerSecChanged();
+}

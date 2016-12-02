@@ -1,0 +1,11 @@
+This is a work-in-progress project targeted for Embedded World conference 2017. With the application you can read sensor information and publish it to the Microsoft Azure cloud service for clients to read it. There is three form factors supported for the client device, and the correct form factor is automatically determined by the screen dimensions.
+
+Data is published to the cloud when the application is run either in sensor or mock mode.
+
+Usage: SensorTagDemo --source[=cloud]
+
+--source        cloud   sensor data is read from cloud
+                sensor  sensor data is read from a Bluetooth sensor
+                mock    sensor data is read from a mock data provider
+
+You can also set the environment variable QT_IOS_DEMO_NO_FULLSCREEN to force the application not to go to fullscreen mode. In this case the application is drawn in a window with dimensions specific to the selected screen form factor. Note: this setting is mainly intended for development purposes.

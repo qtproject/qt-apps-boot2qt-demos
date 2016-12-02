@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/base/AirPressureChart.qml</file>
+        <file>resources/base/BaseChart.qml</file>
+        <file>resources/base/BottomToolbar.qml</file>
+        <file>resources/base/ChartPage.qml</file>
+        <file>resources/base/HumidityChart.qml</file>
+        <file>resources/base/LightChart.qml</file>
+        <file>resources/base/LocationPage.qml</file>
+        <file>resources/base/MagnetometerChart.qml</file>
+        <file>resources/base/main.qml</file>
+        <file>resources/base/ObjectTemperatureChart.qml</file>
+        <file>resources/base/SensorTag.qml</file>
+        <file>resources/base/TemperatureChart.qml</file>
+        <file>resources/base/TopToolbar.qml</file>
+        <file>resources/base/CircularGauge.qml</file>
+        <file>resources/base/GyroChart.qml</file>
+        <file>resources/base/fonts/titilliumweb/TitilliumWeb-Bold.ttf</file>
+        <file>resources/base/fonts/titilliumweb/TitilliumWeb-Regular.ttf</file>
+        <file>resources/base/fonts/titilliumweb/TitilliumWeb-SemiBold.ttf</file>
+    </qresource>
+</RCC>
