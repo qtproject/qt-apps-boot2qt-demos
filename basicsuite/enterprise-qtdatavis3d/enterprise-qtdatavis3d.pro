@@ -6,8 +6,10 @@ b2qtdemo_deploy_defaults()
 QT += datavisualization
 
 content.files = \
-    *.qml \
-    *.png
+    main.qml \
+    layer_1.png \
+    layer_2.png \
+    layer_3.png \
 
 content.path = $$DESTPATH
 
