@@ -195,21 +195,21 @@ BaseChart {
             Text {
                 id: xLabel
                 horizontalAlignment: Text.AlignHCenter
-                text: "<font color=\"" + xColor + "\">Roll<br><font color=\"white\">" + (sensor ? sensor.rotationX : 0)
+                text: "<font color=\"" + xColor + "\">Roll<br><font color=\"white\">" + (sensor ? sensor.rotationX.toFixed(0) : 0)
                 lineHeight: 0.7
                 width: (gyroHolderRect.width - xLabelRow.x) / 3
             }
 
             Text {
                 horizontalAlignment: Text.AlignHCenter
-                text: "<font color=\"" + yColor + "\">Pitch<br><font color=\"white\">" + (sensor ? sensor.rotationY : 0)
+                text: "<font color=\"" + yColor + "\">Pitch<br><font color=\"white\">" + (sensor ? sensor.rotationY.toFixed(0) : 0)
                 lineHeight: 0.7
                 width: xLabel.width
             }
 
             Text {
                 horizontalAlignment: Text.AlignHCenter
-                text: "<font color=\"" + zColor + "\">Yaw<br><font color=\"white\">" + (sensor ? sensor.rotationZ : 0)
+                text: "<font color=\"" + zColor + "\">Yaw<br><font color=\"white\">" + (sensor ? sensor.rotationZ.toFixed(0) : 0)
                 lineHeight: 0.7
                 width: xLabel.width
             }

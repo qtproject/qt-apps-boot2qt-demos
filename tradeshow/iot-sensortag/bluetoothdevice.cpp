@@ -309,6 +309,7 @@ void BluetoothDevice::serviceScanDone()
             connect(motionService, &QLowEnergyService::characteristicRead, this, &BluetoothDevice::characteristicsRead);
             motionService->discoverDetails();
         }
+        attitudeChangeInterval.restart();
     }
 }
 

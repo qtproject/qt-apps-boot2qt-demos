@@ -142,9 +142,12 @@ void BluetoothDataProvider::motionReceived(MotionSensorData &data)
     gyroscopeX_degPerSec = data.gyroScope_x;
     gyroscopeY_degPerSec = data.gyroScope_y;
     gyroscopeZ_degPerSec = data.gyroScope_z;
+    emit gyroscopeDegPerSecChanged();
+
     rotation_x += countRotationDegrees(data.gyroScope_x, data.msSincePreviousData);
     rotation_y += countRotationDegrees(data.gyroScope_y, data.msSincePreviousData);
     rotation_z += countRotationDegrees(data.gyroScope_z, data.msSincePreviousData);
+
     if (rotation_x > 360)
         rotation_x -= 360;
     else if (rotation_x < 0)
@@ -157,13 +160,13 @@ void BluetoothDataProvider::motionReceived(MotionSensorData &data)
         rotation_z -= 360;
     else if (rotation_z < 0)
         rotation_z += 360;
-    emit gyroscopeDegPerSecChanged();
     emit rotationXChanged();
     emit rotationYChanged();
     emit rotationZChanged();
     // Signal that all values have changed, for easier
     // value change handling in clients
     emit rotationValuesChanged();
+
     accelometer_mG_xAxis = data.accelometer_x;
     accelometer_mG_yAxis = data.accelometer_y;
     accelometer_mG_zAxis = data.accelometer_z;

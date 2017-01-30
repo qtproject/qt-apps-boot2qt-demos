@@ -122,7 +122,7 @@ BaseChart {
 
                 Text {
                     anchors.centerIn: parent
-                    text: sensor.barometerCelsiusTemperature
+                    text: sensor ? sensor.barometerCelsiusTemperature : ""
                     color: "white"
                 }
             }
@@ -139,7 +139,7 @@ BaseChart {
             }
 
             Text {
-                text: "Avg\n" + sensor.barometerTemperatureAverage.toFixed(1)
+                text: "Avg\n" + (sensor ? sensor.barometerTemperatureAverage.toFixed(1) : "")
                 lineHeight: 0.8
                 width: 60
                 horizontalAlignment: Text.Center
