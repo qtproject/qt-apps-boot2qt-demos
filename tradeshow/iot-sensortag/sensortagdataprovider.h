@@ -64,8 +64,8 @@ class SensorTagDataProvider : public QObject
     Q_PROPERTY(QString providerId MEMBER m_id CONSTANT)
     Q_PROPERTY(QString relativeHumidityString READ getRelativeHumidityString NOTIFY relativeHumidityChanged)
     Q_PROPERTY(double relativeHumidity READ getRelativeHumidity NOTIFY relativeHumidityChanged)
-    Q_PROPERTY(QString infraredCelsiusTemperatureString READ getInfraredCelsiusTemperatureString NOTIFY infraredCelsiusTemperatureChanged)
-    Q_PROPERTY(double infraredCelsiusTemperature READ getInfraredCelsiusTemperature NOTIFY infraredCelsiusTemperatureChanged)
+    Q_PROPERTY(double infraredAmbientTemperature READ getInfraredAmbientTemperature NOTIFY infraredCelsiusTemperatureChanged)
+    Q_PROPERTY(double infraredObjectTemperature READ getInfraredObjectTemperature NOTIFY infraredCelsiusTemperatureChanged)
     Q_PROPERTY(QString lightIntensityLuxString READ getLightIntensityLuxString NOTIFY lightIntensityChanged)
     Q_PROPERTY(double lightIntensityLux READ getLightIntensityLux NOTIFY lightIntensityChanged)
     Q_PROPERTY(double barometerCelsiusTemperature READ getBarometerCelsiusTemperature NOTIFY barometerCelsiusTemperatureChanged)
@@ -82,8 +82,6 @@ class SensorTagDataProvider : public QObject
     Q_PROPERTY(float magnetometerMicroT_xAxis READ getMagnetometerMicroT_xAxis NOTIFY magnetometerMicroTChanged)
     Q_PROPERTY(float magnetometerMicroT_yAxis READ getMagnetometerMicroT_yAxis NOTIFY magnetometerMicroTChanged)
     Q_PROPERTY(float magnetometerMicroT_zAxis READ getMagnetometerMicroT_zAxis NOTIFY magnetometerMicroTChanged)
-    Q_PROPERTY(QColor temperatureColor READ getTemperatureColor NOTIFY infraredCelsiusTemperatureChanged)
-    Q_PROPERTY(QColor lightIntensityColor READ getLightIntensityColor NOTIFY lightIntensityChanged)
     Q_PROPERTY(float rotationX READ getRotationX NOTIFY rotationXChanged)
     Q_PROPERTY(float rotationY READ getRotationY NOTIFY rotationYChanged)
     Q_PROPERTY(float rotationZ READ getRotationZ NOTIFY rotationZChanged)
@@ -105,8 +103,8 @@ public:
     virtual void endDataFetching() {}
     QString getRelativeHumidityString();
     double getRelativeHumidity();
-    QString getInfraredCelsiusTemperatureString();
-    double getInfraredCelsiusTemperature();
+    double getInfraredAmbientTemperature();
+    double getInfraredObjectTemperature();
     QString getLightIntensityLuxString();
     double getLightIntensityLux();
     double getBarometerCelsiusTemperature();
@@ -123,8 +121,6 @@ public:
     float getMagnetometerMicroT_xAxis();
     float getMagnetometerMicroT_yAxis();
     float getMagnetometerMicroT_zAxis();
-    QColor getTemperatureColor();
-    QColor getLightIntensityColor();
     float getRotationX();
     float getRotationY();
     float getRotationZ();
@@ -157,7 +153,8 @@ signals:
 
 protected:
     double humidity;
-    double irTemperature;
+    double irAmbientTemperature;
+    double irObjectTemperature;
     double lightIntensityLux;
     double barometerCelsiusTemperature;
     double barometerTemperatureAverage;

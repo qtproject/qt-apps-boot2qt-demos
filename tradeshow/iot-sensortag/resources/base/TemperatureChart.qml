@@ -68,16 +68,16 @@ BaseChart {
     readonly property color chartColor: "#15bdff"
 
     onSensorChanged: if (sensor) {
-        sensor.barometerCelsiusTemperatureChanged.connect(contentItem.updateTemperatureGraph)
+        sensor.infraredCelsiusTemperatureChanged.connect(contentItem.updateTemperatureGraph)
     }
 
-    title: qsTr("Temperature")
+    title: qsTr("Ambient Temperature")
 
     content: Item {
         anchors.fill: parent
 
         function updateTemperatureGraph() {
-            avgTempSeries.append(temperatureSeriesIndex, sensor.barometerCelsiusTemperature);
+            avgTempSeries.append(temperatureSeriesIndex, sensor.infraredAmbientTemperature);
 
             if (temperatureSeriesIndex >= maxNumOfTempReadings) {
                 avgTempSeries.remove(avgTempSeries.at(temperatureSeriesIndex-maxNumOfTempReadings));
@@ -86,7 +86,7 @@ BaseChart {
             }
             temperatureSeriesIndex++;
 
-            var value = sensor.barometerCelsiusTemperature;
+            var value = sensor.infraredAmbientTemperature;
             if (minValue > value)
                 minValue = value;
             if (maxValue < value)
@@ -122,7 +122,7 @@ BaseChart {
 
                 Text {
                     anchors.centerIn: parent
-                    text: sensor ? sensor.barometerCelsiusTemperature : ""
+                    text: sensor ? sensor.infraredAmbientTemperature : ""
                     color: "white"
                 }
             }

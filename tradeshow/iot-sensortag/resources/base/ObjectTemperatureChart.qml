@@ -58,7 +58,7 @@ BaseChart {
     property real value
 
     function updateTemps(){
-        value = sensor.infraredCelsiusTemperature.toFixed(1);
+        value = sensor.infraredObjectTemperature.toFixed(1);
         if (minValue > value)
             minValue = value;
         if (maxValue < value)

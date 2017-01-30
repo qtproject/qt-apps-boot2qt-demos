@@ -75,7 +75,7 @@ public:
 public slots:
     void startServiceScan();
 
-    void temperatureReceived(double temperature);
+    void temperatureReceived(double newAmbientTemperature, double newObjectTemperature);
     void barometerReceived(double temperature, double barometer);
     void humidityReceived(double humidity);
     void lightIntensityReceived(double lightIntensity);

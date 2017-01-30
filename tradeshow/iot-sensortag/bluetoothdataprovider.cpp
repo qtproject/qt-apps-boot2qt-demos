@@ -95,11 +95,10 @@ void BluetoothDataProvider::startServiceScan()
         activeDevice->scanServices();
 }
 
-void BluetoothDataProvider::temperatureReceived(double temperature)
+void BluetoothDataProvider::temperatureReceived(double newAmbientTemperature, double newObjectTemperature)
 {
-    if (temperature == irTemperature)
-        return;
-    irTemperature = temperature;
+    irAmbientTemperature = newAmbientTemperature;
+    irObjectTemperature = newObjectTemperature;
     emit infraredCelsiusTemperatureChanged();
 }
 
@@ -137,8 +136,6 @@ float BluetoothDataProvider::countRotationDegrees(double degreesPerSecond, quint
 
 void BluetoothDataProvider::motionReceived(MotionSensorData &data)
 {
-    qCDebug(boot2QtDemos) << Q_FUNC_INFO << ":" << data.gyroScope_x << "," << data.msSincePreviousData
-                          << "=" << countRotationDegrees(data.gyroScope_x, data.msSincePreviousData);
     gyroscopeX_degPerSec = data.gyroScope_x;
     gyroscopeY_degPerSec = data.gyroScope_y;
     gyroscopeZ_degPerSec = data.gyroScope_z;
@@ -163,10 +160,6 @@ void BluetoothDataProvider::motionReceived(MotionSensorData &data)
     emit rotationXChanged();
     emit rotationYChanged();
     emit rotationZChanged();
-    // Signal that all values have changed, for easier
-    // value change handling in clients
-    emit rotationValuesChanged();
-
     accelometer_mG_xAxis = data.accelometer_x;
     accelometer_mG_yAxis = data.accelometer_y;
     accelometer_mG_zAxis = data.accelometer_z;
@@ -175,6 +168,9 @@ void BluetoothDataProvider::motionReceived(MotionSensorData &data)
     magnetometerMicroT_yAxis = data.magnetometer_y;
     magnetometerMicroT_zAxis = data.magnetometer_z;
     emit magnetometerMicroTChanged();
+    // Signal that all values have changed, for easier
+    // value change handling in clients
+    emit rotationValuesChanged();
 }
 
 QString BluetoothDataProvider::sensorType() const
@@ -184,7 +180,7 @@ QString BluetoothDataProvider::sensorType() const
 
 QString BluetoothDataProvider::versionString() const
 {
-    return QString("1.0");
+    return QString("1.1");
 }
 
 void BluetoothDataProvider::updateState()

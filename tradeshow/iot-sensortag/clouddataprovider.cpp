@@ -54,7 +54,7 @@
 #include <QTimer>
 
 #define MAJOR_VERSION_NUMBER 1
-#define MINOR_VERSION_NUMBER 0
+#define MINOR_VERSION_NUMBER 1
 #ifndef QT_NO_SSL
 static QString dataFetchUrl = "https://ottoryynanenqt.blob.core.windows.net/btsensortagreadings/sensorTagReadings.txt";
 #else
@@ -118,7 +118,14 @@ void CloudDataProvider::parseReceivedText()
             humidity = doubleValue;
             emit relativeHumidityChanged();
         } else if ("Temp(IR):" == headerText) {
-            irTemperature = doubleValue;
+            // Old object temperature from version 1.0
+            irObjectTemperature = doubleValue;
+            emit infraredCelsiusTemperatureChanged();
+        } else if ("Temp(Ambient):" == headerText) {
+            irAmbientTemperature = doubleValue;
+            emit infraredCelsiusTemperatureChanged();
+        } else if ("Temp(Object):" == headerText) {
+            irObjectTemperature = doubleValue;
             emit infraredCelsiusTemperatureChanged();
         } else if ("Light:" == headerText) {
             lightIntensityLux = doubleValue;

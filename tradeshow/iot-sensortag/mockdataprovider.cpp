@@ -55,10 +55,14 @@ MockDataProvider::MockDataProvider(QString id, QObject* parent)
     xAxisG(-10),
     zAxisG(0),
     luxIncrease(100),
+    rotationDegPerSecXIncrease(5),
+    rotationDegPerSecYIncrease(7),
+    rotationDegPerSecZIncrease(-9),
     m_smaSamples(0)
 {
     humidity = 40;
-    irTemperature = 25;
+    irAmbientTemperature = 25;
+    irObjectTemperature = 25;
     barometerCelsiusTemperature = 25;
     barometerHPa = 1040;
     magnetometerMicroT_xAxis = 333;
@@ -93,7 +97,7 @@ QString MockDataProvider::sensorType() const
 
 QString MockDataProvider::versionString() const
 {
-    return QLatin1String("1.0");
+    return QLatin1String("1.1");
 }
 
 void MockDataProvider::setTagType(int tagType)
@@ -113,13 +117,14 @@ void MockDataProvider::oneSecondTimerExpired()
 
     // IR temperature goes randomly up OR down by half of a degree. So does barometer temperature.
     if (qrand() % 2)
-        irTemperature -= 0.5;
+        irAmbientTemperature -= 0.5;
     else
-        irTemperature += 0.5;
-    if (irTemperature > 38)
-        irTemperature = 38;
-    if (irTemperature < 15)
-        irTemperature = 15;
+        irAmbientTemperature += 0.5;
+    if (irAmbientTemperature > 38)
+        irAmbientTemperature = 38;
+    if (irAmbientTemperature < 15)
+        irAmbientTemperature = 15;
+    irObjectTemperature = irAmbientTemperature + 2;
     emit infraredCelsiusTemperatureChanged();
     if (qrand() % 2)
         barometerCelsiusTemperature -= 0.5;
@@ -209,14 +214,17 @@ void MockDataProvider::twentyMsTimerExpired()
     // value change handling in clients
     emit rotationValuesChanged();
 
-    gyroscopeX_degPerSec += 1;
-    if (gyroscopeX_degPerSec > 360)
-        gyroscopeX_degPerSec -= 360;
-    gyroscopeY_degPerSec += 4;
-    if (gyroscopeY_degPerSec > 360)
-        gyroscopeY_degPerSec -= 360;
-    gyroscopeZ_degPerSec += 9;
-    if (gyroscopeZ_degPerSec > 360)
-        gyroscopeZ_degPerSec -= 360;
+    gyroscopeX_degPerSec += rotationDegPerSecXIncrease;
+    if ((gyroscopeX_degPerSec > 240) ||
+        (gyroscopeX_degPerSec < -240))
+        rotationDegPerSecXIncrease *= -1;
+    gyroscopeY_degPerSec += rotationDegPerSecYIncrease;
+    if ((gyroscopeY_degPerSec > 240) ||
+        (gyroscopeY_degPerSec < -240))
+        rotationDegPerSecYIncrease *= -1;
+    gyroscopeZ_degPerSec += rotationDegPerSecZIncrease;
+    if ((gyroscopeZ_degPerSec > 240) ||
+        (gyroscopeZ_degPerSec < -240))
+        rotationDegPerSecZIncrease *= -1;
     emit gyroscopeDegPerSecChanged();
 }

@@ -95,19 +95,6 @@ typedef enum CharacteristicType {
     lightCharacteristic
 } CharacteristicType;
 
-class QueueData {
-public:
-    CharacteristicType typeToSend;
-    bool alreadySent;
-    QueueData(CharacteristicType characteristic) {
-        typeToSend = characteristic;
-        alreadySent = false;
-    }
-
-private:
-    QueueData() {}
-};
-
 class SensorTagDataProvider;
 
 class BluetoothDevice: public QObject
@@ -142,7 +129,7 @@ signals:
     void updateChanged();
     void stateChanged();
     void randomAddressChanged();
-    void temperatureChanged(double temperature);
+    void temperatureChanged(double ambientTemperature, double objectTemperature);
     void barometerChanged(double temperature, double barometer);
     void humidityChanged(double humidity);
     void lightIntensityChanged(double intensity);
@@ -151,7 +138,6 @@ signals:
 
 public slots:
     void scanServices();
-    void startTimers();
     void connectToService(const QString &uuid);
     void disconnectFromDevice();
     void temperatureDetailsDiscovered(QLowEnergyService::ServiceState newstate);
@@ -171,9 +157,6 @@ private slots:
     // QLowEnergyService related
     void serviceDetailsDiscovered(QLowEnergyService::ServiceState newState);
 
-    void slowTimerExpired();
-    void mediumTimerExpired();
-    void rapidTimerExpired();
     void characteristicsRead(const QLowEnergyCharacteristic &info,
                              const QByteArray &value);
 
@@ -181,14 +164,12 @@ private:
     void setState(DeviceState state);
 
 private:
-    bool isNotInQueue(const CharacteristicType characteristic);
-    void queueReadRequest(CharacteristicType characteristicToRead);
-    void sendFirstFromQueue();
     void irTemperatureReceived(const QByteArray &value);
     void barometerReceived(const QByteArray &value);
     void humidityReceived(const QByteArray &value);
     void lightIntensityReceived(const QByteArray &value);
     void motionReceived(const QByteArray &value);
+    double convertIrTemperatureAPIReadingToCelsius(quint16 rawReading);
 
     QBluetoothDeviceDiscoveryAgent *discoveryAgent;
     QList<QObject*> m_services;
@@ -207,11 +188,8 @@ private:
     bool m_lightIntensityMeasurementStarted;
     bool m_motionMeasurementStarted;
     bool randomAddress;
-    QTimer* slowTimer;
-    QTimer* mediumTimer;
-    QTimer* rapidTimer;
     QElapsedTimer attitudeChangeInterval;
-    QVector<QueueData*> readRequestQueue;
+    quint64 lastMilliseconds;
 
     QBluetoothDeviceInfo m_deviceInfo;
 

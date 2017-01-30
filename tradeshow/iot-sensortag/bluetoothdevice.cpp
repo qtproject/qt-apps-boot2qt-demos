@@ -58,18 +58,14 @@
 #include <QTimer>
 #include <QDebug>
 #include <QtMath>
+#include <QDateTime>
 
 Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
 
-// The average time from read request to read response is 150ms in optimal conditions.
-// With other sensors being read we have to limit it to even longer periods.
-#define RAPID_TIMER_MS                           350
-#define MEDIUM_TIMER_MS                          (1.5*RAPID_TIMER_MS)
-#define SLOW_TIMER_MS                            2000
-
 #define START_MEASUREMENT_STR                    "01"   /* 01 start, 00 stop */
 #define DISABLE_NOTIF_STR                        "0000" /* 0100 enable, 0000 disable */
-#define SLOW_TIMER_TIMEOUT_STR                   "FA"   /* 250 -> 2500ms */
+#define ENABLE_NOTIF_STR                         "0100" /* 0100 enable, 0000 disable */
+#define SLOW_TIMER_TIMEOUT_STR                   "64"   /* 100 -> 1000ms */
 #define MEDIUM_TIMER_TIMEOUT_STR                 "32"   /* 50 -> 500ms */
 #define RAPID_TIMER_TIMEOUT_STR                  "0A"   /* 10 -> 100ms */
 #define MOVEMENT_ENABLE_SENSORS_BITMASK_VALUE    "7F02" /* see below */
@@ -84,6 +80,13 @@ Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
 //MPU9250_ACCELEROMETER_RANGE_1       =0b0000_0001    =  4 G
 //MPU9250_ACCELEROMETER_RANGE_2       =0b0000_0010    =  8 G (default)
 //MPU9250_ACCELEROMETER_RANGE_3       =0b0000_0011    = 16 G
+
+// These modifiers come from the Texas Intruments SensorTag Bluetooth LE API specification
+#define GYROSCOPE_API_READING_MULTIPLIER      (500.0 / 65536.0)
+#define ACCELOMETER_API_READING_MULTIPLIER    (8.0 / 32.768)
+#define HUMIDITY_API_READING_MULTIPLIER       (100.0 / 65536.0)
+#define IR_TEMPERATURE_API_READING_DIVIDER    128.0
+#define BAROMETER_API_READING_DIVIDER         100
 
 typedef struct {
     qint16 gyrox;
@@ -107,10 +110,8 @@ BluetoothDevice::BluetoothDevice()
     , motionService(0)
     , m_deviceState(DeviceState::Disconnected)
     , randomAddress(false)
-    , slowTimer(0)
-    , mediumTimer(0)
-    , rapidTimer(0)
 {
+    lastMilliseconds = QDateTime::currentMSecsSinceEpoch();
     statusUpdated("Device created");
 }
 
@@ -122,18 +123,6 @@ BluetoothDevice::BluetoothDevice(const QBluetoothDeviceInfo &d)
 
 BluetoothDevice::~BluetoothDevice()
 {
-    if (slowTimer) {
-        slowTimer->stop();
-        delete slowTimer;
-    }
-    if (mediumTimer) {
-        mediumTimer->stop();
-        delete mediumTimer;
-    }
-    if (rapidTimer) {
-        rapidTimer->stop();
-        delete rapidTimer;
-    }
     delete discoveryAgent;
     delete controller;
     qDeleteAll(m_services);
@@ -240,7 +229,7 @@ void BluetoothDevice::serviceScanDone()
 
             irTemperatureService = controller->createServiceObject(uuid);
             connect(irTemperatureService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::temperatureDetailsDiscovered);
-            connect(irTemperatureService, &QLowEnergyService::characteristicRead, this, &BluetoothDevice::characteristicsRead);
+            connect(irTemperatureService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
             irTemperatureService->discoverDetails();
         }
         if (!baroService)
@@ -256,7 +245,7 @@ void BluetoothDevice::serviceScanDone()
 
             baroService = controller->createServiceObject(uuid);
             connect(baroService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::barometerDetailsDiscovered);
-            connect(baroService, &QLowEnergyService::characteristicRead, this, &BluetoothDevice::characteristicsRead);
+            connect(baroService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
             baroService->discoverDetails();
         }
         if (!humidityService)
@@ -273,7 +262,7 @@ void BluetoothDevice::serviceScanDone()
 
             humidityService = controller->createServiceObject(uuid);
             connect(humidityService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::humidityDetailsDiscovered);
-            connect(humidityService, &QLowEnergyService::characteristicRead, this, &BluetoothDevice::characteristicsRead);
+            connect(humidityService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
             humidityService->discoverDetails();
         }
 
@@ -291,7 +280,7 @@ void BluetoothDevice::serviceScanDone()
 
             lightService = controller->createServiceObject(uuid);
             connect(lightService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::lightIntensityDetailsDiscovered);
-            connect(lightService, &QLowEnergyService::characteristicRead, this, &BluetoothDevice::characteristicsRead);
+            connect(lightService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
             lightService->discoverDetails();
         }
         if (!motionService)
@@ -306,7 +295,7 @@ void BluetoothDevice::serviceScanDone()
             }
             motionService = controller->createServiceObject(uuid);
             connect(motionService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::motionDetailsDiscovered);
-            connect(motionService, &QLowEnergyService::characteristicRead, this, &BluetoothDevice::characteristicsRead);
+            connect(motionService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
             motionService->discoverDetails();
         }
         attitudeChangeInterval.restart();
@@ -331,7 +320,7 @@ void BluetoothDevice::temperatureDetailsDiscovered(QLowEnergyService::ServiceSta
 
             if (id.toString().contains("f000aa01-0451-4000-b000-000000000000")) {
                 //RN
-                irTemperatureService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(DISABLE_NOTIF_STR));
+                irTemperatureService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
             }
             if (id.toString().contains("f000aa02-0451-4000-b000-000000000000")) {
                 //RW
@@ -363,13 +352,13 @@ void BluetoothDevice::barometerDetailsDiscovered(QLowEnergyService::ServiceState
           qCDebug(boot2QtDemos)<<"characteristic:"<<id.toString();
 
           if (id.toString().contains("f000aa41-0451-4000-b000-000000000000")) {
-              baroService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(DISABLE_NOTIF_STR));
+              baroService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
           }
           if (id.toString().contains("f000aa42-0451-4000-b000-000000000000")) {
               baroService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse); // Start
           }
           if (id.toString().contains("f000aa44-0451-4000-b000-000000000000")) {
-              baroService->writeCharacteristic(characteristic, QByteArray::fromHex(SLOW_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
+              baroService->writeCharacteristic(characteristic, QByteArray::fromHex(MEDIUM_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
           }
         }
         m_barometerMeasurementStarted = true;
@@ -394,7 +383,7 @@ void BluetoothDevice::humidityDetailsDiscovered(QLowEnergyService::ServiceState 
           qCDebug(boot2QtDemos)<<"characteristic:"<<id.toString();
 
           if (id.toString().contains("f000aa21-0451-4000-b000-000000000000")) {
-              humidityService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(DISABLE_NOTIF_STR));
+              humidityService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
           }
           if (id.toString().contains("f000aa22-0451-4000-b000-000000000000")) {
               humidityService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse); // Start
@@ -425,7 +414,7 @@ void BluetoothDevice::lightIntensityDetailsDiscovered(QLowEnergyService::Service
           qCDebug(boot2QtDemos)<<"characteristic:"<<id.toString();
 
           if (id.toString().contains("f000aa71-0451-4000-b000-000000000000")) {
-              lightService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(DISABLE_NOTIF_STR));
+              lightService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
           }
           if (id.toString().contains("f000aa72-0451-4000-b000-000000000000")) {
               lightService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse); // Start
@@ -440,8 +429,13 @@ void BluetoothDevice::lightIntensityDetailsDiscovered(QLowEnergyService::Service
 
 void BluetoothDevice::motionDetailsDiscovered(QLowEnergyService::ServiceState newstate)
 {
+    // reset the time once more before we start to receive measurements.
+    lastMilliseconds = QDateTime::currentMSecsSinceEpoch();
+
     if (newstate == QLowEnergyService::ServiceDiscovered) {
-        connect(motionService, &QLowEnergyService::characteristicWritten, this, &BluetoothDevice::startTimers);
+        connect(motionService, &QLowEnergyService::characteristicWritten, [=]() {
+            qCDebug(boot2QtDemos) << "Wrote Characteristic - gyro";
+        });
 
         connect(motionService, static_cast<void(QLowEnergyService::*)(QLowEnergyService::ServiceError)>(&QLowEnergyService::error),
             [=](QLowEnergyService::ServiceError newError) {
@@ -454,62 +448,16 @@ void BluetoothDevice::motionDetailsDiscovered(QLowEnergyService::ServiceState ne
           qCDebug(boot2QtDemos)<<"characteristic:"<<id.toString();
 
           if (id.toString().contains("f000aa81-0451-4000-b000-000000000000")) {
-              motionService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(DISABLE_NOTIF_STR));
+              motionService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
           }
           if (id.toString().contains("f000aa82-0451-4000-b000-000000000000")) {
               motionService->writeCharacteristic(characteristic, QByteArray::fromHex(MOVEMENT_ENABLE_SENSORS_BITMASK_VALUE), QLowEnergyService::WriteWithResponse);
           }
           if (id.toString().contains("f000aa83-0451-4000-b000-000000000000")) {
-              motionService->writeCharacteristic(characteristic, QByteArray::fromHex("0a"), QLowEnergyService::WriteWithResponse);
+              motionService->writeCharacteristic(characteristic, QByteArray::fromHex(RAPID_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse);
           }
         }
         m_motionMeasurementStarted = true;
-    }
-}
-
-void BluetoothDevice::startTimers() {
-    qCDebug(boot2QtDemos) << "Wrote Characteristic - gyro, starting timers.";
-    if (!slowTimer) {
-        slowTimer = new QTimer(this);
-        connect(slowTimer, SIGNAL(timeout()), this, SLOT(slowTimerExpired()));
-        slowTimer->start(SLOW_TIMER_MS);
-    }
-    if (!mediumTimer) {
-        mediumTimer = new QTimer(this);
-        connect(mediumTimer, SIGNAL(timeout()), this, SLOT(mediumTimerExpired()));
-        mediumTimer->start(MEDIUM_TIMER_MS);
-    }
-    if (!rapidTimer) {
-        rapidTimer = new QTimer(this);
-        connect(rapidTimer, SIGNAL(timeout()), this, SLOT(rapidTimerExpired()));
-        rapidTimer->start(RAPID_TIMER_MS);
-    }
-}
-
-void BluetoothDevice::slowTimerExpired()
-{
-    if (irTemperatureService && m_temperatureMeasurementStarted) {
-        queueReadRequest(temperatureCharacteristic);
-    }
-    if (baroService && m_barometerMeasurementStarted) {
-        queueReadRequest(barometerCharacteristic);
-    }
-    if (humidityService && m_humidityMeasurementStarted){
-        queueReadRequest(humidityCharacteristic);
-    }
-}
-
-void BluetoothDevice::mediumTimerExpired()
-{
-    if (lightService && m_lightIntensityMeasurementStarted){
-        queueReadRequest(lightCharacteristic);
-    }
-}
-
-void BluetoothDevice::rapidTimerExpired()
-{
-    if (motionService && m_motionMeasurementStarted) {
-        queueReadRequest(motionCharacteristic);
     }
 }
 
@@ -536,9 +484,6 @@ void BluetoothDevice::characteristicsRead(const QLowEnergyCharacteristic &info, 
         qWarning() << "Invalid handle" << info.handle() << "in characteristicsRead!";
         break;
     }
-    delete readRequestQueue.takeFirst();
-    // Response got, now we can send new request.
-    sendFirstFromQueue();
 }
 
 void BluetoothDevice::setState(BluetoothDevice::DeviceState state)
@@ -549,76 +494,22 @@ void BluetoothDevice::setState(BluetoothDevice::DeviceState state)
     }
 }
 
-bool BluetoothDevice::isNotInQueue(CharacteristicType characteristic)
+double BluetoothDevice::convertIrTemperatureAPIReadingToCelsius(quint16 rawReading)
 {
-    bool characteristicFound = false;
-    QVector<QueueData*>::const_iterator i;
-    for (i = readRequestQueue.constBegin(); i != readRequestQueue.constEnd(); ++i) {
-        if (characteristic == (*i)->typeToSend) {
-            characteristicFound = true;
-            break;
-        }
-    }
-    return !characteristicFound;
-}
-
-void BluetoothDevice::queueReadRequest(CharacteristicType characteristicToRead)
-{
-    if (isNotInQueue(characteristicToRead)) {
-        readRequestQueue.append(new QueueData(characteristicToRead));
-        // Try to send. If there is a request ongoing, this does nothing.
-        sendFirstFromQueue();
-    } else {
-        qWarning() << "tried to add request of type " << characteristicToRead << " to queue before previous response was received!";
-    }
-}
-
-void BluetoothDevice::sendFirstFromQueue()
-{
-    while (readRequestQueue.length() &&
-           (false == readRequestQueue.first()->alreadySent)) {
-        readRequestQueue.first()->alreadySent = true;
-        switch (readRequestQueue.first()->typeToSend)
-        {
-        case temperatureCharacteristic:
-            if (irTemperatureService)
-                irTemperatureService->readCharacteristic(irTemperatureService->characteristic(QUuid(QString("f000aa01-0451-4000-b000-000000000000"))));
-            break;
-        case humidityCharacteristic:
-            if (humidityService)
-                humidityService->readCharacteristic(humidityService->characteristic(QUuid(QString("f000aa21-0451-4000-b000-000000000000"))));
-            break;
-        case barometerCharacteristic:
-            if (baroService)
-                baroService->readCharacteristic(baroService->characteristic(QUuid(QString("f000aa41-0451-4000-b000-000000000000"))));
-            break;
-        case motionCharacteristic:
-            if (motionService)
-                motionService->readCharacteristic(motionService->characteristic(QUuid(QString("f000aa81-0451-4000-b000-000000000000"))));
-            break;
-        case lightCharacteristic:
-            if (lightService)
-                lightService->readCharacteristic(lightService->characteristic(QUuid(QString("f000aa71-0451-4000-b000-000000000000"))));
-            break;
-        default:
-            delete readRequestQueue.takeFirst();
-            break;
-        }
-    }
+    // Compute and filter final value according to TI Bluetooth LE API
+    const float SCALE_LSB = 0.03125;
+    int it = (int)((rawReading) >> 2);
+    float t = (float)it;
+    return t * SCALE_LSB;
 }
 
 void BluetoothDevice::irTemperatureReceived(const QByteArray &value)
 {
-    //Merge bytes
-    unsigned int temperature_raw = (((quint8)value.at(3)) << 8) + ((quint8)value.at(2));
-    double temperature = static_cast<double>(temperature_raw);
-
-    //Compute and filter final value
-    if (temperature < 32768)
-        temperature = temperature/128.0;              //Positive temperature values
-    else if (temperature > 32768)
-        temperature = (temperature - 65536) / 128.0;  //Negative temperature values
-    emit temperatureChanged(temperature);
+    const unsigned int rawObjectTemperature = (((quint8)value.at(3)) << 8) + ((quint8)value.at(2));
+    const double objectTemperature = convertIrTemperatureAPIReadingToCelsius(rawObjectTemperature);
+    const unsigned int rawAmbientTemperature = (((quint8)value.at(1)) << 8) + ((quint8)value.at(0));
+    const double ambientTemperature = convertIrTemperatureAPIReadingToCelsius(rawAmbientTemperature);
+    emit temperatureChanged(ambientTemperature, objectTemperature);
 }
 
 void BluetoothDevice::barometerReceived(const QByteArray &value)
@@ -635,10 +526,10 @@ void BluetoothDevice::barometerReceived(const QByteArray &value)
     }
 
     double temperature = static_cast<double>(temperature_raw);
-    temperature /= 100;
+    temperature /= BAROMETER_API_READING_DIVIDER;
 
     double barometer = static_cast<double>(barometer_raw);
-    barometer /= 100;
+    barometer /= BAROMETER_API_READING_DIVIDER;
     emit barometerChanged(temperature, barometer);
 }
 
@@ -647,7 +538,7 @@ void BluetoothDevice::humidityReceived(const QByteArray &value)
     //Merge bytes
     unsigned int humidity_raw = (((quint8)value.at(3)) << 8) + ((quint8)value.at(2));
     double humidity = static_cast<double>(humidity_raw);
-    humidity = (humidity / 65536)*100;
+    humidity = humidity * HUMIDITY_API_READING_MULTIPLIER;
     emit humidityChanged(humidity);
 }
 
@@ -660,6 +551,7 @@ void BluetoothDevice::lightIntensityReceived(const QByteArray &value)
     m = lightIntensity_raw & 0x0FFF;
     e = (lightIntensity_raw & 0xF000) >> 12;
 
+    // Compute and final value according to TI Bluetooth LE API
     double lightIntensity = ((double)m) * (0.01 * (double)qPow(2.0,(qreal)e));
     emit lightIntensityChanged(lightIntensity);
 }
@@ -667,7 +559,9 @@ void BluetoothDevice::lightIntensityReceived(const QByteArray &value)
 void BluetoothDevice::motionReceived(const QByteArray &value)
 {
     static MotionSensorData data;
-    data.msSincePreviousData = attitudeChangeInterval.restart();
+    data.msSincePreviousData = lastMilliseconds;
+    lastMilliseconds = QDateTime::currentMSecsSinceEpoch();
+    data.msSincePreviousData = lastMilliseconds - data.msSincePreviousData;
     movement_data_t values;
     quint8* writePtr = (quint8*)(&values);
 
@@ -679,13 +573,13 @@ void BluetoothDevice::motionReceived(const QByteArray &value)
     // Data is in little endian. Fix here if needed.
 
     //Convert gyroscope and accelometer readings to proper units
-    data.gyroScope_x = (double(values.gyrox) * 500) / 65536;
-    data.gyroScope_y = (double(values.gyroy) * 500) / 65536;
-    data.gyroScope_z = (double(values.gyroz) * 500) / 65536;
+    data.gyroScope_x = double(values.gyrox) * GYROSCOPE_API_READING_MULTIPLIER;
+    data.gyroScope_y = double(values.gyroy) * GYROSCOPE_API_READING_MULTIPLIER;
+    data.gyroScope_z = double(values.gyroz) * GYROSCOPE_API_READING_MULTIPLIER;
     // Accelometer at 8G
-    data.accelometer_x = (double(values.accelx)*8) / 32.768;
-    data.accelometer_y = (double(values.accely)*8) / 32.768;
-    data.accelometer_z = (double(values.accelz)*8) / 32.768;
+    data.accelometer_x = double(values.accelx) * ACCELOMETER_API_READING_MULTIPLIER;
+    data.accelometer_y = double(values.accely) * ACCELOMETER_API_READING_MULTIPLIER;
+    data.accelometer_z = double(values.accelz) * ACCELOMETER_API_READING_MULTIPLIER;
     data.magnetometer_x = double(values.magnetomx);
     data.magnetometer_y = double(values.magnetomy);
     data.magnetometer_z = double(values.magnetomz);

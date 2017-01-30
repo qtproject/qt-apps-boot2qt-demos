@@ -63,7 +63,8 @@ SensorTagDataProvider::SensorTagDataProvider(QObject *parent)
 SensorTagDataProvider::SensorTagDataProvider(QString id, QObject* parent)
     : QObject(parent),
     humidity(0),
-    irTemperature(0),
+    irAmbientTemperature(0),
+    irObjectTemperature(0),
     lightIntensityLux(0),
     barometerCelsiusTemperature(0),
     barometerHPa(0),
@@ -96,14 +97,14 @@ double SensorTagDataProvider::getRelativeHumidity()
     return humidity;
 }
 
-QString SensorTagDataProvider::getInfraredCelsiusTemperatureString()
+double SensorTagDataProvider::getInfraredAmbientTemperature()
 {
-    return QString::number(irTemperature) + QString("\u00B0C");
+    return irAmbientTemperature;
 }
 
-double SensorTagDataProvider::getInfraredCelsiusTemperature()
+double SensorTagDataProvider::getInfraredObjectTemperature()
 {
-    return irTemperature;
+    return irObjectTemperature;
 }
 
 QString SensorTagDataProvider::getLightIntensityLuxString()
@@ -183,33 +184,6 @@ float SensorTagDataProvider::getMagnetometerMicroT_yAxis()
 float SensorTagDataProvider::getMagnetometerMicroT_zAxis()
 {
     return magnetometerMicroT_zAxis;
-}
-
-QColor SensorTagDataProvider::getTemperatureColor()
-{
-    // Get average and limit it between 15 and 38 degrees celsius.
-    double averageTemperature = (irTemperature + barometerCelsiusTemperature) / 2;
-    averageTemperature = std::min(averageTemperature, double(38));
-    averageTemperature = std::max(averageTemperature, double(15));
-    double relativeTemperature = ((averageTemperature-15)*255)/23;
-    int red;
-    int green = 128;
-    int blue;
-    if (relativeTemperature < 128) {
-        blue = 255;
-        red = relativeTemperature*2;
-    } else {
-        red = 255;
-        blue = 255 - ((relativeTemperature-128)*2);
-    }
-    return QColor(red, green, blue);
-}
-
-QColor SensorTagDataProvider::getLightIntensityColor()
-{
-    double relativeLightIntensityLux = std::min(lightIntensityLux, double(1000));
-    relativeLightIntensityLux = 10+((relativeLightIntensityLux*40) / 1000);
-    return QColor(relativeLightIntensityLux, relativeLightIntensityLux, relativeLightIntensityLux);
 }
 
 float SensorTagDataProvider::getRotationX()

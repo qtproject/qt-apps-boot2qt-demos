@@ -78,6 +78,9 @@ private:
     int xAxisG;
     int zAxisG;
     int luxIncrease;
+    int rotationDegPerSecXIncrease;
+    int rotationDegPerSecYIncrease;
+    int rotationDegPerSecZIncrease;
     int m_smaSamples;
 };
 
