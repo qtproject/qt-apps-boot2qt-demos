@@ -83,8 +83,6 @@ public slots:
 
 private:
     void updateState();
-
-private:
     float countRotationDegrees(double degreesPerSecond, quint64 milliseconds);
     BluetoothDevice* activeDevice;
     QTimer timer;

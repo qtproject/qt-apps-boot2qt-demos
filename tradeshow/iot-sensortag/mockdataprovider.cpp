@@ -107,6 +107,9 @@ void MockDataProvider::setTagType(int tagType)
 
 void MockDataProvider::oneSecondTimerExpired()
 {
+    /* Emit the signals even if values are unchanged.
+     * Otherwise the scrolling graphs in UI will not scroll. */
+
     // Humidity goes randomly up and down between 20% and 60%
     humidity += static_cast<double>((qrand() % 11)-5)/10;
     if (humidity > 60)
@@ -124,8 +127,9 @@ void MockDataProvider::oneSecondTimerExpired()
         irAmbientTemperature = 38;
     if (irAmbientTemperature < 15)
         irAmbientTemperature = 15;
+    emit infraredAmbientTemperatureChanged();
     irObjectTemperature = irAmbientTemperature + 2;
-    emit infraredCelsiusTemperatureChanged();
+    emit infraredObjectTemperatureChanged();
     if (qrand() % 2)
         barometerCelsiusTemperature -= 0.5;
     else

@@ -164,7 +164,6 @@ QString CloudUpdate::buildString() const
     exportString += QString("Type:\n%1\n").arg(m_provider->sensorType());
     exportString += QString("Version:\n%1\n").arg(m_provider->versionString());
     exportString += QString("Humid:\n%1\n").arg(m_provider->getRelativeHumidity(), 0, 'f', ROUNDING_DECIMALS);
-    exportString += QString("Temp(IR):\n%1\n").arg(m_provider->getInfraredObjectTemperature(), 0, 'f', ROUNDING_DECIMALS);
     exportString += QString("Temp(Ambient):\n%1\n").arg(m_provider->getInfraredAmbientTemperature(), 0, 'f', ROUNDING_DECIMALS);
     exportString += QString("Temp(Object):\n%1\n").arg(m_provider->getInfraredObjectTemperature(), 0, 'f', ROUNDING_DECIMALS);
     exportString += QString("Light:\n%1\n").arg(m_provider->getLightIntensityLux(), 0, 'f', ROUNDING_DECIMALS);

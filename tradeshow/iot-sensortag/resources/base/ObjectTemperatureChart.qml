@@ -68,7 +68,7 @@ BaseChart {
     title: qsTr("Object Temperature")
 
     onSensorChanged: if (sensor) {
-        sensor.infraredCelsiusTemperatureChanged.connect(updateTemps)
+        sensor.infraredObjectTemperatureChanged.connect(updateTemps)
     }
 
     content: Item {

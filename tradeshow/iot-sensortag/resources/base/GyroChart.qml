@@ -97,11 +97,11 @@ BaseChart {
 
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 8
+            anchors.bottomMargin: 33
             anchors.left: parent.left
-            anchors.leftMargin: -40
+            anchors.leftMargin: -20
             anchors.right: parent.right
-            anchors.rightMargin: -28
+            anchors.rightMargin: -15
             antialiasing: true
             backgroundColor: "transparent"
             legend.visible: false
@@ -115,10 +115,8 @@ BaseChart {
                 min: 0
                 max: maxGyroReadings + 1
                 tickCount: 13
-                minorTickCount: 1
                 color: chartColor
-                gridLineColor: gridColor
-                minorGridLineColor: gridColor
+                visible: false
             }
 
             ValueAxis {
@@ -127,32 +125,8 @@ BaseChart {
                 min: 0
                 max: 360
                 tickCount: 11
-                minorTickCount: 1
                 color: chartColor
-                gridLineColor: gridColor
-                minorGridLineColor: gridColor
-            }
-
-            Column {
-                id: col
-
-                property int step: (valueAxisY.max - valueAxisY.min) / (valueAxisY.tickCount - 1)
-
-                spacing: -7
-
-                y: chartView.plotArea.y - 10
-                x: 30
-
-                Repeater {
-                    model: valueAxisY.tickCount
-
-                    Text {
-                        text: valueAxisY.max - index * col.step
-                        horizontalAlignment: Text.AlignRight
-                        width: 50
-                        color: textColor
-                    }
-                }
+                visible: false
             }
 
             ScatterSeries {

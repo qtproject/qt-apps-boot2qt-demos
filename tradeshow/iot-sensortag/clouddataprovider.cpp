@@ -114,19 +114,18 @@ void CloudDataProvider::parseReceivedText()
         const QString headerText(dataList[stringIndex]);
         const double doubleValue = QString(dataList[stringIndex+1]).toDouble();
         const float floatValue = QString(dataList[stringIndex+1]).toFloat();
+        /* NOTE: We emit the signals even if value is unchanged.
+         * Otherwise the scrolling graphs in UI will not scroll.
+         */
         if ("Humid:" == headerText) {
             humidity = doubleValue;
             emit relativeHumidityChanged();
-        } else if ("Temp(IR):" == headerText) {
-            // Old object temperature from version 1.0
-            irObjectTemperature = doubleValue;
-            emit infraredCelsiusTemperatureChanged();
         } else if ("Temp(Ambient):" == headerText) {
             irAmbientTemperature = doubleValue;
-            emit infraredCelsiusTemperatureChanged();
+            emit infraredAmbientTemperatureChanged();
         } else if ("Temp(Object):" == headerText) {
             irObjectTemperature = doubleValue;
-            emit infraredCelsiusTemperatureChanged();
+            emit infraredObjectTemperatureChanged();
         } else if ("Light:" == headerText) {
             lightIntensityLux = doubleValue;
             emit lightIntensityChanged();

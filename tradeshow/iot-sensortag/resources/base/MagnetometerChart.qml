@@ -87,27 +87,17 @@ BaseChart {
             magneticSeriesIndex++;
         }
 
-        Text {
-            id: historyLabel
-            text: "MAGNETIC FIELD HISTORY"
-            color: textColor
-            anchors.top: parent.top
-            anchors.topMargin: 16
-            anchors.left: parent.left
-            anchors.leftMargin: chartView.plotArea.x - 40
-        }
 
-        ChartView {
+        PolarChartView {
             id: chartView
 
-            anchors.top: historyLabel.bottom
-            anchors.topMargin: -26
+            anchors.top: parent.top
+            anchors.topMargin: -8
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 8
+            anchors.bottomMargin: -10
             anchors.left: parent.left
-            anchors.leftMargin: -40
+            anchors.leftMargin: -15
             anchors.right: parent.right
-            anchors.rightMargin: -28
             antialiasing: true
             backgroundColor: "transparent"
             legend.visible: false
@@ -123,45 +113,24 @@ BaseChart {
                 max: maxNumOfMagnReadings + 1
                 tickCount: 2
                 color: chartColor
+                visible: false
             }
 
             ValueAxis {
                 id: valueAxisY
 
-                min: 0
+                min: -1000
                 max: 1000
                 color: chartColor
-                gridLineColor: "darkgray"
                 labelsVisible: false
-                tickCount: 11
-            }
-
-            Column {
-                id: col
-
-                property int step: (valueAxisY.max - valueAxisY.min) / (valueAxisY.tickCount - 1)
-
-                spacing: -9
-                y: chartView.plotArea.y - 10
-                x: 30
-
-                Repeater {
-                    model: valueAxisY.tickCount
-
-                    Text {
-                        text: valueAxisY.max - index * col.step
-                        horizontalAlignment: Text.AlignRight
-                        width: 50
-                        color: textColor
-                    }
-                }
+                visible: false
             }
 
             SplineSeries {
                 id: magnSeriesX
                 axisX: valueAxisX
                 axisY: valueAxisY
-                width: 1
+                width: 2
                 color: xColor
                 name: "Magnet X"
             }
@@ -169,7 +138,7 @@ BaseChart {
                 id: magnSeriesY
                 axisX: valueAxisX
                 axisY: valueAxisY
-                width: 1
+                width: 2
                 color: yColor
                 name: "Magnet Y"
             }
@@ -177,50 +146,44 @@ BaseChart {
                 id: magnSeriesZ
                 axisX: valueAxisX
                 axisY: valueAxisY
-                width: 1
+                width: 2
                 color: zColor
                 name: "Magnet Z"
             }
         }
 
         Text {
-            text: "µT"
-            anchors.top: xLabelRow.top
-            anchors.right: xLabelRow.left
-            anchors.rightMargin: 8
-            color: textColor
-            width: 20
-            font.pixelSize: 14
+            id: xLabel
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            anchors.top: parent.top
+            anchors.topMargin: 20
+            horizontalAlignment: Text.AlignHCenter
+            text: "<font color=\"" + xColor + "\">X<br><font color=\"white\">" + (sensor ? sensor.magnetometerMicroT_xAxis : 0)
+            lineHeight: 0.7
+            width: (magnetHolderRect.width - xLabelRow.x) / 3
         }
 
-        Row {
-            id: xLabelRow
+        Text {
+            anchors.left: parent.left
+            anchors.leftMargin: 20
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 28
-            anchors.left: historyLabel.left
+            horizontalAlignment: Text.AlignHCenter
+            text: "<font color=\"" + yColor + "\">Y<br><font color=\"white\">" + (sensor ? sensor.magnetometerMicroT_yAxis : 0)
+            lineHeight: 0.7
+            width: xLabel.width
+        }
+
+        Text {
             anchors.right: parent.right
-
-            Text {
-                id: xLabel
-                horizontalAlignment: Text.AlignHCenter
-                text: "<font color=\"" + xColor + "\">X<br><font color=\"white\">" + (sensor ? sensor.magnetometerMicroT_xAxis : 0)
-                lineHeight: 0.7
-                width: (magnetHolderRect.width - xLabelRow.x) / 3
-            }
-
-            Text {
-                horizontalAlignment: Text.AlignHCenter
-                text: "<font color=\"" + yColor + "\">Y<br><font color=\"white\">" + (sensor ? sensor.magnetometerMicroT_yAxis : 0)
-                lineHeight: 0.7
-                width: xLabel.width
-            }
-
-            Text {
-                horizontalAlignment: Text.AlignHCenter
-                text: "<font color=\"" + zColor + "\">Z<br><font color=\"white\">" + (sensor ? sensor.magnetometerMicroT_zAxis : 0)
-                lineHeight: 0.7
-                width: xLabel.width
-            }
+            anchors.rightMargin: 20
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 28
+            horizontalAlignment: Text.AlignHCenter
+            text: "<font color=\"" + zColor + "\">Z<br><font color=\"white\">" + (sensor ? sensor.magnetometerMicroT_zAxis : 0)
+            lineHeight: 0.7
+            width: xLabel.width
         }
     }
 }

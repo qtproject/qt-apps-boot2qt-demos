@@ -68,7 +68,7 @@ BaseChart {
     readonly property color chartColor: "#15bdff"
 
     onSensorChanged: if (sensor) {
-        sensor.infraredCelsiusTemperatureChanged.connect(contentItem.updateTemperatureGraph)
+        sensor.infraredAmbientTemperatureChanged.connect(contentItem.updateTemperatureGraph)
     }
 
     title: qsTr("Ambient Temperature")

@@ -97,13 +97,20 @@ void BluetoothDataProvider::startServiceScan()
 
 void BluetoothDataProvider::temperatureReceived(double newAmbientTemperature, double newObjectTemperature)
 {
+    /* NOTE: We emit the signals even if value is unchanged.
+     * Otherwise the scrolling graphs in UI will not scroll.
+     */
     irAmbientTemperature = newAmbientTemperature;
+    emit infraredAmbientTemperatureChanged();
     irObjectTemperature = newObjectTemperature;
-    emit infraredCelsiusTemperatureChanged();
+    emit infraredObjectTemperatureChanged();
 }
 
 void BluetoothDataProvider::barometerReceived(double temperature, double barometer)
 {
+    /* NOTE: We emit the signals even if value is unchanged.
+     * Otherwise the scrolling graphs in UI will not scroll.
+     */
     barometerCelsiusTemperature = temperature;
     emit barometerCelsiusTemperatureChanged();
     barometerTemperatureAverage = (temperature + m_smaSamples * barometerTemperatureAverage)  / (m_smaSamples + 1);
@@ -118,11 +125,17 @@ void BluetoothDataProvider::barometerReceived(double temperature, double baromet
 
 void BluetoothDataProvider::humidityReceived(double humidity)
 {
+    /* NOTE: We emit the signals even if value is unchanged.
+     * Otherwise the scrolling graphs in UI will not scroll.
+     */
     this->humidity = humidity;
     emit relativeHumidityChanged();
 }
 void BluetoothDataProvider::lightIntensityReceived(double lightIntensity)
 {
+    /* NOTE: We emit the signals even if value is unchanged.
+     * Otherwise the scrolling graphs in UI will not scroll.
+     */
     lightIntensityLux = lightIntensity;
     emit lightIntensityChanged();
 }
@@ -136,6 +149,9 @@ float BluetoothDataProvider::countRotationDegrees(double degreesPerSecond, quint
 
 void BluetoothDataProvider::motionReceived(MotionSensorData &data)
 {
+    /* NOTE: We emit the signals even if value is unchanged.
+     * Otherwise the scrolling graphs in UI will not scroll.
+     */
     gyroscopeX_degPerSec = data.gyroScope_x;
     gyroscopeY_degPerSec = data.gyroScope_y;
     gyroscopeZ_degPerSec = data.gyroScope_z;

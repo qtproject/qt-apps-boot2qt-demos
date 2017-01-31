@@ -64,8 +64,8 @@ class SensorTagDataProvider : public QObject
     Q_PROPERTY(QString providerId MEMBER m_id CONSTANT)
     Q_PROPERTY(QString relativeHumidityString READ getRelativeHumidityString NOTIFY relativeHumidityChanged)
     Q_PROPERTY(double relativeHumidity READ getRelativeHumidity NOTIFY relativeHumidityChanged)
-    Q_PROPERTY(double infraredAmbientTemperature READ getInfraredAmbientTemperature NOTIFY infraredCelsiusTemperatureChanged)
-    Q_PROPERTY(double infraredObjectTemperature READ getInfraredObjectTemperature NOTIFY infraredCelsiusTemperatureChanged)
+    Q_PROPERTY(double infraredAmbientTemperature READ getInfraredAmbientTemperature NOTIFY infraredAmbientTemperatureChanged)
+    Q_PROPERTY(double infraredObjectTemperature READ getInfraredObjectTemperature NOTIFY infraredObjectTemperatureChanged)
     Q_PROPERTY(QString lightIntensityLuxString READ getLightIntensityLuxString NOTIFY lightIntensityChanged)
     Q_PROPERTY(double lightIntensityLux READ getLightIntensityLux NOTIFY lightIntensityChanged)
     Q_PROPERTY(double barometerCelsiusTemperature READ getBarometerCelsiusTemperature NOTIFY barometerCelsiusTemperatureChanged)
@@ -138,7 +138,8 @@ public:
 signals:
     void stateChanged();
     void relativeHumidityChanged();
-    void infraredCelsiusTemperatureChanged();
+    void infraredAmbientTemperatureChanged();
+    void infraredObjectTemperatureChanged();
     void lightIntensityChanged();
     void barometerCelsiusTemperatureChanged();
     void barometerCelsiusTemperatureAverageChanged();
