@@ -52,9 +52,8 @@
 
 MockDataProvider::MockDataProvider(QString id, QObject* parent)
     : SensorTagDataProvider(id, parent),
-    xAxisG(-10),
-    yAxisG(10),
-    zAxisG(0),
+    xAxisG(-0.02),
+    zAxisG(0.02),
     luxIncrease(100),
     rotationDegPerSecXIncrease(5),
     rotationDegPerSecYIncrease(7),
@@ -66,6 +65,8 @@ MockDataProvider::MockDataProvider(QString id, QObject* parent)
     irObjectTemperature = 25;
     barometerCelsiusTemperature = 25;
     barometerHPa = 1040;
+    accelometerX = 1;
+    accelometerZ = 0;
     magnetometerMicroT_xAxis = 333;
     magnetometerMicroT_yAxis = 666;
     magnetometerMicroT_zAxis = 999;
@@ -171,28 +172,23 @@ void MockDataProvider::oneSecondTimerExpired()
 void MockDataProvider::twentyMsTimerExpired()
 {
     //Rotate counter-clockwise around Z axis
-    if ((zAxisG > -10) &&
-        (xAxisG <= 0)) {
-        if (zAxisG <= 0) {
-            xAxisG += 2;
-            zAxisG -= 2;
-        } else {
-            xAxisG -= 2;
-            zAxisG -= 2;
-        }
-    } else {
-        if (zAxisG < 0) {
-            xAxisG += 2;
-            zAxisG += 2;
-        } else {
-            xAxisG -= 2;
-            zAxisG += 2;
-        }
+    accelometerX += xAxisG;
+    if (accelometerX < -1) {
+        xAxisG = xAxisG * -1;
+        accelometerX = -1;
+    } else if (accelometerX > 1) {
+        xAxisG = xAxisG * -1;
+        accelometerX = 1;
     }
-    accelometer_mG_xAxis = xAxisG * 100;
-    accelometer_mG_yAxis = yAxisG * 100;
-    accelometer_mG_zAxis = zAxisG * 100;
-    emit accelometerGChanged();
+    accelometerZ += zAxisG;
+    if (accelometerZ < -1) {
+        zAxisG = zAxisG * -1;
+        accelometerZ = -1;
+    } else if (accelometerZ > 1) {
+        zAxisG = zAxisG * -1;
+        accelometerZ = 1;
+    }
+    emit accelometerChanged();
     magnetometerMicroT_xAxis += 50;
     magnetometerMicroT_yAxis += 50;
     magnetometerMicroT_zAxis += 50;

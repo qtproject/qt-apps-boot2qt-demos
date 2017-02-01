@@ -146,13 +146,13 @@ void CloudDataProvider::parseReceivedText()
             gyroscopeZ_degPerSec = floatValue;
         } else if ("AccX:" == headerText) {
             accelometerReadingGot = true;
-            accelometer_mG_xAxis = doubleValue;
+            accelometerX = floatValue;
         } else if ("AccY:" == headerText) {
             accelometerReadingGot = true;
-            accelometer_mG_yAxis = doubleValue;
+            accelometerY = floatValue;
         } else if ("AccZ:" == headerText) {
             accelometerReadingGot = true;
-            accelometer_mG_zAxis = doubleValue;
+            accelometerZ = floatValue;
         } else if ("MagnX:" == headerText) {
             magnetometerReadingGot = true;
             magnetometerMicroT_xAxis = floatValue;
@@ -178,7 +178,7 @@ void CloudDataProvider::parseReceivedText()
     if (gyroscopeReadingGot)
         emit gyroscopeDegPerSecChanged();
     if (accelometerReadingGot)
-        emit accelometerGChanged();
+        emit accelometerChanged();
     if (magnetometerReadingGot)
         emit magnetometerMicroTChanged();
 }

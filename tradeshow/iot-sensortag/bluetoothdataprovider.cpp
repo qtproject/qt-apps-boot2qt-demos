@@ -176,10 +176,10 @@ void BluetoothDataProvider::motionReceived(MotionSensorData &data)
     emit rotationXChanged();
     emit rotationYChanged();
     emit rotationZChanged();
-    accelometer_mG_xAxis = data.accelometer_x;
-    accelometer_mG_yAxis = data.accelometer_y;
-    accelometer_mG_zAxis = data.accelometer_z;
-    emit accelometerGChanged();
+    accelometerX = data.accelometer_x;
+    accelometerY = data.accelometer_y;
+    accelometerZ = data.accelometer_z;
+    emit accelometerChanged();
     magnetometerMicroT_xAxis = data.magnetometer_x;
     magnetometerMicroT_yAxis = data.magnetometer_y;
     magnetometerMicroT_zAxis = data.magnetometer_z;

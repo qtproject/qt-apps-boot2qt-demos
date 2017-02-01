@@ -172,9 +172,9 @@ QString CloudUpdate::buildString() const
     exportString += QString("gyroX:\n%1\n").arg(m_provider->getGyroscopeX_degPerSec(), 0, 'f', ROUNDING_DECIMALS);
     exportString += QString("gyroY:\n%1\n").arg(m_provider->getGyroscopeY_degPerSec(), 0, 'f', ROUNDING_DECIMALS);
     exportString += QString("gyroZ:\n%1\n").arg(m_provider->getGyroscopeZ_degPerSec(), 0, 'f', ROUNDING_DECIMALS);
-    exportString += QString("AccX:\n%1\n").arg(m_provider->getAccelometer_mG_xAxis());
-    exportString += QString("AccY:\n%1\n").arg(m_provider->getAccelometer_mG_yAxis());
-    exportString += QString("AccZ:\n%1\n").arg(m_provider->getAccelometer_mG_zAxis());
+    exportString += QString("AccX:\n%1\n").arg(m_provider->getAccelometer_xAxis(), 0, 'f', ROUNDING_DECIMALS);
+    exportString += QString("AccY:\n%1\n").arg(m_provider->getAccelometer_yAxis(), 0, 'f', ROUNDING_DECIMALS);
+    exportString += QString("AccZ:\n%1\n").arg(m_provider->getAccelometer_zAxis(), 0, 'f', ROUNDING_DECIMALS);
     exportString += QString("MagnX:\n%1\n").arg(m_provider->getMagnetometerMicroT_xAxis(), 0, 'f', ROUNDING_DECIMALS);
     exportString += QString("MagnY:\n%1\n").arg(m_provider->getMagnetometerMicroT_yAxis(), 0, 'f', ROUNDING_DECIMALS);
     exportString += QString("MagnZ:\n%1\n").arg(m_provider->getMagnetometerMicroT_zAxis(), 0, 'f', ROUNDING_DECIMALS);

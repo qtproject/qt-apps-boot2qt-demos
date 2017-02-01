@@ -61,16 +61,16 @@ BaseChart {
     rightSide: true
 
     onSensorChanged: if (sensor) {
-        sensor.accelometerGChanged.connect(contentItem.updateAcceValues)
+        sensor.accelometerChanged.connect(contentItem.updateAcceValues)
     }
 
     content: Item {
         anchors.fill: parent
 
         function updateAcceValues() {
-            acceXValue = sensor.accelometer_mG_xAxis.toFixed(1)
-            acceYValue = sensor.accelometer_mG_yAxis.toFixed(1)
-            acceZValue = sensor.accelometer_mG_zAxis.toFixed(1)
+            acceXValue = sensor.accelometer_xAxis.toFixed(1)
+            acceYValue = sensor.accelometer_yAxis.toFixed(1)
+            acceZValue = sensor.accelometer_zAxis.toFixed(1)
         }
 
         Row {

@@ -75,9 +75,9 @@ public slots:
 private:
     QTimer *oneSecondTimer;
     QTimer *twentyMillisecondTimer;
-    int xAxisG;
-    int yAxisG;
-    int zAxisG;
+    float xAxisG;
+    float yAxisG;
+    float zAxisG;
     int luxIncrease;
     int rotationDegPerSecXIncrease;
     int rotationDegPerSecYIncrease;

@@ -76,9 +76,9 @@ class SensorTagDataProvider : public QObject
     Q_PROPERTY(float gyroscopeX_degPerSec READ getGyroscopeX_degPerSec NOTIFY gyroscopeDegPerSecChanged)
     Q_PROPERTY(float gyroscopeY_degPerSec READ getGyroscopeY_degPerSec NOTIFY gyroscopeDegPerSecChanged)
     Q_PROPERTY(float gyroscopeZ_degPerSec READ getGyroscopeZ_degPerSec NOTIFY gyroscopeDegPerSecChanged)
-    Q_PROPERTY(int accelometer_mG_xAxis READ getAccelometer_mG_xAxis NOTIFY accelometerGChanged)
-    Q_PROPERTY(int accelometer_mG_yAxis READ getAccelometer_mG_yAxis NOTIFY accelometerGChanged)
-    Q_PROPERTY(int accelometer_mG_zAxis READ getAccelometer_mG_zAxis NOTIFY accelometerGChanged)
+    Q_PROPERTY(float accelometer_xAxis READ getAccelometer_xAxis NOTIFY accelometerChanged)
+    Q_PROPERTY(float accelometer_yAxis READ getAccelometer_yAxis NOTIFY accelometerChanged)
+    Q_PROPERTY(float accelometer_zAxis READ getAccelometer_zAxis NOTIFY accelometerChanged)
     Q_PROPERTY(float magnetometerMicroT_xAxis READ getMagnetometerMicroT_xAxis NOTIFY magnetometerMicroTChanged)
     Q_PROPERTY(float magnetometerMicroT_yAxis READ getMagnetometerMicroT_yAxis NOTIFY magnetometerMicroTChanged)
     Q_PROPERTY(float magnetometerMicroT_zAxis READ getMagnetometerMicroT_zAxis NOTIFY magnetometerMicroTChanged)
@@ -116,9 +116,9 @@ public:
     float getGyroscopeX_degPerSec();
     float getGyroscopeY_degPerSec();
     float getGyroscopeZ_degPerSec();
-    float getAccelometer_mG_xAxis();
-    float getAccelometer_mG_yAxis();
-    float getAccelometer_mG_zAxis();
+    float getAccelometer_xAxis();
+    float getAccelometer_yAxis();
+    float getAccelometer_zAxis();
     float getMagnetometerMicroT_xAxis();
     float getMagnetometerMicroT_yAxis();
     float getMagnetometerMicroT_zAxis();
@@ -146,7 +146,7 @@ signals:
     void barometerCelsiusTemperatureAverageChanged();
     void barometer_hPaChanged();
     void gyroscopeDegPerSecChanged();
-    void accelometerGChanged();
+    void accelometerChanged();
     void magnetometerMicroTChanged();
     void rotationXChanged();
     void rotationYChanged();
@@ -165,9 +165,9 @@ protected:
     float gyroscopeX_degPerSec;
     float gyroscopeY_degPerSec;
     float gyroscopeZ_degPerSec;
-    int accelometer_mG_xAxis;
-    int accelometer_mG_yAxis;
-    int accelometer_mG_zAxis;
+    float accelometerX;
+    float accelometerY;
+    float accelometerZ;
     float magnetometerMicroT_xAxis;
     float magnetometerMicroT_yAxis;
     float magnetometerMicroT_zAxis;

@@ -71,9 +71,9 @@ SensorTagDataProvider::SensorTagDataProvider(QString id, QObject* parent)
     gyroscopeX_degPerSec(0),
     gyroscopeY_degPerSec(0),
     gyroscopeZ_degPerSec(0),
-    accelometer_mG_xAxis(0),
-    accelometer_mG_yAxis(0),
-    accelometer_mG_zAxis(0),
+    accelometerX(0),
+    accelometerY(0),
+    accelometerZ(0),
     /* Object is not "walking in the air" so have one axis at 1G */
     magnetometerMicroT_xAxis(-1000),
     magnetometerMicroT_yAxis(0),
@@ -156,19 +156,19 @@ float SensorTagDataProvider::getGyroscopeZ_degPerSec()
     return gyroscopeZ_degPerSec;
 }
 
-float SensorTagDataProvider::getAccelometer_mG_xAxis()
+float SensorTagDataProvider::getAccelometer_xAxis()
 {
-    return accelometer_mG_xAxis;
+    return accelometerX;
 }
 
-float SensorTagDataProvider::getAccelometer_mG_yAxis()
+float SensorTagDataProvider::getAccelometer_yAxis()
 {
-    return accelometer_mG_yAxis;
+    return accelometerY;
 }
 
-float SensorTagDataProvider::getAccelometer_mG_zAxis()
+float SensorTagDataProvider::getAccelometer_zAxis()
 {
-    return accelometer_mG_zAxis;
+    return accelometerZ;
 }
 
 float SensorTagDataProvider::getMagnetometerMicroT_xAxis()
