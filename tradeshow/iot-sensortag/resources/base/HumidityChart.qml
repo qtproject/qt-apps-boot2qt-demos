@@ -69,14 +69,12 @@ BaseChart {
     content: Item {
         anchors.fill: parent
 
-        property alias humiText: humidityMainText.text
         property real maxHumi: 0
-        property real minHumi: 1000
+        property real minHumi: 0
 
         function getMaxOchMinHum()
         {
             humidityValue = sensor.relativeHumidity;
-            contentItem.humiText = humidityValue.toFixed(1) + " %";
 
             if (humidityValue > contentItem.maxHumi)
             {
@@ -105,6 +103,7 @@ BaseChart {
 
                 anchors.centerIn: parent
                 color: "white"
+                text: humidityValue.toFixed(1) + " %"
             }
         }
 

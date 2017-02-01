@@ -63,6 +63,11 @@ Window {
     visible: true
     color: "black"
 
+    Image {
+        source: "images/bg_blue.jpg"
+        anchors.fill: parent
+    }
+
     Loader {
         id: contentLoader
 
