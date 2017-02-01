@@ -16,5 +16,7 @@
         <file>resources/small/images/Toolbar/icon_topbar_sensor.png</file>
         <file>resources/small/images/Toolbar/topbar_all.png</file>
         <file>resources/small/images/Toolbar/icon_topbar_cloud.png</file>
+        <file>resources/small/images/Accelometer/inner_ring.png</file>
+        <file>resources/small/images/Accelometer/outer_ring.png</file>
     </qresource>
 </RCC>

@@ -47,58 +47,74 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "demodataproviderpool.h"
-#include "mockdataprovider.h"
+import QtQuick 2.5
+import SensorTag.DataProvider 1.0
 
-DemoDataProviderPool::DemoDataProviderPool(QObject *parent)
-    : DataProviderPool("Demo", parent)
-    , m_mockData(false)
-    , m_cloudProvider(0)
-{
-}
+BaseChart {
 
-void DemoDataProviderPool::startScanning()
-{
-    if (m_mockData) {
-        MockDataProvider* p = new MockDataProvider("MOCK_PROVIDER_1", this);
-        p->setTagType(SensorTagDataProvider::ObjectTemperature | SensorTagDataProvider::AmbientTemperature | SensorTagDataProvider::Rotation);
-        m_dataProviders.push_back(p);
-        p = new MockDataProvider("MOCK_PROVIDER_2", this);
-        p->setTagType(SensorTagDataProvider::Humidity | SensorTagDataProvider::Light | SensorTagDataProvider::Accelometer);
-        m_dataProviders.push_back(p);
-        p = new MockDataProvider("MOCK_PROVIDER_3", this);
-        p->setTagType(SensorTagDataProvider::Magnetometer | SensorTagDataProvider::AirPressure);
-        m_dataProviders.push_back(p);
-        for (int i=0; i < m_dataProviders.length(); i++) {
-            m_dataProviders.at(i)->startDataFetching();
-            emit providerConnected(p->id());
+    property real acceXValue
+    property real acceYValue
+    property real acceZValue
+
+    antialiasing: true
+    title: qsTr("Accelometer")
+    rightSide: true
+
+    onSensorChanged: if (sensor) {
+        sensor.accelometerGChanged.connect(contentItem.updateAcceValues)
+    }
+
+    content: Item {
+        anchors.fill: parent
+
+        function updateAcceValues() {
+            acceXValue = sensor.accelometer_mG_xAxis.toFixed(1)
+            acceYValue = sensor.accelometer_mG_yAxis.toFixed(1)
+            acceZValue = sensor.accelometer_mG_zAxis.toFixed(1)
         }
-        // Stop scanning as we already have a provider
-       stopScanning();
+
+        Row {
+            id: itemRow
+            anchors.fill: parent
+
+            Repeater {
+
+                model: 3
+
+                Item {
+                    height: itemRow.height
+                    width: itemRow.width / 3
+                    Image {
+                        id: accelometerOuter
+
+                        source: pathPrefix + "Accelometer/outer_ring.png"
+                        anchors.centerIn: parent
+
+                        Image {
+                            source: pathPrefix + "Accelometer/inner_ring.png"
+                            anchors.centerIn: parent
+                        }
+
+                        Text {
+                            id: accelMainText
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.bottom: parent.verticalCenter
+                            anchors.bottomMargin: -12
+                            text: (index == 0) ? acceXValue : ((index == 1) ? acceYValue : acceZValue)
+                            color: "white"
+                        }
+                    }
+
+                    Text {
+                        anchors.horizontalCenter: accelometerOuter.horizontalCenter
+                        anchors.top: accelometerOuter.bottom
+                        anchors.topMargin: -18
+                        text: (index == 0) ? "X" : ((index == 1) ? "Y" : "Z")
+                        color: "white"
+                        font.pixelSize: 20
+                    }
+                }
+            }
+        }
     }
-    else {
-        DataProviderPool::startScanning();
-    }
-}
-
-void DemoDataProviderPool::stopScanning()
-{
-    // TODO: get data for cloud update provider from
-    // all available providers, not just from the first found
-    if (m_dataProviders.length()) {
-        m_cloudProvider = m_dataProviders.at(0);
-    }
-
-    emit dataProvidersChanged();
-    emit scanFinished();
-}
-
-void DemoDataProviderPool::setMockDataMode(bool mode)
-{
-    m_mockData = mode;
-}
-
-SensorTagDataProvider *DemoDataProviderPool::providerForCloud() const
-{
-    return m_cloudProvider;
 }

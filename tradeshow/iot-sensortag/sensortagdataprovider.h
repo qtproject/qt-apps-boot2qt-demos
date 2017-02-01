@@ -93,7 +93,8 @@ public:
                   AirPressure = 1 << 2,
                   Light = 1 << 3,
                   Magnetometer = 1 << 4,
-                  Rotation = 1 << 5};
+                  Rotation = 1 << 5,
+                  Accelometer = 1 << 6};
     enum ProviderState {Disconnected = 0, Scanning, Connected, Error};
 
     explicit SensorTagDataProvider(QObject *parent = 0);

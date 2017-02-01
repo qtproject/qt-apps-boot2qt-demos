@@ -76,6 +76,7 @@ private:
     QTimer *oneSecondTimer;
     QTimer *twentyMillisecondTimer;
     int xAxisG;
+    int yAxisG;
     int zAxisG;
     int luxIncrease;
     int rotationDegPerSecXIncrease;

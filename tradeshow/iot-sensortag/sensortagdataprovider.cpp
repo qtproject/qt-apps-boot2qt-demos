@@ -81,7 +81,7 @@ SensorTagDataProvider::SensorTagDataProvider(QString id, QObject* parent)
     rotation_x(0),
     rotation_y(0),
     rotation_z(0),
-    m_tagType(AmbientTemperature | ObjectTemperature | Humidity | AirPressure | Light | Magnetometer | Rotation),
+    m_tagType(AmbientTemperature | ObjectTemperature | Humidity | AirPressure | Light | Magnetometer | Rotation | Accelometer),
     m_id(id),
     m_state(Disconnected)
 {

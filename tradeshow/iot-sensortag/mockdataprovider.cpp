@@ -53,6 +53,7 @@
 MockDataProvider::MockDataProvider(QString id, QObject* parent)
     : SensorTagDataProvider(id, parent),
     xAxisG(-10),
+    yAxisG(10),
     zAxisG(0),
     luxIncrease(100),
     rotationDegPerSecXIncrease(5),
@@ -189,6 +190,7 @@ void MockDataProvider::twentyMsTimerExpired()
         }
     }
     accelometer_mG_xAxis = xAxisG * 100;
+    accelometer_mG_yAxis = yAxisG * 100;
     accelometer_mG_zAxis = zAxisG * 100;
     emit accelometerGChanged();
     magnetometerMicroT_xAxis += 50;

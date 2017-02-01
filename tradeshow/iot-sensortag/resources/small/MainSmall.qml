@@ -70,6 +70,7 @@ Item {
             light.sensor = dataProviderPool.getProvider(SensorTagData.Light);
             magnetometer.sensor = dataProviderPool.getProvider(SensorTagData.Magnetometer);
             rotation.sensor = dataProviderPool.getProvider(SensorTagData.Rotation);
+            accelometer.sensor = dataProviderPool.getProvider(SensorTagData.Accelometer);
         }
     }
 
@@ -136,21 +137,21 @@ Item {
             id: light
 
             width: rightPane.width
-            height: leftPane.height / 4
+            height: rightPane.height / 4
         }
 
         MagnetometerChart {
             id: magnetometer
 
             width: rightPane.width
-            height: leftPane.height * 0.3
+            height: rightPane.height * 0.3 - 30
         }
 
         GyroChart {
             id: rotation
 
             width: rightPane.width
-            height: leftPane.height * 0.3
+            height: rightPane.height * 0.3 - 60
             onClicked: {
                 //mainContainer.source = "../base/GyroPage.qml";
                 gyroConnection.enabled = true;
@@ -168,6 +169,13 @@ Item {
                     }
                 }
             }
+        }
+
+        AccelChart {
+            id: accelometer
+
+            width: rightPane.width
+            height: rightPane.height - light.height - magnetometer.height - rotation.height - 3 * rightPane.spacing
         }
     }
 

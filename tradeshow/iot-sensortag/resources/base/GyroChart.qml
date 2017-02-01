@@ -97,7 +97,7 @@ BaseChart {
 
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 33
+            anchors.bottomMargin: 25
             anchors.left: parent.left
             anchors.leftMargin: -20
             anchors.right: parent.right
@@ -161,7 +161,7 @@ BaseChart {
         Row {
             id: xLabelRow
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 28
+            anchors.bottomMargin: 4
             anchors.left: parent.left
             anchors.leftMargin: chartView.plotArea.x - 40
             anchors.right: parent.right

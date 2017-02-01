@@ -191,6 +191,7 @@ Item {
 
     Image {
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: -18
         source: pathPrefix + "Toolbar/topbar_all.png"
     }
 }

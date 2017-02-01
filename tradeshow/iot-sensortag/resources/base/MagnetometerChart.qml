@@ -161,7 +161,6 @@ BaseChart {
             horizontalAlignment: Text.AlignHCenter
             text: "<font color=\"" + xColor + "\">X<br><font color=\"white\">" + (sensor ? sensor.magnetometerMicroT_xAxis : 0)
             lineHeight: 0.7
-            width: (magnetHolderRect.width - xLabelRow.x) / 3
         }
 
         Text {
@@ -172,7 +171,6 @@ BaseChart {
             horizontalAlignment: Text.AlignHCenter
             text: "<font color=\"" + yColor + "\">Y<br><font color=\"white\">" + (sensor ? sensor.magnetometerMicroT_yAxis : 0)
             lineHeight: 0.7
-            width: xLabel.width
         }
 
         Text {
@@ -183,7 +181,6 @@ BaseChart {
             horizontalAlignment: Text.AlignHCenter
             text: "<font color=\"" + zColor + "\">Z<br><font color=\"white\">" + (sensor ? sensor.magnetometerMicroT_zAxis : 0)
             lineHeight: 0.7
-            width: xLabel.width
         }
     }
 }

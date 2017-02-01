@@ -95,7 +95,10 @@ BaseChart {
             source: pathPrefix + "Humidity/humidity_base_gauge.png"
             anchors.left: parent.left
             anchors.leftMargin: 8
+            anchors.top: parent.top
+            anchors.topMargin: 8
             anchors.bottom: parent.bottom
+            width: height
 
             Text {
                 id: humidityMainText
@@ -108,7 +111,7 @@ BaseChart {
         Image {
             source: pathPrefix + "Humidity/humidity_min_hum.png"
             anchors.left: humidityMainImg.right
-            anchors.leftMargin: -11
+            anchors.leftMargin: -7
             anchors.bottom: humidityMainImg.bottom
 
             Text {
@@ -134,8 +137,8 @@ BaseChart {
         Image {
             source: pathPrefix + "Humidity/humidity_max_hum.png"
             anchors.left: humidityMainImg.right
-            anchors.leftMargin: -22
-            anchors.top: humidityMainImg.top
+            anchors.leftMargin: -18
+            anchors.top: parent.top
 
             Text {
                 anchors.top: parent.top
