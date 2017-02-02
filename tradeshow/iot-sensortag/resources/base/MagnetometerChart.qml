@@ -50,6 +50,7 @@
 import QtQuick 2.5
 import QtCharts 2.1
 import SensorTag.DataProvider 1.0
+import QtGraphicalEffects 1.0
 
 BaseChart {
     id: magnetHolderRect
@@ -87,6 +88,14 @@ BaseChart {
             magneticSeriesIndex++;
         }
 
+        Glow {
+            anchors.fill: chartView
+            radius: 18
+            samples: 30
+            color: "#15bdff"
+            source: chartView
+        }
+
 
         PolarChartView {
             id: chartView
@@ -110,7 +119,7 @@ BaseChart {
                 labelsVisible: false
                 gridVisible: false
                 min: 0
-                max: maxNumOfMagnReadings + 1
+                max: maxNumOfMagnReadings
                 tickCount: 2
                 color: chartColor
                 visible: false

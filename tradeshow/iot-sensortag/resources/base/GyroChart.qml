@@ -50,6 +50,7 @@
 import QtQuick 2.5
 import QtCharts 2.1
 import SensorTag.DataProvider 1.0
+import QtGraphicalEffects 1.0
 
 BaseChart {
     id: gyroHolderRect
@@ -58,8 +59,6 @@ BaseChart {
     property int gyroSeriesIndex: 0
     property int maxGyroReadings: 24
 
-    readonly property color chartColor: "#15bdff"
-    readonly property color gridColor: "#005b80"
     readonly property string xColor: "#15bdff"
     readonly property string yColor: "white"
     readonly property string zColor: "fuchsia"
@@ -92,6 +91,14 @@ BaseChart {
             gyroSeriesIndex++;
         }
 
+        Glow {
+            anchors.fill: chartView
+            radius: 30
+            samples: 30
+            color: "orange"
+            source: chartView
+        }
+
         ChartView {
             id: chartView
 
@@ -115,7 +122,6 @@ BaseChart {
                 min: 0
                 max: maxGyroReadings + 1
                 tickCount: 13
-                color: chartColor
                 visible: false
             }
 
@@ -125,17 +131,15 @@ BaseChart {
                 min: 0
                 max: 360
                 tickCount: 11
-                color: chartColor
                 visible: false
             }
-
             ScatterSeries {
                 id: gyroSeriesX
                 axisX: valueAxisX
                 axisY: valueAxisY
                 color: xColor
-                borderWidth: 0
-                markerSize: 6
+                borderColor: xColor
+                markerSize: 8
                 name: "Gyro X"
             }
             ScatterSeries {
@@ -143,8 +147,8 @@ BaseChart {
                 axisX: valueAxisX
                 axisY: valueAxisY
                 color: yColor
-                borderWidth: 0
-                markerSize: 6
+                borderColor: yColor
+                markerSize: 8
                 name: "Gyro Y"
             }
             ScatterSeries {
@@ -152,8 +156,8 @@ BaseChart {
                 axisX: valueAxisX
                 axisY: valueAxisY
                 color: zColor
-                borderWidth: 0
-                markerSize: 6
+                borderColor: zColor
+                markerSize: 8
                 name: "Gyro Z"
             }
         }
