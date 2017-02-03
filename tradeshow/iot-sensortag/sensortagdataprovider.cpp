@@ -68,6 +68,7 @@ SensorTagDataProvider::SensorTagDataProvider(QString id, QObject* parent)
     irObjectTemperature(0),
     lightIntensityLux(0),
     barometerCelsiusTemperature(0),
+    barometerTemperatureAverage(25),
     barometerHPa(0),
     gyroscopeX_degPerSec(0),
     gyroscopeY_degPerSec(0),

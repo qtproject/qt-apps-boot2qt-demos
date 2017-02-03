@@ -4,7 +4,6 @@
         <file>resources/small/MainSmall.qml</file>
         <file>resources/small/images/General/icon_sensor.png</file>
         <file>resources/small/images/General/separator.png</file>
-        <file>resources/small/images/AmbientTemperature/ambTemp_display_amb.png</file>
         <file>resources/small/images/Humidity/humidity_max_hum.png</file>
         <file>resources/small/images/Humidity/humidity_min_hum.png</file>
         <file>resources/small/images/Humidity/humidity_base_gauge.png</file>
@@ -23,5 +22,7 @@
         <file>resources/small/images/Gyro/ring_outer.png</file>
         <file>resources/small/images/Gyro/ring_small.png</file>
         <file>resources/small/images/Gyro/particle.png</file>
+        <file>resources/small/images/AmbientTemperature/temp_ring.png</file>
+        <file>resources/small/images/AmbientTemperature/temp_sensor.png</file>
     </qresource>
 </RCC>

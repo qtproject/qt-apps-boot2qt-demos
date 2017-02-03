@@ -50,17 +50,19 @@
 import QtQuick 2.7
 import QtCharts 2.1
 import SensorTag.DataProvider 1.0
+import QtGraphicalEffects 1.0
 
 BaseChart {
     id: tempHolderRect
 
     property int temperatureSeriesIndex: 0
-    property int maxNumOfTempReadings: 240
+    property int maxNumOfTempReadings: 30
     property real minimum: 10
     property real maximum: 40
 
-    property real minValue: Number.MAX_VALUE
-    property real maxValue: Number.MIN_VALUE
+    property real defaultAvgValue: 25
+    property real minValue: defaultAvgValue
+    property real maxValue: defaultAvgValue
     readonly property real avgValue: (maxValue - minValue) / 2
     property real value
 
@@ -76,11 +78,24 @@ BaseChart {
     content: Item {
         anchors.fill: parent
 
+        Component.onCompleted: {
+            // Initialize series
+            var i = 0
+            while (i < maxNumOfTempReadings) {
+                avgTempSeries.append(i, defaultAvgValue)
+                i++
+            }
+            temperatureSeriesIndex = i
+        }
+
         function updateTemperatureGraph() {
-            avgTempSeries.append(temperatureSeriesIndex, sensor.infraredAmbientTemperature);
+            // Make sure defaultAvgValue is the last valuea in the series
+            avgTempSeries.remove(temperatureSeriesIndex - 1, defaultAvgValue);
+            avgTempSeries.append(temperatureSeriesIndex - 1, sensor.infraredAmbientTemperature);
+            avgTempSeries.append(temperatureSeriesIndex, defaultAvgValue);
 
             if (temperatureSeriesIndex >= maxNumOfTempReadings) {
-                avgTempSeries.remove(avgTempSeries.at(temperatureSeriesIndex-maxNumOfTempReadings));
+                avgTempSeries.remove(avgTempSeries.at(temperatureSeriesIndex - maxNumOfTempReadings));
                 valueAxisX.min++;
                 valueAxisX.max++;
             }
@@ -97,56 +112,71 @@ BaseChart {
             id: valueReading
 
             anchors.right: parent.right
-            anchors.top: chartView.top
-            anchors.topMargin: chartView.plotArea.y - 16
-            width: childrenRect.width
-            height: childrenRect.height
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height - 32
 
             Text {
                 id: highValue
 
                 text: "Highest\n" + (maxValue !== Number.MIN_VALUE ? maxValue : "--")
                 lineHeight: 0.7
-                width: 60
+                width: contentWidth
+                height: contentHeight
                 horizontalAlignment: Text.Center
-                anchors.horizontalCenter: reading.horizontalCenter
+                anchors.right: reading.left
+                anchors.top: parent.top
                 color: "white"
             }
 
             Image {
                 id: reading
 
-                source: pathPrefix + "AmbientTemperature/ambTemp_display_amb.png"
-                anchors.top: highValue.bottom
-                anchors.topMargin: 10
+                source: pathPrefix + "AmbientTemperature/temp_ring.png"
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: avgText.left
 
                 Text {
                     anchors.centerIn: parent
                     text: sensor ? sensor.infraredAmbientTemperature : ""
                     color: "white"
+                    font.pixelSize: 26
                 }
             }
 
             Text {
                 text: (minValue !== Number.MAX_VALUE ? minValue : "--") + "\nLowest"
                 lineHeight: 0.8
-                width: 60
+                width: contentWidth
                 horizontalAlignment: Text.Center
                 color: "white"
-                anchors.top: reading.bottom
-                anchors.topMargin: 6
-                anchors.horizontalCenter: reading.horizontalCenter
+                anchors.bottom: parent.bottom
+                anchors.right: reading.left
             }
 
             Text {
+                id: avgText
                 text: "Avg\n" + (sensor ? sensor.barometerTemperatureAverage.toFixed(1) : "")
                 lineHeight: 0.8
-                width: 60
+                width: contentWidth
                 horizontalAlignment: Text.Center
                 color: "white"
-                anchors.left: reading.right
+                anchors.right: parent.right
                 anchors.verticalCenter: reading.verticalCenter
             }
+        }
+
+        Image {
+            source: pathPrefix + "AmbientTemperature/temp_sensor.png"
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        Glow {
+            anchors.fill: chartView
+            radius: 18
+            samples: 30
+            color: "#15bdff"
+            source: chartView
         }
 
         ChartView {
@@ -154,11 +184,10 @@ BaseChart {
 
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: xLegend.height + 8
             anchors.left: parent.left
-            anchors.leftMargin: -25
+            anchors.leftMargin: 15
             anchors.right: valueReading.left
-            anchors.rightMargin: -20
+            anchors.rightMargin: 106
             antialiasing: true
             backgroundColor: "transparent"
             legend.visible: false
@@ -170,24 +199,17 @@ BaseChart {
             ValueAxis {
                 id: valueAxisX
 
-                labelsVisible: false
                 min: 0
                 max: maxNumOfTempReadings + 1
-                tickCount: 6
-                labelsColor: legendColor
-                color: chartColor
-                gridLineColor: chartColor
+                visible: false
             }
 
             ValueAxis {
                 id: valueAxisY
 
-                labelsVisible: false
                 min: minimum
                 max: maximum
-                tickCount: 7
-                color: chartColor
-                gridLineColor: chartColor
+                visible: false
             }
 
             LineSeries {
@@ -199,80 +221,6 @@ BaseChart {
                 width: 1
                 useOpenGL: true
             }
-
-            Column {
-                id: col
-                property int step: (valueAxisY.max - valueAxisY.min) / (valueAxisY.tickCount - 1)
-                spacing: (valueAxisY.tickCount - 0.7) / 2
-                y: chartView.plotArea.y - 10
-                x: 24
-                z: 5
-
-                Repeater {
-                    model: valueAxisY.tickCount
-
-                    Text {
-                        text: valueAxisY.max - index * col.step
-                        horizontalAlignment: Text.AlignRight
-                        width: 20
-                        color: legendColor
-                        font: fontMetrics.font
-                    }
-                }
-            }
-
-            Row {
-                id: xLegend
-
-                x: chartView.plotArea.x
-                y: chartView.plotArea.y + chartView.plotArea.height + height + 6
-                spacing: (chartView.plotArea.width) / (valueAxisX.tickCount - 0.7) + 1
-
-                Repeater {
-                    model: valueAxisX.tickCount
-
-                    // Enclosing Text inside Item allows layouting Text correctly on the axis
-                    Item {
-                        width: 1
-                        height: 1
-
-                        Text {
-                            id: legendText
-
-                            text: index
-                            color: legendColor
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            font: fontMetrics.font
-                        }
-                    }
-                }
-            }
-
-            Text {
-                text: "°C"
-                anchors.top: parent.top
-                anchors.topMargin: chartView.plotArea.y - height - 4
-                anchors.right: col.right
-                color: legendColor
-                font: fontMetrics.font
-            }
-
-            Text {
-                text: "h"
-                anchors.top: xLegend.top
-                x: chartView.plotArea.x + chartView.plotArea.width + 16
-                color: legendColor
-                font: fontMetrics.font
-            }
         }
-    }
-
-    // Create TextMetrics to allow easy use of the same font in the ChartView
-    TextMetrics {
-        id: fontMetrics
-
-        font.family: "Titillium Web"
-        font.pixelSize: 14
-        text: "m"
     }
 }
