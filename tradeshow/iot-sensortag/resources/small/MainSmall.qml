@@ -145,8 +145,9 @@ Item {
             width: rightPane.width
             height: rightPane.height * 0.3 - 60
             onClicked: {
-                //mainContainer.source = "../base/GyroPage.qml";
+                mainContainer.source = "../base/RotationPage.qml";
                 gyroConnection.enabled = true;
+                sensor.recalibrate();
             }
 
             Connections {

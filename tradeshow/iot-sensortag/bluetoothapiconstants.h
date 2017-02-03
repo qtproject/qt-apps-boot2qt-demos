@@ -47,44 +47,45 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef MOCKDATAPROVIDER_H
-#define MOCKDATAPROVIDER_H
-#include "sensortagdataprovider.h"
-#include <QtQml/QQmlEngine>
-#include <QtQml/QJSEngine>
-#include <QtCore/QTimer>
+#ifndef BLUETOOTHAPICONSTANTS_H
+#define BLUETOOTHAPICONSTANTS_H
 
-class MockDataProvider : public SensorTagDataProvider
-{
-    Q_OBJECT
-public:
-    explicit MockDataProvider(QString id, QObject* parent = 0);
+// NOTE! This file should only contain defines, no implementation
 
-    bool startDataFetching();
-    void endDataFetching();
+/* Timeouts (values between 100ms and 2500ms allowed by API specification.
+ * API values are passed in hex as strings and multiplied by 10 in SensorTag.
+ * These values can be modifed as needed by performance.
+ * Keep defines and strings in sync!
+ */
+#define SENSORTAG_SLOW_TIMER_TIMEOUT_MS                    1000   /* 1 second */
+#define SENSORTAG_SLOW_TIMER_TIMEOUT_STR                   "64"   /* 64hex -> 100 -> 1000ms */
+#define SENSORTAG_MEDIUM_TIMER_TIMEOUT_MS                  500    /* 500ms */
+#define SENSORTAG_MEDIUM_TIMER_TIMEOUT_STR                 "32"   /* 32hex -> 50 -> 500ms */
+#define SENSORTAG_RAPID_TIMER_TIMEOUT_MS                   100    /* 100ms */
+#define SENSORTAG_RAPID_TIMER_TIMEOUT_STR                  "0A"   /* A(hex) -> 10 -> 100ms */
 
-    QString sensorType() const;
-    QString versionString() const;
+// These modifiers come from the Texas Intruments SensorTag Bluetooth LE API specification
+#define GYROSCOPE_API_READING_MULTIPLIER      (500.0 / 65536.0)
+#define ACCELOMETER_API_READING_MULTIPLIER    (8.0 / 32768.0)
+#define HUMIDITY_API_READING_MULTIPLIER       (100.0 / 65536.0)
+#define IR_TEMPERATURE_API_READING_DIVIDER    128.0
+#define BAROMETER_API_READING_DIVIDER         100
 
-    void setTagType(int tagType);
+// These are parameters from the Texas Intruments SensorTag Bluetooth LE API specification
+#define START_MEASUREMENT_STR                    "01"   /* 01 start, 00 stop */
+#define DISABLE_NOTIF_STR                        "0000" /* 0100 enable, 0000 disable */
+#define ENABLE_NOTIF_STR                         "0100" /* 0100 enable, 0000 disable */
+#define MOVEMENT_ENABLE_SENSORS_BITMASK_VALUE    "7F02" /* see below */
+//Enable motion axis: 0b0000_0010_0111_1111 = 0x7F 0x02  (all sensors, 8G, no wake on motion)
+//bits of first byte:
+//MPU9250_GYROSCOPE      = 0b0000_0111 all 3 xyz axes, 1 bit per axis
+//MPU9250_ACCELEROMETER  = 0b0011_1000 all 3 xyz axes, 1 bit per axis
+//MPU9250_MAGNETOMETER   = 0b0100_0000 all 3 xyz axes with one bit
+//MPU9250_WAKEONMOTION   = 0b1000_0000 enables wake on motion
+//bits of second byte (only 2 bits used) Accelerometer range in G
+//MPU9250_ACCELEROMETER_RANGE_0       =0b0000_0000    =  2 G
+//MPU9250_ACCELEROMETER_RANGE_1       =0b0000_0001    =  4 G
+//MPU9250_ACCELEROMETER_RANGE_2       =0b0000_0010    =  8 G (default)
+//MPU9250_ACCELEROMETER_RANGE_3       =0b0000_0011    = 16 G
 
-public slots:
-    void slowTimerExpired();
-    void rapidTimerExpired();
-protected:
-    void reset() {}
-
-private:
-    QTimer *slowUpdateTimer;
-    QTimer *rapidUpdateTimer;
-    float xAxisG;
-    float yAxisG;
-    float zAxisG;
-    int luxIncrease;
-    int rotationDegPerSecXIncrease;
-    int rotationDegPerSecYIncrease;
-    int rotationDegPerSecZIncrease;
-    int m_smaSamples;
-};
-
-#endif // MOCKDATAPROVIDER_H
+#endif // BLUETOOTHAPICONSTANTS_H

@@ -53,6 +53,7 @@
 #include <QLoggingCategory>
 
 Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
+#define DEFAULT_REFRESH_INTERVAL_MS 1000
 
 SensorTagDataProvider::SensorTagDataProvider(QObject *parent)
     : QObject(parent)
@@ -75,12 +76,13 @@ SensorTagDataProvider::SensorTagDataProvider(QString id, QObject* parent)
     accelometerY(0),
     accelometerZ(0),
     /* Object is not "walking in the air" so have one axis at 1G */
-    magnetometerMicroT_xAxis(-1000),
+    magnetometerMicroT_xAxis(-1),
     magnetometerMicroT_yAxis(0),
     magnetometerMicroT_zAxis(0),
     rotation_x(0),
     rotation_y(0),
     rotation_z(0),
+    intervalRotation(DEFAULT_REFRESH_INTERVAL_MS),
     m_tagType(AmbientTemperature | ObjectTemperature | Humidity | AirPressure | Light | Magnetometer | Rotation | Accelometer),
     m_id(id),
     m_state(Disconnected)
@@ -201,6 +203,11 @@ float SensorTagDataProvider::getRotationZ()
     return rotation_z;
 }
 
+int SensorTagDataProvider::getRotationUpdateInterval()
+{
+    return intervalRotation;
+}
+
 int SensorTagDataProvider::tagType() const
 {
     return m_tagType;
@@ -222,4 +229,14 @@ void SensorTagDataProvider::setState(SensorTagDataProvider::ProviderState state)
         m_state = state;
         emit stateChanged();
     }
+}
+
+void SensorTagDataProvider::reset()
+{
+    qCDebug(boot2QtDemos) << "Attempt to reset sensortag that doesn't have reset functionality implemented!";
+}
+
+void SensorTagDataProvider::recalibrate()
+{
+    reset();
 }

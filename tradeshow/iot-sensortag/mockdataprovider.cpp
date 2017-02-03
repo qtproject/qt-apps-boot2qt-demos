@@ -50,6 +50,9 @@
 #include "mockdataprovider.h"
 #include <QtCore/QDateTime>
 
+#define MOCK_DATA_SLOW_REFRESH_INTERVAL_MS   1000
+#define MOCK_DATA_RAPID_REFRESH_INTERVAL_MS   200
+
 MockDataProvider::MockDataProvider(QString id, QObject* parent)
     : SensorTagDataProvider(id, parent),
     xAxisG(-0.02),
@@ -60,6 +63,7 @@ MockDataProvider::MockDataProvider(QString id, QObject* parent)
     rotationDegPerSecZIncrease(-9),
     m_smaSamples(0)
 {
+    intervalRotation = MOCK_DATA_RAPID_REFRESH_INTERVAL_MS;
     humidity = 40;
     irAmbientTemperature = 25;
     irObjectTemperature = 25;
@@ -78,18 +82,18 @@ bool MockDataProvider::startDataFetching()
     m_state = Connected;
 
     qsrand(QDateTime::currentMSecsSinceEpoch() / 1000);
-    oneSecondTimer = new QTimer(this);
-    connect(oneSecondTimer, SIGNAL(timeout()), this, SLOT(oneSecondTimerExpired()));
-    oneSecondTimer->start(1000);
-    twentyMillisecondTimer = new QTimer(this);
-    connect(twentyMillisecondTimer, SIGNAL(timeout()), this, SLOT(twentyMsTimerExpired()));
-    twentyMillisecondTimer->start(200);
+    slowUpdateTimer = new QTimer(this);
+    connect(slowUpdateTimer, SIGNAL(timeout()), this, SLOT(slowTimerExpired()));
+    slowUpdateTimer->start(MOCK_DATA_SLOW_REFRESH_INTERVAL_MS);
+    rapidUpdateTimer = new QTimer(this);
+    connect(rapidUpdateTimer, SIGNAL(timeout()), this, SLOT(rapidTimerExpired()));
+    rapidUpdateTimer->start(MOCK_DATA_RAPID_REFRESH_INTERVAL_MS);
     return true;
 }
 
 void MockDataProvider::endDataFetching()
 {
-    oneSecondTimer->stop();
+    slowUpdateTimer->stop();
 }
 
 QString MockDataProvider::sensorType() const
@@ -107,7 +111,7 @@ void MockDataProvider::setTagType(int tagType)
     m_tagType = tagType;
 }
 
-void MockDataProvider::oneSecondTimerExpired()
+void MockDataProvider::slowTimerExpired()
 {
     /* Emit the signals even if values are unchanged.
      * Otherwise the scrolling graphs in UI will not scroll. */
@@ -169,7 +173,7 @@ void MockDataProvider::oneSecondTimerExpired()
 
 }
 
-void MockDataProvider::twentyMsTimerExpired()
+void MockDataProvider::rapidTimerExpired()
 {
     //Rotate counter-clockwise around Z axis
     accelometerX += xAxisG;

@@ -59,34 +59,9 @@
 #include <QDebug>
 #include <QtMath>
 #include <QDateTime>
+#include "bluetoothapiconstants.h"
 
 Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
-
-#define START_MEASUREMENT_STR                    "01"   /* 01 start, 00 stop */
-#define DISABLE_NOTIF_STR                        "0000" /* 0100 enable, 0000 disable */
-#define ENABLE_NOTIF_STR                         "0100" /* 0100 enable, 0000 disable */
-#define SLOW_TIMER_TIMEOUT_STR                   "64"   /* 100 -> 1000ms */
-#define MEDIUM_TIMER_TIMEOUT_STR                 "32"   /* 50 -> 500ms */
-#define RAPID_TIMER_TIMEOUT_STR                  "0A"   /* 10 -> 100ms */
-#define MOVEMENT_ENABLE_SENSORS_BITMASK_VALUE    "7F02" /* see below */
-//Enable motion axis: 0b0000_0010_0111_1111 = 0x7F 0x02  (all sensors, 8G, no wake on motion)
-//bits of first byte:
-//MPU9250_GYROSCOPE      = 0b0000_0111 all 3 xyz axes, 1 bit per axis
-//MPU9250_ACCELEROMETER  = 0b0011_1000 all 3 xyz axes, 1 bit per axis
-//MPU9250_MAGNETOMETER   = 0b0100_0000 all 3 xyz axes with one bit
-//MPU9250_WAKEONMOTION   = 0b1000_0000 enables wake on motion
-//bits of second byte (only 2 bits used) Accelerometer range in G
-//MPU9250_ACCELEROMETER_RANGE_0       =0b0000_0000    =  2 G
-//MPU9250_ACCELEROMETER_RANGE_1       =0b0000_0001    =  4 G
-//MPU9250_ACCELEROMETER_RANGE_2       =0b0000_0010    =  8 G (default)
-//MPU9250_ACCELEROMETER_RANGE_3       =0b0000_0011    = 16 G
-
-// These modifiers come from the Texas Intruments SensorTag Bluetooth LE API specification
-#define GYROSCOPE_API_READING_MULTIPLIER      (500.0 / 65536.0)
-#define ACCELOMETER_API_READING_MULTIPLIER    (8.0 / 32768.0)
-#define HUMIDITY_API_READING_MULTIPLIER       (100.0 / 65536.0)
-#define IR_TEMPERATURE_API_READING_DIVIDER    128.0
-#define BAROMETER_API_READING_DIVIDER         100
 
 typedef struct {
     qint16 gyrox;
@@ -328,7 +303,7 @@ void BluetoothDevice::temperatureDetailsDiscovered(QLowEnergyService::ServiceSta
             }
             if (id.toString().contains("f000aa03-0451-4000-b000-000000000000")) {
                 //RW
-                irTemperatureService->writeCharacteristic(characteristic, QByteArray::fromHex(SLOW_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
+                irTemperatureService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_SLOW_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
             }
         }
         m_temperatureMeasurementStarted = true;
@@ -358,7 +333,7 @@ void BluetoothDevice::barometerDetailsDiscovered(QLowEnergyService::ServiceState
               baroService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse); // Start
           }
           if (id.toString().contains("f000aa44-0451-4000-b000-000000000000")) {
-              baroService->writeCharacteristic(characteristic, QByteArray::fromHex(MEDIUM_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
+              baroService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_MEDIUM_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
           }
         }
         m_barometerMeasurementStarted = true;
@@ -389,7 +364,7 @@ void BluetoothDevice::humidityDetailsDiscovered(QLowEnergyService::ServiceState 
               humidityService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse); // Start
           }
           if (id.toString().contains("f000aa23-0451-4000-b000-000000000000")) {
-              humidityService->writeCharacteristic(characteristic, QByteArray::fromHex(SLOW_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
+              humidityService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_SLOW_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
           }
         }
         m_humidityMeasurementStarted = true;
@@ -420,7 +395,7 @@ void BluetoothDevice::lightIntensityDetailsDiscovered(QLowEnergyService::Service
               lightService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse); // Start
           }
           if (id.toString().contains("f000aa73-0451-4000-b000-000000000000")) {
-              lightService->writeCharacteristic(characteristic, QByteArray::fromHex(MEDIUM_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
+              lightService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_MEDIUM_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
           }
         }
         m_lightIntensityMeasurementStarted = true;
@@ -454,7 +429,7 @@ void BluetoothDevice::motionDetailsDiscovered(QLowEnergyService::ServiceState ne
               motionService->writeCharacteristic(characteristic, QByteArray::fromHex(MOVEMENT_ENABLE_SENSORS_BITMASK_VALUE), QLowEnergyService::WriteWithResponse);
           }
           if (id.toString().contains("f000aa83-0451-4000-b000-000000000000")) {
-              motionService->writeCharacteristic(characteristic, QByteArray::fromHex(RAPID_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse);
+              motionService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_RAPID_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse);
           }
         }
         m_motionMeasurementStarted = true;

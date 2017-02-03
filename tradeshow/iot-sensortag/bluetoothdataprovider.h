@@ -81,12 +81,19 @@ public slots:
     void lightIntensityReceived(double lightIntensity);
     void motionReceived(MotionSensorData &data);
 
+protected:
+    void reset();
+
 private:
     void updateState();
     float countRotationDegrees(double degreesPerSecond, quint64 milliseconds);
     BluetoothDevice* activeDevice;
     QTimer timer;
     int m_smaSamples;
+    float gyroscopeX_calibration;
+    float gyroscopeY_calibration;
+    float gyroscopeZ_calibration;
+    MotionSensorData latestData;
 };
 
 #endif // BLUETOOTHDATAPROVIDER_H

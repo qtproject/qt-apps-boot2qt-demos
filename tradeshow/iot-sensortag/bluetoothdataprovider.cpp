@@ -49,6 +49,7 @@
 ****************************************************************************/
 #include "bluetoothdataprovider.h"
 #include <QLoggingCategory>
+#include "bluetoothapiconstants.h"
 
 Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
 
@@ -56,7 +57,11 @@ BluetoothDataProvider::BluetoothDataProvider(QString id, QObject *parent)
     : SensorTagDataProvider(id, parent)
     , activeDevice(Q_NULLPTR)
     , m_smaSamples(0)
+    , gyroscopeX_calibration(0)
+    , gyroscopeY_calibration(0)
+    , gyroscopeZ_calibration(0)
 {
+    intervalRotation = SENSORTAG_RAPID_TIMER_TIMEOUT_MS;
 }
 
 BluetoothDataProvider::~BluetoothDataProvider()
@@ -152,14 +157,15 @@ void BluetoothDataProvider::motionReceived(MotionSensorData &data)
     /* NOTE: We emit the signals even if value is unchanged.
      * Otherwise the scrolling graphs in UI will not scroll.
      */
-    gyroscopeX_degPerSec = data.gyroScope_x;
-    gyroscopeY_degPerSec = data.gyroScope_y;
-    gyroscopeZ_degPerSec = data.gyroScope_z;
+    latestData = data;
+    gyroscopeX_degPerSec = data.gyroScope_x - gyroscopeX_calibration;
+    gyroscopeY_degPerSec = data.gyroScope_y - gyroscopeY_calibration;
+    gyroscopeZ_degPerSec = data.gyroScope_z - gyroscopeZ_calibration;
     emit gyroscopeDegPerSecChanged();
 
-    rotation_x += countRotationDegrees(data.gyroScope_x, data.msSincePreviousData);
-    rotation_y += countRotationDegrees(data.gyroScope_y, data.msSincePreviousData);
-    rotation_z += countRotationDegrees(data.gyroScope_z, data.msSincePreviousData);
+    rotation_x += countRotationDegrees(gyroscopeX_degPerSec, data.msSincePreviousData);
+    rotation_y += countRotationDegrees(gyroscopeY_degPerSec, data.msSincePreviousData);
+    rotation_z += countRotationDegrees(gyroscopeZ_degPerSec, data.msSincePreviousData);
 
     if (rotation_x > 360)
         rotation_x -= 360;
@@ -214,6 +220,19 @@ void BluetoothDataProvider::updateState()
     default:
         break;
     }
+}
+
+void BluetoothDataProvider::reset()
+{
+    rotation_x = 0;
+    rotation_y = 0;
+    rotation_z = 0;
+    gyroscopeX_calibration = latestData.gyroScope_x;
+    gyroscopeY_calibration = latestData.gyroScope_y;
+    gyroscopeZ_calibration = latestData.gyroScope_z;
+    emit rotationXChanged();
+    emit rotationYChanged();
+    emit rotationZChanged();
 }
 
 void BluetoothDataProvider::bindToDevice(BluetoothDevice *device)

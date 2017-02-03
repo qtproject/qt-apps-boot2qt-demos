@@ -78,7 +78,8 @@ private slots:
 #ifndef QT_NO_SSL
     void sslErrors(QNetworkReply *, const QList<QSslError> &errors);
 #endif
-
+protected:
+    void reset() {}
 private:
     void parseReceivedText();
 

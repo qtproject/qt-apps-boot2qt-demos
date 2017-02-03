@@ -49,7 +49,8 @@ HEADERS += \
     cloudservice.h \
     dataproviderpool.h \
     clouddataproviderpool.h \
-    demodataproviderpool.h
+    demodataproviderpool.h \
+    bluetoothapiconstants.h
 
 BLUETOOTH_LINUX_HOST {
     !winrt:CONFIG += UPDATE_TO_CLOUD

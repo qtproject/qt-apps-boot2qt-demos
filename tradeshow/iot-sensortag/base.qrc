@@ -21,5 +21,6 @@
         <file>resources/base/fonts/titilliumweb/TitilliumWeb-Regular.ttf</file>
         <file>resources/base/fonts/titilliumweb/TitilliumWeb-SemiBold.ttf</file>
         <file>resources/base/images/bg_blue.jpg</file>
+        <file>resources/base/RotationPage.qml</file>
     </qresource>
 </RCC>

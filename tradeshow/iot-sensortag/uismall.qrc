@@ -18,5 +18,10 @@
         <file>resources/small/images/Toolbar/icon_topbar_cloud.png</file>
         <file>resources/small/images/Accelometer/inner_ring.png</file>
         <file>resources/small/images/Accelometer/outer_ring.png</file>
+        <file>resources/small/images/Gyro/ring_large.png</file>
+        <file>resources/small/images/Gyro/ring_medium.png</file>
+        <file>resources/small/images/Gyro/ring_outer.png</file>
+        <file>resources/small/images/Gyro/ring_small.png</file>
+        <file>resources/small/images/Gyro/particle.png</file>
     </qresource>
 </RCC>

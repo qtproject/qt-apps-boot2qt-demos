@@ -85,6 +85,7 @@ class SensorTagDataProvider : public QObject
     Q_PROPERTY(float rotationX READ getRotationX NOTIFY rotationXChanged)
     Q_PROPERTY(float rotationY READ getRotationY NOTIFY rotationYChanged)
     Q_PROPERTY(float rotationZ READ getRotationZ NOTIFY rotationZChanged)
+    Q_PROPERTY(int rotationUpdateInterval READ getRotationUpdateInterval NOTIFY rotationUpdateIntervalChanged)
 
 public:
     enum TagType {AmbientTemperature = 1 << 0,
@@ -125,6 +126,7 @@ public:
     float getRotationX();
     float getRotationY();
     float getRotationZ();
+    int getRotationUpdateInterval();
 
     Q_INVOKABLE int tagType() const;
     QString id() const;
@@ -135,6 +137,8 @@ public:
     virtual QString sensorType() const { return QString();}
     virtual QString versionString() const{ return QString();}
 
+public slots:
+    void recalibrate();
 
 signals:
     void stateChanged();
@@ -152,8 +156,10 @@ signals:
     void rotationYChanged();
     void rotationZChanged();
     void rotationValuesChanged();
+    void rotationUpdateIntervalChanged();
 
 protected:
+    virtual void reset();
     double humidity;
     double irAmbientTemperature;
     double irObjectTemperature;
@@ -174,7 +180,7 @@ protected:
     float rotation_x;
     float rotation_y;
     float rotation_z;
-
+    int intervalRotation;
     int m_tagType;
     QString m_id;
     QString m_name;

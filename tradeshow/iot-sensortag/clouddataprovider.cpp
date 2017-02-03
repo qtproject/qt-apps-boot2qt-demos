@@ -55,6 +55,7 @@
 
 #define MAJOR_VERSION_NUMBER 1
 #define MINOR_VERSION_NUMBER 1
+#define CLOUD_DATA_POLL_INTERVAL_MS    1000 /* 1 second update interval */
 #ifndef QT_NO_SSL
 static QString dataFetchUrl = "https://ottoryynanenqt.blob.core.windows.net/btsensortagreadings/sensorTagReadings.txt";
 #else
@@ -67,6 +68,7 @@ CloudDataProvider::CloudDataProvider(QString id, QObject* parent)
     : SensorTagDataProvider(id, parent)
     , reply(Q_NULLPTR)
 {
+    intervalRotation = CLOUD_DATA_POLL_INTERVAL_MS;
     connect(&qnam, &QNetworkAccessManager::authenticationRequired,
             this, &CloudDataProvider::slotAuthenticationRequired);
 #ifndef QT_NO_SSL
@@ -79,7 +81,7 @@ bool CloudDataProvider::startDataFetching()
 {
     pollTimer = new QTimer(this);
     connect(pollTimer, SIGNAL(timeout()), this, SLOT(pollTimerExpired()));
-    pollTimer->start(1000); // 1 second update interval
+    pollTimer->start(CLOUD_DATA_POLL_INTERVAL_MS);
     return true;
 }
 
