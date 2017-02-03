@@ -16,6 +16,7 @@
         <file>resources/base/CircularGauge.qml</file>
         <file>resources/base/GyroChart.qml</file>
         <file>resources/base/AccelChart.qml</file>
+        <file>resources/base/SensorSettings.qml</file>
         <file>resources/base/fonts/titilliumweb/TitilliumWeb-Bold.ttf</file>
         <file>resources/base/fonts/titilliumweb/TitilliumWeb-Regular.ttf</file>
         <file>resources/base/fonts/titilliumweb/TitilliumWeb-SemiBold.ttf</file>

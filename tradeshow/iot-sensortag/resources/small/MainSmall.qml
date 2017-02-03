@@ -74,14 +74,6 @@ Item {
         }
     }
 
-    TopToolbar {
-        id: topToolbar
-
-        anchors.top: main.top
-        anchors.left: main.left
-        anchors.right: main.right
-    }
-
     Column {
         id: leftPane
 
@@ -188,6 +180,15 @@ Item {
         anchors.right: rightPane.left
         anchors.rightMargin: 32
         anchors.bottom: bottomToolbar.top
+    }
+
+
+    TopToolbar {
+        id: topToolbar
+
+        anchors.top: main.top
+        anchors.left: main.left
+        anchors.right: main.right
     }
 
     BottomToolbar {

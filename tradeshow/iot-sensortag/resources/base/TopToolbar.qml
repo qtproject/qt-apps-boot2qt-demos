@@ -57,27 +57,12 @@ Item {
     height: 100
     width: implicitWidth
 
-    Rectangle {
+    SensorSettings {
         id: sensorList
 
-        property alias listModelCount: list.count
-
-        width: 200
-        height: 200
         x: sensorItem.x
         y: parent.height
-        color: "darkgray"
         visible: false
-
-        ListView {
-            id: list
-            anchors.fill: parent
-            model: dataProviderPool.dataProviders
-            delegate: Text {
-                text: providerId
-                color: modelData.state === SensorTagData.Connected ? "blue" : "lightsteelblue"
-            }
-        }
     }
 
     Item {
