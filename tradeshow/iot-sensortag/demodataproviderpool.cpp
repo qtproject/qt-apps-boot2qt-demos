@@ -87,6 +87,7 @@ void DemoDataProviderPool::stopScanning()
     // all available providers, not just from the first found
     if (m_dataProviders.length()) {
         m_cloudProvider = m_dataProviders.at(0);
+        emit providerForCloudChanged();
     }
 
     emit dataProvidersChanged();
