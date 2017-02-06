@@ -48,7 +48,6 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
-import QtGraphicalEffects 1.0
 
 Item {
     id: gauge
@@ -57,76 +56,86 @@ Item {
     property real max: 360
     property real value: 20
     property real stepCount: 18
-    property bool discreteSteps: true
 
-    property alias background: bgLoader.sourceComponent
-    property alias foreground: fgLoader.sourceComponent
+    property real increment: (max - min) / stepCount
+    property real prevValue: min
 
-    property real increment: 360 / stepCount
+    property int currentColorSection
+    property int nextColorSection
+    property var colorSections: ["ObjectTemperature/objTemp_display_obj_blue.png",
+                                 "ObjectTemperature/objTemp_display_obj_green.png",
+                                 "ObjectTemperature/objTemp_display_obj_orange.png",
+                                 "ObjectTemperature/objTemp_display_obj_red.png"]
 
-    function incrementStep() {
-        if (value < max - increment)
-            value += increment
+    onValueChanged: {
+        currentColorSection = Math.floor((prevValue - min) / (max - min) * 3);
+        if (currentColorSection < 0)
+            currentColorSection = 0;
+
+        if (value > prevValue) {
+            prevValue = value;
+            rotateAnimation.from = 0;
+            rotateAnimation.to = 360;
+            rotateAnimation.start();
+        }
+        else {
+            prevValue = value;
+            rotateAnimation.from = 360;
+            rotateAnimation.to = 0;
+            rotateAnimation.start();
+        }
+
+        nextColorSection = Math.floor((value - min) / (max - min) * 3);
+        if (nextColorSection < 0)
+            nextColorSection = 0;
+
     }
 
-    function decrementStep() {
-        if (value > min + increment)
-            value -= increment;
+    width: bg.width
+    height: bg.height
+
+    Image {
+        id: bg
+
+        source: pathPrefix + "ObjectTemperature/objTemp_outer_inner_ring.png"
     }
 
-    width: bgLoader.item.width
-    height: bgLoader.item.height
-    onValueChanged: maskCanvas.requestPaint()
+    Image {
+        id: fg
 
-    Loader {
-        id: bgLoader
+        anchors.centerIn: bg
+        source: pathPrefix + colorSections[currentColorSection]
     }
 
-    Loader {
-        id: fgLoader
+    Image {
+        id: fgNext
 
-        visible: false
+        anchors.centerIn: bg
+        source: pathPrefix + colorSections[nextColorSection]
+        rotation: fg.rotation
+        onSourceChanged: visible = true
+        opacity: fg.rotation / 360
     }
 
-    Item {
-        id: mask
+    SequentialAnimation {
+        id: rotateAnimation
 
-        property real range: max - min
-        property real offsetAngle: -77
-        property real startAngle: mask.offsetAngle / 360 * Math.PI * 2
-        property real angleStep: Math.PI * 2 / stepCount
+        property alias from: rot.from
+        property alias to: rot.to
 
-        width: fgLoader.item.width
-        height: fgLoader.item.height
-        visible: false
+        PropertyAnimation {
+            id: rot
 
-        Canvas {
-            id: maskCanvas
+            target: fg
+            property: "rotation"
+            duration: 500
+        }
 
-            anchors.fill: parent
-            onPaint: {
-                var ctx = getContext("2d");
-
-                // could optimize this by clearing only when decrementing value
-                ctx.clearRect(0, 0, width, height);
-
-                var endAngle = mask.startAngle + (value - min) / mask.range * Math.PI * 2;
-                if (discreteSteps)
-                    endAngle = Math.floor(endAngle / mask.angleStep) * mask.angleStep;
-                ctx.beginPath();
-                ctx.arc(Math.floor(width / 2), Math.floor(height / 2), mask.width / 2, mask.startAngle, endAngle);
-                ctx.lineTo(mask.width / 2, mask.height / 2)
-                ctx.closePath();
-                ctx.fill();
+        ScriptAction {
+            script: {
+                fg.source = fgNext.source
+                fgNext.visible = false;
             }
         }
-    }
-
-    OpacityMask {
-        width: mask.width
-        height: mask.height
-        source: fgLoader.item
-        maskSource: mask
-        anchors.centerIn: gauge
     }
 }

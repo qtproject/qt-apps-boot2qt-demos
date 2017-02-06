@@ -53,10 +53,24 @@
 #include <QLoggingCategory>
 
 Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
+
 #define DEFAULT_REFRESH_INTERVAL_MS 1000
+
+/*
+    Constants used in hypsometric formula
+
+    h = (AIR_PRESSURE_P0 / p) ^ PRESSURE_EXPONENT - 1) * (T + ZERO_TEMP)
+        ---------------------------------------------------------------
+                                DIVIDER
+*/
+#define AIR_PRESSURE_P0     1013.25         // in hPa
+#define ZERO_TEMP           273.15          // in Kelvin
+#define PRESSURE_EXPONENT   (1 / 5.257)
+#define DIVIDER             0.0065
 
 SensorTagDataProvider::SensorTagDataProvider(QObject *parent)
     : QObject(parent)
+    , pressureAtZeroAltitude(AIR_PRESSURE_P0)
 {
 
 }
@@ -84,7 +98,8 @@ SensorTagDataProvider::SensorTagDataProvider(QString id, QObject* parent)
     rotation_y(0),
     rotation_z(0),
     intervalRotation(DEFAULT_REFRESH_INTERVAL_MS),
-    m_tagType(AmbientTemperature | ObjectTemperature | Humidity | AirPressure | Light | Magnetometer | Rotation | Accelometer),
+    altitude(0),
+    m_tagType(AmbientTemperature | ObjectTemperature | Humidity | AirPressure | Light | Magnetometer | Rotation | Accelometer | Altitude),
     m_id(id),
     m_state(Disconnected)
 {
@@ -209,6 +224,11 @@ int SensorTagDataProvider::getRotationUpdateInterval()
     return intervalRotation;
 }
 
+float SensorTagDataProvider::getAltitude()
+{
+    return altitude;
+}
+
 int SensorTagDataProvider::tagType() const
 {
     return m_tagType;
@@ -240,4 +260,15 @@ void SensorTagDataProvider::reset()
 void SensorTagDataProvider::recalibrate()
 {
     reset();
+}
+
+void SensorTagDataProvider::calculateZeroAltitude()
+{
+    float newAltitude = (pow(pressureAtZeroAltitude
+                            / barometerHPa, PRESSURE_EXPONENT) - 1)
+                            * (barometerCelsiusTemperature + ZERO_TEMP) / DIVIDER;
+    if (newAltitude != altitude) {
+        altitude = newAltitude;
+        emit altitudeChanged();
+    }
 }

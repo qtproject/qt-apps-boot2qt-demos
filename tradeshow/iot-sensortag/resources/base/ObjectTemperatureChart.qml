@@ -83,12 +83,6 @@ BaseChart {
             max: 40
             value: objTempHolderRect.value
             anchors.centerIn: parent
-            background: Image {
-                    source: pathPrefix + "ObjectTemperature/objTemp_base_circle.png"
-                }
-            foreground: Image {
-                    source: pathPrefix + "ObjectTemperature/objTemp_display_obj.png"
-                }
         }
 
         Text {
@@ -97,16 +91,16 @@ BaseChart {
             width: 60
             horizontalAlignment: Text.Center
             color: "white"
-            anchors.bottom: gauge.bottom
-            anchors.bottomMargin: 24
-            anchors.right: gauge.left
-            anchors.rightMargin: 12
+            anchors.centerIn: gauge
+            anchors.horizontalCenterOffset: -120
+            anchors.verticalCenterOffset: 60
         }
 
         Text {
             text: value
             color: "white"
             anchors.centerIn: gauge
+            font.pixelSize: 26
         }
 
         Text {
@@ -115,11 +109,9 @@ BaseChart {
             width: 60
             horizontalAlignment: Text.Center
             color: "white"
-            anchors.top: gauge.top
-            anchors.topMargin: 24
-            anchors.left: gauge.right
-            anchors.leftMargin: 12
+            anchors.centerIn: gauge
+            anchors.horizontalCenterOffset: 120
+            anchors.verticalCenterOffset: -30
         }
-
     }
 }

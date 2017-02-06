@@ -112,9 +112,7 @@ BaseChart {
             id: brightnessImg
 
             source: pathPrefix + "Light/light_brightness.png"
-            anchors.left: lightMainImg.right
-            anchors.leftMargin: 24
-            anchors.verticalCenter: lightMainImg.verticalCenter
+            anchors.right: parent.right
 
             Behavior on opacity {
                 NumberAnimation {

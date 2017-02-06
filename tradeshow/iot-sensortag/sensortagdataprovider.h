@@ -86,6 +86,7 @@ class SensorTagDataProvider : public QObject
     Q_PROPERTY(float rotationY READ getRotationY NOTIFY rotationYChanged)
     Q_PROPERTY(float rotationZ READ getRotationZ NOTIFY rotationZChanged)
     Q_PROPERTY(int rotationUpdateInterval READ getRotationUpdateInterval NOTIFY rotationUpdateIntervalChanged)
+    Q_PROPERTY(float altitude READ getAltitude NOTIFY altitudeChanged)
 
 public:
     enum TagType {AmbientTemperature = 1 << 0,
@@ -95,7 +96,8 @@ public:
                   Light = 1 << 3,
                   Magnetometer = 1 << 4,
                   Rotation = 1 << 5,
-                  Accelometer = 1 << 6};
+                  Accelometer = 1 << 6,
+                  Altitude = 1 << 7};
     enum ProviderState {Disconnected = 0, Scanning, Connected, Error};
 
     explicit SensorTagDataProvider(QObject *parent = 0);
@@ -127,6 +129,7 @@ public:
     float getRotationY();
     float getRotationZ();
     int getRotationUpdateInterval();
+    float getAltitude();
 
     Q_INVOKABLE int tagType() const;
     QString id() const;
@@ -157,9 +160,12 @@ signals:
     void rotationZChanged();
     void rotationValuesChanged();
     void rotationUpdateIntervalChanged();
+    void altitudeChanged();
 
 protected:
     virtual void reset();
+    virtual void calculateZeroAltitude();
+
     double humidity;
     double irAmbientTemperature;
     double irObjectTemperature;
@@ -181,6 +187,8 @@ protected:
     float rotation_y;
     float rotation_z;
     int intervalRotation;
+    float pressureAtZeroAltitude;
+    float altitude;
     int m_tagType;
     QString m_id;
     QString m_name;

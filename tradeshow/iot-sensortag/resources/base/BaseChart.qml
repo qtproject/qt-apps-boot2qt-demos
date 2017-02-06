@@ -110,10 +110,4 @@ Item {
         anchors.fill: parent
         onClicked: baseChart.clicked()
     }
-
-    Rectangle {
-        anchors.fill: parent
-        visible: baseChart.sensor ? baseChart.sensor.state !== SensorTagData.Connected : true
-        opacity: 0.3
-    }
 }

@@ -107,7 +107,7 @@ Item {
             height: leftPane.indicatorHeight
        }
 
-        AirPressureChart {
+        AltitudeChart {
             id: airPressure
 
             width: leftPane.width
@@ -180,7 +180,7 @@ Item {
         anchors.leftMargin: 32
         anchors.right: rightPane.left
         anchors.rightMargin: 32
-        anchors.bottom: bottomToolbar.top
+        anchors.bottom: parent.bottom
     }
 
 
@@ -190,14 +190,5 @@ Item {
         anchors.top: main.top
         anchors.left: main.left
         anchors.right: main.right
-    }
-
-    BottomToolbar {
-        id: bottomToolbar
-
-        anchors.left: leftPane.right
-        anchors.right: rightPane.left
-        anchors.bottom: main.bottom
-        height: 30
     }
 }

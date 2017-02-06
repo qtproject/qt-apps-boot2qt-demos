@@ -126,13 +126,13 @@ void MockDataProvider::slowTimerExpired()
 
     // IR temperature goes randomly up OR down by half of a degree. So does barometer temperature.
     if (qrand() % 2)
-        irAmbientTemperature -= 0.5;
+        irAmbientTemperature -= 5;
     else
-        irAmbientTemperature += 0.5;
+        irAmbientTemperature += 5;
     if (irAmbientTemperature > 38)
         irAmbientTemperature = 38;
-    if (irAmbientTemperature < 15)
-        irAmbientTemperature = 15;
+    if (irAmbientTemperature < 10)
+        irAmbientTemperature = 10;
     emit infraredAmbientTemperatureChanged();
     irObjectTemperature = irAmbientTemperature + 2;
     emit infraredObjectTemperatureChanged();
@@ -171,6 +171,7 @@ void MockDataProvider::slowTimerExpired()
         barometerHPa = 1030;
     emit barometer_hPaChanged();
 
+    calculateZeroAltitude();
 }
 
 void MockDataProvider::rapidTimerExpired()

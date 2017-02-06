@@ -53,10 +53,13 @@
 
 Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
 
+#define SAMPLE_COUNT_FOR_ZERO_ALTITUDE  10
+
 BluetoothDataProvider::BluetoothDataProvider(QString id, QObject *parent)
     : SensorTagDataProvider(id, parent)
     , activeDevice(Q_NULLPTR)
     , m_smaSamples(0)
+    , m_zeroAltitudeSamples(0)
     , gyroscopeX_calibration(0)
     , gyroscopeY_calibration(0)
     , gyroscopeZ_calibration(0)
@@ -126,6 +129,10 @@ void BluetoothDataProvider::barometerReceived(double temperature, double baromet
         m_smaSamples = 0;
     barometerHPa = barometer;
     emit barometer_hPaChanged();
+
+    recalibrateZeroAltitude();
+
+    calculateZeroAltitude();
 }
 
 void BluetoothDataProvider::humidityReceived(double humidity)
@@ -224,6 +231,8 @@ void BluetoothDataProvider::updateState()
 
 void BluetoothDataProvider::reset()
 {
+    qCDebug(boot2QtDemos) << "Reset bluetooth data provider";
+
     rotation_x = 0;
     rotation_y = 0;
     rotation_z = 0;
@@ -233,6 +242,20 @@ void BluetoothDataProvider::reset()
     emit rotationXChanged();
     emit rotationYChanged();
     emit rotationZChanged();
+
+    // Forces recalculation of zero altitude
+    m_zeroAltitudeSamples = 0;
+    pressureAtZeroAltitude = 0;
+}
+
+void BluetoothDataProvider::recalibrateZeroAltitude()
+{
+    if (m_zeroAltitudeSamples < SAMPLE_COUNT_FOR_ZERO_ALTITUDE) {
+        pressureAtZeroAltitude = (barometerHPa
+                                + m_zeroAltitudeSamples * pressureAtZeroAltitude)
+                                / (m_zeroAltitudeSamples + 1);
+        m_zeroAltitudeSamples++;
+    }
 }
 
 void BluetoothDataProvider::bindToDevice(BluetoothDevice *device)

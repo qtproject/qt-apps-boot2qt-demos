@@ -4,14 +4,8 @@
         <file>resources/small/MainSmall.qml</file>
         <file>resources/small/images/General/icon_sensor.png</file>
         <file>resources/small/images/General/separator.png</file>
-        <file>resources/small/images/Humidity/humidity_max_hum.png</file>
-        <file>resources/small/images/Humidity/humidity_min_hum.png</file>
-        <file>resources/small/images/Humidity/humidity_base_gauge.png</file>
-        <file>resources/small/images/ObjectTemperature/objTemp_base_circle.png</file>
-        <file>resources/small/images/ObjectTemperature/objTemp_display_obj.png</file>
         <file>resources/small/images/Light/light_base_gauge.png</file>
         <file>resources/small/images/Light/light_brightness.png</file>
-        <file>resources/small/images/AirPressure/AirPre_base_gauge.png</file>
         <file>resources/small/images/Toolbar/icon_topbar_sensor.png</file>
         <file>resources/small/images/Toolbar/topbar_all.png</file>
         <file>resources/small/images/Toolbar/icon_topbar_cloud.png</file>
@@ -27,5 +21,14 @@
         <file>resources/small/images/Magnetometer/grid.png</file>
         <file>resources/small/images/Toolbar/Cloud_button_change_active.png</file>
         <file>resources/small/images/Toolbar/Cloud_icon_settings.png</file>
+        <file>resources/small/images/ObjectTemperature/objTemp_display_obj_blue.png</file>
+        <file>resources/small/images/ObjectTemperature/objTemp_display_obj_green.png</file>
+        <file>resources/small/images/ObjectTemperature/objTemp_display_obj_orange.png</file>
+        <file>resources/small/images/ObjectTemperature/objTemp_display_obj_red.png</file>
+        <file>resources/small/images/ObjectTemperature/objTemp_outer_inner_ring.png</file>
+        <file>resources/small/images/Humidity/Hum_combined_all.png</file>
+        <file>resources/small/images/Altitude/Height_bar.png</file>
+        <file>resources/small/images/Altitude/Altitude_base_gauge.png</file>
+        <file>resources/small/images/Altitude/Altitude_base_gauge_outer.png</file>
     </qresource>
 </RCC>

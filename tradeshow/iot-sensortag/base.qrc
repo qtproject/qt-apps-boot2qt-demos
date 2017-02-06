@@ -1,8 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/base/AirPressureChart.qml</file>
         <file>resources/base/BaseChart.qml</file>
-        <file>resources/base/BottomToolbar.qml</file>
         <file>resources/base/ChartPage.qml</file>
         <file>resources/base/HumidityChart.qml</file>
         <file>resources/base/LightChart.qml</file>
@@ -23,5 +21,6 @@
         <file>resources/base/fonts/titilliumweb/TitilliumWeb-SemiBold.ttf</file>
         <file>resources/base/images/bg_blue.jpg</file>
         <file>resources/base/RotationPage.qml</file>
+        <file>resources/base/AltitudeChart.qml</file>
     </qresource>
 </RCC>

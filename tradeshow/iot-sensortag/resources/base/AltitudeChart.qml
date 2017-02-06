@@ -49,15 +49,32 @@
 ****************************************************************************/
 import QtQuick 2.5
 import SensorTag.DataProvider 1.0
+import QtGraphicalEffects 1.0
 
 BaseChart {
-    property string airPressureTxt
+    property real altitude
+    property real altitudeRounded
+    property real maxAltitude
+
+    readonly property real maxValueOnBar: 3
 
     antialiasing: true
-    title: qsTr("Air Pressure")
+    title: qsTr("Altitude")
+
+    onClicked: {
+        if (sensor) {
+            maxAltitude = 0;
+            sensor.recalibrate();
+        }
+    }
 
     onSensorChanged: if (sensor) {
-                         sensor.barometer_hPaChanged.connect(this, function() { airPressureTxt = sensor.barometerHPa.toFixed(1); });
+                         sensor.altitudeChanged.connect(this, function() {
+                            altitude = sensor.altitude;
+                             altitudeRounded = Math.floor(altitude + 0.5).toFixed(0);
+                             if (altitudeRounded > maxAltitude)
+                                 maxAltitude = altitudeRounded;
+                         });
                      }
 
     content: Item {
@@ -66,15 +83,77 @@ BaseChart {
         anchors.fill: parent
 
         Image {
-            source: pathPrefix + "AirPressure/AirPre_base_gauge.png"
-            anchors.centerIn: parent
+            id: maxAltBar
+
+            source: pathPrefix + "Altitude/Height_bar.png"
+            anchors.verticalCenter: gauge.verticalCenter
+            anchors.right: gauge.left
+            width: 10
+            height: 100
+            visible: false
+        }
+
+        Item {
+            id: mask
+
+            anchors.fill: maxAltBar
+            visible: false
+
+            Rectangle {
+                width: parent.width
+                anchors.bottom: parent.bottom
+                height: maxAltitude ? (altitude / maxAltitude) * parent.height : 0
+            }
+        }
+
+        OpacityMask {
+            anchors.fill: maxAltBar
+            source: maxAltBar
+            maskSource: mask
+        }
+
+        Image {
+            id: gauge
+
+            source: pathPrefix + "Altitude/Altitude_base_gauge_outer.png"
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+
+            Image {
+                source: pathPrefix + "Altitude/Altitude_base_gauge.png"
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 30
+
+                Column {
+                    anchors.centerIn: parent
+                    spacing: -10
+
+                    Text {
+                        id: pressureText
+
+                        text: altitudeRounded
+                        horizontalAlignment: Text.AlignHCenter
+                        color: "white"
+                        font.pixelSize: 26
+                    }
+
+                    Text {
+                        text: "m"
+                        color: "white"
+                        horizontalAlignment: Text.AlignHCenter
+                        font.pixelSize: 16
+                    }
+                }
+            }
 
             Text {
-                id: pressureText
+                id: maxPressureText
 
-                text: airPressureTxt + "\nhPa"
+                text: "Max\n" + maxAltitude
                 horizontalAlignment: Text.AlignHCenter
                 anchors.centerIn: parent
+                anchors.horizontalCenterOffset: 74
                 color: "white"
             }
         }

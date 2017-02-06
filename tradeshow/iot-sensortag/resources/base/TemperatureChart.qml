@@ -60,7 +60,7 @@ BaseChart {
     property real minimum: 10
     property real maximum: 40
 
-    property real defaultAvgValue: 25
+    property real defaultAvgValue: maximum - minimum
     property real minValue: defaultAvgValue
     property real maxValue: defaultAvgValue
     readonly property real avgValue: (maxValue - minValue) / 2
@@ -118,7 +118,7 @@ BaseChart {
             Text {
                 id: highValue
 
-                text: "Highest\n" + (maxValue !== Number.MIN_VALUE ? maxValue : "--")
+                text: "Highest\n" + (maxValue !== Number.MIN_VALUE ? maxValue.toFixed(1) : "--")
                 lineHeight: 0.7
                 width: contentWidth
                 height: contentHeight
@@ -136,14 +136,16 @@ BaseChart {
 
                 Text {
                     anchors.centerIn: parent
-                    text: sensor ? sensor.infraredAmbientTemperature : ""
+                    text: sensor ? sensor.infraredAmbientTemperature.toFixed(1) : ""
                     color: "white"
                     font.pixelSize: 26
                 }
             }
 
             Text {
-                text: (minValue !== Number.MAX_VALUE ? minValue : "--") + "\nLowest"
+                id: lowValue
+
+                text: (minValue !== Number.MAX_VALUE ? minValue.toFixed(1) : "--") + "\nLowest"
                 lineHeight: 0.8
                 width: contentWidth
                 horizontalAlignment: Text.Center
@@ -181,8 +183,11 @@ BaseChart {
         ChartView {
             id: chartView
 
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
+            anchors.top: valueReading.top
+            anchors.topMargin: 34
+            height: reading.height
+            anchors.bottom: valueReading.bottom
+            anchors.bottomMargin: 34
             anchors.left: parent.left
             anchors.leftMargin: 15
             anchors.right: valueReading.left

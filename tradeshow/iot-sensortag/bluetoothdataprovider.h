@@ -82,7 +82,8 @@ public slots:
     void motionReceived(MotionSensorData &data);
 
 protected:
-    void reset();
+    void reset() override;
+    virtual void recalibrateZeroAltitude();
 
 private:
     void updateState();
@@ -90,6 +91,7 @@ private:
     BluetoothDevice* activeDevice;
     QTimer timer;
     int m_smaSamples;
+    int m_zeroAltitudeSamples;
     float gyroscopeX_calibration;
     float gyroscopeY_calibration;
     float gyroscopeZ_calibration;

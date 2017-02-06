@@ -90,72 +90,42 @@ BaseChart {
         Image {
             id: humidityMainImg
 
-            source: pathPrefix + "Humidity/humidity_base_gauge.png"
+            source: pathPrefix + "Humidity/Hum_combined_all.png"
             anchors.left: parent.left
-            anchors.leftMargin: 8
+            anchors.leftMargin: 16
             anchors.top: parent.top
-            anchors.topMargin: 8
-            anchors.bottom: parent.bottom
-            width: height
+            anchors.topMargin: -8
 
             Text {
                 id: humidityMainText
 
                 anchors.centerIn: parent
+                anchors.horizontalCenterOffset: - 42
                 color: "white"
-                text: humidityValue.toFixed(1) + " %"
+                text: humidityValue.toFixed(0)
+                font.pixelSize: 26
             }
         }
 
-        Image {
-            source: pathPrefix + "Humidity/humidity_min_hum.png"
+
+        Text {
             anchors.left: humidityMainImg.right
-            anchors.leftMargin: -7
+            anchors.top: humidityMainImg.top
+            anchors.topMargin: 47
+            text: "Max\n" + maxHumi.toFixed(0) + " %"
+            lineHeight: 0.8
+            font.pixelSize: 16
+            color: "white"
+        }
+
+        Text {
+            anchors.left: humidityMainImg.right
             anchors.bottom: humidityMainImg.bottom
-
-            Text {
-                anchors.bottom: parent.top
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.horizontalCenterOffset: -10
-                text: "min"
-                color: "white"
-            }
-
-            Text{
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.verticalCenterOffset: 10
-                text: minHumi.toFixed(1) + " %"
-                font.pixelSize: 12
-                horizontalAlignment: Text.AlignRight
-                color: "white"
-            }
-        }
-
-        Image {
-            source: pathPrefix + "Humidity/humidity_max_hum.png"
-            anchors.left: humidityMainImg.right
-            anchors.leftMargin: -18
-            anchors.top: parent.top
-
-            Text {
-                anchors.top: parent.top
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.horizontalCenterOffset: -10
-                text: "max"
-                color: "white"
-            }
-
-            Text{
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-                anchors.verticalCenter: parent.verticalCenter
-                text: maxHumi.toFixed(1) + "%"
-                font.pixelSize: 14
-                horizontalAlignment: Text.AlignRight
-                color: "white"
-            }
+            anchors.bottomMargin: 53
+            text: "Min\n" + minHumi.toFixed(0) + " %"
+            lineHeight: 0.8
+            font.pixelSize: 16
+            color: "white"
         }
     }
 }
