@@ -59,9 +59,9 @@ BaseChart {
     property int maxNumOfMagnReadings: 24
 
     readonly property color chartColor: "#15bdff"
-    readonly property string xColor: "green"
-    readonly property string yColor: "purple"
-    readonly property string zColor: "yellow"
+    readonly property string xColor: "#15bdff"
+    readonly property string yColor: "white"
+    readonly property string zColor: "red"
     readonly property color textColor: "white"
 
     onSensorChanged: if (sensor) sensor.magnetometerMicroTChanged.connect(contentItem.updateMagneticGraph)
@@ -88,11 +88,16 @@ BaseChart {
             magneticSeriesIndex++;
         }
 
+        Image {
+            anchors.fill: parent
+            source: pathPrefix + "Magnetometer/grid.png"
+        }
+
         Glow {
             anchors.fill: chartView
             radius: 18
             samples: 30
-            color: "#15bdff"
+            color: "red"
             source: chartView
         }
 
@@ -105,8 +110,9 @@ BaseChart {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: -10
             anchors.left: parent.left
-            anchors.leftMargin: -15
+            anchors.leftMargin: -60
             anchors.right: parent.right
+            anchors.rightMargin: 30
             antialiasing: true
             backgroundColor: "transparent"
             legend.visible: false
@@ -116,12 +122,8 @@ BaseChart {
             // Hide the value axis labels; labels are drawn separately.
             ValueAxis {
                 id: valueAxisX
-                labelsVisible: false
-                gridVisible: false
                 min: 0
                 max: maxNumOfMagnReadings
-                tickCount: 2
-                color: chartColor
                 visible: false
             }
 
@@ -130,8 +132,6 @@ BaseChart {
 
                 min: -1000
                 max: 1000
-                color: chartColor
-                labelsVisible: false
                 visible: false
             }
 
@@ -139,7 +139,6 @@ BaseChart {
                 id: magnSeriesX
                 axisX: valueAxisX
                 axisY: valueAxisY
-                width: 2
                 color: xColor
                 name: "Magnet X"
             }
@@ -147,7 +146,6 @@ BaseChart {
                 id: magnSeriesY
                 axisX: valueAxisX
                 axisY: valueAxisY
-                width: 2
                 color: yColor
                 name: "Magnet Y"
             }
@@ -155,41 +153,54 @@ BaseChart {
                 id: magnSeriesZ
                 axisX: valueAxisX
                 axisY: valueAxisY
-                width: 2
                 color: zColor
                 name: "Magnet Z"
             }
         }
 
-        Text {
-            id: xLabel
-            anchors.left: parent.left
-            anchors.leftMargin: 20
-            anchors.top: parent.top
-            anchors.topMargin: 20
-            horizontalAlignment: Text.AlignHCenter
-            text: "<font color=\"" + xColor + "\">X<br><font color=\"white\">" + (sensor ? sensor.magnetometerMicroT_xAxis : 0)
-            lineHeight: 0.7
-        }
-
-        Text {
-            anchors.left: parent.left
-            anchors.leftMargin: 20
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 28
-            horizontalAlignment: Text.AlignHCenter
-            text: "<font color=\"" + yColor + "\">Y<br><font color=\"white\">" + (sensor ? sensor.magnetometerMicroT_yAxis : 0)
-            lineHeight: 0.7
-        }
-
-        Text {
-            anchors.right: parent.right
+        Column {
+            id: labelColumn
+            anchors.fill: parent
             anchors.rightMargin: 20
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 28
-            horizontalAlignment: Text.AlignHCenter
-            text: "<font color=\"" + zColor + "\">Z<br><font color=\"white\">" + (sensor ? sensor.magnetometerMicroT_zAxis : 0)
-            lineHeight: 0.7
+
+            Repeater {
+                model: 3
+
+                Item {
+                    height: labelColumn.height / 3
+                    width: labelColumn.width
+
+                    Text {
+                        id: coordText
+                        text: (index == 0) ? "X" : ((index == 1) ? "Y" : "Z")
+                        color: "white"
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        horizontalAlignment: Text.AlignRight
+                        width: contentWidth
+                    }
+
+                    Rectangle {
+                        color: (index == 0) ? xColor : ((index == 1) ? yColor : zColor)
+                        anchors.right: parent.right
+                        anchors.top: coordText.bottom
+                        height: 1
+                        width: parent.width / 8
+                    }
+
+                    Text {
+                        text: sensor ? ((index == 0) ? sensor.magnetometerMicroT_xAxis :
+                                             ((index == 1) ? sensor.magnetometerMicroT_yAxis :
+                                                             sensor.magnetometerMicroT_zAxis) ) :
+                                       ""
+                        color: "white"
+                        anchors.right: parent.right
+                        anchors.top: coordText.bottom
+                        horizontalAlignment: Text.AlignRight
+                        width: contentWidth
+                    }
+                }
+            }
         }
     }
 }

@@ -24,5 +24,6 @@
         <file>resources/small/images/Gyro/particle.png</file>
         <file>resources/small/images/AmbientTemperature/temp_ring.png</file>
         <file>resources/small/images/AmbientTemperature/temp_sensor.png</file>
+        <file>resources/small/images/Magnetometer/grid.png</file>
     </qresource>
 </RCC>

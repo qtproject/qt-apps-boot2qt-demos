@@ -130,8 +130,7 @@ BaseChart {
 
             Image {
                 id: reading
-
-                source: pathPrefix + "AmbientTemperature/temp_ring.png"
+                source: pathPrefix + "Accelometer/outer_ring.png"
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: avgText.left
 
@@ -187,7 +186,7 @@ BaseChart {
             anchors.left: parent.left
             anchors.leftMargin: 15
             anchors.right: valueReading.left
-            anchors.rightMargin: 106
+            anchors.rightMargin: 112
             antialiasing: true
             backgroundColor: "transparent"
             legend.visible: false

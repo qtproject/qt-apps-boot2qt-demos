@@ -61,7 +61,7 @@ BaseChart {
 
     readonly property string xColor: "#15bdff"
     readonly property string yColor: "white"
-    readonly property string zColor: "fuchsia"
+    readonly property string zColor: "red"
     readonly property color textColor: "white"
 
     onSensorChanged: {
@@ -93,9 +93,9 @@ BaseChart {
 
         Glow {
             anchors.fill: chartView
-            radius: 30
+            radius: 18
             samples: 30
-            color: "orange"
+            color: "#e91632"
             source: chartView
         }
 
@@ -118,78 +118,71 @@ BaseChart {
             // Hide the value axis labels; labels are drawn separately.
             ValueAxis {
                 id: valueAxisX
-                labelsVisible: false
                 min: 0
                 max: maxGyroReadings + 1
-                tickCount: 13
                 visible: false
             }
 
             ValueAxis {
                 id: valueAxisY
-                labelsVisible: false
                 min: 0
                 max: 360
-                tickCount: 11
                 visible: false
             }
-            ScatterSeries {
+            SplineSeries {
                 id: gyroSeriesX
                 axisX: valueAxisX
                 axisY: valueAxisY
                 color: xColor
-                borderColor: xColor
-                markerSize: 8
                 name: "Gyro X"
             }
-            ScatterSeries {
+            SplineSeries {
                 id: gyroSeriesY
                 axisX: valueAxisX
                 axisY: valueAxisY
                 color: yColor
-                borderColor: yColor
-                markerSize: 8
                 name: "Gyro Y"
             }
-            ScatterSeries {
+            SplineSeries {
                 id: gyroSeriesZ
                 axisX: valueAxisX
                 axisY: valueAxisY
                 color: zColor
-                borderColor: zColor
-                markerSize: 8
                 name: "Gyro Z"
             }
         }
 
         Row {
             id: xLabelRow
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 4
-            anchors.left: parent.left
-            anchors.leftMargin: chartView.plotArea.x - 40
-            anchors.right: parent.right
+            anchors.fill: parent
+            anchors.leftMargin: 16
 
-            Text {
-                id: xLabel
-                horizontalAlignment: Text.AlignHCenter
-                text: "<font color=\"" + xColor + "\">Roll<br><font color=\"white\">" + (sensor ? sensor.rotationX.toFixed(0) : 0)
-                lineHeight: 0.7
-                width: (gyroHolderRect.width - xLabelRow.x) / 3
-            }
+            Repeater {
+                model: 3
 
-            Text {
-                horizontalAlignment: Text.AlignHCenter
-                text: "<font color=\"" + yColor + "\">Pitch<br><font color=\"white\">" + (sensor ? sensor.rotationY.toFixed(0) : 0)
-                lineHeight: 0.7
-                width: xLabel.width
-            }
+                Item {
+                    height: xLabelRow.height
+                    width: xLabelRow.width / 3
 
-            Text {
-                horizontalAlignment: Text.AlignHCenter
-                text: "<font color=\"" + zColor + "\">Yaw<br><font color=\"white\">" + (sensor ? sensor.rotationZ.toFixed(0) : 0)
-                lineHeight: 0.7
-                width: xLabel.width
+                    Text {
+                        id: coordText
+                        text: (index == 0) ? "X" : ((index == 1) ? "Y" : "Z")
+                        color: "white"
+                        anchors.left: parent.left
+                        anchors.bottom: parent.bottom
+                    }
+
+                    Text {
+                        text: sensor ? ((index == 0) ? sensor.rotationX.toFixed(0) :
+                                             ((index == 1) ? sensor.rotationY.toFixed(0) :
+                                                             sensor.rotationZ.toFixed(0))) :
+                                       ""
+                        color: (index == 0) ? xColor : ((index == 1) ? yColor : zColor)
+                        anchors.left: coordText.right
+                        anchors.leftMargin: 16
+                        anchors.bottom: parent.bottom
+                    }
+                }
             }
         }
     }
