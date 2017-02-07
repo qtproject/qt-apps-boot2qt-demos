@@ -57,9 +57,15 @@ Item {
     height: 100
     width: implicitWidth
 
+    CloudSettings {
+        id: cloudSettins
+        x: cloudItem.x
+        y: parent.height
+        visible: false
+    }
+
     SensorSettings {
         id: sensorList
-
         x: sensorItem.x
         y: parent.height
         visible: false
@@ -93,6 +99,11 @@ Item {
             anchors.left: icon.right
             anchors.margins: 8
         }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: cloudSettins.visible = !cloudSettins.visible
+        }
     }
 
     Item {
@@ -100,6 +111,8 @@ Item {
         height: topToolbar.height
         anchors.top: parent.top
         anchors.left: cloudItem.right
+        width: sensorIcon.width + sensorButton.width + 3 * anchors.leftMargin
+
         Image {
             id: sensorIcon
 
@@ -126,11 +139,11 @@ Item {
             anchors.verticalCenter: sensorIcon.verticalCenter
             anchors.left: sensorIcon.right
             anchors.margins: 8
+        }
 
-            MouseArea {
-                anchors.fill: parent
-                onClicked: sensorList.visible = !sensorList.visible
-            }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: sensorList.visible = !sensorList.visible
         }
     }
 
