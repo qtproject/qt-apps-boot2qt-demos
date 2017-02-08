@@ -60,10 +60,9 @@ BaseChart {
     property real minimum: 10
     property real maximum: 40
 
-    property real defaultAvgValue: maximum - minimum
+    property real defaultAvgValue: (maximum + minimum) / 2
     property real minValue: defaultAvgValue
     property real maxValue: defaultAvgValue
-    readonly property real avgValue: (maxValue - minValue) / 2
     property real value
 
     readonly property color legendColor: "white"
