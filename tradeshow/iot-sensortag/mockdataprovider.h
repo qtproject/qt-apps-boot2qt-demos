@@ -71,8 +71,9 @@ public:
 public slots:
     void slowTimerExpired();
     void rapidTimerExpired();
+
 protected:
-    void reset() {}
+    void reset() override;
 
 private:
     QTimer *slowUpdateTimer;

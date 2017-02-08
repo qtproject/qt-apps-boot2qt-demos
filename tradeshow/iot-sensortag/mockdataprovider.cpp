@@ -69,6 +69,7 @@ MockDataProvider::MockDataProvider(QString id, QObject* parent)
     irObjectTemperature = 25;
     barometerCelsiusTemperature = 25;
     barometerHPa = 1040;
+    pressureAtZeroAltitude = 1040;
     accelometerX = 1;
     accelometerZ = 0;
     magnetometerMicroT_xAxis = 333;
@@ -234,4 +235,16 @@ void MockDataProvider::rapidTimerExpired()
         (gyroscopeZ_degPerSec < -240))
         rotationDegPerSecZIncrease *= -1;
     emit gyroscopeDegPerSecChanged();
+}
+
+void MockDataProvider::reset()
+{
+    rotation_x = 0;
+    rotation_y = 0;
+    rotation_z = 0;
+    emit rotationXChanged();
+    emit rotationYChanged();
+    emit rotationZChanged();
+
+    pressureAtZeroAltitude = 1040;
 }

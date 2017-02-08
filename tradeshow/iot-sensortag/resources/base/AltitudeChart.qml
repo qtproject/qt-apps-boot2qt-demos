@@ -68,14 +68,16 @@ BaseChart {
         }
     }
 
-    onSensorChanged: if (sensor) {
-                         sensor.altitudeChanged.connect(this, function() {
-                            altitude = sensor.altitude;
-                             altitudeRounded = Math.floor(altitude + 0.5).toFixed(0);
-                             if (altitudeRounded > maxAltitude)
-                                 maxAltitude = altitudeRounded;
-                         });
-                     }
+    onSensorChanged: {
+        if (sensor) {
+            sensor.altitudeChanged.connect(this, function() {
+                altitude = sensor.altitude;
+                altitudeRounded = Math.floor(altitude + 0.5).toFixed(0);
+                if (altitudeRounded > maxAltitude)
+                    maxAltitude = altitudeRounded;
+            });
+        }
+    }
 
     content: Item {
         id: container
@@ -141,8 +143,8 @@ BaseChart {
                     Text {
                         text: "m"
                         color: "white"
-                        horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: 16
+                        anchors.horizontalCenter: pressureText.horizontalCenter
                     }
                 }
             }
