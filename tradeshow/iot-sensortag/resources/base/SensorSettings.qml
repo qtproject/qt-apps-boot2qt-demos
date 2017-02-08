@@ -117,12 +117,16 @@ Rectangle {
                     width: 40
                     height: 40
                     source: pathPrefix + "Toolbar/icon_topbar_sensor.png"
-                    opacity: modelData.state === SensorTagData.Connected ? 1 : 0.5
+                    opacity: (modelData.state === SensorTagData.Connected
+                             || modelData.state === SensorTagData.Scanning) ? 1 : 0.5
                 }
 
                 Text {
                     Layout.alignment: Qt.AlignHCenter
-                    text: modelData.state === SensorTagData.Connected ? "Connected" : "Disconnected"
+                    text: modelData.state === SensorTagData.Disconnected ? "Disconnected"
+                          : (modelData.state === SensorTagData.Scanning) ? "Scanning"
+                          : (modelData.state === SensorTagData.Connected) ? "Connected"
+                          : "Error"
                     color: "white"
                     font.pixelSize: 14
                 }
