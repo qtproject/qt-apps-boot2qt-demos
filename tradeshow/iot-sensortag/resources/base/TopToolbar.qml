@@ -58,21 +58,24 @@ Item {
     width: implicitWidth
 
     CloudSettings {
-        id: cloudSettins
+        id: cloudSettings
+
         x: cloudItem.x
-        y: parent.height
+        y: topToolbar.height
         visible: false
     }
 
     SensorSettings {
         id: sensorList
+
         x: sensorItem.x
-        y: parent.height
+        y: topToolbar.height
         visible: false
     }
 
     Item {
         id: cloudItem
+
         height: topToolbar.height
         anchors.top: parent.top
         anchors.left: parent.left
@@ -102,7 +105,7 @@ Item {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: cloudSettins.visible = !cloudSettins.visible
+            onClicked: clickBait.activate(cloudSettings)
         }
     }
 
@@ -143,7 +146,7 @@ Item {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: sensorList.visible = !sensorList.visible
+            onClicked: clickBait.activate(sensorList)
         }
     }
 
@@ -191,5 +194,31 @@ Item {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: -18
         source: pathPrefix + "Toolbar/topbar_all.png"
+    }
+
+    MouseArea {
+        id: clickBait
+
+        property var menu
+
+        function activate(menuItem) {
+            menu = menuItem;
+            menuItem.visible = true;
+            menuItem.parent = clickBait;
+        }
+
+        function deactivate() {
+            menu.parent = topToolbar;
+            menu.visible = false;
+            menu = null;
+        }
+
+        width: main.width
+        height: main.height
+        enabled: menu ? true : false
+        onClicked: {
+            if (!childAt(mouseX, mouseY))
+                deactivate();
+        }
     }
 }
