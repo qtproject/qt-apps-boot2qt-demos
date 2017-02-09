@@ -144,24 +144,6 @@ Item {
 
             width: rightPane.width
             height: rightPane.height * 0.3 - 60
-            onClicked: {
-                mainContainer.source = "../base/RotationPage.qml";
-                gyroConnection.enabled = true;
-                sensor.recalibrate();
-            }
-
-            Connections {
-                id: gyroConnection
-
-                target: mainContainer
-                enabled: false
-                onStatusChanged: {
-                    if (status == Loader.Ready) {
-                        mainContainer.item.sensor = rotation.sensor;
-                        gyroConnection.enabled = false;
-                    }
-                }
-            }
         }
 
         AccelChart {
@@ -172,7 +154,7 @@ Item {
         }
     }
 
-    Loader {
+    RotationPage {
         id: mainContainer
 
         anchors.top: topToolbar.bottom
@@ -181,6 +163,11 @@ Item {
         anchors.right: rightPane.left
         anchors.rightMargin: 32
         anchors.bottom: parent.bottom
+
+        Component.onCompleted: {
+            sensor = rotation.sensor;
+            sensor.recalibrate();
+        }
     }
 
 

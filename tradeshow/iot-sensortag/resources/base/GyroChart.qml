@@ -70,6 +70,11 @@ BaseChart {
             }
     }
 
+    onClicked: {
+        if (sensor)
+            sensor.recalibrate();
+    }
+
     title: qsTr("Gyroscope")
     rightSide: true
 
