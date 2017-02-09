@@ -120,7 +120,6 @@ int main(int argc, char *argv[])
     else {
         qCDebug(boot2QtDemos) << "Unknown mode: " << sensorSource;
         return 1;
-
     }
 
     qmlRegisterType<SensorTagDataProvider>("SensorTag.DataProvider", 1, 0, "SensorTagData");
@@ -133,6 +132,14 @@ int main(int argc, char *argv[])
         update.setDataProviderPool(dataProviderPool);
         update.restart();
     }
+#endif
+
+#ifdef DEPLOY_TO_FS
+    QString namingScheme = QStringLiteral("file://") + qApp->applicationDirPath();
+    qCDebug(boot2QtDemos) << "Loading resources from the directory" << namingScheme;
+#else
+    QString namingScheme = QStringLiteral("qrc://");
+    qCDebug(boot2QtDemos) << "Loading resources from a resource file";
 #endif
 
     QString mainFile;
@@ -149,8 +156,9 @@ int main(int argc, char *argv[])
     qCDebug(boot2QtDemos) << "Scale factor:" << sf.data();
 
 #if defined(UI_SMALL)
-        mainFile = QStringLiteral("qrc:/resources/small/MainSmall.qml");
-        styleFile = QUrl("qrc:/resources/small/StyleSmall.qml");
+        mainFile = namingScheme + QStringLiteral("/resources/small/MainSmall.qml");
+        styleFile = namingScheme + QStringLiteral("/resources/small/StyleSmall.qml");
+
         uiVariant = "small";
         fullScreen = true;
         appWidth = 1920;
@@ -184,8 +192,12 @@ int main(int argc, char *argv[])
     }
 
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("pathPrefix", "/resources/" + uiVariant + "/images/");
-    engine.load(QUrl(QStringLiteral("qrc:/resources/base/main.qml")));
+    engine.rootContext()->setContextProperty("pathPrefix", namingScheme + +"/resources/" + uiVariant + "/images/");
+#ifdef DEPLOY_TO_FS
+    engine.load(QUrl::fromLocalFile(qApp->applicationDirPath() + QStringLiteral("/resources/base/main.qml")));
+#else
+    engine.load(QUrl(QStringLiteral("qrc:///resources/base/main.qml")));
+#endif
 
     QQuickWindow *item = qobject_cast<QQuickWindow *>(engine.rootObjects()[0]);
     if (item) {

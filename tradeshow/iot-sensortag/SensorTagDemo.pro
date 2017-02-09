@@ -4,6 +4,10 @@ QT += 3dcore 3drender 3dinput 3dquick 3dlogic core gui qml quick 3dquickextras w
 QT += bluetooth network
 CONFIG += c++11
 
+# To overcome the bug QTBUG-58648, uncomment this define
+# Needed at least for RPi3 and iMX
+#CONFIG += DEPLOY_TO_FS
+
 # Uncomment DEVICE_TYPE and assign either UI_SMALL, UI_MEDIUM, UI_LARGE
 # to force using that UI form factor. Otherwise
 # the form factor is determined based on the platform
@@ -90,19 +94,25 @@ RESOURCES += base.qrc
 
 equals(DEVICE_TYPE, "UI_SMALL") {
     DEFINES += UI_SMALL
-    RESOURCES += uismall.qrc
+    !DEPLOY_TO_FS: RESOURCES += uismall.qrc
+    uiVariant.files = resources/small
+    uiVariant.path = /opt/$${TARGET}/resources
     message("Resource file for SMALL display picked")
 }
 
 equals(DEVICE_TYPE, "UI_MEDIUM") {
     DEFINES += UI_MEDIUM
-    RESOURCES += uimedium.qrc
+    !DEPLOY_TO_FS: RESOURCES += uimedium.qrc
+    uiVariant.files = resources/medium
+    uiVariant.path = /opt/$${TARGET}/resources
     message("Resource file for MEDIUM display picked")
 }
 
 equals(DEVICE_TYPE, "UI_LARGE") {
     DEFINES += UI_LARGE
-    RESOURCES += uilarge.qrc
+    !DEPLOY_TO_FS: RESOURCES += uilarge.qrc
+    uiVariant.files = resources/large
+    uiVariant.path = /opt/$${TARGET}/resources
     message("Resource file for LARGE display picked")
 }
 
@@ -111,8 +121,17 @@ QML_IMPORT_PATH =
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
     android-sources/AndroidManifest.xml
+
+DEPLOY_TO_FS {
+    message("Files will be deployed to the file system")
+    DEFINES += DEPLOY_TO_FS
+
+    baseFiles.files = resources/base
+    baseFiles.path = /opt/$${TARGET}/resources
+    INSTALLS += baseFiles uiVariant
+}
