@@ -11,11 +11,6 @@
         <file>resources/small/images/Toolbar/icon_topbar_cloud.png</file>
         <file>resources/small/images/Accelometer/inner_ring.png</file>
         <file>resources/small/images/Accelometer/outer_ring.png</file>
-        <file>resources/small/images/Gyro/ring_large.png</file>
-        <file>resources/small/images/Gyro/ring_medium.png</file>
-        <file>resources/small/images/Gyro/ring_outer.png</file>
-        <file>resources/small/images/Gyro/ring_small.png</file>
-        <file>resources/small/images/Gyro/particle.png</file>
         <file>resources/small/images/AmbientTemperature/temp_ring.png</file>
         <file>resources/small/images/AmbientTemperature/temp_sensor.png</file>
         <file>resources/small/images/Magnetometer/grid.png</file>
@@ -30,5 +25,10 @@
         <file>resources/small/images/Altitude/Height_bar.png</file>
         <file>resources/small/images/Altitude/Altitude_base_gauge.png</file>
         <file>resources/small/images/Altitude/Altitude_base_gauge_outer.png</file>
+        <file>resources/small/images/Gyro/gyro_center.png</file>
+        <file>resources/small/images/Gyro/gyro_ring1.png</file>
+        <file>resources/small/images/Gyro/gyro_ring2.png</file>
+        <file>resources/small/images/Gyro/gyro_ring3.png</file>
+        <file>resources/small/images/Gyro/gyro_outer.png</file>
     </qresource>
 </RCC>

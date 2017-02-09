@@ -54,24 +54,31 @@ import QtQuick.Particles 2.0
 Item {
     id: dialerRoot
     property var sensor: null
-    anchors.fill: parent
     focus: true
 
     Image {
+        id: ring
+        anchors.centerIn: parent
+        source: pathPrefix + "Gyro/gyro_outer.png"
+    }
+    Image {
         id: outerRing
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectFit
-        source: pathPrefix + "Gyro/ring_outer.png"
-        z: parent.z + 1
+        anchors.centerIn: parent
+        source: pathPrefix + "Gyro/gyro_ring3.png"
+        rotation: sensor.rotationX
+        Behavior on rotation {
+            RotationAnimation {
+                easing.type: Easing.Linear
+                duration: sensor.rotationUpdateInterval
+                direction: RotationAnimation.Shortest
+            }
+        }
     }
     Image {
         id: largeRing
         anchors.centerIn: parent
-        width: outerRing.width * 0.8
-        fillMode: Image.PreserveAspectFit
-        source: pathPrefix + "Gyro/ring_large.png"
-        rotation: sensor.rotationX
-        z: parent.z + 2
+        source: pathPrefix + "Gyro/gyro_ring2.png"
+        rotation: sensor.rotationY
         Behavior on rotation {
             RotationAnimation {
                 easing.type: Easing.Linear
@@ -83,11 +90,8 @@ Item {
     Image {
         id: mediumRing
         anchors.centerIn: parent
-        width: outerRing.width * 0.6
-        fillMode: Image.PreserveAspectFit
-        source: pathPrefix + "Gyro/ring_medium.png"
-        rotation: sensor.rotationY
-        z: parent.z + 3
+        source: pathPrefix + "Gyro/gyro_ring1.png"
+        rotation: sensor.rotationZ
         Behavior on rotation {
             RotationAnimation {
                 easing.type: Easing.Linear
@@ -99,90 +103,6 @@ Item {
     Image {
         id: centerRing
         anchors.centerIn: parent
-        width: outerRing.width * 0.4
-        fillMode: Image.PreserveAspectFit
-        source: pathPrefix + "Gyro/ring_small.png"
-        rotation: sensor.rotationZ
-        z: parent.z + 4
-        Behavior on rotation {
-            RotationAnimation {
-                easing.type: Easing.Linear
-                duration: sensor.rotationUpdateInterval
-                direction: RotationAnimation.Shortest
-            }
-        }
-    }
-    ParticleSystem {
-        id: particles
-        anchors.fill: parent
-        z: parent.z + 5
-        ImageParticle {
-            source: pathPrefix + "Gyro/particle.png"
-            alpha: 0
-            colorVariation: 0.2
-        }
-        Emitter {
-            property int rateToEmit: Math.abs(sensor.gyroscopeZ_degPerSec) * 4
-            id: centerEmitter
-            x: centerRing.x
-            y: centerRing.y
-            width: centerRing.width
-            height: centerRing.height
-            emitRate: rateToEmit > 400 ? rateToEmit : 0
-            lifeSpan: 1000
-            enabled: true
-            shape: EllipseShape {
-                fill: false
-            }
-            velocity: AngleDirection{
-                magnitude: 100
-                angleVariation: 0
-                angle: 90
-            }
-            size: particles.width / 200
-            sizeVariation: 3
-        }
-        Emitter {
-            property int rateToEmit: Math.abs(sensor.gyroscopeY_degPerSec) * 4
-            id: midEmitter
-            x: mediumRing.x
-            y: mediumRing.y
-            width: mediumRing.width
-            height: mediumRing.height
-            emitRate: rateToEmit > 400 ? rateToEmit : 0
-            lifeSpan: 1000
-            enabled: true
-            shape: EllipseShape {
-                fill: false
-            }
-            velocity: AngleDirection{
-                magnitude: 100
-                angleVariation: 0
-                angle: 90
-            }
-            size: particles.width / 200
-            sizeVariation: 3
-        }
-        Emitter {
-            property int rateToEmit: Math.abs(sensor.gyroscopeX_degPerSec) * 4
-            id: largeEmitter
-            x: largeRing.x
-            y: largeRing.y
-            width: largeRing.width
-            height: largeRing.height
-            emitRate: rateToEmit > 400 ? rateToEmit : 0
-            lifeSpan: 1000
-            enabled: true
-            shape: EllipseShape {
-                fill: false
-            }
-            velocity: AngleDirection{
-                magnitude: 100
-                angleVariation: 0
-                angle: 90
-            }
-            size: particles.width / 200
-            sizeVariation: 3
-        }
+        source: pathPrefix + "Gyro/gyro_center.png"
     }
 }
