@@ -71,6 +71,7 @@ Item {
             magnetometer.sensor = dataProviderPool.getProvider(SensorTagData.Magnetometer);
             rotation.sensor = dataProviderPool.getProvider(SensorTagData.Rotation);
             accelometer.sensor = dataProviderPool.getProvider(SensorTagData.Accelometer);
+            rotationMain.sensor = dataProviderPool.getProvider(SensorTagData.Rotation);
         }
     }
 
@@ -155,7 +156,7 @@ Item {
     }
 
     RotationPage {
-        id: mainContainer
+        id: rotationMain
 
         anchors.top: topToolbar.bottom
         anchors.left: leftPane.right
@@ -163,11 +164,7 @@ Item {
         anchors.right: rightPane.left
         anchors.rightMargin: 32
         anchors.bottom: parent.bottom
-
-        Component.onCompleted: {
-            sensor = rotation.sensor;
-            sensor.recalibrate();
-        }
+        onSensorChanged: if (sensor) sensor.recalibrate()
     }
 
 

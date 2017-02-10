@@ -53,7 +53,10 @@ import QtQuick.Particles 2.0
 
 Item {
     id: dialerRoot
-    property var sensor: null
+
+    property var sensor
+    property var rotationUpdateInterval: sensor ? sensor.rotationUpdateInterval : 0
+
     focus: true
 
     Image {
@@ -65,11 +68,11 @@ Item {
         id: outerRing
         anchors.centerIn: parent
         source: pathPrefix + "Gyro/gyro_ring3.png"
-        rotation: sensor.rotationX
+        rotation: sensor ? sensor.rotationX : 0
         Behavior on rotation {
             RotationAnimation {
                 easing.type: Easing.Linear
-                duration: sensor.rotationUpdateInterval
+                duration: rotationUpdateInterval
                 direction: RotationAnimation.Shortest
             }
         }
@@ -78,11 +81,11 @@ Item {
         id: largeRing
         anchors.centerIn: parent
         source: pathPrefix + "Gyro/gyro_ring2.png"
-        rotation: sensor.rotationY
+        rotation: sensor ? sensor.rotationY : 0
         Behavior on rotation {
             RotationAnimation {
                 easing.type: Easing.Linear
-                duration: sensor.rotationUpdateInterval
+                duration: rotationUpdateInterval
                 direction: RotationAnimation.Shortest
             }
         }
@@ -91,11 +94,11 @@ Item {
         id: mediumRing
         anchors.centerIn: parent
         source: pathPrefix + "Gyro/gyro_ring1.png"
-        rotation: sensor.rotationZ
+        rotation: sensor ? sensor.rotationZ : 0
         Behavior on rotation {
             RotationAnimation {
                 easing.type: Easing.Linear
-                duration: sensor.rotationUpdateInterval
+                duration: rotationUpdateInterval
                 direction: RotationAnimation.Shortest
             }
         }
