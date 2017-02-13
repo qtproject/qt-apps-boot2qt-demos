@@ -169,6 +169,7 @@ private:
     void lightIntensityReceived(const QByteArray &value);
     void motionReceived(const QByteArray &value);
     double convertIrTemperatureAPIReadingToCelsius(quint16 rawReading);
+    void isDeviceReady() const;
 
     QBluetoothDeviceDiscoveryAgent *discoveryAgent;
     QString m_previousAddress;

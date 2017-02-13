@@ -234,6 +234,11 @@ int SensorTagDataProvider::tagType() const
     return m_tagType;
 }
 
+void SensorTagDataProvider::setTagType(int tagType)
+{
+    m_tagType = tagType;
+}
+
 QString SensorTagDataProvider::id() const
 {
     return m_id;

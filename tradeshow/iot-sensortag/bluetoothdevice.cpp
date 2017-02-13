@@ -56,7 +56,6 @@
 #include <QLoggingCategory>
 #include <QList>
 #include <QTimer>
-#include <QDebug>
 #include <QtMath>
 #include <QDateTime>
 #include "bluetoothapiconstants.h"
@@ -264,6 +263,7 @@ void BluetoothDevice::temperatureDetailsDiscovered(QLowEnergyService::ServiceSta
         }
 
         m_temperatureMeasurementStarted = true;
+        isDeviceReady();
     }
 }
 
@@ -302,6 +302,7 @@ void BluetoothDevice::barometerDetailsDiscovered(QLowEnergyService::ServiceState
         }
 
         m_barometerMeasurementStarted = true;
+        isDeviceReady();
     }
 }
 
@@ -341,6 +342,7 @@ void BluetoothDevice::humidityDetailsDiscovered(QLowEnergyService::ServiceState 
         }
 
         m_humidityMeasurementStarted = true;
+        isDeviceReady();
     }
 }
 
@@ -380,6 +382,7 @@ void BluetoothDevice::lightIntensityDetailsDiscovered(QLowEnergyService::Service
         }
 
         m_lightIntensityMeasurementStarted = true;
+        isDeviceReady();
     }
 }
 
@@ -421,6 +424,7 @@ void BluetoothDevice::motionDetailsDiscovered(QLowEnergyService::ServiceState ne
             motionService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_RAPID_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse);
         }
         m_motionMeasurementStarted = true;
+        isDeviceReady();
     }
 }
 
@@ -464,6 +468,15 @@ double BluetoothDevice::convertIrTemperatureAPIReadingToCelsius(quint16 rawReadi
     int it = (int)((rawReading) >> 2);
     float t = (float)it;
     return t * SCALE_LSB;
+}
+
+void BluetoothDevice::isDeviceReady() const
+{
+    if (m_temperatureMeasurementStarted &&
+        m_humidityMeasurementStarted &&
+        m_lightIntensityMeasurementStarted &&
+        m_motionMeasurementStarted)
+        setState(DeviceState::Connected);
 }
 
 void BluetoothDevice::irTemperatureReceived(const QByteArray &value)
@@ -551,7 +564,7 @@ void BluetoothDevice::motionReceived(const QByteArray &value)
 
 void BluetoothDevice::deviceConnected()
 {
-    setState(DeviceState::Connected);
+    setState(DeviceState::Scanning);
     statusUpdated("(Discovering services...)");
     controller->discoverServices();
 }

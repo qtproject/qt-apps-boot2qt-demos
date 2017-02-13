@@ -50,8 +50,216 @@
 #include "demodataproviderpool.h"
 #include "mockdataprovider.h"
 
+DemoCloudProvider::DemoCloudProvider(QObject *parent)
+    : SensorTagDataProvider(parent)
+{
+}
+
+void DemoCloudProvider::setDataProviders(const QList<SensorTagDataProvider *> &dataProviders)
+{
+    m_dataProviders = dataProviders;
+}
+
+QString DemoCloudProvider::sensorType() const
+{
+    if (m_dataProviders.length())
+        return m_dataProviders.at(0)->sensorType();
+    else
+        return QString();
+}
+
+QString DemoCloudProvider::versionString() const
+{
+    if (m_dataProviders.length())
+        return m_dataProviders.at(0)->versionString();
+    else
+        return QString();
+}
+
+double DemoCloudProvider::getRelativeHumidity()
+{
+   foreach (SensorTagDataProvider *p, m_dataProviders) {
+       if (p->tagType() & SensorTagDataProvider::Humidity)
+           return p->getRelativeHumidity();
+   }
+   return 0;
+}
+
+double DemoCloudProvider::getInfraredAmbientTemperature()
+{
+    m_dataProviders.first();
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::AmbientTemperature)
+            return p->getInfraredAmbientTemperature();
+    }
+    return 0;
+}
+
+double DemoCloudProvider::getInfraredObjectTemperature()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::ObjectTemperature)
+            return p->getInfraredObjectTemperature();
+    }
+    return 0;
+}
+
+double DemoCloudProvider::getLightIntensityLux()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Light)
+            return p->getLightIntensityLux();
+    }
+    return 0;
+}
+
+double DemoCloudProvider::getBarometerCelsiusTemperature()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::AirPressure)
+            return p->getBarometerCelsiusTemperature();
+    }
+    return 0;
+}
+
+double DemoCloudProvider::getBarometerTemperatureAverage()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::AirPressure)
+            return p->getBarometerTemperatureAverage();
+    }
+    return 0;
+}
+
+double DemoCloudProvider::getBarometer_hPa()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::AirPressure)
+            return p->getBarometer_hPa();
+    }
+    return 0;
+}
+
+float DemoCloudProvider::getGyroscopeX_degPerSec()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Magnetometer)
+            return p->getGyroscopeX_degPerSec();
+    }
+    return 0;
+}
+
+float DemoCloudProvider::getGyroscopeY_degPerSec()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Magnetometer)
+            return p->getGyroscopeY_degPerSec();
+    }
+    return 0;
+}
+
+float DemoCloudProvider::getGyroscopeZ_degPerSec()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Magnetometer)
+            return p->getGyroscopeZ_degPerSec();
+    }
+    return 0;
+}
+
+float DemoCloudProvider::getAccelometer_xAxis()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Accelometer)
+            return p->getAccelometer_xAxis();
+    }
+    return 0;
+}
+
+float DemoCloudProvider::getAccelometer_yAxis()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Accelometer)
+            return p->getAccelometer_yAxis();
+    }
+    return 0;
+}
+
+float DemoCloudProvider::getAccelometer_zAxis()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Accelometer)
+            return p->getAccelometer_zAxis();
+    }
+    return 0;
+}
+
+float DemoCloudProvider::getMagnetometerMicroT_xAxis()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Magnetometer)
+            return p->getMagnetometerMicroT_xAxis();
+    }
+    return 0;
+}
+
+float DemoCloudProvider::getMagnetometerMicroT_yAxis()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Magnetometer)
+            return p->getMagnetometerMicroT_yAxis();
+    }
+    return 0;
+}
+
+float DemoCloudProvider::getMagnetometerMicroT_zAxis()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Magnetometer)
+            return p->getMagnetometerMicroT_zAxis();
+    }
+    return 0;
+}
+
+float DemoCloudProvider::getRotationX()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Rotation)
+            return p->getRotationX();
+    }
+    return 0;
+}
+
+float DemoCloudProvider::getRotationY()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Rotation)
+            return p->getRotationY();
+    }
+    return 0;
+}
+
+float DemoCloudProvider::getRotationZ()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Rotation)
+            return p->getRotationZ();
+    }
+    return 0;
+}
+
+float DemoCloudProvider::getAltitude()
+{
+    foreach (SensorTagDataProvider *p, m_dataProviders) {
+        if (p->tagType() & SensorTagDataProvider::Altitude)
+            return p->getAltitude();
+    }
+    return 0;
+}
+
+
 DemoDataProviderPool::DemoDataProviderPool(QObject *parent)
-    : DataProviderPool("Demo", parent)
+    : SensorTagDataProviderPool("Demo", parent)
     , m_mockData(false)
     , m_cloudProvider(0)
 {
@@ -77,24 +285,41 @@ void DemoDataProviderPool::startScanning()
             emit providerConnected(p->id());
         }
         // Stop scanning as we already have a provider
-       stopScanning();
+        scanFinished();
     }
     else {
-        DataProviderPool::startScanning();
+        SensorTagDataProviderPool::startScanning();
     }
 }
 
-void DemoDataProviderPool::stopScanning()
+void DemoDataProviderPool::finishScanning()
 {
-    // TODO: get data for cloud update provider from
-    // all available providers, not just from the first found
-    if (m_dataProviders.length()) {
+    if (m_dataProviders.length() && m_mockData) {
+        // For mock data we have only one provider and
+        // it servers as the provider to the cloud, too
         m_cloudProvider = m_dataProviders.at(0);
         emit providerForCloudChanged();
+    } else {
+        // Fake that we have set of sensors with different capabilities
+        // by removing some of the sensor data types from each sensor tag
+        foreach (SensorTagDataProvider *p, m_dataProviders) {
+            if (p->id() == QStringLiteral("A0:E6:F8:B6:5B:86")) {
+                p->setTagType(SensorTagDataProvider::ObjectTemperature |
+                              SensorTagDataProvider::Light |
+                              SensorTagDataProvider::Magnetometer |
+                              SensorTagDataProvider::Accelometer);
+            }
+            else if (p->id() == QStringLiteral("A0:E6:F8:B6:44:01")) {
+                p->setTagType(SensorTagDataProvider::AmbientTemperature |
+                              SensorTagDataProvider::Altitude |
+                              SensorTagDataProvider::Humidity |
+                              SensorTagDataProvider::Rotation |
+                              SensorTagDataProvider::AirPressure);
+            }
+        }
+        m_cloudProvider = new DemoCloudProvider(this);
+        static_cast<DemoCloudProvider*>(m_cloudProvider)->setDataProviders(m_dataProviders);
     }
-
-    emit dataProvidersChanged();
-    emit scanFinished();
 }
 
 void DemoDataProviderPool::setMockDataMode(bool mode)
@@ -106,3 +331,4 @@ SensorTagDataProvider *DemoDataProviderPool::providerForCloud() const
 {
     return m_cloudProvider;
 }
+

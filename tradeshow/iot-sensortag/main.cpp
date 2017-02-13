@@ -106,8 +106,11 @@ int main(int argc, char *argv[])
 #if defined(RUNS_AS_HOST)
     else if (sensorSource == QString("sensor").toLower()) {
         qCDebug(boot2QtDemos) << "Running in sensor mode";
-        dataProviderPool = new SensorTagDataProviderPool;
-        static_cast<SensorTagDataProviderPool*>(dataProviderPool)->setMacFilterList(QStringList() << "A0:E6:F8:B6:44:01");
+        dataProviderPool = new DemoDataProviderPool;
+        // List of devices used at EW: "A0:E6:F8:B6:44:01", "A0:E6:F8:B6:5B:86"
+        static_cast<SensorTagDataProviderPool*>(dataProviderPool)->setMacFilterList(QStringList() <<
+                                                                                    "A0:E6:F8:B6:44:01" <<
+                                                                                    "A0:E6:F8:B6:5B:86");
     }
 #endif
     else if (sensorSource == QString("mock").toLower()){

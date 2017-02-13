@@ -76,6 +76,7 @@ public:
 
 protected:
     SensorTagDataProviderPool(QString poolName, QObject *parent = 0);
+    virtual void finishScanning();
 
     void updateProviderForCloud();
 

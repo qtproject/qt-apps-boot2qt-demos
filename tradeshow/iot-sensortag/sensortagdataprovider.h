@@ -91,13 +91,13 @@ class SensorTagDataProvider : public QObject
 public:
     enum TagType {AmbientTemperature = 1 << 0,
                   ObjectTemperature = 1 << 1,
-                  Humidity,
-                  AirPressure = 1 << 2,
-                  Light = 1 << 3,
-                  Magnetometer = 1 << 4,
-                  Rotation = 1 << 5,
-                  Accelometer = 1 << 6,
-                  Altitude = 1 << 7};
+                  Humidity = 1 << 2,
+                  AirPressure = 1 << 3,
+                  Light = 1 << 4,
+                  Magnetometer = 1 << 5,
+                  Rotation = 1 << 6,
+                  Accelometer = 1 << 7,
+                  Altitude = 1 << 8};
     enum ProviderState {Disconnected = 0, Scanning, Connected, Error};
 
     explicit SensorTagDataProvider(QObject *parent = 0);
@@ -106,33 +106,34 @@ public:
     virtual bool startDataFetching() {return false;}
     virtual void endDataFetching() {}
     QString getRelativeHumidityString();
-    double getRelativeHumidity();
-    double getInfraredAmbientTemperature();
-    double getInfraredObjectTemperature();
+    virtual double getRelativeHumidity();
+    virtual double getInfraredAmbientTemperature();
+    virtual double getInfraredObjectTemperature();
     QString getLightIntensityLuxString();
-    double getLightIntensityLux();
-    double getBarometerCelsiusTemperature();
+    virtual double getLightIntensityLux();
+    virtual double getBarometerCelsiusTemperature();
     QString getBarometerCelsiusTemperatureString();
-    double getBarometerTemperatureAverage();
+    virtual double getBarometerTemperatureAverage();
     QString getBarometer_hPaString();
-    double getBarometer_hPa();
-    float getGyroscopeX_degPerSec();
-    float getGyroscopeY_degPerSec();
-    float getGyroscopeZ_degPerSec();
-    float getAccelometer_xAxis();
-    float getAccelometer_yAxis();
-    float getAccelometer_zAxis();
-    float getMagnetometerMicroT_xAxis();
-    float getMagnetometerMicroT_yAxis();
-    float getMagnetometerMicroT_zAxis();
-    float getRotationX();
-    float getRotationY();
-    float getRotationZ();
+    virtual double getBarometer_hPa();
+    virtual float getGyroscopeX_degPerSec();
+    virtual float getGyroscopeY_degPerSec();
+    virtual float getGyroscopeZ_degPerSec();
+    virtual float getAccelometer_xAxis();
+    virtual float getAccelometer_yAxis();
+    virtual float getAccelometer_zAxis();
+    virtual float getMagnetometerMicroT_xAxis();
+    virtual float getMagnetometerMicroT_yAxis();
+    virtual float getMagnetometerMicroT_zAxis();
+    virtual float getRotationX();
+    virtual float getRotationY();
+    virtual float getRotationZ();
     int getRotationUpdateInterval();
-    float getAltitude();
+    virtual float getAltitude();
 
-    Q_INVOKABLE int tagType() const;
-    QString id() const;
+    Q_INVOKABLE virtual int tagType() const;
+    void setTagType(int tagType);
+    virtual QString id() const;
     ProviderState state() const;
     void setState(ProviderState state);
 

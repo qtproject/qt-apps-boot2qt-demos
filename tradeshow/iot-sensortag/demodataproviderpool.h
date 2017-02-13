@@ -54,22 +54,61 @@
 
 class CloudUpdate;
 
-class DemoDataProviderPool : public DataProviderPool
+class DemoDataProviderPool : public SensorTagDataProviderPool
 {
     Q_OBJECT
 public:
     explicit DemoDataProviderPool(QObject *parent = 0);
 
     void startScanning() override;
-    void stopScanning() override;
 
     SensorTagDataProvider* providerForCloud() const override;
 
     void setMockDataMode(bool mode);
 
+protected:
+    void finishScanning() override;
+
 private:
+
     bool m_mockData;
     SensorTagDataProvider* m_cloudProvider;
+};
+
+// Internal class to provide sensor data for cloud update from demo setup
+class DemoCloudProvider : public SensorTagDataProvider
+{
+    Q_OBJECT
+public:
+    explicit DemoCloudProvider(QObject *parent);
+
+    void setDataProviders(const QList<SensorTagDataProvider*>& dataProviders);
+
+    QString sensorType() const override;
+    QString versionString() const override;
+
+    double getRelativeHumidity() override;
+    double getInfraredAmbientTemperature() override;
+    double getInfraredObjectTemperature() override;
+    double getLightIntensityLux() override;
+    double getBarometerCelsiusTemperature() override;
+    double getBarometerTemperatureAverage() override;
+    double getBarometer_hPa() override;
+    float getGyroscopeX_degPerSec() override;
+    float getGyroscopeY_degPerSec() override;
+    float getGyroscopeZ_degPerSec() override;
+    float getAccelometer_xAxis() override;
+    float getAccelometer_yAxis() override;
+    float getAccelometer_zAxis() override;
+    float getMagnetometerMicroT_xAxis() override;
+    float getMagnetometerMicroT_yAxis() override;
+    float getMagnetometerMicroT_zAxis() override;
+    float getRotationX() override;
+    float getRotationY() override;
+    float getRotationZ() override;
+    float getAltitude() override;
+
+    QList<SensorTagDataProvider*> m_dataProviders;
 };
 
 #endif // DEMODATAPROVIDERPOOL_H

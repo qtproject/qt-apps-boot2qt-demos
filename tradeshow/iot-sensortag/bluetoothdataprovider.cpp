@@ -87,7 +87,6 @@ bool BluetoothDataProvider::startDataFetching()
         timer.setSingleShot(true);
         connect(&timer, &QTimer::timeout, this, &BluetoothDataProvider::startServiceScan);
         timer.start();
-        qCDebug(boot2QtDemos) << "Active Device is now " << activeDevice->getName() << " at "<< activeDevice->getAddress();
     }
     return true;
 }
@@ -217,6 +216,9 @@ void BluetoothDataProvider::updateState()
     switch (activeDevice->state()) {
     case BluetoothDevice::Disconnected:
         setState(Disconnected);
+        break;
+    case BluetoothDevice::Scanning:
+        setState(Scanning);
         break;
     case BluetoothDevice::Connected:
         setState(Connected);

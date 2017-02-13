@@ -119,7 +119,13 @@ void SensorTagDataProviderPool::updateProviderForCloud()
 void SensorTagDataProviderPool::deviceDiscoveryFinished()
 {
     m_deviceScanState = false;
+    finishScanning();
     emit scanFinished();
+}
+
+void SensorTagDataProviderPool::finishScanning()
+{
+    updateProviderForCloud();
 }
 
 void SensorTagDataProviderPool::btDeviceFound(const QBluetoothDeviceInfo &info)
@@ -143,7 +149,6 @@ void SensorTagDataProviderPool::btDeviceFound(const QBluetoothDeviceInfo &info)
             m_dataProviders.append(dataProvider);
             emit providerConnected(d->getAddress());
             emit dataProvidersChanged();
-            updateProviderForCloud();
             connect(dataProvider, &SensorTagDataProvider::stateChanged, this, &SensorTagDataProviderPool::handleStateChange);
         }
     }
@@ -153,14 +158,13 @@ void SensorTagDataProviderPool::handleStateChange()
 {
     SensorTagDataProvider *provider = static_cast<SensorTagDataProvider*>(sender());
 
-    qCDebug(boot2QtDemos) << provider->state();
-
     switch (provider->state()) {
     case SensorTagDataProvider::Disconnected:
         updateProviderForCloud();
         emit providerDisconnected(provider->id());
         break;
     case SensorTagDataProvider::Connected:
+        updateProviderForCloud();
         emit providerConnected(provider->id());
         break;
     case SensorTagDataProvider::Error:
