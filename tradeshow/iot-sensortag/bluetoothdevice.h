@@ -181,6 +181,11 @@ private:
     QLowEnergyService* humidityService;
     QLowEnergyService* lightService;
     QLowEnergyService* motionService;
+    QLowEnergyHandle irTemperatureHandle;
+    QLowEnergyHandle baroHandle;
+    QLowEnergyHandle humidityHandle;
+    QLowEnergyHandle lightHandle;
+    QLowEnergyHandle motionHandle;
     DeviceState m_deviceState;
     bool m_temperatureMeasurementStarted;
     bool m_barometerMeasurementStarted;

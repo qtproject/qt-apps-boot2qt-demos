@@ -296,6 +296,7 @@ void BluetoothDevice::temperatureDetailsDiscovered(QLowEnergyService::ServiceSta
             if (id.toString().contains("f000aa01-0451-4000-b000-000000000000")) {
                 //RN
                 irTemperatureService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
+                irTemperatureHandle = characteristic.handle();
             }
             if (id.toString().contains("f000aa02-0451-4000-b000-000000000000")) {
                 //RW
@@ -328,6 +329,7 @@ void BluetoothDevice::barometerDetailsDiscovered(QLowEnergyService::ServiceState
 
           if (id.toString().contains("f000aa41-0451-4000-b000-000000000000")) {
               baroService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
+              baroHandle = characteristic.handle();
           }
           if (id.toString().contains("f000aa42-0451-4000-b000-000000000000")) {
               baroService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse); // Start
@@ -359,6 +361,7 @@ void BluetoothDevice::humidityDetailsDiscovered(QLowEnergyService::ServiceState 
 
           if (id.toString().contains("f000aa21-0451-4000-b000-000000000000")) {
               humidityService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
+              humidityHandle = characteristic.handle();
           }
           if (id.toString().contains("f000aa22-0451-4000-b000-000000000000")) {
               humidityService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse); // Start
@@ -390,6 +393,7 @@ void BluetoothDevice::lightIntensityDetailsDiscovered(QLowEnergyService::Service
 
           if (id.toString().contains("f000aa71-0451-4000-b000-000000000000")) {
               lightService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
+              lightHandle = characteristic.handle();
           }
           if (id.toString().contains("f000aa72-0451-4000-b000-000000000000")) {
               lightService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse); // Start
@@ -424,6 +428,7 @@ void BluetoothDevice::motionDetailsDiscovered(QLowEnergyService::ServiceState ne
 
           if (id.toString().contains("f000aa81-0451-4000-b000-000000000000")) {
               motionService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
+              motionHandle = characteristic.handle();
           }
           if (id.toString().contains("f000aa82-0451-4000-b000-000000000000")) {
               motionService->writeCharacteristic(characteristic, QByteArray::fromHex(MOVEMENT_ENABLE_SENSORS_BITMASK_VALUE), QLowEnergyService::WriteWithResponse);
@@ -438,27 +443,19 @@ void BluetoothDevice::motionDetailsDiscovered(QLowEnergyService::ServiceState ne
 
 void BluetoothDevice::characteristicsRead(const QLowEnergyCharacteristic &info, const QByteArray &value)
 {
-    switch (info.handle())
-    {
-    case 0x0021:
+    const QLowEnergyHandle handle = info.handle();
+    if (handle == irTemperatureHandle)
         irTemperatureReceived(value);
-        break;
-    case 0x0029:
+    else if (handle == humidityHandle)
         humidityReceived(value);
-        break;
-    case 0x0031:
+    else if (handle == baroHandle)
         barometerReceived(value);
-        break;
-    case 0x0039:
+    else if (handle == motionHandle)
         motionReceived(value);
-        break;
-    case 0x0041:
+    else if (handle == lightHandle)
         lightIntensityReceived(value);
-        break;
-    default:
+    else
         qWarning() << "Invalid handle" << info.handle() << "in characteristicsRead!";
-        break;
-    }
 }
 
 void BluetoothDevice::setState(BluetoothDevice::DeviceState state)
