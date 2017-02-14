@@ -141,6 +141,7 @@ BaseChart {
                 axisY: valueAxisY
                 color: xColor
                 name: "Magnet X"
+                useOpenGL: true
             }
             SplineSeries {
                 id: magnSeriesY
@@ -148,6 +149,7 @@ BaseChart {
                 axisY: valueAxisY
                 color: yColor
                 name: "Magnet Y"
+                useOpenGL: true
             }
             SplineSeries {
                 id: magnSeriesZ
@@ -155,6 +157,7 @@ BaseChart {
                 axisY: valueAxisY
                 color: zColor
                 name: "Magnet Z"
+                useOpenGL: true
             }
         }
 

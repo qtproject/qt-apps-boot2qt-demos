@@ -140,6 +140,7 @@ BaseChart {
                 axisY: valueAxisY
                 color: xColor
                 name: "Gyro X"
+                useOpenGL: true
             }
             SplineSeries {
                 id: gyroSeriesY
@@ -147,6 +148,7 @@ BaseChart {
                 axisY: valueAxisY
                 color: yColor
                 name: "Gyro Y"
+                useOpenGL: true
             }
             SplineSeries {
                 id: gyroSeriesZ
@@ -154,6 +156,7 @@ BaseChart {
                 axisY: valueAxisY
                 color: zColor
                 name: "Gyro Z"
+                useOpenGL: true
             }
         }
 
