@@ -159,7 +159,7 @@ void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
             return;
         }
         connect(irTemperatureService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::temperatureDetailsDiscovered);
-        connect(irTemperatureService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        connect(irTemperatureService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::updateTemperature);
         irTemperatureService->discoverDetails();
     } else if (serviceUuid == QBluetoothUuid(QLatin1String(BAROMETER_SERVICE_UUID))) {
         qCDebug(boot2QtDemos) << "Found barometer service.";
@@ -169,7 +169,7 @@ void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
             return;
         }
         connect(baroService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::barometerDetailsDiscovered);
-        connect(baroService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        connect(baroService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::updatePressure);
         baroService->discoverDetails();
     } else if (serviceUuid == QBluetoothUuid(QLatin1String(HUMIDITYSENSOR_SERVICE_UUID))) {
         qCDebug(boot2QtDemos) << "Found humidity service.";
@@ -179,7 +179,7 @@ void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
             return;
         }
         connect(humidityService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::humidityDetailsDiscovered);
-        connect(humidityService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        connect(humidityService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::updateHumidity);
         humidityService->discoverDetails();
     } else if (serviceUuid == QBluetoothUuid(QLatin1String(LIGHTSENSOR_SERVICE_UUID))) {
         qCDebug(boot2QtDemos) << "Found light service.";
@@ -189,7 +189,7 @@ void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
             return;
         }
         connect(lightService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::lightIntensityDetailsDiscovered);
-        connect(lightService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        connect(lightService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::updateLight);
         lightService->discoverDetails();
     } else if (serviceUuid == QBluetoothUuid(QLatin1String(MOTIONSENSOR_SERVICE_UUID))) {
         qCDebug(boot2QtDemos) << "Found motion service.";
@@ -199,7 +199,7 @@ void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
             return;
         }
         connect(motionService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::motionDetailsDiscovered);
-        connect(motionService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        connect(motionService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::updateMotionValue);
         motionService->discoverDetails();
     } else {
         qCDebug(boot2QtDemos) << "Found unhandled service with id" << serviceUuid << ".";
@@ -244,7 +244,6 @@ void BluetoothDevice::temperatureDetailsDiscovered(QLowEnergyService::ServiceSta
         QLowEnergyCharacteristic characteristic = irTemperatureService->characteristic(
                     QBluetoothUuid(QLatin1String("f000aa01-0451-4000-b000-000000000000")));
         if (characteristic.isValid()) {
-            irTemperatureHandle = characteristic.handle();
             const QLowEnergyDescriptor notificationDescriptor = characteristic.descriptor(
                         QBluetoothUuid::ClientCharacteristicConfiguration);
             if (notificationDescriptor.isValid())
@@ -283,7 +282,6 @@ void BluetoothDevice::barometerDetailsDiscovered(QLowEnergyService::ServiceState
         QLowEnergyCharacteristic characteristic = baroService->characteristic(
                     QBluetoothUuid(QLatin1String("f000aa41-0451-4000-b000-000000000000")));
         if (characteristic.isValid()) {
-            baroHandle = characteristic.handle();
             const QLowEnergyDescriptor notificationDescriptor = characteristic.descriptor(
                         QBluetoothUuid::ClientCharacteristicConfiguration);
             if (notificationDescriptor.isValid())
@@ -323,7 +321,6 @@ void BluetoothDevice::humidityDetailsDiscovered(QLowEnergyService::ServiceState 
         QLowEnergyCharacteristic characteristic = humidityService->characteristic(
                     QBluetoothUuid(QLatin1String("f000aa21-0451-4000-b000-000000000000")));
         if (characteristic.isValid()) {
-            humidityHandle = characteristic.handle();
             const QLowEnergyDescriptor notificationDescriptor = characteristic.descriptor(
                         QBluetoothUuid::ClientCharacteristicConfiguration);
             if (notificationDescriptor.isValid())
@@ -363,7 +360,6 @@ void BluetoothDevice::lightIntensityDetailsDiscovered(QLowEnergyService::Service
         QLowEnergyCharacteristic characteristic = lightService->characteristic(
                     QBluetoothUuid(QLatin1String("f000aa71-0451-4000-b000-000000000000")));
         if (characteristic.isValid()) {
-            lightHandle = characteristic.handle();
             const QLowEnergyDescriptor notificationDescriptor = characteristic.descriptor(
                         QBluetoothUuid::ClientCharacteristicConfiguration);
             if (notificationDescriptor.isValid())
@@ -406,7 +402,6 @@ void BluetoothDevice::motionDetailsDiscovered(QLowEnergyService::ServiceState ne
         QLowEnergyCharacteristic characteristic = motionService->characteristic(
                     QBluetoothUuid(QLatin1String("f000aa81-0451-4000-b000-000000000000")));
         if (characteristic.isValid()) {
-            motionHandle = characteristic.handle();
             const QLowEnergyDescriptor notificationDescriptor = characteristic.descriptor(
                         QBluetoothUuid::ClientCharacteristicConfiguration);
             if (notificationDescriptor.isValid())
@@ -429,21 +424,29 @@ void BluetoothDevice::motionDetailsDiscovered(QLowEnergyService::ServiceState ne
     }
 }
 
-void BluetoothDevice::characteristicsRead(const QLowEnergyCharacteristic &info, const QByteArray &value)
+void BluetoothDevice::updateTemperature(const QLowEnergyCharacteristic &, const QByteArray &value)
 {
-    const QLowEnergyHandle handle = info.handle();
-    if (handle == irTemperatureHandle)
-        irTemperatureReceived(value);
-    else if (handle == humidityHandle)
-        humidityReceived(value);
-    else if (handle == baroHandle)
-        barometerReceived(value);
-    else if (handle == motionHandle)
-        motionReceived(value);
-    else if (handle == lightHandle)
-        lightIntensityReceived(value);
-    else
-        qWarning() << "Invalid handle" << info.handle() << "in characteristicsRead!";
+    irTemperatureReceived(value);
+}
+
+void BluetoothDevice::updatePressure(const QLowEnergyCharacteristic &, const QByteArray &value)
+{
+    barometerReceived(value);
+}
+
+void BluetoothDevice::updateHumidity(const QLowEnergyCharacteristic &, const QByteArray &value)
+{
+    humidityReceived(value);
+}
+
+void BluetoothDevice::updateLight(const QLowEnergyCharacteristic &, const QByteArray &value)
+{
+    lightIntensityReceived(value);
+}
+
+void BluetoothDevice::updateMotionValue(const QLowEnergyCharacteristic &, const QByteArray &value)
+{
+    motionReceived(value);
 }
 
 void BluetoothDevice::setState(BluetoothDevice::DeviceState state)

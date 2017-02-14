@@ -148,8 +148,16 @@ private slots:
     void deviceDisconnected();
 
     // QLowEnergyService related
-    void characteristicsRead(const QLowEnergyCharacteristic &info,
-                             const QByteArray &value);
+    void updateTemperature(const QLowEnergyCharacteristic &info,
+                         const QByteArray &value);
+    void updatePressure(const QLowEnergyCharacteristic &info,
+                         const QByteArray &value);
+    void updateHumidity(const QLowEnergyCharacteristic &info,
+                         const QByteArray &value);
+    void updateLight(const QLowEnergyCharacteristic &info,
+                         const QByteArray &value);
+    void updateMotionValue(const QLowEnergyCharacteristic &info,
+                         const QByteArray &value);
 
 private:
     void setState(DeviceState state);
@@ -170,11 +178,6 @@ private:
     QLowEnergyService* humidityService;
     QLowEnergyService* lightService;
     QLowEnergyService* motionService;
-    QLowEnergyHandle irTemperatureHandle;
-    QLowEnergyHandle baroHandle;
-    QLowEnergyHandle humidityHandle;
-    QLowEnergyHandle lightHandle;
-    QLowEnergyHandle motionHandle;
     DeviceState m_deviceState;
     bool m_temperatureMeasurementStarted;
     bool m_barometerMeasurementStarted;
