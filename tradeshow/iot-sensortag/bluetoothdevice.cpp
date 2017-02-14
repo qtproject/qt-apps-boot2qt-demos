@@ -100,9 +100,7 @@ BluetoothDevice::~BluetoothDevice()
 {
     delete discoveryAgent;
     delete controller;
-    qDeleteAll(m_services);
     qDeleteAll(m_characteristics);
-    m_services.clear();
     m_characteristics.clear();
 }
 QString BluetoothDevice::getAddress() const
@@ -121,11 +119,6 @@ QString BluetoothDevice::getName() const
     return m_deviceInfo.name();
 }
 
-QVariant BluetoothDevice::getServices()
-{
-    return QVariant::fromValue(m_services);
-}
-
 QVariant BluetoothDevice::getCharacteristics()
 {
     return QVariant::fromValue(m_characteristics);
@@ -136,9 +129,6 @@ void BluetoothDevice::scanServices()
     qDeleteAll(m_characteristics);
     m_characteristics.clear();
     emit characteristicsUpdated();
-    qDeleteAll(m_services);
-    m_services.clear();
-    emit servicesUpdated();
 
     statusUpdated("(Connecting to device...)");
 
@@ -172,109 +162,94 @@ void BluetoothDevice::scanServices()
 
 void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
 {
-    QLowEnergyService *service = controller->createServiceObject(serviceUuid);
-    if (!service) {
-        qWarning() << "Cannot create service for uuid";
-        return;
-    }
-    ServiceInfo *serv = new ServiceInfo(service);
-    m_services.append(serv);
-
-    emit servicesUpdated();
 }
 
 void BluetoothDevice::serviceScanDone()
 {
     statusUpdated("(Service scan done!)");
-    // force UI in case we didn't find anything
-    if (m_services.isEmpty())
-        emit servicesUpdated();
-    else {
-        qCDebug(boot2QtDemos) << "ServiceScan done.";
-        if (!irTemperatureService)
-        {
-            QBluetoothUuid uuid;
-            for (int i = 0; i < controller->services().count(); i++) {
-                QBluetoothUuid id = controller->services().at(i);
-                if (id.toString().contains("f000aa00-0451-4000-b000-000000000000")) {
-                    uuid = id;
-                    break;
-                }
+    qCDebug(boot2QtDemos) << "ServiceScan done.";
+    if (!irTemperatureService)
+    {
+        QBluetoothUuid uuid;
+        for (int i = 0; i < controller->services().count(); i++) {
+            QBluetoothUuid id = controller->services().at(i);
+            if (id.toString().contains("f000aa00-0451-4000-b000-000000000000")) {
+                uuid = id;
+                break;
             }
-
-            irTemperatureService = controller->createServiceObject(uuid);
-            connect(irTemperatureService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::temperatureDetailsDiscovered);
-            connect(irTemperatureService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
-            irTemperatureService->discoverDetails();
-        }
-        if (!baroService)
-        {
-            QBluetoothUuid uuid;
-            for (int i = 0; i < controller->services().count(); i++) {
-                QBluetoothUuid id = controller->services().at(i);
-                if (id.toString().contains("f000aa40-0451-4000-b000-000000000000")) {
-                    uuid = id;
-                    break;
-                }
-            }
-
-            baroService = controller->createServiceObject(uuid);
-            connect(baroService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::barometerDetailsDiscovered);
-            connect(baroService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
-            baroService->discoverDetails();
-        }
-        if (!humidityService)
-        {
-            QBluetoothUuid uuid;
-            for (int i = 0; i < controller->services().count(); i++) {
-                QBluetoothUuid id = controller->services().at(i);
-                if (id.toString().contains("f000aa20-0451-4000-b000-000000000000")) {
-                    uuid = id;
-                    break;
-                }
-
-            }
-
-            humidityService = controller->createServiceObject(uuid);
-            connect(humidityService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::humidityDetailsDiscovered);
-            connect(humidityService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
-            humidityService->discoverDetails();
         }
 
-        if (!lightService)
-        {
-            QBluetoothUuid uuid;
-            for (int i = 0; i < controller->services().count(); i++) {
-                QBluetoothUuid id = controller->services().at(i);
-                if (id.toString().contains("f000aa70-0451-4000-b000-000000000000")) {
-                    uuid = id;
-                    break;
-                }
-
-            }
-
-            lightService = controller->createServiceObject(uuid);
-            connect(lightService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::lightIntensityDetailsDiscovered);
-            connect(lightService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
-            lightService->discoverDetails();
-        }
-        if (!motionService)
-        {
-            QBluetoothUuid uuid;
-            for (int i = 0; i < controller->services().count(); i++) {
-                QBluetoothUuid id = controller->services().at(i);
-                if (id.toString().contains("f000aa80-0451-4000-b000-000000000000")) {
-                    uuid = id;
-                    break;
-                }
-            }
-            motionService = controller->createServiceObject(uuid);
-            connect(motionService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::motionDetailsDiscovered);
-            connect(motionService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
-            motionService->discoverDetails();
-        }
-        attitudeChangeInterval.restart();
+        irTemperatureService = controller->createServiceObject(uuid);
+        connect(irTemperatureService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::temperatureDetailsDiscovered);
+        connect(irTemperatureService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        irTemperatureService->discoverDetails();
     }
+    if (!baroService)
+    {
+        QBluetoothUuid uuid;
+        for (int i = 0; i < controller->services().count(); i++) {
+            QBluetoothUuid id = controller->services().at(i);
+            if (id.toString().contains("f000aa40-0451-4000-b000-000000000000")) {
+                uuid = id;
+                break;
+            }
+        }
+
+        baroService = controller->createServiceObject(uuid);
+        connect(baroService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::barometerDetailsDiscovered);
+        connect(baroService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        baroService->discoverDetails();
+    }
+    if (!humidityService)
+    {
+        QBluetoothUuid uuid;
+        for (int i = 0; i < controller->services().count(); i++) {
+            QBluetoothUuid id = controller->services().at(i);
+            if (id.toString().contains("f000aa20-0451-4000-b000-000000000000")) {
+                uuid = id;
+                break;
+            }
+
+        }
+
+        humidityService = controller->createServiceObject(uuid);
+        connect(humidityService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::humidityDetailsDiscovered);
+        connect(humidityService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        humidityService->discoverDetails();
+    }
+    if (!lightService)
+    {
+        QBluetoothUuid uuid;
+        for (int i = 0; i < controller->services().count(); i++) {
+            QBluetoothUuid id = controller->services().at(i);
+            if (id.toString().contains("f000aa70-0451-4000-b000-000000000000")) {
+                uuid = id;
+                break;
+            }
+
+        }
+
+        lightService = controller->createServiceObject(uuid);
+        connect(lightService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::lightIntensityDetailsDiscovered);
+        connect(lightService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        lightService->discoverDetails();
+    }
+    if (!motionService)
+    {
+        QBluetoothUuid uuid;
+        for (int i = 0; i < controller->services().count(); i++) {
+            QBluetoothUuid id = controller->services().at(i);
+            if (id.toString().contains("f000aa80-0451-4000-b000-000000000000")) {
+                uuid = id;
+                break;
+            }
+        }
+        motionService = controller->createServiceObject(uuid);
+        connect(motionService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::motionDetailsDiscovered);
+        connect(motionService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        motionService->discoverDetails();
+    }
+    attitudeChangeInterval.restart();
 }
 
 void BluetoothDevice::temperatureDetailsDiscovered(QLowEnergyService::ServiceState newstate)
@@ -593,42 +568,6 @@ void BluetoothDevice::motionReceived(const QByteArray &value)
     data.magnetometer_y = double(values.magnetomy);
     data.magnetometer_z = double(values.magnetomz);
     emit motionChanged(data);
-}
-
-void BluetoothDevice::connectToService(const QString &uuid)
-{
-    QLowEnergyService *service = 0;
-    for (int i = 0; i < m_services.size(); i++) {
-        ServiceInfo *serviceInfo = (ServiceInfo*)m_services.at(i);
-        if (serviceInfo->getUuid() == uuid) {
-            service = serviceInfo->service();
-            break;
-        }
-    }
-
-    if (!service)
-        return;
-
-    qDeleteAll(m_characteristics);
-    m_characteristics.clear();
-    emit characteristicsUpdated();
-
-    if (service->state() == QLowEnergyService::DiscoveryRequired) {
-        connect(service, SIGNAL(stateChanged(QLowEnergyService::ServiceState)),
-                this, SLOT(serviceDetailsDiscovered(QLowEnergyService::ServiceState)));
-        service->discoverDetails();
-        statusUpdated("(Discovering details...)");
-        return;
-    }
-
-    //discovery already done
-    const QList<QLowEnergyCharacteristic> chars = service->characteristics();
-    foreach (const QLowEnergyCharacteristic &ch, chars) {
-        CharacteristicInfo *cInfo = new CharacteristicInfo(ch);
-        m_characteristics.append(cInfo);
-    }
-
-    QTimer::singleShot(0, this, SIGNAL(characteristicsUpdated()));
 }
 
 void BluetoothDevice::deviceConnected()
