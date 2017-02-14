@@ -289,24 +289,30 @@ void BluetoothDevice::temperatureDetailsDiscovered(QLowEnergyService::ServiceSta
             qCDebug(boot2QtDemos) << "error while writing - temperature:" << newError;
         });
 
-        for (int i = 0; i < irTemperatureService->characteristics().count(); i++ ) {
-            QLowEnergyCharacteristic characteristic = irTemperatureService->characteristics().at(i);
-            QBluetoothUuid id = characteristic.uuid();
-
-            if (id.toString().contains("f000aa01-0451-4000-b000-000000000000")) {
-                //RN
-                irTemperatureService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
-                irTemperatureHandle = characteristic.handle();
-            }
-            if (id.toString().contains("f000aa02-0451-4000-b000-000000000000")) {
-                //RW
-                irTemperatureService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse); // Start
-            }
-            if (id.toString().contains("f000aa03-0451-4000-b000-000000000000")) {
-                //RW
-                irTemperatureService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_SLOW_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
-            }
+        // data characteristic
+        QLowEnergyCharacteristic characteristic = irTemperatureService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa01-0451-4000-b000-000000000000")));
+        if (characteristic.isValid()) {
+            irTemperatureHandle = characteristic.handle();
+            const QLowEnergyDescriptor notificationDescriptor = characteristic.descriptor(
+                        QBluetoothUuid::ClientCharacteristicConfiguration);
+            if (notificationDescriptor.isValid())
+                irTemperatureService->writeDescriptor(notificationDescriptor, QByteArray::fromHex(ENABLE_NOTIF_STR));
         }
+
+        // configuration characteristic
+        characteristic = irTemperatureService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa02-0451-4000-b000-000000000000")));
+        if (characteristic.isValid())
+            irTemperatureService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse);
+
+        // timeout characteristic
+        characteristic = irTemperatureService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa03-0451-4000-b000-000000000000")));
+        if (characteristic.isValid()) {
+            irTemperatureService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_SLOW_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
+        }
+
         m_temperatureMeasurementStarted = true;
     }
 }
@@ -322,22 +328,30 @@ void BluetoothDevice::barometerDetailsDiscovered(QLowEnergyService::ServiceState
             qCDebug(boot2QtDemos) << "error while writing - barometer:" << newError;
         });
 
-        for (int i = 0; i < baroService->characteristics().count(); i++ ) {
-          QLowEnergyCharacteristic characteristic = baroService->characteristics().at(i);
-          QBluetoothUuid id = characteristic.uuid();
-          qCDebug(boot2QtDemos)<<"characteristic:"<<id.toString();
-
-          if (id.toString().contains("f000aa41-0451-4000-b000-000000000000")) {
-              baroService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
-              baroHandle = characteristic.handle();
-          }
-          if (id.toString().contains("f000aa42-0451-4000-b000-000000000000")) {
-              baroService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse); // Start
-          }
-          if (id.toString().contains("f000aa44-0451-4000-b000-000000000000")) {
-              baroService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_MEDIUM_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
-          }
+        // data characteristic
+        QLowEnergyCharacteristic characteristic = baroService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa41-0451-4000-b000-000000000000")));
+        if (characteristic.isValid()) {
+            baroHandle = characteristic.handle();
+            const QLowEnergyDescriptor notificationDescriptor = characteristic.descriptor(
+                        QBluetoothUuid::ClientCharacteristicConfiguration);
+            if (notificationDescriptor.isValid())
+                baroService->writeDescriptor(notificationDescriptor, QByteArray::fromHex(ENABLE_NOTIF_STR));
         }
+
+        // configuration characteristic
+        characteristic = baroService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa42-0451-4000-b000-000000000000")));
+        if (characteristic.isValid())
+            baroService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse);
+
+        // timeout characteristic
+        characteristic = baroService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa44-0451-4000-b000-000000000000")));
+        if (characteristic.isValid()) {
+            baroService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_MEDIUM_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 500 ms
+        }
+
         m_barometerMeasurementStarted = true;
     }
 }
@@ -354,22 +368,30 @@ void BluetoothDevice::humidityDetailsDiscovered(QLowEnergyService::ServiceState 
             qCDebug(boot2QtDemos) << "error while writing - humidity:" << newError;
         });
 
-        for (int i = 0; i < humidityService->characteristics().count(); i++ ) {
-          QLowEnergyCharacteristic characteristic = humidityService->characteristics().at(i);
-          QBluetoothUuid id = characteristic.uuid();
-          qCDebug(boot2QtDemos)<<"characteristic:"<<id.toString();
-
-          if (id.toString().contains("f000aa21-0451-4000-b000-000000000000")) {
-              humidityService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
-              humidityHandle = characteristic.handle();
-          }
-          if (id.toString().contains("f000aa22-0451-4000-b000-000000000000")) {
-              humidityService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse); // Start
-          }
-          if (id.toString().contains("f000aa23-0451-4000-b000-000000000000")) {
-              humidityService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_SLOW_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
-          }
+        // data characteristic
+        QLowEnergyCharacteristic characteristic = humidityService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa21-0451-4000-b000-000000000000")));
+        if (characteristic.isValid()) {
+            humidityHandle = characteristic.handle();
+            const QLowEnergyDescriptor notificationDescriptor = characteristic.descriptor(
+                        QBluetoothUuid::ClientCharacteristicConfiguration);
+            if (notificationDescriptor.isValid())
+                humidityService->writeDescriptor(notificationDescriptor, QByteArray::fromHex(ENABLE_NOTIF_STR));
         }
+
+        // configuration characteristic
+        characteristic = humidityService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa22-0451-4000-b000-000000000000")));
+        if (characteristic.isValid())
+            humidityService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse);
+
+        // timeout characteristic
+        characteristic = humidityService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa23-0451-4000-b000-000000000000")));
+        if (characteristic.isValid()) {
+            humidityService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_SLOW_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 500 ms
+        }
+
         m_humidityMeasurementStarted = true;
     }
 }
@@ -386,22 +408,30 @@ void BluetoothDevice::lightIntensityDetailsDiscovered(QLowEnergyService::Service
             qCDebug(boot2QtDemos) << "error while writing - light intensity:" << newError;
         });
 
-        for (int i = 0; i < lightService->characteristics().count(); i++ ) {
-          QLowEnergyCharacteristic characteristic = lightService->characteristics().at(i);
-          QBluetoothUuid id = characteristic.uuid();
-          qCDebug(boot2QtDemos)<<"characteristic:"<<id.toString();
-
-          if (id.toString().contains("f000aa71-0451-4000-b000-000000000000")) {
-              lightService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
-              lightHandle = characteristic.handle();
-          }
-          if (id.toString().contains("f000aa72-0451-4000-b000-000000000000")) {
-              lightService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse); // Start
-          }
-          if (id.toString().contains("f000aa73-0451-4000-b000-000000000000")) {
-              lightService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_MEDIUM_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 1 second
-          }
+        // data characteristic
+        QLowEnergyCharacteristic characteristic = lightService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa71-0451-4000-b000-000000000000")));
+        if (characteristic.isValid()) {
+            lightHandle = characteristic.handle();
+            const QLowEnergyDescriptor notificationDescriptor = characteristic.descriptor(
+                        QBluetoothUuid::ClientCharacteristicConfiguration);
+            if (notificationDescriptor.isValid())
+                lightService->writeDescriptor(notificationDescriptor, QByteArray::fromHex(ENABLE_NOTIF_STR));
         }
+
+        // configuration characteristic
+        characteristic = lightService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa72-0451-4000-b000-000000000000")));
+        if (characteristic.isValid())
+            lightService->writeCharacteristic(characteristic, QByteArray::fromHex(START_MEASUREMENT_STR), QLowEnergyService::WriteWithResponse);
+
+        // timeout characteristic
+        characteristic = lightService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa73-0451-4000-b000-000000000000")));
+        if (characteristic.isValid()) {
+            lightService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_MEDIUM_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse); // Period 500 ms
+        }
+
         m_lightIntensityMeasurementStarted = true;
     }
 }
@@ -421,21 +451,28 @@ void BluetoothDevice::motionDetailsDiscovered(QLowEnergyService::ServiceState ne
             qCDebug(boot2QtDemos) << "error while writing - gyro:" << newError;
         });
 
-        for (int i = 0; i < motionService->characteristics().count(); i++ ) {
-          QLowEnergyCharacteristic characteristic = motionService->characteristics().at(i);
-          QBluetoothUuid id = characteristic.uuid();
-          qCDebug(boot2QtDemos)<<"characteristic:"<<id.toString();
+        // data characteristic
+        QLowEnergyCharacteristic characteristic = motionService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa81-0451-4000-b000-000000000000")));
+        if (characteristic.isValid()) {
+            motionHandle = characteristic.handle();
+            const QLowEnergyDescriptor notificationDescriptor = characteristic.descriptor(
+                        QBluetoothUuid::ClientCharacteristicConfiguration);
+            if (notificationDescriptor.isValid())
+                motionService->writeDescriptor(notificationDescriptor, QByteArray::fromHex(ENABLE_NOTIF_STR));
+        }
 
-          if (id.toString().contains("f000aa81-0451-4000-b000-000000000000")) {
-              motionService->writeDescriptor(characteristic.descriptors().at(0), QByteArray::fromHex(ENABLE_NOTIF_STR));
-              motionHandle = characteristic.handle();
-          }
-          if (id.toString().contains("f000aa82-0451-4000-b000-000000000000")) {
-              motionService->writeCharacteristic(characteristic, QByteArray::fromHex(MOVEMENT_ENABLE_SENSORS_BITMASK_VALUE), QLowEnergyService::WriteWithResponse);
-          }
-          if (id.toString().contains("f000aa83-0451-4000-b000-000000000000")) {
-              motionService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_RAPID_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse);
-          }
+        // configuration characteristic
+        characteristic = motionService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa82-0451-4000-b000-000000000000")));
+        if (characteristic.isValid())
+            motionService->writeCharacteristic(characteristic, QByteArray::fromHex(MOVEMENT_ENABLE_SENSORS_BITMASK_VALUE), QLowEnergyService::WriteWithResponse);
+
+        // timeout characteristic
+        characteristic = motionService->characteristic(
+                    QBluetoothUuid(QLatin1String("f000aa83-0451-4000-b000-000000000000")));
+        if (characteristic.isValid()) {
+            motionService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_RAPID_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse);
         }
         m_motionMeasurementStarted = true;
     }
