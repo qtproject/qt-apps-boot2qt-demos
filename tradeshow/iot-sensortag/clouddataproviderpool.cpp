@@ -58,6 +58,9 @@ CloudDataProviderPool::CloudDataProviderPool(QObject* parent)
 
 void CloudDataProviderPool::startScanning()
 {
+    qDeleteAll(m_dataProviders);
+    m_dataProviders.clear();
+
     m_dataProviders.push_back(new CloudDataProvider("CLOUD_PROVIDER", this));
     m_dataProviders.at(0)->startDataFetching();
     emit providerConnected("MS_AZURE_CLOUD");

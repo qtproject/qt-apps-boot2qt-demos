@@ -79,6 +79,11 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.margins: 8
         source: pathPrefix + "Toolbar/icon_topbar_sensor.png"
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: dataProviderPool.startScanning()
+        }
     }
 
     ListView {

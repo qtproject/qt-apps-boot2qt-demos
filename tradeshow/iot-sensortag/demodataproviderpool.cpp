@@ -59,6 +59,9 @@ DemoDataProviderPool::DemoDataProviderPool(QObject *parent)
 
 void DemoDataProviderPool::startScanning()
 {
+    qDeleteAll(m_dataProviders);
+    m_dataProviders.clear();
+
     if (m_mockData) {
         MockDataProvider* p = new MockDataProvider("MOCK_PROVIDER_1", this);
         p->setTagType(SensorTagDataProvider::ObjectTemperature | SensorTagDataProvider::AmbientTemperature | SensorTagDataProvider::Rotation);
