@@ -104,7 +104,6 @@ class BluetoothDevice: public QObject
     Q_PROPERTY(QString deviceAddress READ getAddress CONSTANT)
     Q_PROPERTY(DeviceState state READ state NOTIFY stateChanged)
 
-    Q_PROPERTY(QVariant characteristicList READ getCharacteristics NOTIFY characteristicsUpdated)
     Q_PROPERTY(bool useRandomAddress MEMBER randomAddress NOTIFY randomAddressChanged)
 
 public:
@@ -118,11 +117,9 @@ public:
     QString getAddress() const;
     QString getName() const;
 
-    QVariant getCharacteristics();
     DeviceState state() const;
 
 signals:
-    void characteristicsUpdated();
     void updateChanged();
     void stateChanged();
     void randomAddressChanged();
@@ -151,8 +148,6 @@ private slots:
     void deviceDisconnected();
 
     // QLowEnergyService related
-    void serviceDetailsDiscovered(QLowEnergyService::ServiceState newState);
-
     void characteristicsRead(const QLowEnergyCharacteristic &info,
                              const QByteArray &value);
 
@@ -168,7 +163,6 @@ private:
     double convertIrTemperatureAPIReadingToCelsius(quint16 rawReading);
 
     QBluetoothDeviceDiscoveryAgent *discoveryAgent;
-    QList<QObject*> m_characteristics;
     QString m_previousAddress;
     QLowEnergyController *controller;
     QLowEnergyService* irTemperatureService;

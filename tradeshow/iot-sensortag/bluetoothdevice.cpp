@@ -100,8 +100,6 @@ BluetoothDevice::~BluetoothDevice()
 {
     delete discoveryAgent;
     delete controller;
-    qDeleteAll(m_characteristics);
-    m_characteristics.clear();
 }
 QString BluetoothDevice::getAddress() const
 {
@@ -119,17 +117,8 @@ QString BluetoothDevice::getName() const
     return m_deviceInfo.name();
 }
 
-QVariant BluetoothDevice::getCharacteristics()
-{
-    return QVariant::fromValue(m_characteristics);
-}
-
 void BluetoothDevice::scanServices()
 {
-    qDeleteAll(m_characteristics);
-    m_characteristics.clear();
-    emit characteristicsUpdated();
-
     statusUpdated("(Connecting to device...)");
 
     if (controller && m_previousAddress != getAddress()) {
@@ -587,34 +576,6 @@ void BluetoothDevice::deviceDisconnected()
 {
     statusUpdated("Disconnect from device");
     setState(BluetoothDevice::Disconnected);
-}
-
-void BluetoothDevice::serviceDetailsDiscovered(QLowEnergyService::ServiceState newState)
-{
-    if (newState != QLowEnergyService::ServiceDiscovered) {
-        // do not hang in "Scanning for characteristics" mode forever
-        // in case the service discovery failed
-        // We have to queue the signal up to give UI time to even enter
-        // the above mode
-        if (newState != QLowEnergyService::DiscoveringServices) {
-            QMetaObject::invokeMethod(this, "characteristicsUpdated",
-                                      Qt::QueuedConnection);
-        }
-        return;
-    }
-
-    QLowEnergyService *service = qobject_cast<QLowEnergyService *>(sender());
-    if (!service)
-        return;
-
-
-    const QList<QLowEnergyCharacteristic> chars = service->characteristics();
-    foreach (const QLowEnergyCharacteristic &ch, chars) {
-        CharacteristicInfo *cInfo = new CharacteristicInfo(ch);
-        m_characteristics.append(cInfo);
-    }
-
-    emit characteristicsUpdated();
 }
 
 BluetoothDevice::DeviceState BluetoothDevice::state() const
