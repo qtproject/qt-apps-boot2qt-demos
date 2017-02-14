@@ -52,6 +52,13 @@
 
 // NOTE! This file should only contain defines, no implementation
 
+// These service UUIDs come from the Texas Intruments SensorTag Bluetooth LE API specification
+#define IRTEMPERATURESENSOR_SERVICE_UUID "f00aa00-0451-4000-b000-000000000000"
+#define BAROMETER_SERVICE_UUID "f000aa40-0451-4000-b000-000000000000"
+#define HUMIDITYSENSOR_SERVICE_UUID "f000aa20-0451-4000-b000-000000000000"
+#define LIGHTSENSOR_SERVICE_UUID "f000aa70-0451-4000-b000-000000000000"
+#define MOTIONSENSOR_SERVICE_UUID "f000aa80-0451-4000-b000-000000000000"
+
 /* Timeouts (values between 100ms and 2500ms allowed by API specification.
  * API values are passed in hex as strings and multiplied by 10 in SensorTag.
  * These values can be modifed as needed by performance.

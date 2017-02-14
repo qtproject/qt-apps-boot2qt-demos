@@ -162,6 +162,59 @@ void BluetoothDevice::scanServices()
 
 void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
 {
+    if (serviceUuid == QBluetoothUuid(QLatin1String(IRTEMPERATURESENSOR_SERVICE_UUID))) {
+        qCDebug(boot2QtDemos) << "Found infrared temperature service.";
+        irTemperatureService = controller->createServiceObject(serviceUuid);
+        if (!irTemperatureService) {
+            qWarning() << "Could not create infrared temperature service object.";
+            return;
+        }
+        connect(irTemperatureService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::temperatureDetailsDiscovered);
+        connect(irTemperatureService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        irTemperatureService->discoverDetails();
+    } else if (serviceUuid == QBluetoothUuid(QLatin1String(BAROMETER_SERVICE_UUID))) {
+        qCDebug(boot2QtDemos) << "Found barometer service.";
+        baroService = controller->createServiceObject(serviceUuid);
+        if (!baroService) {
+            qWarning() << "Could not create barometer service object.";
+            return;
+        }
+        connect(baroService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::barometerDetailsDiscovered);
+        connect(baroService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        baroService->discoverDetails();
+    } else if (serviceUuid == QBluetoothUuid(QLatin1String(HUMIDITYSENSOR_SERVICE_UUID))) {
+        qCDebug(boot2QtDemos) << "Found humidity service.";
+        humidityService = controller->createServiceObject(serviceUuid);
+        if (!humidityService) {
+            qWarning() << "Could not create humidity service object.";
+            return;
+        }
+        connect(humidityService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::humidityDetailsDiscovered);
+        connect(humidityService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        humidityService->discoverDetails();
+    } else if (serviceUuid == QBluetoothUuid(QLatin1String(LIGHTSENSOR_SERVICE_UUID))) {
+        qCDebug(boot2QtDemos) << "Found light service.";
+        lightService = controller->createServiceObject(serviceUuid);
+        if (!lightService) {
+            qWarning() << "Could not create light service object.";
+            return;
+        }
+        connect(lightService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::lightIntensityDetailsDiscovered);
+        connect(lightService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        lightService->discoverDetails();
+    } else if (serviceUuid == QBluetoothUuid(QLatin1String(MOTIONSENSOR_SERVICE_UUID))) {
+        qCDebug(boot2QtDemos) << "Found motion service.";
+        motionService = controller->createServiceObject(serviceUuid);
+        if (!motionService) {
+            qWarning() << "Could not create motion service object.";
+            return;
+        }
+        connect(motionService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::motionDetailsDiscovered);
+        connect(motionService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
+        motionService->discoverDetails();
+    } else {
+        qCDebug(boot2QtDemos) << "Found unhandled service with id" << serviceUuid << ".";
+    }
 }
 
 void BluetoothDevice::serviceScanDone()
@@ -169,86 +222,20 @@ void BluetoothDevice::serviceScanDone()
     statusUpdated("(Service scan done!)");
     qCDebug(boot2QtDemos) << "ServiceScan done.";
     if (!irTemperatureService)
-    {
-        QBluetoothUuid uuid;
-        for (int i = 0; i < controller->services().count(); i++) {
-            QBluetoothUuid id = controller->services().at(i);
-            if (id.toString().contains("f000aa00-0451-4000-b000-000000000000")) {
-                uuid = id;
-                break;
-            }
-        }
+        qCDebug(boot2QtDemos) << "Infrared temperature service not found.";
 
-        irTemperatureService = controller->createServiceObject(uuid);
-        connect(irTemperatureService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::temperatureDetailsDiscovered);
-        connect(irTemperatureService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
-        irTemperatureService->discoverDetails();
-    }
     if (!baroService)
-    {
-        QBluetoothUuid uuid;
-        for (int i = 0; i < controller->services().count(); i++) {
-            QBluetoothUuid id = controller->services().at(i);
-            if (id.toString().contains("f000aa40-0451-4000-b000-000000000000")) {
-                uuid = id;
-                break;
-            }
-        }
+        qCDebug(boot2QtDemos) << "Barometer service not found.";
 
-        baroService = controller->createServiceObject(uuid);
-        connect(baroService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::barometerDetailsDiscovered);
-        connect(baroService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
-        baroService->discoverDetails();
-    }
     if (!humidityService)
-    {
-        QBluetoothUuid uuid;
-        for (int i = 0; i < controller->services().count(); i++) {
-            QBluetoothUuid id = controller->services().at(i);
-            if (id.toString().contains("f000aa20-0451-4000-b000-000000000000")) {
-                uuid = id;
-                break;
-            }
+        qCDebug(boot2QtDemos) << "Humidity service not found.";
 
-        }
-
-        humidityService = controller->createServiceObject(uuid);
-        connect(humidityService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::humidityDetailsDiscovered);
-        connect(humidityService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
-        humidityService->discoverDetails();
-    }
     if (!lightService)
-    {
-        QBluetoothUuid uuid;
-        for (int i = 0; i < controller->services().count(); i++) {
-            QBluetoothUuid id = controller->services().at(i);
-            if (id.toString().contains("f000aa70-0451-4000-b000-000000000000")) {
-                uuid = id;
-                break;
-            }
+        qCDebug(boot2QtDemos) << "Light service not found.";
 
-        }
-
-        lightService = controller->createServiceObject(uuid);
-        connect(lightService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::lightIntensityDetailsDiscovered);
-        connect(lightService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
-        lightService->discoverDetails();
-    }
     if (!motionService)
-    {
-        QBluetoothUuid uuid;
-        for (int i = 0; i < controller->services().count(); i++) {
-            QBluetoothUuid id = controller->services().at(i);
-            if (id.toString().contains("f000aa80-0451-4000-b000-000000000000")) {
-                uuid = id;
-                break;
-            }
-        }
-        motionService = controller->createServiceObject(uuid);
-        connect(motionService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::motionDetailsDiscovered);
-        connect(motionService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::characteristicsRead);
-        motionService->discoverDetails();
-    }
+        qCDebug(boot2QtDemos) << "Motion service not found.";
+
     attitudeChangeInterval.restart();
 }
 
