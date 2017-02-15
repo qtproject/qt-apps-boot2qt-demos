@@ -47,33 +47,55 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.6
-import QtQuick.Window 2.0
-import SensorTag.DataProvider 1.0
-import SensorTag.SeriesStorage 1.0
+#ifndef SERIESSTORAGE_H
+#define SERIESSTORAGE_H
 
-Window {
-    id: mainWindow
+#include "dataproviderpool.h"
 
-    property alias contentFile: contentLoader.source
-    property DataProviderPool dataProviderPool
-    property SeriesStorage seriesStorage
+#include <QObject>
+#include <QtCharts/QtCharts>
 
-    // Size defaults to the small display
-    width: 1920
-    height: 1080
-    visible: true
-    color: "black"
+class SeriesStorage : public QObject
+{
+    Q_OBJECT
+public:
+    explicit SeriesStorage(QObject *parent = nullptr);
 
-    Image {
-        source: "images/bg_blue.jpg"
-        anchors.fill: parent
-    }
+    void setDataProviderPool(DataProviderPool *pool);
+    Q_INVOKABLE void setTemperatureSeries(QAbstractSeries *series);
+    Q_INVOKABLE void setGyroSeries(QAbstractSeries *xSeries, QAbstractSeries *ySeries,
+                       QAbstractSeries *zSeries);
+    Q_INVOKABLE void setMagnetoMeterSeries(QAbstractSeries *xSeries, QAbstractSeries *ySeries,
+                       QAbstractSeries *zSeries);
+signals:
 
-    Loader {
-        id: contentLoader
+public slots:
+    void dataProviderPoolChanged();
 
-        anchors.fill: parent
-        anchors.centerIn: parent
-    }
-}
+    void changeRotationSeries();
+    void changeMagnetoSeries();
+    void changeTemperatureSeries();
+
+private:
+    DataProviderPool *m_providerPool;
+    SensorTagDataProvider *m_temperatureProvider{0};
+    SensorTagDataProvider *m_gyroProvider{0};
+    SensorTagDataProvider *m_magnetoProvider{0};
+    QSplineSeries *m_gyroX{0};
+    QSplineSeries *m_gyroY{0};
+    QSplineSeries *m_gyroZ{0};
+    QSplineSeries *m_magnetoX{0};
+    QSplineSeries *m_magnetoY{0};
+    QSplineSeries *m_magnetoZ{0};
+    QLineSeries *m_temperature{0};
+    QList<QPointF> m_gyroListX;
+    QList<QPointF> m_gyroListY;
+    QList<QPointF> m_gyroListZ;
+    QList<QPointF> m_magnetoListX;
+    QList<QPointF> m_magnetoListY;
+    QList<QPointF> m_magnetoListZ;
+    QList<QPointF> m_temperatureList;
+
+};
+
+#endif // SERIESSTORAGE_H

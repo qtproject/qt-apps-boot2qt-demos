@@ -55,7 +55,6 @@ import QtGraphicalEffects 1.0
 BaseChart {
     id: tempHolderRect
 
-    property int temperatureSeriesIndex: 0
     property int maxNumOfTempReadings: 30
     property real minimum: 10
     property real maximum: 40
@@ -77,29 +76,15 @@ BaseChart {
     content: Item {
         anchors.fill: parent
 
-        Component.onCompleted: {
-            // Initialize series
-            var i = 0
-            while (i < maxNumOfTempReadings) {
-                avgTempSeries.append(i, defaultAvgValue)
-                i++
+        Connections {
+            target: mainWindow
+            onSeriesStorageChanged: {
+                if (seriesStorage)
+                    seriesStorage.setTemperatureSeries(avgTempSeries);
             }
-            temperatureSeriesIndex = i
         }
 
         function updateTemperatureGraph() {
-            // Make sure defaultAvgValue is the last valuea in the series
-            avgTempSeries.remove(temperatureSeriesIndex - 1, defaultAvgValue);
-            avgTempSeries.append(temperatureSeriesIndex - 1, sensor.infraredAmbientTemperature);
-            avgTempSeries.append(temperatureSeriesIndex, defaultAvgValue);
-
-            if (temperatureSeriesIndex >= maxNumOfTempReadings) {
-                avgTempSeries.remove(avgTempSeries.at(temperatureSeriesIndex - maxNumOfTempReadings));
-                valueAxisX.min++;
-                valueAxisX.max++;
-            }
-            temperatureSeriesIndex++;
-
             var value = sensor.infraredAmbientTemperature;
             if (minValue > value)
                 minValue = value;

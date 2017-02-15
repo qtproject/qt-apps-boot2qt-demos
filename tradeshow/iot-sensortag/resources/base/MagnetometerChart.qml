@@ -55,7 +55,6 @@ import QtGraphicalEffects 1.0
 BaseChart {
     id: magnetHolderRect
 
-    property int magneticSeriesIndex: 0
     property int maxNumOfMagnReadings: 24
 
     readonly property color chartColor: "#15bdff"
@@ -64,28 +63,18 @@ BaseChart {
     readonly property string zColor: "red"
     readonly property color textColor: "white"
 
-    onSensorChanged: if (sensor) sensor.magnetometerMicroTChanged.connect(contentItem.updateMagneticGraph)
-
     title: qsTr("Magnetometer")
     rightSide: true
 
     content: Item {
         anchors.fill: parent
 
-        function updateMagneticGraph()
-        {
-            magnSeriesX.append(magneticSeriesIndex, sensor.magnetometerMicroT_xAxis);
-            magnSeriesY.append(magneticSeriesIndex, sensor.magnetometerMicroT_yAxis);
-            magnSeriesZ.append(magneticSeriesIndex, sensor.magnetometerMicroT_zAxis);
-
-            if (magneticSeriesIndex >= maxNumOfMagnReadings) {
-                magnSeriesX.remove(magnSeriesX.at(magneticSeriesIndex-maxNumOfMagnReadings));
-                magnSeriesY.remove(magnSeriesY.at(magneticSeriesIndex-maxNumOfMagnReadings));
-                magnSeriesZ.remove(magnSeriesY.at(magneticSeriesIndex-maxNumOfMagnReadings));
-                valueAxisX.min++;
-                valueAxisX.max++;
+        Connections {
+            target: mainWindow
+            onSeriesStorageChanged: {
+                if (seriesStorage)
+                    seriesStorage.setMagnetoMeterSeries(magnSeriesX, magnSeriesY, magnSeriesZ);
             }
-            magneticSeriesIndex++;
         }
 
         Image {

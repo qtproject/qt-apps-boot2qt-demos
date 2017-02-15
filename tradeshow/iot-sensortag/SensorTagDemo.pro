@@ -1,7 +1,7 @@
 TEMPLATE = app
 
 QT += 3dcore 3drender 3dinput 3dquick 3dlogic core gui qml quick 3dquickextras widgets
-QT += bluetooth network
+QT += bluetooth network charts
 CONFIG += c++11
 DEFINES += QT_NO_FOREACH
 
@@ -45,7 +45,8 @@ SOURCES += main.cpp \
     clouddataprovider.cpp \
     dataproviderpool.cpp \
     clouddataproviderpool.cpp \
-    demodataproviderpool.cpp
+    demodataproviderpool.cpp \
+    seriesstorage.cpp
 
 HEADERS += \
     sensortagdataprovider.h \
@@ -55,7 +56,8 @@ HEADERS += \
     dataproviderpool.h \
     clouddataproviderpool.h \
     demodataproviderpool.h \
-    bluetoothapiconstants.h
+    bluetoothapiconstants.h \
+    seriesstorage.h
 
 BLUETOOTH_LINUX_HOST {
     !winrt:CONFIG += UPDATE_TO_CLOUD

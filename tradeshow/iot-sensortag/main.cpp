@@ -67,6 +67,7 @@
 #ifdef CLOUD_UPLOAD
 #include "cloudupdate.h"
 #endif
+#include "seriesstorage.h"
 
 Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
 Q_LOGGING_CATEGORY(boot2QtDemos, "boot2qt.demos.iot")
@@ -80,6 +81,7 @@ int main(int argc, char *argv[])
     app.setFont(QFont("Titillium Web", 13));
 
     DataProviderPool *dataProviderPool = 0;
+    SeriesStorage seriesStorage;
 
     QCommandLineParser parser;
     parser.addOptions({{"source", "Sensor data source", "cloud | sensor | mock"}, {"fullscreen", "Fullscreen mode", "true | false"}});
@@ -125,9 +127,12 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    seriesStorage.setDataProviderPool(dataProviderPool);
+
     qmlRegisterType<SensorTagDataProvider>("SensorTag.DataProvider", 1, 0, "SensorTagData");
     qmlRegisterType<SensorTagDataProvider>("SensorTag.DataProvider", 1, 0, "ProviderState");
     qmlRegisterType<DataProviderPool>("SensorTag.DataProvider", 1, 0, "DataProviderPool");
+    qmlRegisterType<SeriesStorage>("SensorTag.SeriesStorage", 1, 0, "SeriesStorage");
 
 #if defined(RUNS_AS_HOST) && defined(CLOUD_UPLOAD)
     CloudUpdate update;
@@ -212,6 +217,7 @@ int main(int argc, char *argv[])
 
         item->setProperty("dataProviderPool", QVariant::fromValue(dataProviderPool));
         item->setProperty("contentFile", mainFile);
+        item->setProperty("seriesStorage", QVariant::fromValue(&seriesStorage));
     }
     int returnValue = app.exec();
     dataProviderPool->stopScanning();

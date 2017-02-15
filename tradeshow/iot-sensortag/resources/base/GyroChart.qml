@@ -51,24 +51,18 @@ import QtQuick 2.5
 import QtCharts 2.1
 import SensorTag.DataProvider 1.0
 import QtGraphicalEffects 1.0
+import QtQml 2.2
 
 BaseChart {
     id: gyroHolderRect
 
     // Replace with actual gyro properties
-    property int gyroSeriesIndex: 0
     property int maxGyroReadings: 24
 
     readonly property string xColor: "#15bdff"
     readonly property string yColor: "white"
     readonly property string zColor: "red"
     readonly property color textColor: "white"
-
-    onSensorChanged: {
-            if (sensor) {
-                sensor.rotationValuesChanged.connect(contentItem.updateRotation);
-            }
-    }
 
     onClicked: {
         if (sensor)
@@ -81,19 +75,12 @@ BaseChart {
     content: Item {
         anchors.fill: parent
 
-        function updateRotation() {
-            gyroSeriesX.append(gyroSeriesIndex, sensor.rotationX);
-            gyroSeriesY.append(gyroSeriesIndex, sensor.rotationY);
-            gyroSeriesZ.append(gyroSeriesIndex, sensor.rotationZ);
-
-            if (gyroSeriesIndex >= maxGyroReadings) {
-                gyroSeriesX.remove(gyroSeriesX.at(gyroSeriesIndex-maxGyroReadings));
-                gyroSeriesY.remove(gyroSeriesY.at(gyroSeriesIndex-maxGyroReadings));
-                gyroSeriesZ.remove(gyroSeriesZ.at(gyroSeriesIndex-maxGyroReadings));
-                valueAxisX.min++;
-                valueAxisX.max++;
+        Connections {
+            target: mainWindow
+            onSeriesStorageChanged: {
+                if (seriesStorage)
+                    seriesStorage.setGyroSeries(gyroSeriesX, gyroSeriesY, gyroSeriesZ);
             }
-            gyroSeriesIndex++;
         }
 
         Glow {
