@@ -229,7 +229,7 @@ void CloudDataProvider::httpReadyRead()
 void CloudDataProvider::sslErrors(QNetworkReply*, const QList<QSslError> &errors)
 {
     QString errorString;
-    foreach (const QSslError &error, errors) {
+    for (const QSslError &error : errors) {
         if (!errorString.isEmpty())
             errorString += '\n';
         errorString += error.errorString();

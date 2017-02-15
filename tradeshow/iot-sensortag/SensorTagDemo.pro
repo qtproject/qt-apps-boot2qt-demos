@@ -3,6 +3,7 @@ TEMPLATE = app
 QT += 3dcore 3drender 3dinput 3dquick 3dlogic core gui qml quick 3dquickextras widgets
 QT += bluetooth network
 CONFIG += c++11
+DEFINES += QT_NO_FOREACH
 
 # To overcome the bug QTBUG-58648, uncomment this define
 # Needed at least for RPi3 and iMX
