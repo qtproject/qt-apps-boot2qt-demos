@@ -105,31 +105,31 @@ public:
 
     virtual bool startDataFetching() {return false;}
     virtual void endDataFetching() {}
-    QString getRelativeHumidityString();
-    virtual double getRelativeHumidity();
-    virtual double getInfraredAmbientTemperature();
-    virtual double getInfraredObjectTemperature();
-    QString getLightIntensityLuxString();
-    virtual double getLightIntensityLux();
-    virtual double getBarometerCelsiusTemperature();
-    QString getBarometerCelsiusTemperatureString();
-    virtual double getBarometerTemperatureAverage();
-    QString getBarometer_hPaString();
-    virtual double getBarometer_hPa();
-    virtual float getGyroscopeX_degPerSec();
-    virtual float getGyroscopeY_degPerSec();
-    virtual float getGyroscopeZ_degPerSec();
-    virtual float getAccelometer_xAxis();
-    virtual float getAccelometer_yAxis();
-    virtual float getAccelometer_zAxis();
-    virtual float getMagnetometerMicroT_xAxis();
-    virtual float getMagnetometerMicroT_yAxis();
-    virtual float getMagnetometerMicroT_zAxis();
-    virtual float getRotationX();
-    virtual float getRotationY();
-    virtual float getRotationZ();
-    int getRotationUpdateInterval();
-    virtual float getAltitude();
+    QString getRelativeHumidityString() const;
+    virtual double getRelativeHumidity() const;
+    virtual double getInfraredAmbientTemperature() const;
+    virtual double getInfraredObjectTemperature() const;
+    QString getLightIntensityLuxString() const;
+    virtual double getLightIntensityLux() const;
+    virtual double getBarometerCelsiusTemperature() const;
+    QString getBarometerCelsiusTemperatureString() const;
+    virtual double getBarometerTemperatureAverage() const;
+    QString getBarometer_hPaString() const;
+    virtual double getBarometer_hPa() const;
+    virtual float getGyroscopeX_degPerSec() const;
+    virtual float getGyroscopeY_degPerSec() const;
+    virtual float getGyroscopeZ_degPerSec() const;
+    virtual float getAccelometer_xAxis() const;
+    virtual float getAccelometer_yAxis() const;
+    virtual float getAccelometer_zAxis() const;
+    virtual float getMagnetometerMicroT_xAxis() const;
+    virtual float getMagnetometerMicroT_yAxis() const;
+    virtual float getMagnetometerMicroT_zAxis() const;
+    virtual float getRotationX() const;
+    virtual float getRotationY() const;
+    virtual float getRotationZ() const;
+    int getRotationUpdateInterval() const;
+    virtual float getAltitude() const;
 
     Q_INVOKABLE virtual int tagType() const;
     void setTagType(int tagType);

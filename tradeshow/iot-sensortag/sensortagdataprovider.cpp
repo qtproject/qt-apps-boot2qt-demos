@@ -105,126 +105,127 @@ SensorTagDataProvider::SensorTagDataProvider(QString id, QObject* parent)
 {
 }
 
-QString SensorTagDataProvider::getRelativeHumidityString()
+QString SensorTagDataProvider::getRelativeHumidityString() const
 {
     return QString::number(humidity) + QLatin1String("%");
 }
 
-double SensorTagDataProvider::getRelativeHumidity()
+double SensorTagDataProvider::getRelativeHumidity() const
 {
     return humidity;
 }
 
-double SensorTagDataProvider::getInfraredAmbientTemperature()
+double SensorTagDataProvider::getInfraredAmbientTemperature() const
 {
     return irAmbientTemperature;
 }
 
-double SensorTagDataProvider::getInfraredObjectTemperature()
+double SensorTagDataProvider::getInfraredObjectTemperature() const
 {
     return irObjectTemperature;
 }
 
-QString SensorTagDataProvider::getLightIntensityLuxString()
+QString SensorTagDataProvider::getLightIntensityLuxString() const
 {
     return QString::number(lightIntensityLux) + QLatin1String(" Lux");
 }
 
-double SensorTagDataProvider::getLightIntensityLux()
+double SensorTagDataProvider::getLightIntensityLux() const
 {
     return lightIntensityLux;
 }
 
-double SensorTagDataProvider::getBarometerCelsiusTemperature()
+double SensorTagDataProvider::getBarometerCelsiusTemperature() const
 {
     return barometerCelsiusTemperature;
 }
 
-QString SensorTagDataProvider::getBarometerCelsiusTemperatureString()
+QString SensorTagDataProvider::getBarometerCelsiusTemperatureString() const
 {
     return QString::number(barometerCelsiusTemperature) + QString("\u00B0C");
 }
 
-double SensorTagDataProvider::getBarometerTemperatureAverage()
+double SensorTagDataProvider::getBarometerTemperatureAverage() const
 {
     return barometerTemperatureAverage;
 }
 
-QString SensorTagDataProvider::getBarometer_hPaString()
+QString SensorTagDataProvider::getBarometer_hPaString() const
 {
     return QString::number(barometerHPa) + QLatin1String(" hPa");
 }
-double SensorTagDataProvider::getBarometer_hPa()
+
+double SensorTagDataProvider::getBarometer_hPa() const
 {
     return barometerHPa;
 }
 
-float SensorTagDataProvider::getGyroscopeX_degPerSec()
+float SensorTagDataProvider::getGyroscopeX_degPerSec() const
 {
     return gyroscopeX_degPerSec;
 }
 
-float SensorTagDataProvider::getGyroscopeY_degPerSec()
+float SensorTagDataProvider::getGyroscopeY_degPerSec() const
 {
     return gyroscopeY_degPerSec;
 }
 
-float SensorTagDataProvider::getGyroscopeZ_degPerSec()
+float SensorTagDataProvider::getGyroscopeZ_degPerSec() const
 {
     return gyroscopeZ_degPerSec;
 }
 
-float SensorTagDataProvider::getAccelometer_xAxis()
+float SensorTagDataProvider::getAccelometer_xAxis() const
 {
     return accelometerX;
 }
 
-float SensorTagDataProvider::getAccelometer_yAxis()
+float SensorTagDataProvider::getAccelometer_yAxis() const
 {
     return accelometerY;
 }
 
-float SensorTagDataProvider::getAccelometer_zAxis()
+float SensorTagDataProvider::getAccelometer_zAxis() const
 {
     return accelometerZ;
 }
 
-float SensorTagDataProvider::getMagnetometerMicroT_xAxis()
+float SensorTagDataProvider::getMagnetometerMicroT_xAxis() const
 {
     return magnetometerMicroT_xAxis;
 }
 
-float SensorTagDataProvider::getMagnetometerMicroT_yAxis()
+float SensorTagDataProvider::getMagnetometerMicroT_yAxis() const
 {
     return magnetometerMicroT_yAxis;
 }
 
-float SensorTagDataProvider::getMagnetometerMicroT_zAxis()
+float SensorTagDataProvider::getMagnetometerMicroT_zAxis() const
 {
     return magnetometerMicroT_zAxis;
 }
 
-float SensorTagDataProvider::getRotationX()
+float SensorTagDataProvider::getRotationX() const
 {
     return rotation_x;
 }
 
-float SensorTagDataProvider::getRotationY()
+float SensorTagDataProvider::getRotationY() const
 {
     return rotation_y;
 }
 
-float SensorTagDataProvider::getRotationZ()
+float SensorTagDataProvider::getRotationZ() const
 {
     return rotation_z;
 }
 
-int SensorTagDataProvider::getRotationUpdateInterval()
+int SensorTagDataProvider::getRotationUpdateInterval() const
 {
     return intervalRotation;
 }
 
-float SensorTagDataProvider::getAltitude()
+float SensorTagDataProvider::getAltitude() const
 {
     return altitude;
 }

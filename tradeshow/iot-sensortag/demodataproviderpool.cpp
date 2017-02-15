@@ -76,7 +76,7 @@ QString DemoCloudProvider::versionString() const
         return QString();
 }
 
-double DemoCloudProvider::getRelativeHumidity()
+double DemoCloudProvider::getRelativeHumidity() const
 {
    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
        if (p->tagType() & SensorTagDataProvider::Humidity)
@@ -85,7 +85,7 @@ double DemoCloudProvider::getRelativeHumidity()
    return 0;
 }
 
-double DemoCloudProvider::getInfraredAmbientTemperature()
+double DemoCloudProvider::getInfraredAmbientTemperature() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::AmbientTemperature)
@@ -94,7 +94,7 @@ double DemoCloudProvider::getInfraredAmbientTemperature()
     return 0;
 }
 
-double DemoCloudProvider::getInfraredObjectTemperature()
+double DemoCloudProvider::getInfraredObjectTemperature() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::ObjectTemperature)
@@ -103,7 +103,7 @@ double DemoCloudProvider::getInfraredObjectTemperature()
     return 0;
 }
 
-double DemoCloudProvider::getLightIntensityLux()
+double DemoCloudProvider::getLightIntensityLux() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Light)
@@ -112,7 +112,7 @@ double DemoCloudProvider::getLightIntensityLux()
     return 0;
 }
 
-double DemoCloudProvider::getBarometerCelsiusTemperature()
+double DemoCloudProvider::getBarometerCelsiusTemperature() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::AirPressure)
@@ -121,7 +121,7 @@ double DemoCloudProvider::getBarometerCelsiusTemperature()
     return 0;
 }
 
-double DemoCloudProvider::getBarometerTemperatureAverage()
+double DemoCloudProvider::getBarometerTemperatureAverage() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::AirPressure)
@@ -130,7 +130,7 @@ double DemoCloudProvider::getBarometerTemperatureAverage()
     return 0;
 }
 
-double DemoCloudProvider::getBarometer_hPa()
+double DemoCloudProvider::getBarometer_hPa() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::AirPressure)
@@ -139,7 +139,7 @@ double DemoCloudProvider::getBarometer_hPa()
     return 0;
 }
 
-float DemoCloudProvider::getGyroscopeX_degPerSec()
+float DemoCloudProvider::getGyroscopeX_degPerSec() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Magnetometer)
@@ -148,7 +148,7 @@ float DemoCloudProvider::getGyroscopeX_degPerSec()
     return 0;
 }
 
-float DemoCloudProvider::getGyroscopeY_degPerSec()
+float DemoCloudProvider::getGyroscopeY_degPerSec() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Magnetometer)
@@ -157,7 +157,7 @@ float DemoCloudProvider::getGyroscopeY_degPerSec()
     return 0;
 }
 
-float DemoCloudProvider::getGyroscopeZ_degPerSec()
+float DemoCloudProvider::getGyroscopeZ_degPerSec() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Magnetometer)
@@ -166,7 +166,7 @@ float DemoCloudProvider::getGyroscopeZ_degPerSec()
     return 0;
 }
 
-float DemoCloudProvider::getAccelometer_xAxis()
+float DemoCloudProvider::getAccelometer_xAxis() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Accelometer)
@@ -175,7 +175,7 @@ float DemoCloudProvider::getAccelometer_xAxis()
     return 0;
 }
 
-float DemoCloudProvider::getAccelometer_yAxis()
+float DemoCloudProvider::getAccelometer_yAxis() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Accelometer)
@@ -184,7 +184,7 @@ float DemoCloudProvider::getAccelometer_yAxis()
     return 0;
 }
 
-float DemoCloudProvider::getAccelometer_zAxis()
+float DemoCloudProvider::getAccelometer_zAxis() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Accelometer)
@@ -193,7 +193,7 @@ float DemoCloudProvider::getAccelometer_zAxis()
     return 0;
 }
 
-float DemoCloudProvider::getMagnetometerMicroT_xAxis()
+float DemoCloudProvider::getMagnetometerMicroT_xAxis() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Magnetometer)
@@ -202,7 +202,7 @@ float DemoCloudProvider::getMagnetometerMicroT_xAxis()
     return 0;
 }
 
-float DemoCloudProvider::getMagnetometerMicroT_yAxis()
+float DemoCloudProvider::getMagnetometerMicroT_yAxis() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Magnetometer)
@@ -211,7 +211,7 @@ float DemoCloudProvider::getMagnetometerMicroT_yAxis()
     return 0;
 }
 
-float DemoCloudProvider::getMagnetometerMicroT_zAxis()
+float DemoCloudProvider::getMagnetometerMicroT_zAxis() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Magnetometer)
@@ -220,7 +220,7 @@ float DemoCloudProvider::getMagnetometerMicroT_zAxis()
     return 0;
 }
 
-float DemoCloudProvider::getRotationX()
+float DemoCloudProvider::getRotationX() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Rotation)
@@ -229,7 +229,7 @@ float DemoCloudProvider::getRotationX()
     return 0;
 }
 
-float DemoCloudProvider::getRotationY()
+float DemoCloudProvider::getRotationY() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Rotation)
@@ -238,7 +238,7 @@ float DemoCloudProvider::getRotationY()
     return 0;
 }
 
-float DemoCloudProvider::getRotationZ()
+float DemoCloudProvider::getRotationZ() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Rotation)
@@ -247,7 +247,7 @@ float DemoCloudProvider::getRotationZ()
     return 0;
 }
 
-float DemoCloudProvider::getAltitude()
+float DemoCloudProvider::getAltitude() const
 {
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Altitude)
