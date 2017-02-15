@@ -87,7 +87,6 @@ double DemoCloudProvider::getRelativeHumidity()
 
 double DemoCloudProvider::getInfraredAmbientTemperature()
 {
-    m_dataProviders.first();
     for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::AmbientTemperature)
             return p->getInfraredAmbientTemperature();
