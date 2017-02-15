@@ -285,7 +285,7 @@ void DemoDataProviderPool::startScanning()
             emit providerConnected(p->id());
         }
         // Stop scanning as we already have a provider
-        scanFinished();
+        finishScanning();
     }
     else {
         SensorTagDataProviderPool::startScanning();
@@ -320,6 +320,8 @@ void DemoDataProviderPool::finishScanning()
         m_cloudProvider = new DemoCloudProvider(this);
         static_cast<DemoCloudProvider*>(m_cloudProvider)->setDataProviders(m_dataProviders);
     }
+    emit dataProvidersChanged();
+    emit scanFinished();
 }
 
 void DemoDataProviderPool::setMockDataMode(bool mode)

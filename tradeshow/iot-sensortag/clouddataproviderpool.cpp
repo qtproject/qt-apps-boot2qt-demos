@@ -65,5 +65,6 @@ void CloudDataProviderPool::startScanning()
     m_dataProviders.at(0)->startDataFetching();
     emit providerConnected("MS_AZURE_CLOUD");
     emit providersUpdated();
+    emit dataProvidersChanged();
     emit scanFinished();
 }
