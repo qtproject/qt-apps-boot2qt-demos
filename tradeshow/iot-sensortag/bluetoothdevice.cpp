@@ -263,7 +263,8 @@ void BluetoothDevice::temperatureDetailsDiscovered(QLowEnergyService::ServiceSta
         }
 
         m_temperatureMeasurementStarted = true;
-        isDeviceReady();
+        if (isDeviceReady())
+            setState(DeviceState::Connected);
     }
 }
 
@@ -302,7 +303,8 @@ void BluetoothDevice::barometerDetailsDiscovered(QLowEnergyService::ServiceState
         }
 
         m_barometerMeasurementStarted = true;
-        isDeviceReady();
+        if (isDeviceReady())
+            setState(DeviceState::Connected);
     }
 }
 
@@ -342,7 +344,8 @@ void BluetoothDevice::humidityDetailsDiscovered(QLowEnergyService::ServiceState 
         }
 
         m_humidityMeasurementStarted = true;
-        isDeviceReady();
+        if (isDeviceReady())
+            setState(DeviceState::Connected);
     }
 }
 
@@ -382,7 +385,8 @@ void BluetoothDevice::lightIntensityDetailsDiscovered(QLowEnergyService::Service
         }
 
         m_lightIntensityMeasurementStarted = true;
-        isDeviceReady();
+        if (isDeviceReady())
+            setState(DeviceState::Connected);
     }
 }
 
@@ -424,7 +428,8 @@ void BluetoothDevice::motionDetailsDiscovered(QLowEnergyService::ServiceState ne
             motionService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_RAPID_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse);
         }
         m_motionMeasurementStarted = true;
-        isDeviceReady();
+        if (isDeviceReady())
+            setState(DeviceState::Connected);
     }
 }
 
@@ -470,13 +475,12 @@ double BluetoothDevice::convertIrTemperatureAPIReadingToCelsius(quint16 rawReadi
     return t * SCALE_LSB;
 }
 
-void BluetoothDevice::isDeviceReady()
+bool BluetoothDevice::isDeviceReady() const
 {
-    if (m_temperatureMeasurementStarted &&
-        m_humidityMeasurementStarted &&
-        m_lightIntensityMeasurementStarted &&
-        m_motionMeasurementStarted)
-        setState(DeviceState::Connected);
+    return m_temperatureMeasurementStarted
+        && m_humidityMeasurementStarted
+        && m_lightIntensityMeasurementStarted
+        && m_motionMeasurementStarted;
 }
 
 void BluetoothDevice::irTemperatureReceived(const QByteArray &value)
