@@ -74,15 +74,13 @@ typedef struct {
 } movement_data_t;
 
 BluetoothDevice::BluetoothDevice()
-    : discoveryAgent(0)
-    , controller(0)
+    : controller(0)
     , irTemperatureService(0)
     , baroService(0)
     , humidityService(0)
     , lightService(0)
     , motionService(0)
     , m_deviceState(DeviceState::Disconnected)
-    , randomAddress(false)
 {
     lastMilliseconds = QDateTime::currentMSecsSinceEpoch();
     statusUpdated("Device created");
@@ -96,7 +94,6 @@ BluetoothDevice::BluetoothDevice(const QBluetoothDeviceInfo &d)
 
 BluetoothDevice::~BluetoothDevice()
 {
-    delete discoveryAgent;
     delete controller;
 }
 QString BluetoothDevice::getAddress() const
@@ -117,15 +114,8 @@ QString BluetoothDevice::getName() const
 
 void BluetoothDevice::scanServices()
 {
-    statusUpdated("(Connecting to device...)");
-
-    if (controller && m_previousAddress != getAddress()) {
-        controller->disconnectFromDevice();
-        delete controller;
-        controller = 0;
-    }
-
     if (!controller) {
+        statusUpdated("(Connecting to device...)");
         // Connecting signals and slots for connecting to LE services.
         controller = new QLowEnergyController(m_deviceInfo);
         connect(controller, SIGNAL(connected()),
@@ -138,13 +128,10 @@ void BluetoothDevice::scanServices()
                 this, SLOT(addLowEnergyService(QBluetoothUuid)));
         connect(controller, SIGNAL(discoveryFinished()),
                 this, SLOT(serviceScanDone()));
-    }
 
-    if (randomAddress)
-        controller->setRemoteAddressType(QLowEnergyController::RandomAddress);
-    else
         controller->setRemoteAddressType(QLowEnergyController::PublicAddress);
-    controller->connectToDevice();
+        controller->connectToDevice();
+    }
 }
 
 void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
@@ -222,8 +209,6 @@ void BluetoothDevice::serviceScanDone()
 
     if (!motionService)
         qCDebug(boot2QtDemos) << "Motion service not found.";
-
-    attitudeChangeInterval.restart();
 }
 
 void BluetoothDevice::temperatureDetailsDiscovered(QLowEnergyService::ServiceState newstate)

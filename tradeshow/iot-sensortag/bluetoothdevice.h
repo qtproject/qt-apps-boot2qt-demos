@@ -104,8 +104,6 @@ class BluetoothDevice: public QObject
     Q_PROPERTY(QString deviceAddress READ getAddress CONSTANT)
     Q_PROPERTY(DeviceState state READ state NOTIFY stateChanged)
 
-    Q_PROPERTY(bool useRandomAddress MEMBER randomAddress NOTIFY randomAddressChanged)
-
 public:
     enum DeviceState {Disconnected = 0, Scanning, Connected, Error};
     Q_ENUM(DeviceState)
@@ -122,7 +120,6 @@ public:
 signals:
     void updateChanged();
     void stateChanged();
-    void randomAddressChanged();
     void temperatureChanged(double ambientTemperature, double objectTemperature);
     void barometerChanged(double temperature, double barometer);
     void humidityChanged(double humidity);
@@ -171,8 +168,6 @@ private:
     double convertIrTemperatureAPIReadingToCelsius(quint16 rawReading);
     bool isDeviceReady() const;
 
-    QBluetoothDeviceDiscoveryAgent *discoveryAgent;
-    QString m_previousAddress;
     QLowEnergyController *controller;
     QLowEnergyService* irTemperatureService;
     QLowEnergyService* baroService;
@@ -185,8 +180,6 @@ private:
     bool m_humidityMeasurementStarted;
     bool m_lightIntensityMeasurementStarted;
     bool m_motionMeasurementStarted;
-    bool randomAddress;
-    QElapsedTimer attitudeChangeInterval;
     quint64 lastMilliseconds;
 
     QBluetoothDeviceInfo m_deviceInfo;
