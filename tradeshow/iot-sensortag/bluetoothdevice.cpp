@@ -470,7 +470,7 @@ double BluetoothDevice::convertIrTemperatureAPIReadingToCelsius(quint16 rawReadi
     return t * SCALE_LSB;
 }
 
-void BluetoothDevice::isDeviceReady() const
+void BluetoothDevice::isDeviceReady()
 {
     if (m_temperatureMeasurementStarted &&
         m_humidityMeasurementStarted &&
