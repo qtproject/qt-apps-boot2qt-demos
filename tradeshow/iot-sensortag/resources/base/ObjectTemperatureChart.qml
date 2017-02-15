@@ -86,7 +86,7 @@ BaseChart {
         }
 
         Text {
-            text: (minValue !== Number.MAX_VALUE ? minValue : "--") + "\nLowest"
+            text: (minValue !== Number.MAX_VALUE ? minValue : "--") + "\nLo"
             lineHeight: 0.7
             width: 60
             horizontalAlignment: Text.Center
@@ -104,7 +104,7 @@ BaseChart {
         }
 
         Text {
-            text: "Highest\n" + (maxValue !== Number.MIN_VALUE ? maxValue : "--")
+            text: "Hi\n" + (maxValue !== Number.MIN_VALUE ? maxValue : "--")
             lineHeight: 0.8
             width: 60
             horizontalAlignment: Text.Center

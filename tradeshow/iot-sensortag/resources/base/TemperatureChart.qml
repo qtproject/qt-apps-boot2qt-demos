@@ -113,16 +113,17 @@ BaseChart {
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             height: parent.height - 32
+            width: reading.width + avgText.width
 
             Text {
                 id: highValue
 
-                text: "Highest\n" + (maxValue !== Number.MIN_VALUE ? maxValue.toFixed(1) : "--")
+                text: "Hi " + (maxValue !== Number.MIN_VALUE ? maxValue.toFixed(1) : "--")
                 lineHeight: 0.7
                 width: contentWidth
                 height: contentHeight
                 horizontalAlignment: Text.Center
-                anchors.right: reading.left
+                anchors.horizontalCenter: reading.horizontalCenter
                 anchors.top: parent.top
                 color: "white"
             }
@@ -144,13 +145,13 @@ BaseChart {
             Text {
                 id: lowValue
 
-                text: (minValue !== Number.MAX_VALUE ? minValue.toFixed(1) : "--") + "\nLowest"
+                text: "Lo " + (minValue !== Number.MAX_VALUE ? minValue.toFixed(1) : "--")
                 lineHeight: 0.8
                 width: contentWidth
                 horizontalAlignment: Text.Center
                 color: "white"
                 anchors.bottom: parent.bottom
-                anchors.right: reading.left
+                anchors.horizontalCenter: reading.horizontalCenter
             }
 
             Text {
@@ -183,27 +184,26 @@ BaseChart {
             id: chartView
 
             anchors.top: valueReading.top
-            anchors.topMargin: 34
+            anchors.topMargin: 25
             height: reading.height
-            anchors.bottom: valueReading.bottom
-            anchors.bottomMargin: 34
             anchors.left: parent.left
             anchors.leftMargin: 15
             anchors.right: valueReading.left
-            anchors.rightMargin: 112
+            anchors.rightMargin: -27
             antialiasing: true
             backgroundColor: "transparent"
             legend.visible: false
             margins.top: 0
             margins.bottom: 0
             margins.left: 0
+            margins.right: 0
 
             // Hide the value axis labels; labels are drawn separately.
             ValueAxis {
                 id: valueAxisX
 
                 min: 0
-                max: maxNumOfTempReadings + 1
+                max: maxNumOfTempReadings - 1
                 visible: false
             }
 

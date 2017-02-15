@@ -97,9 +97,7 @@ BaseChart {
 
                         Text {
                             id: accelMainText
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.bottom: parent.verticalCenter
-                            anchors.bottomMargin: -12
+                            anchors.centerIn: parent
                             text: (index == 0) ? acceXValue : ((index == 1) ? acceYValue : acceZValue)
                             color: "white"
                         }

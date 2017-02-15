@@ -92,7 +92,7 @@ BaseChart {
 
             source: pathPrefix + "Humidity/Hum_combined_all.png"
             anchors.left: parent.left
-            anchors.leftMargin: 16
+            anchors.leftMargin: 12
             anchors.top: parent.top
             anchors.topMargin: -8
 
@@ -111,20 +111,18 @@ BaseChart {
         Text {
             anchors.left: humidityMainImg.right
             anchors.top: humidityMainImg.top
-            anchors.topMargin: 47
+            anchors.topMargin: 27
             text: "Max\n" + maxHumi.toFixed(0) + " %"
             lineHeight: 0.8
-            font.pixelSize: 16
             color: "white"
         }
 
         Text {
             anchors.left: humidityMainImg.right
             anchors.bottom: humidityMainImg.bottom
-            anchors.bottomMargin: 53
+            anchors.bottomMargin: 33
             text: "Min\n" + minHumi.toFixed(0) + " %"
             lineHeight: 0.8
-            font.pixelSize: 16
             color: "white"
         }
     }
