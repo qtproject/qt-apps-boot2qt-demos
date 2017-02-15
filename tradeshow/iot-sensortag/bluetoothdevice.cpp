@@ -48,7 +48,6 @@
 **
 ****************************************************************************/
 #include "bluetoothdevice.h"
-#include "characteristicinfo.h"
 
 #include <QBluetoothDeviceDiscoveryAgent>
 #include <QBluetoothDeviceInfo>

@@ -67,15 +67,13 @@ BLUETOOTH_LINUX_HOST {
         sensortagdataproviderpool.cpp \
         bluetoothdataprovider.cpp \
         serviceinfo.cpp \
-        bluetoothdevice.cpp \
-        characteristicinfo.cpp
+        bluetoothdevice.cpp
 
     HEADERS += \
         sensortagdataproviderpool.h \
         bluetoothdataprovider.h \
         serviceinfo.h \
-        bluetoothdevice.h \
-        characteristicinfo.h
+        bluetoothdevice.h
 }
 
 UPDATE_TO_CLOUD {
