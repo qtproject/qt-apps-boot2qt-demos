@@ -168,19 +168,19 @@ private:
     double convertIrTemperatureAPIReadingToCelsius(quint16 rawReading);
     bool isDeviceReady() const;
 
-    QLowEnergyController *controller;
-    QLowEnergyService* irTemperatureService;
-    QLowEnergyService* baroService;
-    QLowEnergyService* humidityService;
-    QLowEnergyService* lightService;
-    QLowEnergyService* motionService;
+    QLowEnergyController *m_controller;
+    QLowEnergyService* m_irTemperatureService;
+    QLowEnergyService* m_baroService;
+    QLowEnergyService* m_humidityService;
+    QLowEnergyService* m_lightService;
+    QLowEnergyService* m_motionService;
     DeviceState m_deviceState;
     bool m_temperatureMeasurementStarted;
     bool m_barometerMeasurementStarted;
     bool m_humidityMeasurementStarted;
     bool m_lightIntensityMeasurementStarted;
     bool m_motionMeasurementStarted;
-    quint64 lastMilliseconds;
+    quint64 m_lastMilliseconds;
 
     QBluetoothDeviceInfo m_deviceInfo;
 
