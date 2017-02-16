@@ -171,6 +171,13 @@ Item {
         anchors.bottom: parent.bottom
     }
 
+    Timer {
+        interval: 60000 // Update time once a minute
+        running: true
+        repeat: true
+        onTriggered: timeLabel.text = Qt.formatTime(new Date, "HH:mm")
+    }
+
     Text {
         text: "UTC/GMT"
         color: "white"
