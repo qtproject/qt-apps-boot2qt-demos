@@ -70,9 +70,9 @@ protected:
     void finishScanning() override;
 
 private:
-
     bool m_mockData;
     SensorTagDataProvider* m_cloudProvider;
+    bool m_initialized;
 };
 
 // Internal class to provide sensor data for cloud update from demo setup

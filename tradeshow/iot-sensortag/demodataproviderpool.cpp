@@ -49,6 +49,7 @@
 ****************************************************************************/
 #include "demodataproviderpool.h"
 #include "mockdataprovider.h"
+#include "bluetoothdataprovider.h"
 
 DemoCloudProvider::DemoCloudProvider(QObject *parent)
     : SensorTagDataProvider(parent)
@@ -261,15 +262,16 @@ DemoDataProviderPool::DemoDataProviderPool(QObject *parent)
     : SensorTagDataProviderPool("Demo", parent)
     , m_mockData(false)
     , m_cloudProvider(0)
+    , m_initialized(false)
 {
 }
 
 void DemoDataProviderPool::startScanning()
 {
-    qDeleteAll(m_dataProviders);
-    m_dataProviders.clear();
-
     if (m_mockData) {
+        qDeleteAll(m_dataProviders);
+        m_dataProviders.clear();
+
         MockDataProvider* p = new MockDataProvider("MOCK_PROVIDER_1", this);
         p->setTagType(SensorTagDataProvider::ObjectTemperature | SensorTagDataProvider::AmbientTemperature | SensorTagDataProvider::Rotation);
         m_dataProviders.push_back(p);
@@ -287,6 +289,42 @@ void DemoDataProviderPool::startScanning()
         finishScanning();
     }
     else {
+        if (!m_initialized) {
+            // Create a DataProvider objects early on for UI to be able to
+            // show all data providers as available. The BT device information
+            // will be added later on when the Bluetooth device has been found
+            for (const QString& id : m_macFilters) {
+                BluetoothDataProvider *p = new BluetoothDataProvider(id, this);
+                m_dataProviders.push_back(p);
+            }
+            // Fake that we have set of sensors with different capabilities
+            // by removing some of the sensor data types from each sensor tag
+            if (m_dataProviders.length() > 0) {
+                SensorTagDataProvider *p = m_dataProviders.at(0);
+                p->setTagType(SensorTagDataProvider::ObjectTemperature |
+                              SensorTagDataProvider::Light |
+                              SensorTagDataProvider::Magnetometer |
+                              SensorTagDataProvider::Accelometer);
+                emit dataProvidersChanged();
+                if (m_dataProviders.length() > 1) {
+                    p = m_dataProviders.at(1);
+                    p->setTagType(SensorTagDataProvider::AmbientTemperature |
+                                  SensorTagDataProvider::Altitude |
+                                  SensorTagDataProvider::Humidity |
+                                  SensorTagDataProvider::Rotation |
+                                  SensorTagDataProvider::AirPressure);
+                    emit dataProvidersChanged();
+                }
+            }
+            m_initialized = true;
+        }
+        // Set initial state to Scanning for UI to be
+        // able to show "Connecting.." information
+        for (SensorTagDataProvider *p : m_dataProviders) {
+            if (p->state() == SensorTagDataProvider::NotFound) {
+                p->setState(SensorTagDataProvider::Scanning);
+            }
+        }
         SensorTagDataProviderPool::startScanning();
     }
 }
@@ -299,25 +337,13 @@ void DemoDataProviderPool::finishScanning()
         m_cloudProvider = m_dataProviders.at(0);
         emit providerForCloudChanged();
     } else {
-        // Fake that we have set of sensors with different capabilities
-        // by removing some of the sensor data types from each sensor tag
-        for (SensorTagDataProvider *p : m_dataProviders) {
-            if (p->id() == QStringLiteral("A0:E6:F8:B6:5B:86")) {
-                p->setTagType(SensorTagDataProvider::ObjectTemperature |
-                              SensorTagDataProvider::Light |
-                              SensorTagDataProvider::Magnetometer |
-                              SensorTagDataProvider::Accelometer);
-            }
-            else if (p->id() == QStringLiteral("A0:E6:F8:B6:44:01")) {
-                p->setTagType(SensorTagDataProvider::AmbientTemperature |
-                              SensorTagDataProvider::Altitude |
-                              SensorTagDataProvider::Humidity |
-                              SensorTagDataProvider::Rotation |
-                              SensorTagDataProvider::AirPressure);
-            }
-        }
         m_cloudProvider = new DemoCloudProvider(this);
         static_cast<DemoCloudProvider*>(m_cloudProvider)->setDataProviders(m_dataProviders);
+        for (SensorTagDataProvider *p : m_dataProviders) {
+            // If BluetoothDevice object is not attached, the device has not been found
+            if (!static_cast<BluetoothDataProvider*>(p)->device())
+                p->setState(SensorTagDataProvider::NotFound);
+        }
     }
     emit dataProvidersChanged();
     emit scanFinished();
@@ -332,4 +358,3 @@ SensorTagDataProvider *DemoDataProviderPool::providerForCloud() const
 {
     return m_cloudProvider;
 }
-

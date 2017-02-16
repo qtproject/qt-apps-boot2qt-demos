@@ -65,6 +65,7 @@ public:
     Q_INVOKABLE virtual void startScanning();
     Q_INVOKABLE virtual void stopScanning();
     Q_INVOKABLE virtual SensorTagDataProvider* getProvider(SensorTagDataProvider::TagType type) const;
+    Q_INVOKABLE virtual void disconnectProvider(QString id);
 
     QQmlListProperty<SensorTagDataProvider> dataProviders();
 
@@ -75,6 +76,7 @@ signals:
     void providerDisconnected(QString id);
     void providerInError(QString id);
     void providersUpdated();
+    void scanStarted();
     void scanFinished();
     void providerForCloudChanged();
     void dataProvidersChanged();

@@ -66,6 +66,7 @@ public:
     explicit SensorTagDataProviderPool(QObject *parent = 0);
 
     void startScanning() override;
+    void disconnectProvider(QString id) override;
 
     // setMacFilterList takes presence over name filter
     Q_INVOKABLE void setMacFilterList(const QStringList& addressList);
@@ -77,8 +78,10 @@ public:
 protected:
     SensorTagDataProviderPool(QString poolName, QObject *parent = 0);
     virtual void finishScanning();
-
     void updateProviderForCloud();
+
+    QStringList m_macFilters;
+    QStringList m_nameFilters;
 
 private slots:
     void deviceDiscoveryFinished();
@@ -87,9 +90,8 @@ private slots:
     void deviceScanError(QBluetoothDeviceDiscoveryAgent::Error error);
 
 private:
-    QStringList m_macFilters;
-    QStringList m_nameFilters;
-    bool m_deviceScanState;
+    SensorTagDataProvider *findProvider(QString id) const;
+
     QBluetoothDeviceDiscoveryAgent *m_discoveryAgent;
     SensorTagDataProvider *m_providerForCloud;
 };

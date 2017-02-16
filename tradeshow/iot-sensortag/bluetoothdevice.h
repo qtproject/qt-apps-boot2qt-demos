@@ -185,6 +185,8 @@ private:
     QBluetoothDeviceInfo m_deviceInfo;
 
     SensorTagDataProvider *m_dataProvider;
+
+    QTimer *m_serviceDetailsTimer;
 };
 
 #endif // BLUETOOTHBLUETOOTHDEVICE_H

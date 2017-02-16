@@ -101,7 +101,7 @@ SensorTagDataProvider::SensorTagDataProvider(QString id, QObject* parent)
     altitude(0),
     m_tagType(AmbientTemperature | ObjectTemperature | Humidity | AirPressure | Light | Magnetometer | Rotation | Accelometer | Altitude),
     m_id(id),
-    m_state(Disconnected)
+    m_state(NotFound)
 {
 }
 

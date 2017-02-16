@@ -61,8 +61,16 @@ Item {
     property bool rightSide: false
     property alias titlePaneHeight: titleIcon.height
     property bool hasData: baseChart.sensor ? baseChart.sensor.state === SensorTagData.Connected : false
+    property int sensorState: sensor ? sensor.state : SensorTagData.NotFound
 
     signal clicked
+
+    onSensorStateChanged: {
+        if (sensorState === SensorTagData.Scanning)
+            sensorIcon.startBlinking();
+        else
+            sensorIcon.stopBlinking();
+    }
 
     Image {
         id: titleIcon
@@ -89,6 +97,42 @@ Item {
         anchors.bottomMargin: 16
         anchors.left: parent.left
         anchors.right: parent.right
+        visible: sensorState === SensorTagData.Connected
+    }
+
+    Item {
+        anchors.top: titleIcon.bottom
+        anchors.bottom: separator.bottom
+        anchors.bottomMargin: 16
+        anchors.left: parent.left
+        anchors.right: parent.right
+        visible: sensorState === SensorTagData.Scanning ||
+                 sensorState === SensorTagData.Disconnected ||
+                 sensorState === SensorTagData.Error ||
+                 sensorState === SensorTagData.NotFound
+
+        Column {
+            anchors.centerIn: parent
+            spacing: 20
+
+            BlinkingIcon {
+                id: sensorIcon
+
+                source: pathPrefix + "Toolbar/icon_topbar_sensor.png"
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: sensorState === SensorTagData.Scanning
+            }
+
+            Text {
+                id: stateText
+
+                color: "white"
+                text: sensorState === SensorTagData.Scanning ? "Connecting to sensor..."
+                        : sensorState === SensorTagData.Disconnected ? "Disconnected"
+                        : sensorState === SensorTagData.NotFound ? "Device not found"
+                        : ""
+            }
+        }
     }
 
     Image {

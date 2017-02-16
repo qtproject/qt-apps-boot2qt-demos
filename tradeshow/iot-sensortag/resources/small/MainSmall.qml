@@ -54,25 +54,31 @@ import "../base"
 Item {
     id: main
 
+    function startRescan(sensor) {
+        if (sensor.state === SensorTagData.NotFound)
+            dataProviderPool.startScanning();
+        else if (sensor.state === SensorTagData.Scanning)
+            dataProviderPool.disconnectProvider(sensor.providerId)
+        else if (sensor.state !== SensorTagData.Connected)
+            sensor.startServiceScan();
+    }
+
     anchors.fill: parent
 
     Component.onCompleted: {
-        dataProviderPool.startScanning()
-    }
+        dataProviderPool.startScanning();
 
-    Connections {
-        target: dataProviderPool
-        onScanFinished: {
-            ambientTemp.sensor = dataProviderPool.getProvider(SensorTagData.AmbientTemperature);
-            objectTemp.sensor = dataProviderPool.getProvider(SensorTagData.ObjectTemperature);
-            humidity.sensor = dataProviderPool.getProvider(SensorTagData.Humidity);
-            airPressure.sensor = dataProviderPool.getProvider(SensorTagData.AirPressure);
-            light.sensor = dataProviderPool.getProvider(SensorTagData.Light);
-            magnetometer.sensor = dataProviderPool.getProvider(SensorTagData.Magnetometer);
-            rotation.sensor = dataProviderPool.getProvider(SensorTagData.Rotation);
-            accelometer.sensor = dataProviderPool.getProvider(SensorTagData.Accelometer);
-            rotationMain.sensor = dataProviderPool.getProvider(SensorTagData.Rotation);
-        }
+        // UI gets information about the intended setup of the
+        // sensor even though they have not been really discovered yet
+        ambientTemp.sensor = dataProviderPool.getProvider(SensorTagData.AmbientTemperature);
+        objectTemp.sensor = dataProviderPool.getProvider(SensorTagData.ObjectTemperature);
+        humidity.sensor = dataProviderPool.getProvider(SensorTagData.Humidity);
+        airPressure.sensor = dataProviderPool.getProvider(SensorTagData.AirPressure);
+        light.sensor = dataProviderPool.getProvider(SensorTagData.Light);
+        magnetometer.sensor = dataProviderPool.getProvider(SensorTagData.Magnetometer);
+        rotation.sensor = dataProviderPool.getProvider(SensorTagData.Rotation);
+        accelometer.sensor = dataProviderPool.getProvider(SensorTagData.Accelometer);
+        rotationMain.sensor = dataProviderPool.getProvider(SensorTagData.Rotation);
     }
 
     Column {
@@ -92,6 +98,7 @@ Item {
 
             width: leftPane.width
             height: leftPane.indicatorHeight
+            onClicked: main.startRescan(sensor)
         }
 
         ObjectTemperatureChart {
@@ -99,6 +106,7 @@ Item {
 
             width: leftPane.width
             height: leftPane.indicatorHeight
+            onClicked: main.startRescan(sensor)
         }
 
         HumidityChart {
@@ -106,6 +114,7 @@ Item {
 
             width: leftPane.width
             height: leftPane.indicatorHeight
+            onClicked: main.startRescan(sensor)
        }
 
         AltitudeChart {
@@ -113,6 +122,7 @@ Item {
 
             width: leftPane.width
             height: leftPane.indicatorHeight
+            onClicked: main.startRescan(sensor)
         }
     }
 
@@ -131,6 +141,7 @@ Item {
 
             width: rightPane.width
             height: rightPane.height / 4
+            onClicked: main.startRescan(sensor)
         }
 
         MagnetometerChart {
@@ -138,6 +149,7 @@ Item {
 
             width: rightPane.width
             height: rightPane.height * 0.3 - 30
+            onClicked: main.startRescan(sensor)
         }
 
         GyroChart {
@@ -145,6 +157,7 @@ Item {
 
             width: rightPane.width
             height: rightPane.height * 0.3 - 60
+            onClicked: main.startRescan(sensor)
         }
 
         AccelChart {
@@ -152,6 +165,7 @@ Item {
 
             width: rightPane.width
             height: rightPane.height - light.height - magnetometer.height - rotation.height - 3 * rightPane.spacing
+            onClicked: main.startRescan(sensor)
         }
     }
 
@@ -166,7 +180,6 @@ Item {
         anchors.bottom: parent.bottom
         onSensorChanged: if (sensor) sensor.recalibrate()
     }
-
 
     TopToolbar {
         id: topToolbar

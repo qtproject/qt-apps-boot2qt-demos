@@ -70,6 +70,7 @@ public:
     QString versionString() const;
 
     void bindToDevice(BluetoothDevice *device);
+    void unbindDevice();
     BluetoothDevice* device();
 
 public slots:
@@ -88,7 +89,7 @@ protected:
 private:
     void updateState();
     float countRotationDegrees(double degreesPerSecond, quint64 milliseconds);
-    BluetoothDevice* activeDevice;
+    BluetoothDevice *m_btDevice;
     QTimer timer;
     int m_smaSamples;
     int m_zeroAltitudeSamples;

@@ -58,6 +58,7 @@ Window {
     property alias contentFile: contentLoader.source
     property DataProviderPool dataProviderPool
     property SeriesStorage seriesStorage
+    property real globalBlinkOpacity: 1.0
 
     // Size defaults to the small display
     width: 1920
@@ -75,5 +76,41 @@ Window {
 
         anchors.fill: parent
         anchors.centerIn: parent
+    }
+
+
+
+    function startBlink() {
+        flash.blinkers++;
+    }
+
+    function stopBlink() {
+        flash.blinkers--;
+    }
+
+    // Animation to allow synchronized
+    // blinking of BlinkingIcons
+    SequentialAnimation {
+        id: flash
+
+        property int blinkers: 0
+
+        running: blinkers
+        loops: Animation.Infinite
+        alwaysRunToEnd: true
+
+        PropertyAnimation {
+            target: mainWindow
+            property: "globalBlinkOpacity"
+            to: 0.3
+            duration: 700
+        }
+
+        PropertyAnimation {
+            target: mainWindow
+            property: "globalBlinkOpacity"
+            to: 1
+            duration: 700
+        }
     }
 }

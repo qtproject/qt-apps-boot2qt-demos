@@ -84,6 +84,17 @@ BluetoothDevice::BluetoothDevice()
 {
     m_lastMilliseconds = QDateTime::currentMSecsSinceEpoch();
     statusUpdated("Device created");
+
+    m_serviceDetailsTimer = new QTimer(this);
+    m_serviceDetailsTimer->setInterval(5000);
+    m_serviceDetailsTimer->setSingleShot(true);
+    connect(m_serviceDetailsTimer, &QTimer::timeout, [=]() {
+        qCDebug(boot2QtDemos) << "Service details timer timeout. No more services details found";
+        if (isDeviceReady())
+            setState(Connected);
+        else
+            setState(Disconnected);
+    });
 }
 
 BluetoothDevice::BluetoothDevice(const QBluetoothDeviceInfo &d)
@@ -94,8 +105,12 @@ BluetoothDevice::BluetoothDevice(const QBluetoothDeviceInfo &d)
 
 BluetoothDevice::~BluetoothDevice()
 {
-    delete m_controller;
+    if (m_controller) {
+        m_controller->disconnect();
+        delete m_controller;
+    }
 }
+
 QString BluetoothDevice::getAddress() const
 {
 #if defined(Q_OS_DARWIN)
@@ -114,6 +129,7 @@ QString BluetoothDevice::getName() const
 
 void BluetoothDevice::scanServices()
 {
+    setState(Scanning);
     if (!m_controller) {
         statusUpdated("(Connecting to device...)");
         // Connecting signals and slots for connecting to LE services.
@@ -131,6 +147,8 @@ void BluetoothDevice::scanServices()
 
         m_controller->setRemoteAddressType(QLowEnergyController::PublicAddress);
         m_controller->connectToDevice();
+    } else {
+        deviceConnected();
     }
 }
 
@@ -209,6 +227,8 @@ void BluetoothDevice::serviceScanDone()
 
     if (!m_motionService)
         qCDebug(boot2QtDemos) << "Motion service not found.";
+
+    m_serviceDetailsTimer->start();
 }
 
 void BluetoothDevice::temperatureDetailsDiscovered(QLowEnergyService::ServiceState newstate)
@@ -247,8 +267,7 @@ void BluetoothDevice::temperatureDetailsDiscovered(QLowEnergyService::ServiceSta
         }
 
         m_temperatureMeasurementStarted = true;
-        if (isDeviceReady())
-            setState(DeviceState::Connected);
+        m_serviceDetailsTimer->start();
     }
 }
 
@@ -287,8 +306,7 @@ void BluetoothDevice::barometerDetailsDiscovered(QLowEnergyService::ServiceState
         }
 
         m_barometerMeasurementStarted = true;
-        if (isDeviceReady())
-            setState(DeviceState::Connected);
+        m_serviceDetailsTimer->start();
     }
 }
 
@@ -328,8 +346,7 @@ void BluetoothDevice::humidityDetailsDiscovered(QLowEnergyService::ServiceState 
         }
 
         m_humidityMeasurementStarted = true;
-        if (isDeviceReady())
-            setState(DeviceState::Connected);
+        m_serviceDetailsTimer->start();
     }
 }
 
@@ -369,8 +386,7 @@ void BluetoothDevice::lightIntensityDetailsDiscovered(QLowEnergyService::Service
         }
 
         m_lightIntensityMeasurementStarted = true;
-        if (isDeviceReady())
-            setState(DeviceState::Connected);
+        m_serviceDetailsTimer->start();
     }
 }
 
@@ -412,8 +428,7 @@ void BluetoothDevice::motionDetailsDiscovered(QLowEnergyService::ServiceState ne
             m_motionService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_RAPID_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse);
         }
         m_motionMeasurementStarted = true;
-        if (isDeviceReady())
-            setState(DeviceState::Connected);
+        m_serviceDetailsTimer->start();
     }
 }
 
@@ -461,10 +476,14 @@ double BluetoothDevice::convertIrTemperatureAPIReadingToCelsius(quint16 rawReadi
 
 bool BluetoothDevice::isDeviceReady() const
 {
-    return m_temperatureMeasurementStarted
-        && m_humidityMeasurementStarted
-        && m_lightIntensityMeasurementStarted
-        && m_motionMeasurementStarted;
+    if (m_temperatureMeasurementStarted
+            || m_barometerMeasurementStarted
+            || m_humidityMeasurementStarted
+            || m_lightIntensityMeasurementStarted
+            || m_motionMeasurementStarted) {
+        return true;
+    }
+    return false;
 }
 
 void BluetoothDevice::irTemperatureReceived(const QByteArray &value)
@@ -552,9 +571,13 @@ void BluetoothDevice::motionReceived(const QByteArray &value)
 
 void BluetoothDevice::deviceConnected()
 {
-    setState(DeviceState::Scanning);
-    statusUpdated("(Discovering services...)");
-    m_controller->discoverServices();
+    if (isDeviceReady()) {
+        setState(Connected);
+    } else {
+        setState(DeviceState::Scanning);
+        statusUpdated("(Discovering services...)");
+        m_controller->discoverServices();
+    }
 }
 
 void BluetoothDevice::errorReceived(QLowEnergyController::Error /*error*/)

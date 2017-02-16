@@ -21,5 +21,6 @@
         <file>resources/base/images/bg_blue.jpg</file>
         <file>resources/base/RotationPage.qml</file>
         <file>resources/base/AltitudeChart.qml</file>
+        <file>resources/base/BlinkingIcon.qml</file>
     </qresource>
 </RCC>

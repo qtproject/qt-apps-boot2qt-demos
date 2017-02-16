@@ -57,32 +57,42 @@ Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
 
 BluetoothDataProvider::BluetoothDataProvider(QString id, QObject *parent)
     : SensorTagDataProvider(id, parent)
-    , activeDevice(Q_NULLPTR)
+    , m_btDevice(Q_NULLPTR)
     , m_smaSamples(0)
     , m_zeroAltitudeSamples(0)
     , gyroscopeX_calibration(0)
     , gyroscopeY_calibration(0)
     , gyroscopeZ_calibration(0)
 {
+    m_state = NotFound;
     intervalRotation = SENSORTAG_RAPID_TIMER_TIMEOUT_MS;
 }
 
 BluetoothDataProvider::~BluetoothDataProvider()
 {
-
+    if (m_btDevice)
+        delete m_btDevice;
 }
 
 bool BluetoothDataProvider::startDataFetching()
 {
     qCDebug(boot2QtDemos) << Q_FUNC_INFO;
-    if (activeDevice) {
-        connect(activeDevice, &BluetoothDevice::statusUpdated, this, [](const QString& statusMsg) { qCDebug(boot2QtDemos) << "----------" << statusMsg; });
-        connect(activeDevice, &BluetoothDevice::stateChanged, this, &BluetoothDataProvider::updateState);
-        connect(activeDevice, &BluetoothDevice::temperatureChanged, this, &BluetoothDataProvider::temperatureReceived);
-        connect(activeDevice, &BluetoothDevice::barometerChanged, this, &BluetoothDataProvider::barometerReceived);
-        connect(activeDevice, &BluetoothDevice::humidityChanged, this, &BluetoothDataProvider::humidityReceived);
-        connect(activeDevice, &BluetoothDevice::lightIntensityChanged, this, &BluetoothDataProvider::lightIntensityReceived);
-        connect(activeDevice, &BluetoothDevice::motionChanged, this, &BluetoothDataProvider::motionReceived);
+    if (m_btDevice) {
+        connect(m_btDevice, &BluetoothDevice::statusUpdated, this, [=](const QString& statusMsg) {
+            qCDebug(boot2QtDemos) << id() << "----------" << statusMsg;
+        });
+        connect(m_btDevice, &BluetoothDevice::stateChanged,
+                this, &BluetoothDataProvider::updateState);
+        connect(m_btDevice, &BluetoothDevice::temperatureChanged,
+                this, &BluetoothDataProvider::temperatureReceived);
+        connect(m_btDevice, &BluetoothDevice::barometerChanged,
+                this, &BluetoothDataProvider::barometerReceived);
+        connect(m_btDevice, &BluetoothDevice::humidityChanged,
+                this, &BluetoothDataProvider::humidityReceived);
+        connect(m_btDevice, &BluetoothDevice::lightIntensityChanged,
+                this, &BluetoothDataProvider::lightIntensityReceived);
+        connect(m_btDevice, &BluetoothDevice::motionChanged,
+                this, &BluetoothDataProvider::motionReceived);
         timer.setInterval(1000);
         timer.setSingleShot(true);
         connect(&timer, &QTimer::timeout, this, &BluetoothDataProvider::startServiceScan);
@@ -98,8 +108,10 @@ void BluetoothDataProvider::endDataFetching()
 void BluetoothDataProvider::startServiceScan()
 {
     qCDebug(boot2QtDemos)<<Q_FUNC_INFO;
-    if (activeDevice)
-        activeDevice->scanServices();
+    if (m_btDevice) {
+        setState(Scanning);
+        m_btDevice->scanServices();
+    }
 }
 
 void BluetoothDataProvider::temperatureReceived(double newAmbientTemperature, double newObjectTemperature)
@@ -213,9 +225,9 @@ QString BluetoothDataProvider::versionString() const
 
 void BluetoothDataProvider::updateState()
 {
-    switch (activeDevice->state()) {
+    switch (m_btDevice->state()) {
     case BluetoothDevice::Disconnected:
-        setState(Disconnected);
+        unbindDevice();
         break;
     case BluetoothDevice::Scanning:
         setState(Scanning);
@@ -262,11 +274,21 @@ void BluetoothDataProvider::recalibrateZeroAltitude()
 
 void BluetoothDataProvider::bindToDevice(BluetoothDevice *device)
 {
-    activeDevice = device;
-    startDataFetching();
+    if (m_btDevice)
+        delete m_btDevice;
+    m_btDevice = device;
+}
+
+void BluetoothDataProvider::unbindDevice()
+{
+    if (m_btDevice) {
+        delete m_btDevice;
+        m_btDevice = 0;
+        setState(NotFound);
+    }
 }
 
 BluetoothDevice *BluetoothDataProvider::device()
 {
-    return activeDevice;
+    return m_btDevice;
 }

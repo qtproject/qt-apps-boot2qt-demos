@@ -238,6 +238,11 @@ void MockDataProvider::rapidTimerExpired()
     emit gyroscopeDegPerSecChanged();
 }
 
+void MockDataProvider::startServiceScan()
+{
+
+}
+
 void MockDataProvider::reset()
 {
     rotation_x = 0;

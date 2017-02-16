@@ -47,46 +47,26 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef MOCKDATAPROVIDER_H
-#define MOCKDATAPROVIDER_H
-#include "sensortagdataprovider.h"
-#include <QtQml/QQmlEngine>
-#include <QtQml/QJSEngine>
-#include <QtCore/QTimer>
+import QtQuick 2.0
 
-class MockDataProvider : public SensorTagDataProvider
-{
-    Q_OBJECT
-public:
-    explicit MockDataProvider(QString id, QObject* parent = 0);
+Image {
+    id: icon
 
-    bool startDataFetching();
-    void endDataFetching();
+    property bool activeBlink: false
 
-    QString sensorType() const;
-    QString versionString() const;
+    function startBlinking() {
+        if (!activeBlink) {
+            activeBlink = true;
+            mainWindow.startBlink();
+        }
+    }
 
-    void setTagType(int tagType);
+    function stopBlinking() {
+        if (activeBlink) {
+            activeBlink = false;
+            mainWindow.stopBlink();
+        }
+    }
 
-public slots:
-    void slowTimerExpired();
-    void rapidTimerExpired();
-    void startServiceScan();
-
-protected:
-    void reset() override;
-
-private:
-    QTimer *slowUpdateTimer;
-    QTimer *rapidUpdateTimer;
-    float xAxisG;
-    float yAxisG;
-    float zAxisG;
-    int luxIncrease;
-    int rotationDegPerSecXIncrease;
-    int rotationDegPerSecYIncrease;
-    int rotationDegPerSecZIncrease;
-    int m_smaSamples;
-};
-
-#endif // MOCKDATAPROVIDER_H
+    opacity: activeBlink ? mainWindow.globalBlinkOpacity: 1
+}

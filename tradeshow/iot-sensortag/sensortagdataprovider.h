@@ -98,7 +98,7 @@ public:
                   Rotation = 1 << 6,
                   Accelometer = 1 << 7,
                   Altitude = 1 << 8};
-    enum ProviderState {Disconnected = 0, Scanning, Connected, Error};
+    enum ProviderState {NotFound = 0, Disconnected, Scanning, Connected, Error};
 
     explicit SensorTagDataProvider(QObject *parent = 0);
     SensorTagDataProvider(QString id, QObject *parent = 0);

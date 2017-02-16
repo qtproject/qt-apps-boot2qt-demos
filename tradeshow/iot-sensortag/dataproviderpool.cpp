@@ -84,6 +84,11 @@ SensorTagDataProvider *DataProviderPool::getProvider(SensorTagDataProvider::TagT
     return p;
 }
 
+void DataProviderPool::disconnectProvider(QString id)
+{
+    Q_UNUSED(id)
+}
+
 QQmlListProperty<SensorTagDataProvider> DataProviderPool::dataProviders()
 {
    return QQmlListProperty<SensorTagDataProvider>(this, m_dataProviders);

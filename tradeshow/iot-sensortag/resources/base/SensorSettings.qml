@@ -57,8 +57,8 @@ Rectangle {
 
     property alias listModelCount: list.count
 
-    width: 360
-    height: 252
+    width: 620
+    height: 480
     color: "black"
 
     Text {
@@ -73,67 +73,128 @@ Rectangle {
 
     Image {
         id: icon
-        width: 60
-        height: 60
+
         anchors.top: titleText.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.margins: 8
         source: pathPrefix + "Toolbar/icon_topbar_sensor.png"
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: dataProviderPool.startScanning()
-        }
     }
 
     ListView {
         id: list
         anchors.top: icon.bottom
         anchors.topMargin: 16
-        height: 150
-        width: parent.width
-        clip: true
+        anchors.left: parent.left
+        anchors.leftMargin: 30
+        anchors.right: parent.right
+        anchors.rightMargin: 30
         orientation: ListView.Horizontal
         model: dataProviderPool.dataProviders
+        height: parent.height
+        clip: true
+        snapMode: ListView.SnapToItem
+        boundsBehavior: Flickable.StopAtBounds
+
+        function getTagTypeStr(tagType) {
+            var tagStr = "";
+            if (tagType & SensorTagData.AmbientTemperature)
+                tagStr += "Ambient Temperature\n";
+            if (tagType & SensorTagData.ObjectTemperature)
+                tagStr += "Object Temperature\n";
+            if (tagType & SensorTagData.Humidity)
+                tagStr += "Humidity\n";
+            if (tagType & SensorTagData.Altitude)
+                tagStr += "Altitude\n";
+            if (tagType & SensorTagData.Light)
+                tagStr += "Light\n";
+            if (tagType & SensorTagData.Rotation)
+                tagStr += "Gyroscope\n";
+            if (tagType & SensorTagData.Magnetometer)
+                tagStr += "Magnetometer\n";
+            if (tagType & SensorTagData.Accelometer)
+                tagStr += "Accelometer\n";
+
+            return tagStr;
+        }
 
         delegate: Item {
             id: listItem
             width: mainRect.width / 3
+            height: childrenRect.height
+
             ColumnLayout {
                 spacing: 8
-                Item {
-                    width: listItem.width
-                    height: 40
-                    Text {
-                        anchors.top: parent.top
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.margins: 4
-                        horizontalAlignment: Text.AlignHCenter
-                        text: providerId.toUpperCase()
-                        color: "white"
-                        font.pixelSize: 16
-                        elide: Text.ElideMiddle
-                        clip: true
-                    }
+
+                Text {
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    horizontalAlignment: Text.AlignHCenter
+                    text: providerId
+                    color: "white"
+                    font.pixelSize: 16
+                    elide: Text.ElideMiddle
                 }
-                Image {
-                    Layout.alignment: Qt.AlignHCenter
-                    width: 40
-                    height: 40
+
+                BlinkingIcon {
+                    id: sensorIcon
+
+                    property bool canBlink: modelData.state === SensorTagData.Scanning
+
+                    onCanBlinkChanged: {
+                            if (canBlink)
+                                sensorIcon.startBlinking();
+                             else
+                                sensorIcon.stopBlinking();
+                    }
+
                     source: pathPrefix + "Toolbar/icon_topbar_sensor.png"
-                    opacity: (modelData.state === SensorTagData.Connected
-                             || modelData.state === SensorTagData.Scanning) ? 1 : 0.5
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    Component.onDestruction: {
+                        sensorIcon.stopBlinking()
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            if (modelData.state === SensorTagData.Connected)
+                                dataProviderPool.disconnectProvider(modelData.providerId);
+                            else if (modelData.state === SensorTagData.NotFound)
+                                dataProviderPool.startScanning();
+                            else if (modelData.state === SensorTagData.Scanning)
+                                dataProviderPool.disconnectProvider(modelData.providerId)
+                            else
+                                modelData.startServiceScan();
+                        }
+                    }
                 }
 
                 Text {
                     Layout.alignment: Qt.AlignHCenter
-                    text: modelData.state === SensorTagData.Disconnected ? "Disconnected"
-                          : (modelData.state === SensorTagData.Scanning) ? "Scanning"
-                          : (modelData.state === SensorTagData.Connected) ? "Connected"
+                    text: modelData.state === SensorTagData.NotFound ? "\nNOT FOUND"
+                          : (modelData.state === SensorTagData.Disconnected) ? "\nDISCONNECTED"
+                          : (modelData.state === SensorTagData.Scanning) ? "\nCONNECTING"
+                          : (modelData.state === SensorTagData.Connected) ? "\nCONNECTED"
                           : "Error"
                     color: "white"
                     font.pixelSize: 14
+                }
+
+                Item {
+                    height: 30
+                    width: 10
+                }
+
+                Text {
+                    color: "white"
+                    text: "Provides data for:"
+                }
+
+                Text {
+                    color: "white"
+                    lineHeight: 0.7
+                    text: list.getTagTypeStr(modelData.tagType())
                 }
             }
         }

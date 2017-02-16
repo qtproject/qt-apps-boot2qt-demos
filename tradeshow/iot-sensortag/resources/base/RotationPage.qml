@@ -56,55 +56,101 @@ Item {
     property var sensor
     property var rotationUpdateInterval: sensor ? sensor.rotationUpdateInterval : 0
 
-    focus: true
+    property int sensorState: sensor ? sensor.state : SensorTagData.Disconnected
 
-    Image {
-        id: ring
-        anchors.centerIn: parent
-        source: pathPrefix + "Gyro/gyro_outer.png"
+    onSensorStateChanged: {
+        if (sensorState === SensorTagData.Scanning)
+            sensorIcon.startBlinking();
+        else
+            sensorIcon.stopBlinking();
     }
-    Image {
-        id: outerRing
-        anchors.centerIn: parent
-        source: pathPrefix + "Gyro/gyro_ring3.png"
-        rotation: sensor ? sensor.rotationX : 0
-        Behavior on rotation {
-            RotationAnimator {
-                easing.type: Easing.Linear
-                duration: rotationUpdateInterval
-                direction: RotationAnimator.Shortest
+
+    Item {
+        anchors.fill: parent
+
+        visible: sensorState === SensorTagData.Connected
+
+        Image {
+            id: ring
+            anchors.centerIn: parent
+            source: pathPrefix + "Gyro/gyro_outer.png"
+        }
+        Image {
+            id: outerRing
+            anchors.centerIn: parent
+            source: pathPrefix + "Gyro/gyro_ring3.png"
+            rotation: sensor ? sensor.rotationX : 0
+            Behavior on rotation {
+                RotationAnimator {
+                    easing.type: Easing.Linear
+                    duration: rotationUpdateInterval
+                    direction: RotationAnimation.Shortest
+                }
             }
         }
-    }
-    Image {
-        id: largeRing
-        anchors.centerIn: parent
-        source: pathPrefix + "Gyro/gyro_ring2.png"
-        rotation: sensor ? sensor.rotationY : 0
-        Behavior on rotation {
-            RotationAnimator {
-                easing.type: Easing.Linear
-                duration: rotationUpdateInterval
-                direction: RotationAnimator.Shortest
+        Image {
+            id: largeRing
+            anchors.centerIn: parent
+            source: pathPrefix + "Gyro/gyro_ring2.png"
+            rotation: sensor ? sensor.rotationY : 0
+            Behavior on rotation {
+                RotationAnimator {
+                    easing.type: Easing.Linear
+                    duration: rotationUpdateInterval
+                    direction: RotationAnimation.Shortest
+                }
             }
         }
-    }
-    Image {
-        id: mediumRing
-        anchors.centerIn: parent
-        source: pathPrefix + "Gyro/gyro_ring1.png"
-        rotation: sensor ? sensor.rotationZ : 0
-        Behavior on rotation {
-            RotationAnimator {
-                easing.type: Easing.Linear
-                duration: rotationUpdateInterval
-                direction: RotationAnimator.Shortest
+        Image {
+            id: mediumRing
+            anchors.centerIn: parent
+            source: pathPrefix + "Gyro/gyro_ring1.png"
+            rotation: sensor ? sensor.rotationZ : 0
+            Behavior on rotation {
+                RotationAnimator {
+                    easing.type: Easing.Linear
+                    duration: rotationUpdateInterval
+                    direction: RotationAnimation.Shortest
+                }
             }
         }
+        Image {
+            id: centerRing
+            anchors.centerIn: parent
+            source: pathPrefix + "Gyro/gyro_center.png"
+        }
     }
-    Image {
-        id: centerRing
-        anchors.centerIn: parent
-        source: pathPrefix + "Gyro/gyro_center.png"
+
+    Item {
+        id: connectingNote
+
+        anchors.fill: parent
+        visible: sensorState === SensorTagData.Scanning ||
+                 sensorState === SensorTagData.Disconnected ||
+                 sensorState === SensorTagData.Error ||
+                 sensorState === SensorTagData.NotFound
+
+        Column {
+            anchors.centerIn: parent
+            spacing: 20
+
+            BlinkingIcon {
+                id: sensorIcon
+
+                source: pathPrefix + "Toolbar/icon_topbar_sensor.png"
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: sensorState === SensorTagData.Scanning
+            }
+
+            Text {
+                id: stateText
+
+                color: "white"
+                text: sensorState === SensorTagData.Scanning ? "Connecting to sensor..."
+                        : sensorState === SensorTagData.Disconnected ? "Disconnected"
+                        : sensorState === SensorTagData.NotFound ? "Device not found"
+                        : ""
+            }
+        }
     }
 }
