@@ -49,7 +49,6 @@
 ****************************************************************************/
 import QtQuick 2.6
 import SensorTag.DataProvider 1.0
-import QtQuick.Particles 2.0
 
 Item {
     id: dialerRoot
