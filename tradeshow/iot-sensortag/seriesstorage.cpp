@@ -87,9 +87,9 @@ void SeriesStorage::setGyroSeries(QAbstractSeries *xSeries, QAbstractSeries *ySe
 
 void SeriesStorage::setMagnetoMeterSeries(QAbstractSeries *xSeries, QAbstractSeries *ySeries, QAbstractSeries *zSeries)
 {
-    m_magnetoX = qobject_cast<QSplineSeries *>(xSeries);
-    m_magnetoY = qobject_cast<QSplineSeries *>(ySeries);
-    m_magnetoZ = qobject_cast<QSplineSeries *>(zSeries);
+    m_magnetoX = qobject_cast<QLineSeries *>(xSeries);
+    m_magnetoY = qobject_cast<QLineSeries *>(ySeries);
+    m_magnetoZ = qobject_cast<QLineSeries *>(zSeries);
 }
 
 void SeriesStorage::dataProviderPoolChanged()

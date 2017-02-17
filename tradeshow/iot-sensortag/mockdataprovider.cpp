@@ -195,15 +195,15 @@ void MockDataProvider::rapidTimerExpired()
         accelometerZ = 1;
     }
     emit accelometerChanged();
-    magnetometerMicroT_xAxis += 50;
-    magnetometerMicroT_yAxis += 50;
-    magnetometerMicroT_zAxis += 50;
-    if (magnetometerMicroT_xAxis > 1000)
-        magnetometerMicroT_xAxis -= 1000;
-    if (magnetometerMicroT_yAxis > 1000)
-        magnetometerMicroT_yAxis -= 1000;
-    if (magnetometerMicroT_zAxis > 1000)
-        magnetometerMicroT_zAxis -= 1000;
+    magnetometerMicroT_xAxis += 100;
+    magnetometerMicroT_yAxis += 100;
+    magnetometerMicroT_zAxis += 100;
+    if (magnetometerMicroT_xAxis > 1500)
+        magnetometerMicroT_xAxis -= 3000;
+    if (magnetometerMicroT_yAxis > 1500)
+        magnetometerMicroT_yAxis -= 3000;
+    if (magnetometerMicroT_zAxis > 1500)
+        magnetometerMicroT_zAxis -= 3000;
     emit magnetometerMicroTChanged();
 
     rotation_x += 1;

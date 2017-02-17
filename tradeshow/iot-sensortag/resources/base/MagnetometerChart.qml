@@ -58,9 +58,9 @@ BaseChart {
     property int maxNumOfMagnReadings: 24
 
     readonly property color chartColor: "#15bdff"
-    readonly property string xColor: "#15bdff"
+    readonly property string xColor: "#4db300"
     readonly property string yColor: "white"
-    readonly property string zColor: "red"
+    readonly property string zColor: "#f64405"
     readonly property color textColor: "white"
 
     title: qsTr("Magnetometer")
@@ -77,31 +77,23 @@ BaseChart {
             }
         }
 
-        Image {
-            anchors.fill: parent
-            source: pathPrefix + "Magnetometer/grid.png"
-        }
-
         Glow {
             anchors.fill: chartView
             radius: 18
             samples: 30
-            color: "red"
+            color: zColor
             source: chartView
         }
 
-
-        PolarChartView {
+        ChartView {
             id: chartView
 
             anchors.top: parent.top
-            anchors.topMargin: -8
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: -10
+            anchors.bottomMargin: 25
             anchors.left: parent.left
-            anchors.leftMargin: -60
+            anchors.leftMargin: -20
             anchors.right: parent.right
-            anchors.rightMargin: 30
             antialiasing: true
             backgroundColor: "transparent"
             legend.visible: false
@@ -112,19 +104,18 @@ BaseChart {
             ValueAxis {
                 id: valueAxisX
                 min: 0
-                max: maxNumOfMagnReadings
+                max: maxNumOfMagnReadings + 1
                 visible: false
             }
 
             ValueAxis {
                 id: valueAxisY
-
-                min: -1000
-                max: 1000
+                min: -2000
+                max: 2000
                 visible: false
             }
 
-            SplineSeries {
+            LineSeries {
                 id: magnSeriesX
                 axisX: valueAxisX
                 axisY: valueAxisY
@@ -132,7 +123,7 @@ BaseChart {
                 name: "Magnet X"
                 useOpenGL: true
             }
-            SplineSeries {
+            LineSeries {
                 id: magnSeriesY
                 axisX: valueAxisX
                 axisY: valueAxisY
@@ -140,7 +131,7 @@ BaseChart {
                 name: "Magnet Y"
                 useOpenGL: true
             }
-            SplineSeries {
+            LineSeries {
                 id: magnSeriesZ
                 axisX: valueAxisX
                 axisY: valueAxisY
@@ -150,34 +141,24 @@ BaseChart {
             }
         }
 
-        Column {
-            id: labelColumn
+        Row {
+            id: labelRow
             anchors.fill: parent
-            anchors.rightMargin: 20
+            anchors.leftMargin: 16
 
             Repeater {
                 model: 3
 
                 Item {
-                    height: labelColumn.height / 3
-                    width: labelColumn.width
+                    height: labelRow.height
+                    width: labelRow.width / 3
 
                     Text {
                         id: coordText
                         text: (index == 0) ? "X" : ((index == 1) ? "Y" : "Z")
-                        color: "white"
-                        anchors.right: parent.right
-                        anchors.top: parent.top
-                        horizontalAlignment: Text.AlignRight
-                        width: contentWidth
-                    }
-
-                    Rectangle {
                         color: (index == 0) ? xColor : ((index == 1) ? yColor : zColor)
-                        anchors.right: parent.right
-                        anchors.top: coordText.bottom
-                        height: 1
-                        width: parent.width / 8
+                        anchors.left: parent.left
+                        anchors.bottom: parent.bottom
                     }
 
                     Text {
@@ -186,10 +167,9 @@ BaseChart {
                                                              sensor.magnetometerMicroT_zAxis) ) :
                                        ""
                         color: "white"
-                        anchors.right: parent.right
-                        anchors.top: coordText.bottom
-                        horizontalAlignment: Text.AlignRight
-                        width: contentWidth
+                        anchors.left: coordText.right
+                        anchors.leftMargin: 16
+                        anchors.bottom: parent.bottom
                     }
                 }
             }

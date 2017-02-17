@@ -84,9 +84,9 @@ private:
     QSplineSeries *m_gyroX{0};
     QSplineSeries *m_gyroY{0};
     QSplineSeries *m_gyroZ{0};
-    QSplineSeries *m_magnetoX{0};
-    QSplineSeries *m_magnetoY{0};
-    QSplineSeries *m_magnetoZ{0};
+    QLineSeries *m_magnetoX{0};
+    QLineSeries *m_magnetoY{0};
+    QLineSeries *m_magnetoZ{0};
     QLineSeries *m_temperature{0};
     QList<QPointF> m_gyroListX;
     QList<QPointF> m_gyroListY;
