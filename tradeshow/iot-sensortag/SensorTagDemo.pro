@@ -28,15 +28,16 @@ win32|linux:!android:!qnx {
 }
 
 win32 {
-    # Obtained via NuGet
-    isEmpty(WASTORAGE_LOCATION): WASTORAGE_LOCATION = "C:/Users/mauri/Documents/Visual Studio 2015/Projects/App1/packages/wastorage.v140.2.6.0"
-    INCLUDEPATH += $$WASTORAGE_LOCATION/build/native/include \
-                   $$WASTORAGE_LOCATION/build/native/include/was \
-                   $$WASTORAGE_LOCATION/build/native/include/wascore
-    LIBS += -L$$WASTORAGE_LOCATION/lib/native/v140/Win32/Release
+    WASTORAGE_PATH = $$(WASTORAGE_LOCATION)
+    isEmpty(WASTORAGE_PATH): message("Location for Azure Storage libs unknown. Please specify WASTORAGE_LOCATION")
+    CPPRESTSDK_PATH = $$(CPPRESTSDK_LOCATION)
+    isEmpty(CPPRESTSDK_PATH): message("Location for CppRest library unknown. Please specify CPPREST_LOCATION")
 
-    isEmpty(CPPRESTSDK_LOCATION): CPPRESTSDK_LOCATION = "C:/Users/mauri/Documents/Visual Studio 2015/Projects/App1/packages/cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.2.9.1"
-    INCLUDEPATH += $$CPPRESTSDK_LOCATION/build/native/include
+    INCLUDEPATH += $$WASTORAGE_PATH/build/native/include \
+                   $$WASTORAGE_PATH/build/native/include/was \
+                   $$WASTORAGE_PATH/build/native/include/wascore \
+                   $$CPPRESTSDK_PATH/build/native/include
+    LIBS += -L$$WASTORAGE_PATH/lib/native/v140/Win32/Release
 }
 
 SOURCES += main.cpp \
@@ -60,7 +61,11 @@ HEADERS += \
     seriesstorage.h
 
 BLUETOOTH_LINUX_HOST {
-    !winrt:CONFIG += UPDATE_TO_AZURE
+    win32 {
+        !isEmpty(WASTORAGE_PATH):!isEmpty(CPPRESTSDK_LOCATION): CONFIG += UPDATE_TO_AZURE
+    } else {
+        CONFIG += UPDATE_TO_AZURE
+    }
     DEFINES += RUNS_AS_HOST
 
     SOURCES += \
