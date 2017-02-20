@@ -55,6 +55,8 @@
 #include <QObject>
 #include <QtCharts/QtCharts>
 
+QT_CHARTS_USE_NAMESPACE
+
 class SeriesStorage : public QObject
 {
     Q_OBJECT
