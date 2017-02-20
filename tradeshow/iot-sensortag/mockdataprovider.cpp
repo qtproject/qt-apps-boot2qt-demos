@@ -55,8 +55,9 @@
 
 MockDataProvider::MockDataProvider(QString id, QObject* parent)
     : SensorTagDataProvider(id, parent),
-    xAxisG(-0.02),
-    zAxisG(0.02),
+    xAxisG(-0.02f),
+    yAxisG(0.0f),
+    zAxisG(0.02f),
     luxIncrease(100),
     rotationDegPerSecXIncrease(5),
     rotationDegPerSecYIncrease(7),
