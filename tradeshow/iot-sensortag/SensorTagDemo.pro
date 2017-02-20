@@ -17,7 +17,7 @@ DEVICE_TYPE = UI_SMALL
 # If DEVICE_TYPE is not set manually, try to determine
 # the correct device type by the used operating system
 win32|linux:!android:!qnx {
-    CONFIG += BLUETOOTH_LINUX_HOST
+    CONFIG += BLUETOOTH_HOST
     isEmpty(DEVICE_TYPE) { DEVICE_TYPE = UI_SMALL }
 } else:android {
     isEmpty(DEVICE_TYPE) { DEVICE_TYPE = UI_MEDIUM }
@@ -60,7 +60,7 @@ HEADERS += \
     bluetoothapiconstants.h \
     seriesstorage.h
 
-BLUETOOTH_LINUX_HOST {
+BLUETOOTH_HOST {
     win32 {
         !isEmpty(WASTORAGE_PATH):!isEmpty(CPPRESTSDK_LOCATION): CONFIG += UPDATE_TO_AZURE
     } else {
