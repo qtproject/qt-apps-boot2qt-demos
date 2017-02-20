@@ -64,7 +64,7 @@
 #include "clouddataproviderpool.h"
 #include "mockdataprovider.h"
 #include "demodataproviderpool.h"
-#ifdef CLOUD_UPLOAD
+#ifdef AZURE_UPLOAD
 #include "cloudupdate.h"
 #endif
 #include "seriesstorage.h"
@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<DataProviderPool>("SensorTag.DataProvider", 1, 0, "DataProviderPool");
     qmlRegisterType<SeriesStorage>("SensorTag.SeriesStorage", 1, 0, "SeriesStorage");
 
-#if defined(RUNS_AS_HOST) && defined(CLOUD_UPLOAD)
+#if defined(RUNS_AS_HOST) && defined(AZURE_UPLOAD)
     CloudUpdate update;
     if (sensorSource == "sensor" || sensorSource == "mock") {
         update.setDataProviderPool(dataProviderPool);

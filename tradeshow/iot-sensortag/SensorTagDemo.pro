@@ -60,7 +60,7 @@ HEADERS += \
     seriesstorage.h
 
 BLUETOOTH_LINUX_HOST {
-    !winrt:CONFIG += UPDATE_TO_CLOUD
+    !winrt:CONFIG += UPDATE_TO_AZURE
     DEFINES += RUNS_AS_HOST
 
     SOURCES += \
@@ -76,10 +76,10 @@ BLUETOOTH_LINUX_HOST {
         bluetoothdevice.h
 }
 
-UPDATE_TO_CLOUD {
+UPDATE_TO_AZURE {
     SOURCES += cloudupdate.cpp
     HEADERS += cloudupdate.h
-    DEFINES += CLOUD_UPLOAD
+    DEFINES += AZURE_UPLOAD
     # For Azure libs
     win32 {
         LIBS += -lwastorage
