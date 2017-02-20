@@ -46,8 +46,8 @@ SOURCES += main.cpp \
     clouddataprovider.cpp \
     dataproviderpool.cpp \
     clouddataproviderpool.cpp \
-    demodataproviderpool.cpp \
-    seriesstorage.cpp
+    seriesstorage.cpp \
+    mockdataproviderpool.cpp
 
 HEADERS += \
     sensortagdataprovider.h \
@@ -56,9 +56,9 @@ HEADERS += \
     cloudservice.h \
     dataproviderpool.h \
     clouddataproviderpool.h \
-    demodataproviderpool.h \
     bluetoothapiconstants.h \
-    seriesstorage.h
+    seriesstorage.h \
+    mockdataproviderpool.h
 
 BLUETOOTH_HOST {
     win32 {
@@ -71,12 +71,14 @@ BLUETOOTH_HOST {
     SOURCES += \
         sensortagdataproviderpool.cpp \
         bluetoothdataprovider.cpp \
+        demodataproviderpool.cpp \
         serviceinfo.cpp \
         bluetoothdevice.cpp
 
     HEADERS += \
         sensortagdataproviderpool.h \
         bluetoothdataprovider.h \
+        demodataproviderpool.h \
         serviceinfo.h \
         bluetoothdevice.h
 }

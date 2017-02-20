@@ -59,11 +59,12 @@
 #include "bluetoothdataprovider.h"
 #include "sensortagdataprovider.h"
 #include "sensortagdataproviderpool.h"
+#include "demodataproviderpool.h"
 #endif
 #include "clouddataprovider.h"
 #include "clouddataproviderpool.h"
 #include "mockdataprovider.h"
-#include "demodataproviderpool.h"
+#include "mockdataproviderpool.h"
 #ifdef AZURE_UPLOAD
 #include "cloudupdate.h"
 #endif
@@ -117,10 +118,7 @@ int main(int argc, char *argv[])
 #endif
     else if (sensorSource == QString("mock").toLower()){
         qCDebug(boot2QtDemos) << "Running in mock data mode";
-        // Replace this with modified DemoDataProviderPoool,
-        // which combines data from three devices
-        dataProviderPool = new DemoDataProviderPool;
-        static_cast<DemoDataProviderPool*>(dataProviderPool)->setMockDataMode(true);
+        dataProviderPool = new MockDataProviderPool;
     }
     else {
         qCDebug(boot2QtDemos) << "Unknown mode: " << sensorSource;
