@@ -62,13 +62,16 @@ BaseChart {
     property real defaultAvgValue: (maximum + minimum) / 2
     property real minValue: defaultAvgValue
     property real maxValue: defaultAvgValue
-    property real value
+    property real value: sensor ? sensor.infraredAmbientTemperature : 0
 
     readonly property color legendColor: "white"
     readonly property color chartColor: "#15bdff"
 
-    onSensorChanged: if (sensor) {
-        sensor.infraredAmbientTemperatureChanged.connect(contentItem.updateTemperatureGraph)
+    onValueChanged: {
+        if (minValue > value)
+            minValue = value;
+        if (maxValue < value)
+            maxValue = value;
     }
 
     title: qsTr("Ambient Temperature")
@@ -82,14 +85,6 @@ BaseChart {
                 if (seriesStorage)
                     seriesStorage.setTemperatureSeries(avgTempSeries);
             }
-        }
-
-        function updateTemperatureGraph() {
-            var value = sensor.infraredAmbientTemperature;
-            if (minValue > value)
-                minValue = value;
-            if (maxValue < value)
-                maxValue = value;
         }
 
         Item {

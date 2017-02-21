@@ -52,26 +52,16 @@ import SensorTag.DataProvider 1.0
 
 BaseChart {
 
-    property real acceXValue
-    property real acceYValue
-    property real acceZValue
+    property real acceXValue: sensor ? sensor.accelometer_xAxis.toFixed(1) : 0
+    property real acceYValue: sensor ? sensor.accelometer_yAxis.toFixed(1) : 0
+    property real acceZValue: sensor ? sensor.accelometer_zAxis.toFixed(1) : 0
 
     antialiasing: true
     title: qsTr("Accelometer")
     rightSide: true
 
-    onSensorChanged: if (sensor) {
-        sensor.accelometerChanged.connect(contentItem.updateAcceValues)
-    }
-
     content: Item {
         anchors.fill: parent
-
-        function updateAcceValues() {
-            acceXValue = sensor.accelometer_xAxis.toFixed(1)
-            acceYValue = sensor.accelometer_yAxis.toFixed(1)
-            acceZValue = sensor.accelometer_zAxis.toFixed(1)
-        }
 
         Row {
             id: itemRow

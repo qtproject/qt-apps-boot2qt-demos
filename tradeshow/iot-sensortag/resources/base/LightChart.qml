@@ -57,10 +57,6 @@ BaseChart {
     title: qsTr("Light Intensity")
     rightSide: true
 
-    onSensorChanged: if (sensor) {
-        sensor.lightIntensityChanged.connect(contentItem.getLightText)
-    }
-
     content: Item {
         id: container
 
@@ -68,21 +64,18 @@ BaseChart {
 
         property alias lightText: lightMainText.text
         property alias lightImg: brightnessImg
-        property real lightValue: 0
+        property real lightValue: sensor ? sensor.lightIntensityLux : 0
         property real maxLightValue: 1
         property real normalizedLightValue: 0
 
-        function getLightText()
-        {
-            lightValue = sensor.lightIntensityLux;
-            contentItem.lightText = lightValue.toFixed(1);
+        onLightValueChanged: {
+            contentItem.lightText = lightValue.toFixed(1)
 
             if (lightValue > maxLightValue)
-            {
-                maxLightValue = lightValue;
-            }
-            normalizedLightValue = lightValue / maxLightValue;
-            lightImg.opacity = normalizedLightValue;
+                maxLightValue = lightValue
+
+            normalizedLightValue = lightValue / maxLightValue
+            lightImg.opacity = normalizedLightValue
         }
 
         Image {

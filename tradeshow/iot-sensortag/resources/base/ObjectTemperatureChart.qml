@@ -55,20 +55,15 @@ BaseChart {
 
     property real minValue: Number.MAX_VALUE
     property real maxValue: Number.MIN_VALUE
-    property real value
-
-    function updateTemps(){
-        value = sensor.infraredObjectTemperature.toFixed(1);
-        if (minValue > value)
-            minValue = value;
-        if (maxValue < value)
-            maxValue = value;
-    }
+    property real value: sensor ? sensor.infraredObjectTemperature.toFixed(1) : 0
 
     title: qsTr("Object Temperature")
 
-    onSensorChanged: if (sensor) {
-        sensor.infraredObjectTemperatureChanged.connect(updateTemps)
+    onValueChanged: {
+        if (minValue > value)
+            minValue = value
+        if (maxValue < value)
+            maxValue = value
     }
 
     content: Item {

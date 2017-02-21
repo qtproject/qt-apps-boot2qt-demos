@@ -57,34 +57,23 @@ import QtQuick.Extras 1.4
 BaseChart {
     property int humiditySeriesIndex: 0
     property int maxNumOfHumiReadings: 30
-    property real humidityValue: 0
 
     antialiasing: true
     title: qsTr("Humidity")
 
-    onSensorChanged: if (sensor) {
-        sensor.relativeHumidityChanged.connect(contentItem.getMaxOchMinHum)
-    }
-
     content: Item {
         anchors.fill: parent
 
+        property real humidityValue: sensor ? sensor.relativeHumidity : 0
         property real maxHumi: 0
-        property real minHumi: 0
+        property real minHumi: 100
 
-        function getMaxOchMinHum()
-        {
-            humidityValue = sensor.relativeHumidity;
+        onHumidityValueChanged: {
+            if (humidityValue > maxHumi)
+                maxHumi = humidityValue
 
-            if (humidityValue > contentItem.maxHumi)
-            {
-                contentItem.maxHumi = humidityValue
-            }
-
-            if (humidityValue < contentItem.minHumi)
-            {
-                contentItem.minHumi = humidityValue;
-            }
+            if (humidityValue < minHumi)
+                minHumi = humidityValue
         }
 
         Image {

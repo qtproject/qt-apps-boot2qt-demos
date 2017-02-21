@@ -52,7 +52,7 @@ import SensorTag.DataProvider 1.0
 import QtGraphicalEffects 1.0
 
 BaseChart {
-    property real altitude
+    property real altitude: sensor ? sensor.altitude : 0
     property real altitudeRounded
     property real maxAltitude
 
@@ -68,15 +68,10 @@ BaseChart {
         }
     }
 
-    onSensorChanged: {
-        if (sensor) {
-            sensor.altitudeChanged.connect(this, function() {
-                altitude = sensor.altitude;
-                altitudeRounded = Math.floor(altitude + 0.5).toFixed(0);
-                if (altitudeRounded > maxAltitude)
-                    maxAltitude = altitudeRounded;
-            });
-        }
+    onAltitudeChanged: {
+        altitudeRounded = Math.floor(altitude + 0.5).toFixed(0)
+        if (altitudeRounded > maxAltitude)
+            maxAltitude = altitudeRounded
     }
 
     content: Item {
