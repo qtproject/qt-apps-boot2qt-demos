@@ -112,6 +112,7 @@ void CloudDataProvider::parseReceivedText()
     bool gyroscopeReadingGot = false;
     bool accelometerReadingGot = false;
     bool magnetometerReadingGot = false;
+    bool rotationReadingsGot = false;
     for (int stringIndex = 4 ; stringIndex < (dataList.length()-1) ; stringIndex+=2) {
         const QString headerText(dataList[stringIndex]);
         const double doubleValue = QString(dataList[stringIndex+1]).toDouble();
@@ -166,12 +167,15 @@ void CloudDataProvider::parseReceivedText()
             magnetometerMicroT_zAxis = floatValue;
         } else if ("RotX:" == headerText) {
             rotation_x = floatValue;
+            rotationReadingsGot = true;
             emit rotationXChanged();
         } else if ("RotY:" == headerText) {
             rotation_y = floatValue;
+            rotationReadingsGot = true;
             emit rotationYChanged();
         } else if ("RotZ:" == headerText) {
             rotation_z = floatValue;
+            rotationReadingsGot = true;
             emit rotationZChanged();
         } else {
             qCDebug(boot2QtDemos) << "Unsupported Header:" << headerText;
@@ -183,6 +187,8 @@ void CloudDataProvider::parseReceivedText()
         emit accelometerChanged();
     if (magnetometerReadingGot)
         emit magnetometerMicroTChanged();
+    if (rotationReadingsGot)
+        emit rotationValuesChanged();
 }
 
 void CloudDataProvider::pollTimerExpired()
