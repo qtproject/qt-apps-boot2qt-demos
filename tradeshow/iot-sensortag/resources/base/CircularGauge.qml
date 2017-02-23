@@ -47,7 +47,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
+import QtQuick 2.7
 
 Item {
     id: gauge
@@ -61,14 +61,13 @@ Item {
     property real prevValue: min
 
     property int currentColorSection
-    property int nextColorSection
     property var colorSections: ["ObjectTemperature/objTemp_display_obj_blue.png",
                                  "ObjectTemperature/objTemp_display_obj_green.png",
                                  "ObjectTemperature/objTemp_display_obj_orange.png",
                                  "ObjectTemperature/objTemp_display_obj_red.png"]
 
     onValueChanged: {
-        currentColorSection = Math.floor((prevValue - min) / (max - min) * 3);
+        currentColorSection = Math.floor((value - min) / (max - min) * 3);
         if (currentColorSection < 0)
             currentColorSection = 0;
 
@@ -84,11 +83,6 @@ Item {
             rotateAnimation.to = 0;
             rotateAnimation.start();
         }
-
-        nextColorSection = Math.floor((value - min) / (max - min) * 3);
-        if (nextColorSection < 0)
-            nextColorSection = 0;
-
     }
 
     width: bg.width
@@ -107,35 +101,10 @@ Item {
         source: pathPrefix + colorSections[currentColorSection]
     }
 
-    Image {
-        id: fgNext
-
-        anchors.centerIn: bg
-        source: pathPrefix + colorSections[nextColorSection]
-        rotation: fg.rotation
-        onSourceChanged: visible = true
-        opacity: fg.rotation / 360
-    }
-
-    SequentialAnimation {
+    RotationAnimator {
         id: rotateAnimation
 
-        property alias from: rot.from
-        property alias to: rot.to
-
-        PropertyAnimation {
-            id: rot
-
-            target: fg
-            property: "rotation"
-            duration: 500
-        }
-
-        ScriptAction {
-            script: {
-                fg.source = fgNext.source
-                fgNext.visible = false;
-            }
-        }
+        target: fg
+        duration: 500
     }
 }
