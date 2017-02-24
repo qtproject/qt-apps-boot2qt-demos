@@ -8,7 +8,6 @@
         <file>resources/base/MagnetometerChart.qml</file>
         <file>resources/base/main.qml</file>
         <file>resources/base/ObjectTemperatureChart.qml</file>
-        <file>resources/base/SensorTag.qml</file>
         <file>resources/base/TemperatureChart.qml</file>
         <file>resources/base/TopToolbar.qml</file>
         <file>resources/base/CircularGauge.qml</file>
