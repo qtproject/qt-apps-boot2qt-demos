@@ -87,12 +87,6 @@ BaseChart {
             anchors.left: container.left
             anchors.leftMargin: 12
 
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: 500
-                }
-            }
-
             Text {
                 id: lightMainText
 
@@ -108,7 +102,7 @@ BaseChart {
             anchors.right: parent.right
 
             Behavior on opacity {
-                NumberAnimation {
+                OpacityAnimator {
                     duration: 500
                 }
             }
