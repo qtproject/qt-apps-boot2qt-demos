@@ -152,14 +152,6 @@ BaseChart {
             anchors.verticalCenter: parent.verticalCenter
         }
 
-        Glow {
-            anchors.fill: chartView
-            radius: 18
-            samples: 30
-            color: "#15bdff"
-            source: chartView
-        }
-
         ChartView {
             id: chartView
 
@@ -201,7 +193,7 @@ BaseChart {
                 axisX: valueAxisX
                 axisY: valueAxisY
                 color: chartColor
-                width: 1
+                width: 2
                 useOpenGL: true
             }
         }

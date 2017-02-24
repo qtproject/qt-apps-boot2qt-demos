@@ -77,14 +77,6 @@ BaseChart {
             }
         }
 
-        Glow {
-            anchors.fill: chartView
-            radius: 18
-            samples: 30
-            color: zColor
-            source: chartView
-        }
-
         ChartView {
             id: chartView
 
@@ -122,6 +114,7 @@ BaseChart {
                 color: xColor
                 name: "Magnet X"
                 useOpenGL: true
+                width: 2
             }
             LineSeries {
                 id: magnSeriesY
@@ -130,6 +123,7 @@ BaseChart {
                 color: yColor
                 name: "Magnet Y"
                 useOpenGL: true
+                width: 2
             }
             LineSeries {
                 id: magnSeriesZ
@@ -138,6 +132,7 @@ BaseChart {
                 color: zColor
                 name: "Magnet Z"
                 useOpenGL: true
+                width: 2
             }
         }
 

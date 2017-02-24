@@ -83,14 +83,6 @@ BaseChart {
             }
         }
 
-        Glow {
-            anchors.fill: chartView
-            radius: 18
-            samples: 30
-            color: "#e91632"
-            source: chartView
-        }
-
         ChartView {
             id: chartView
 
@@ -128,6 +120,7 @@ BaseChart {
                 color: xColor
                 name: "Gyro X"
                 useOpenGL: true
+                width: 2
             }
             SplineSeries {
                 id: gyroSeriesY
@@ -136,6 +129,7 @@ BaseChart {
                 color: yColor
                 name: "Gyro Y"
                 useOpenGL: true
+                width: 2
             }
             SplineSeries {
                 id: gyroSeriesZ
@@ -144,6 +138,7 @@ BaseChart {
                 color: zColor
                 name: "Gyro Z"
                 useOpenGL: true
+                width: 2
             }
         }
 
