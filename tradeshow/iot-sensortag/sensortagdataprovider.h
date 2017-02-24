@@ -89,15 +89,17 @@ class SensorTagDataProvider : public QObject
     Q_PROPERTY(float altitude READ getAltitude NOTIFY altitudeChanged)
 
 public:
-    enum TagType {AmbientTemperature = 1 << 0,
-                  ObjectTemperature = 1 << 1,
-                  Humidity = 1 << 2,
-                  AirPressure = 1 << 3,
-                  Light = 1 << 4,
-                  Magnetometer = 1 << 5,
-                  Rotation = 1 << 6,
-                  Accelometer = 1 << 7,
-                  Altitude = 1 << 8};
+    enum TagType { AmbientTemperature = 1 << 0,
+                   ObjectTemperature = 1 << 1,
+                   Humidity = 1 << 2,
+                   AirPressure = 1 << 3,
+                   Light = 1 << 4,
+                   Magnetometer = 1 << 5,
+                   Rotation = 1 << 6,
+                   Accelometer = 1 << 7,
+                   Altitude = 1 << 8
+                 };
+    static const int tagTypeCount = 9;
     enum ProviderState {NotFound = 0, Disconnected, Scanning, Connected, Error};
 
     explicit SensorTagDataProvider(QObject *parent = 0);

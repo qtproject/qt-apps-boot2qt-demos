@@ -51,6 +51,10 @@
 #include "mockdataprovider.h"
 #include "bluetoothdataprovider.h"
 
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
+
 DemoCloudProvider::DemoCloudProvider(QObject *parent)
     : SensorTagDataProvider(parent)
 {
@@ -296,34 +300,25 @@ void DemoDataProviderPool::startScanning()
             for (const QString& id : m_macFilters) {
                 BluetoothDataProvider *p = new BluetoothDataProvider(id, this);
                 m_dataProviders.push_back(p);
+                // Set initial state to Scanning for UI to be
+                // able to show "Connecting.." information
+                p->setState(SensorTagDataProvider::Scanning);
+                // Empty tag type, it will be set next
+                p->setTagType(0);
             }
             // Fake that we have set of sensors with different capabilities
-            // by removing some of the sensor data types from each sensor tag
-            if (m_dataProviders.length() > 0) {
-                SensorTagDataProvider *p = m_dataProviders.at(0);
-                p->setTagType(SensorTagDataProvider::ObjectTemperature |
-                              SensorTagDataProvider::Light |
-                              SensorTagDataProvider::Magnetometer |
-                              SensorTagDataProvider::Accelometer);
-                emit dataProvidersChanged();
-                if (m_dataProviders.length() > 1) {
-                    p = m_dataProviders.at(1);
-                    p->setTagType(SensorTagDataProvider::AmbientTemperature |
-                                  SensorTagDataProvider::Altitude |
-                                  SensorTagDataProvider::Humidity |
-                                  SensorTagDataProvider::Rotation |
-                                  SensorTagDataProvider::AirPressure);
-                    emit dataProvidersChanged();
+            // by assigning only some of the sensor data types to each sensor tag
+            int i = 0;
+            while (i < SensorTagDataProvider::tagTypeCount) {
+                for (int p = 0; p < m_dataProviders.count() && i < SensorTagDataProvider::tagTypeCount; p++) {
+                    SensorTagDataProvider *provider = m_dataProviders.at(p);
+                    int tagType = provider->tagType() | (1 << i++);
+                    provider->setTagType(tagType);
+                    qCDebug(boot2QtDemos) << "Set tag type for provider" << provider->id() << "to" << QString::number(tagType, 2);
                 }
             }
+            emit dataProvidersChanged();
             m_initialized = true;
-        }
-        // Set initial state to Scanning for UI to be
-        // able to show "Connecting.." information
-        for (SensorTagDataProvider *p : m_dataProviders) {
-            if (p->state() == SensorTagDataProvider::NotFound) {
-                p->setState(SensorTagDataProvider::Scanning);
-            }
         }
         SensorTagDataProviderPool::startScanning();
     }
