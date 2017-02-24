@@ -47,7 +47,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.6
+import QtQuick 2.7
 import SensorTag.DataProvider 1.0
 
 Item {
@@ -69,10 +69,10 @@ Item {
         source: pathPrefix + "Gyro/gyro_ring3.png"
         rotation: sensor ? sensor.rotationX : 0
         Behavior on rotation {
-            RotationAnimation {
+            RotationAnimator {
                 easing.type: Easing.Linear
                 duration: rotationUpdateInterval
-                direction: RotationAnimation.Shortest
+                direction: RotationAnimator.Shortest
             }
         }
     }
@@ -82,10 +82,10 @@ Item {
         source: pathPrefix + "Gyro/gyro_ring2.png"
         rotation: sensor ? sensor.rotationY : 0
         Behavior on rotation {
-            RotationAnimation {
+            RotationAnimator {
                 easing.type: Easing.Linear
                 duration: rotationUpdateInterval
-                direction: RotationAnimation.Shortest
+                direction: RotationAnimator.Shortest
             }
         }
     }
@@ -95,10 +95,10 @@ Item {
         source: pathPrefix + "Gyro/gyro_ring1.png"
         rotation: sensor ? sensor.rotationZ : 0
         Behavior on rotation {
-            RotationAnimation {
+            RotationAnimator {
                 easing.type: Easing.Linear
                 duration: rotationUpdateInterval
-                direction: RotationAnimation.Shortest
+                direction: RotationAnimator.Shortest
             }
         }
     }
