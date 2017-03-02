@@ -267,7 +267,7 @@ void BluetoothDevice::temperatureDetailsDiscovered(QLowEnergyService::ServiceSta
         }
 
         m_temperatureMeasurementStarted = true;
-        m_serviceDetailsTimer->start();
+        updateServiceDetails();
     }
 }
 
@@ -306,7 +306,7 @@ void BluetoothDevice::barometerDetailsDiscovered(QLowEnergyService::ServiceState
         }
 
         m_barometerMeasurementStarted = true;
-        m_serviceDetailsTimer->start();
+        updateServiceDetails();
     }
 }
 
@@ -346,7 +346,7 @@ void BluetoothDevice::humidityDetailsDiscovered(QLowEnergyService::ServiceState 
         }
 
         m_humidityMeasurementStarted = true;
-        m_serviceDetailsTimer->start();
+        updateServiceDetails();
     }
 }
 
@@ -386,7 +386,7 @@ void BluetoothDevice::lightIntensityDetailsDiscovered(QLowEnergyService::Service
         }
 
         m_lightIntensityMeasurementStarted = true;
-        m_serviceDetailsTimer->start();
+        updateServiceDetails();
     }
 }
 
@@ -428,7 +428,7 @@ void BluetoothDevice::motionDetailsDiscovered(QLowEnergyService::ServiceState ne
             m_motionService->writeCharacteristic(characteristic, QByteArray::fromHex(SENSORTAG_RAPID_TIMER_TIMEOUT_STR), QLowEnergyService::WriteWithResponse);
         }
         m_motionMeasurementStarted = true;
-        m_serviceDetailsTimer->start();
+        updateServiceDetails();
     }
 }
 
@@ -484,6 +484,21 @@ bool BluetoothDevice::isDeviceReady() const
         return true;
     }
     return false;
+}
+
+void BluetoothDevice::updateServiceDetails()
+{
+    if (m_temperatureMeasurementStarted
+            && m_barometerMeasurementStarted
+            && m_humidityMeasurementStarted
+            && m_lightIntensityMeasurementStarted
+            && m_motionMeasurementStarted) {
+        qCDebug(boot2QtDemos) << "Service details timer stop. All service details found";
+        m_serviceDetailsTimer->stop();
+        setState(Connected);
+    } else {
+        m_serviceDetailsTimer->start();
+    }
 }
 
 void BluetoothDevice::irTemperatureReceived(const QByteArray &value)

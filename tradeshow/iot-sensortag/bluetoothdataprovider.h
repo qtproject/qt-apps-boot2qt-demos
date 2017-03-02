@@ -90,7 +90,6 @@ private:
     void updateState();
     float countRotationDegrees(double degreesPerSecond, quint64 milliseconds);
     BluetoothDevice *m_btDevice;
-    QTimer timer;
     int m_smaSamples;
     int m_zeroAltitudeSamples;
     float gyroscopeX_calibration;

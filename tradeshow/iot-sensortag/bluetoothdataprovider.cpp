@@ -93,10 +93,7 @@ bool BluetoothDataProvider::startDataFetching()
                 this, &BluetoothDataProvider::lightIntensityReceived);
         connect(m_btDevice, &BluetoothDevice::motionChanged,
                 this, &BluetoothDataProvider::motionReceived);
-        timer.setInterval(1000);
-        timer.setSingleShot(true);
-        connect(&timer, &QTimer::timeout, this, &BluetoothDataProvider::startServiceScan);
-        timer.start();
+        startServiceScan();
     }
     return true;
 }

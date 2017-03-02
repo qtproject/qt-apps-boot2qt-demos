@@ -167,6 +167,7 @@ private:
     void motionReceived(const QByteArray &value);
     double convertIrTemperatureAPIReadingToCelsius(quint16 rawReading);
     bool isDeviceReady() const;
+    void updateServiceDetails();
 
     QLowEnergyController *m_controller;
     QLowEnergyService* m_irTemperatureService;
