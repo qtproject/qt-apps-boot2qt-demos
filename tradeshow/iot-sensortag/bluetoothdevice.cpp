@@ -81,6 +81,11 @@ BluetoothDevice::BluetoothDevice()
     , m_lightService(0)
     , m_motionService(0)
     , m_deviceState(DeviceState::Disconnected)
+    , m_temperatureMeasurementStarted(false)
+    , m_barometerMeasurementStarted(false)
+    , m_humidityMeasurementStarted(false)
+    , m_lightIntensityMeasurementStarted(false)
+    , m_motionMeasurementStarted(false)
 {
     m_lastMilliseconds = QDateTime::currentMSecsSinceEpoch();
     statusUpdated("Device created");
