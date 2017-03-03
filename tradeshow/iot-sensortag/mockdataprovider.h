@@ -66,8 +66,6 @@ public:
     QString sensorType() const;
     QString versionString() const;
 
-    void setTagType(int tagType);
-
 public slots:
     void slowTimerExpired();
     void rapidTimerExpired();

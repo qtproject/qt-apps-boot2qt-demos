@@ -108,11 +108,6 @@ QString MockDataProvider::versionString() const
     return QLatin1String("1.1");
 }
 
-void MockDataProvider::setTagType(int tagType)
-{
-    m_tagType = tagType;
-}
-
 void MockDataProvider::slowTimerExpired()
 {
     /* Emit the signals even if values are unchanged.
