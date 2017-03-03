@@ -189,12 +189,14 @@ Rectangle {
                 Text {
                     color: "white"
                     text: "Provides data for:"
+                    font.pixelSize: 14
                 }
 
                 Text {
                     color: "white"
                     lineHeight: 0.7
                     text: list.getTagTypeStr(modelData.tagType())
+                    font.pixelSize: 14
                 }
             }
         }
