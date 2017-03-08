@@ -151,7 +151,8 @@ Item {
     }
 
     Text {
-        text: Qt.formatDateTime(new Date, "dddd, MMMM d, yyyy")
+        property bool showAddress : false
+        text: showAddress ? mainWindow.addresses : Qt.formatDateTime(new Date, "dddd, MMMM d, yyyy")
         color: "white"
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 16
@@ -160,6 +161,10 @@ Item {
         horizontalAlignment: Text.AlignRight
         font.pixelSize: Style.topToolbarSmallFontSize
         font.capitalization: Font.AllUppercase
+        MouseArea {
+            anchors.fill: parent
+            onClicked: parent.showAddress = !parent.showAddress
+        }
     }
 
     Text {

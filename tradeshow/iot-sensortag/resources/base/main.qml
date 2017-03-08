@@ -59,6 +59,7 @@ Window {
     property DataProviderPool dataProviderPool
     property SeriesStorage seriesStorage
     property real globalBlinkOpacity: 1.0
+    property string addresses : ""
 
     // Size defaults to the small display
     width: 1920

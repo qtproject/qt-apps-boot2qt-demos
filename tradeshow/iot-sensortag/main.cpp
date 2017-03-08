@@ -161,6 +161,14 @@ int main(int argc, char *argv[])
     qCDebug(boot2QtDemos) << "screen dimensions" << scr->geometry().size();
     qCDebug(boot2QtDemos) << "Scale factor:" << sf.data();
 
+    QString addressString;
+    for (auto address : QNetworkInterface::allAddresses()) {
+        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost)
+                && !address.toString().startsWith(QLatin1String("169"))) {
+            addressString.append(address.toString());
+            addressString.append(QLatin1Char('/'));
+        }
+    }
 #if defined(UI_SMALL)
         mainFile = namingScheme + QStringLiteral("/resources/small/MainSmall.qml");
         styleFile = namingScheme + QStringLiteral("/resources/small/StyleSmall.qml");
@@ -216,6 +224,7 @@ int main(int argc, char *argv[])
         item->setProperty("dataProviderPool", QVariant::fromValue(dataProviderPool));
         item->setProperty("contentFile", mainFile);
         item->setProperty("seriesStorage", QVariant::fromValue(&seriesStorage));
+        item->setProperty("addresses", addressString);
     }
     int returnValue = app.exec();
     dataProviderPool->stopScanning();
