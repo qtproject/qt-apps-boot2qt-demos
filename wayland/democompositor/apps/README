@@ -1,0 +1,20 @@
+A directory holding a list of applications. There is one JSON file
+per launchable application. The content is inspired by the "Desktop
+Entry Specification" of freedesktop.org.
+
+Application files need to be installed into any of the paths that
+will be listed for QStandardPaths::DataLocation/apps. In the
+case of the democompositor this can be
+/usr/share/democompositor/apps.
+
+The content of the files must follow:
+
+Name    Description				Required	JSON type
+Type    Type of entry. Currently only           Yes             String
+        Application is supported.
+Version The version of the specification
+        addressed. Currently version 1          Yes             Number
+Icon	The icon to use for display             Yes             String
+Name    A user displayable name                 Yes             String
+Exec    Application to execute to launch        Yes             String
+Path    The directory to search for the app     No              String
