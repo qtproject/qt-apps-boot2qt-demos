@@ -17,6 +17,9 @@ RESOURCES += democompositor.qrc
 HEADERS += \
     processlauncher.h
 
+# include modules
+include(apps/apps.pri)
+
 INSTALLS += target apps
 target.path = /data/user/$$TARGET
 
