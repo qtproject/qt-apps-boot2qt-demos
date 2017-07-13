@@ -1,0 +1,10 @@
+.obj/
+.moc/
+.rcc/
+*.sw?
+Makefile
+target_wrapper.sh
+
+democompositor
+tests/applist/tst_applistmodel
+tests/apps/tst_apps
