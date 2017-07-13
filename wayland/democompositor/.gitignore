@@ -5,6 +5,7 @@
 Makefile
 target_wrapper.sh
 
+Makefile.democompositor
 democompositor
 tests/applist/tst_applistmodel
 tests/apps/tst_apps
