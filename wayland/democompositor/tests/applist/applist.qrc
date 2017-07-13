@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+    <file alias="app1.json">../../apps/files/clock.app</file>
+    <file alias="app2.json">../../apps/files/maps.app</file>
+</qresource>
+</RCC>

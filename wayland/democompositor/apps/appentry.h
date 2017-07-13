@@ -50,17 +50,27 @@
 
 #pragma once
 
+#include <QtCore/QObject>
 #include <QtCore/QString>
 
 /**
  * A const representatation of an application entry. Members include
  * executable name, path, icon and other information in the future.
  */
-struct AppEntry {
+class AppEntry {
+    Q_GADGET
+    Q_PROPERTY(QString iconName MEMBER iconName CONSTANT)
+    Q_PROPERTY(QString appName MEMBER appName CONSTANT)
+    Q_PROPERTY(QString executableName MEMBER executableName CONSTANT)
+    Q_PROPERTY(QString executablePath MEMBER executablePath CONSTANT)
+public:
     const QString iconName;
     const QString appName;
     const QString executableName;
     const QString executablePath;
+    const QString sourceFileName;
 
     static AppEntry empty();
 };
+
+Q_DECLARE_METATYPE(AppEntry)

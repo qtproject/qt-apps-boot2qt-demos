@@ -94,7 +94,7 @@ static int readInt(const QJsonObject& object, const QString& key, bool *ok)
     return doReadInt(object.value(key), ok);
 }
 
-AppEntry AppParser::parseData(const QByteArray& content, bool *ok)
+AppEntry AppParser::parseData(const QByteArray& content, const QString& fileName, bool *ok)
 {
     *ok = true;
     QJsonParseError error;
@@ -132,7 +132,7 @@ AppEntry AppParser::parseData(const QByteArray& content, bool *ok)
     if (!*ok)
         return AppEntry::empty();
 
-    return AppEntry{iconName, appName, executableName, executablePath};
+    return AppEntry{iconName, appName, executableName, executablePath, fileName};
 }
 
 AppEntry AppParser::parseFile(const QString& fileName, bool *ok)
@@ -146,7 +146,7 @@ AppEntry AppParser::parseFile(const QString& fileName, bool *ok)
         return AppEntry::empty();
     }
 
-    auto entry = parseData(file.readAll(), ok);
+    auto entry = parseData(file.readAll(), fileName, ok);
     file.close();
     if (!*ok) {
         qCWarning(apps) << "Failed to parse" << fileName;

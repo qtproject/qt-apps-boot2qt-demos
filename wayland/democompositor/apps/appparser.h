@@ -57,6 +57,6 @@
  */
 class AppParser {
 public:
-    static AppEntry parseData(const QByteArray& content, bool *ok);
+    static AppEntry parseData(const QByteArray& content, const QString& fileName, bool *ok);
     static AppEntry parseFile(const QString& fileName, bool *ok);
 };

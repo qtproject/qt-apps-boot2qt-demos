@@ -4,6 +4,9 @@ CONFIG += testcase
 
 INCLUDEPATH += ../../apps
 
+HEADERS += \
+    ../../apps/appentry.h
+
 SOURCES += \
     ../../apps/appentry.cpp \
     ../../apps/appparser.cpp

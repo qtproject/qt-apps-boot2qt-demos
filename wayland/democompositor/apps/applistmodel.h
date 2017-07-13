@@ -48,86 +48,41 @@
 **
 ****************************************************************************/
 
-#include <QtTest>
+#pragma once
 
-#include "appparser.h"
+#include <QtCore/QAbstractListModel>
+#include <QtCore/QVector>
 
-class tst_AppParser : public QObject {
+class AppEntry;
+
+/**
+ * A model that holds all available applications and
+ * exports them to a QML scene
+ */
+class AppListModel : public QAbstractListModel {
     Q_OBJECT
+public:
 
-private Q_SLOTS:
-    void testValidVersion1_data();
-    void testValidVersion1();
+    ~AppListModel();
 
-    void testInvalid_data();
-    void testInvalid();
+    enum Roles {
+        App = Qt::UserRole,
+        IconName,
+        ApplicationName,
+        ExeuctableName,
+        ExecutablePath,
+        SourceFileName,
+    };
 
-    void testFileOpen();
+    int rowCount(const QModelIndex& parent) const Q_DECL_OVERRIDE;
+    QVariant data(const QModelIndex& index, int role) const Q_DECL_OVERRIDE;
+    QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
+
+    void addFile(const QString& fileName);
+
+private:
+    void doAddFile(const QString& fileName);
+
+    QVector<AppEntry*> m_rows;
+    static QHash<int, QByteArray> m_roles;
 };
-
-
-void tst_AppParser::testValidVersion1_data()
-{
-    QTest::addColumn<QByteArray>("input");
-    QTest::addColumn<QString>("icon");
-    QTest::addColumn<QString>("name");
-    QTest::addColumn<QString>("exec");
-    QTest::addColumn<QString>("path");
-
-    QTest::addRow("clock")
-        << QByteArray("{\"Type\":\"Application\", \"Version\":1, \"Icon\":\"icon\", \"Name\":\"Clocks\",\"Exec\":\"clocks\"}")
-        << QStringLiteral("icon") << QStringLiteral("Clocks") << QStringLiteral("clocks") << QString();
-    QTest::addRow("path")
-        << QByteArray("{\"Type\":\"Application\", \"Version\":1, \"Icon\":\"icon\", \"Name\":\"Clocks\",\"Exec\":\"clocks\",\"Path\":\"P\"}")
-        << QStringLiteral("icon") << QStringLiteral("Clocks") << QStringLiteral("clocks") << QStringLiteral("P");
-}
-
-void tst_AppParser::testValidVersion1()
-{
-    QFETCH(QByteArray, input);
-    QFETCH(QString, icon);
-    QFETCH(QString, name);
-    QFETCH(QString, exec);
-    QFETCH(QString, path);
-
-    bool ok = false;
-    auto entry = AppParser::parseData(input, QStringLiteral("dummy"), &ok);
-    QVERIFY(ok);
-}
-
-void tst_AppParser::testInvalid_data()
-{
-    QTest::addColumn<QByteArray>("input");
-    QTest::addRow("no json") << QByteArray("12345");
-    QTest::addRow("array") << QByteArray("[]");
-    QTest::addRow("no content") << QByteArray("{}");
-    QTest::addRow("empty") << QByteArray("");
-}
-
-void tst_AppParser::testInvalid()
-{
-    QFETCH(QByteArray, input);
-
-    bool ok = true;
-    AppParser::parseData(input, QStringLiteral("dummy"), &ok);
-    QVERIFY(!ok);
-}
-
-void tst_AppParser::testFileOpen()
-{
-    bool ok = true;
-
-    AppParser::parseFile(":/can_not_exist_here.json", &ok);
-    QVERIFY(!ok);
-
-    ok = false;
-    auto entry = AppParser::parseFile(":/app.json", &ok);
-    QVERIFY(ok);
-    QCOMPARE(entry.iconName, QStringLiteral("qrc:/images/Icon_Clocks.png"));
-    QCOMPARE(entry.appName, QStringLiteral("Clocks"));
-    QCOMPARE(entry.executableName, QStringLiteral("clocks"));
-    QCOMPARE(entry.executablePath, QStringLiteral("./"));
-}
-
-QTEST_MAIN(tst_AppParser)
-#include "tst_appparser.moc"

@@ -48,86 +48,61 @@
 **
 ****************************************************************************/
 
+#include "applistmodel.h"
+#include "appentry.h"
+
+#include <QtCore/QVariant>
+
 #include <QtTest>
 
-#include "appparser.h"
-
-class tst_AppParser : public QObject {
+class tst_AppListModel : public QObject {
     Q_OBJECT
 
 private Q_SLOTS:
-    void testValidVersion1_data();
-    void testValidVersion1();
-
-    void testInvalid_data();
-    void testInvalid();
-
-    void testFileOpen();
+    void testNoDuplicates();
+    void testRoles();
 };
 
-
-void tst_AppParser::testValidVersion1_data()
+void tst_AppListModel::testNoDuplicates()
 {
-    QTest::addColumn<QByteArray>("input");
-    QTest::addColumn<QString>("icon");
-    QTest::addColumn<QString>("name");
-    QTest::addColumn<QString>("exec");
-    QTest::addColumn<QString>("path");
-
-    QTest::addRow("clock")
-        << QByteArray("{\"Type\":\"Application\", \"Version\":1, \"Icon\":\"icon\", \"Name\":\"Clocks\",\"Exec\":\"clocks\"}")
-        << QStringLiteral("icon") << QStringLiteral("Clocks") << QStringLiteral("clocks") << QString();
-    QTest::addRow("path")
-        << QByteArray("{\"Type\":\"Application\", \"Version\":1, \"Icon\":\"icon\", \"Name\":\"Clocks\",\"Exec\":\"clocks\",\"Path\":\"P\"}")
-        << QStringLiteral("icon") << QStringLiteral("Clocks") << QStringLiteral("clocks") << QStringLiteral("P");
+    AppListModel model;
+    QCOMPARE(model.rowCount(QModelIndex()), 0);
+    model.addFile(":/app1.json");
+    QCOMPARE(model.rowCount(QModelIndex()), 1);
+    model.addFile(":/app2.json");
+    QCOMPARE(model.rowCount(QModelIndex()), 2);
+    model.addFile(":/app1.json");
+    QCOMPARE(model.rowCount(QModelIndex()), 2);
+    model.addFile(":/app2.json");
 }
 
-void tst_AppParser::testValidVersion1()
+void tst_AppListModel::testRoles()
 {
-    QFETCH(QByteArray, input);
-    QFETCH(QString, icon);
-    QFETCH(QString, name);
-    QFETCH(QString, exec);
-    QFETCH(QString, path);
+    AppListModel model;
+    model.addFile(":/app1.json");
 
-    bool ok = false;
-    auto entry = AppParser::parseData(input, QStringLiteral("dummy"), &ok);
-    QVERIFY(ok);
+    auto idx = model.index(1, 0);
+    QVERIFY(!idx.isValid());
+    idx = model.index(0, 0);
+    QVERIFY(idx.isValid());
+
+    /* Check we get a full AppEntry back */
+    auto var = idx.data(AppListModel::App);
+    QVERIFY(var.canConvert<AppEntry>());
+    auto app = var.value<AppEntry>();
+    QCOMPARE(app.sourceFileName, QStringLiteral(":/app1.json"));
+
+    var = idx.data(AppListModel::IconName);
+    QCOMPARE(var.toString(), QStringLiteral("qrc:/images/Icon_Clocks.png"));
+    var = idx.data(AppListModel::ApplicationName);
+    QCOMPARE(var.toString(), QStringLiteral("Clocks"));
+    var = idx.data(AppListModel::ExeuctableName);
+    QCOMPARE(var.toString(), QStringLiteral("clocks"));
+    var = idx.data(AppListModel::ExecutablePath);
+    QCOMPARE(var.toString(), QStringLiteral("./"));
+    var = idx.data(AppListModel::SourceFileName);
+    QCOMPARE(var.toString(), QStringLiteral(":/app1.json"));
 }
 
-void tst_AppParser::testInvalid_data()
-{
-    QTest::addColumn<QByteArray>("input");
-    QTest::addRow("no json") << QByteArray("12345");
-    QTest::addRow("array") << QByteArray("[]");
-    QTest::addRow("no content") << QByteArray("{}");
-    QTest::addRow("empty") << QByteArray("");
-}
-
-void tst_AppParser::testInvalid()
-{
-    QFETCH(QByteArray, input);
-
-    bool ok = true;
-    AppParser::parseData(input, QStringLiteral("dummy"), &ok);
-    QVERIFY(!ok);
-}
-
-void tst_AppParser::testFileOpen()
-{
-    bool ok = true;
-
-    AppParser::parseFile(":/can_not_exist_here.json", &ok);
-    QVERIFY(!ok);
-
-    ok = false;
-    auto entry = AppParser::parseFile(":/app.json", &ok);
-    QVERIFY(ok);
-    QCOMPARE(entry.iconName, QStringLiteral("qrc:/images/Icon_Clocks.png"));
-    QCOMPARE(entry.appName, QStringLiteral("Clocks"));
-    QCOMPARE(entry.executableName, QStringLiteral("clocks"));
-    QCOMPARE(entry.executablePath, QStringLiteral("./"));
-}
-
-QTEST_MAIN(tst_AppParser)
-#include "tst_appparser.moc"
+QTEST_MAIN(tst_AppListModel)
+#include "tst_applistmodel.moc"

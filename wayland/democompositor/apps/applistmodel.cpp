@@ -48,86 +48,89 @@
 **
 ****************************************************************************/
 
-#include <QtTest>
-
+#include "applistmodel.h"
 #include "appparser.h"
+#include "applog.h"
 
-class tst_AppParser : public QObject {
-    Q_OBJECT
-
-private Q_SLOTS:
-    void testValidVersion1_data();
-    void testValidVersion1();
-
-    void testInvalid_data();
-    void testInvalid();
-
-    void testFileOpen();
-};
-
-
-void tst_AppParser::testValidVersion1_data()
+static QHash<int, QByteArray> modelRoles()
 {
-    QTest::addColumn<QByteArray>("input");
-    QTest::addColumn<QString>("icon");
-    QTest::addColumn<QString>("name");
-    QTest::addColumn<QString>("exec");
-    QTest::addColumn<QString>("path");
-
-    QTest::addRow("clock")
-        << QByteArray("{\"Type\":\"Application\", \"Version\":1, \"Icon\":\"icon\", \"Name\":\"Clocks\",\"Exec\":\"clocks\"}")
-        << QStringLiteral("icon") << QStringLiteral("Clocks") << QStringLiteral("clocks") << QString();
-    QTest::addRow("path")
-        << QByteArray("{\"Type\":\"Application\", \"Version\":1, \"Icon\":\"icon\", \"Name\":\"Clocks\",\"Exec\":\"clocks\",\"Path\":\"P\"}")
-        << QStringLiteral("icon") << QStringLiteral("Clocks") << QStringLiteral("clocks") << QStringLiteral("P");
+    QHash<int, QByteArray> roles;
+    roles[AppListModel::App] = "appEntry";
+    roles[AppListModel::IconName] = "iconName";
+    roles[AppListModel::ApplicationName] = "applicationName";
+    roles[AppListModel::ExeuctableName] = "executableName";
+    roles[AppListModel::ExecutablePath] = "executablePath";
+    roles[AppListModel::SourceFileName] = "sourceFileName";
+    return roles;
 }
 
-void tst_AppParser::testValidVersion1()
-{
-    QFETCH(QByteArray, input);
-    QFETCH(QString, icon);
-    QFETCH(QString, name);
-    QFETCH(QString, exec);
-    QFETCH(QString, path);
+QHash<int, QByteArray> AppListModel::m_roles = modelRoles();
 
-    bool ok = false;
-    auto entry = AppParser::parseData(input, QStringLiteral("dummy"), &ok);
-    QVERIFY(ok);
+AppListModel::~AppListModel()
+{
+    qDeleteAll(m_rows);
 }
 
-void tst_AppParser::testInvalid_data()
+int AppListModel::rowCount(const QModelIndex& index) const
 {
-    QTest::addColumn<QByteArray>("input");
-    QTest::addRow("no json") << QByteArray("12345");
-    QTest::addRow("array") << QByteArray("[]");
-    QTest::addRow("no content") << QByteArray("{}");
-    QTest::addRow("empty") << QByteArray("");
+    if (index.isValid())
+        return 0;
+    return m_rows.count();
 }
 
-void tst_AppParser::testInvalid()
+QVariant AppListModel::data(const QModelIndex& index, int role) const
 {
-    QFETCH(QByteArray, input);
+    if (!index.isValid() || index.parent().isValid())
+        return QVariant();
 
-    bool ok = true;
-    AppParser::parseData(input, QStringLiteral("dummy"), &ok);
-    QVERIFY(!ok);
+    auto entry = m_rows[index.row()];
+
+    switch (role) {
+    case App:
+        return QVariant::fromValue(*entry);
+    case IconName:
+        return entry->iconName;
+    case ApplicationName:
+        return entry->appName;
+    case ExeuctableName:
+        return entry->executableName;
+    case ExecutablePath:
+        return entry->executablePath;
+    case SourceFileName:
+        return entry->sourceFileName;
+    default:
+        qCWarning(apps) << "Unhandled role" << role;
+        return QVariant();
+    }
 }
 
-void tst_AppParser::testFileOpen()
+QHash<int, QByteArray> AppListModel::roleNames() const
 {
-    bool ok = true;
-
-    AppParser::parseFile(":/can_not_exist_here.json", &ok);
-    QVERIFY(!ok);
-
-    ok = false;
-    auto entry = AppParser::parseFile(":/app.json", &ok);
-    QVERIFY(ok);
-    QCOMPARE(entry.iconName, QStringLiteral("qrc:/images/Icon_Clocks.png"));
-    QCOMPARE(entry.appName, QStringLiteral("Clocks"));
-    QCOMPARE(entry.executableName, QStringLiteral("clocks"));
-    QCOMPARE(entry.executablePath, QStringLiteral("./"));
+    return m_roles;
 }
 
-QTEST_MAIN(tst_AppParser)
-#include "tst_appparser.moc"
+void AppListModel::addFile(const QString& fileName)
+{
+    beginResetModel();
+    doAddFile(fileName);
+    endResetModel();
+}
+
+void AppListModel::doAddFile(const QString& fileName)
+{
+    bool ok;
+    auto newEntry = AppParser::parseFile(fileName, &ok);
+    if (!ok)
+        return;
+
+    for (int i = 0; i < m_rows.count(); ++i) {
+        auto oldEntry = m_rows[i];
+        if (oldEntry->sourceFileName == fileName) {
+            m_rows[i] = new AppEntry(newEntry);
+            delete oldEntry;
+            return;
+        }
+    }
+
+    m_rows.push_back(new AppEntry(newEntry));
+}
