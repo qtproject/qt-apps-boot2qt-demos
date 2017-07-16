@@ -78,7 +78,9 @@ public:
     QVariant data(const QModelIndex& index, int role) const Q_DECL_OVERRIDE;
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
+public Q_SLOTS:
     void addFile(const QString& fileName);
+    void addDir(const QString& dirName);
 
 private:
     void doAddFile(const QString& fileName);

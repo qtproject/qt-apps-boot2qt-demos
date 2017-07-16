@@ -52,6 +52,8 @@
 #include "appparser.h"
 #include "applog.h"
 
+#include <QtCore/QDirIterator>
+
 static QHash<int, QByteArray> modelRoles()
 {
     QHash<int, QByteArray> roles;
@@ -113,6 +115,16 @@ void AppListModel::addFile(const QString& fileName)
 {
     beginResetModel();
     doAddFile(fileName);
+    endResetModel();
+}
+
+void AppListModel::addDir(const QString& dirName)
+{
+    QDirIterator dirIt(dirName, QDir::Files | QDir::NoDotAndDotDot | QDir::Readable);
+
+    beginResetModel();
+    while (dirIt.hasNext())
+        doAddFile(dirIt.next());
     endResetModel();
 }
 
