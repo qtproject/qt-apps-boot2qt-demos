@@ -79,6 +79,8 @@ public:
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
 public Q_SLOTS:
+    bool addAndWatchDir(const QString& dirName);
+
     void addFile(const QString& fileName);
     void addDir(const QString& dirName);
 

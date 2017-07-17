@@ -53,6 +53,7 @@
 #include "applog.h"
 
 #include <QtCore/QDirIterator>
+#include <QtCore/QFileSystemWatcher>
 
 static QHash<int, QByteArray> modelRoles()
 {
@@ -109,6 +110,23 @@ QVariant AppListModel::data(const QModelIndex& index, int role) const
 QHash<int, QByteArray> AppListModel::roleNames() const
 {
     return m_roles;
+}
+
+/*!
+ * Returns true if the directory can be watched
+ *
+ * Parse all JSON application files from the given directory
+ * and monitor it for changes.
+ */
+bool AppListModel::addAndWatchDir(const QString& dirName)
+{
+    auto watcher = new QFileSystemWatcher(this);
+    connect(watcher, &QFileSystemWatcher::directoryChanged, this, &AppListModel::addDir);
+    auto res = watcher->addPath(dirName);
+    addDir(dirName);
+
+    qCDebug(apps) << "addAndWatchDir" << dirName << "result: " << res;
+    return res;
 }
 
 void AppListModel::addFile(const QString& fileName)
