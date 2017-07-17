@@ -53,6 +53,7 @@ import QtQuick.Window 2.2
 import QtWayland.Compositor 1.0
 
 import com.theqtcompany.wlprocesslauncher 1.0
+import com.theqtcompany.wlapplistmodel 1.0
 
 
 WaylandOutput {
@@ -85,6 +86,13 @@ WaylandOutput {
             id: launcher
         }
 
+        AppListModel {
+            id: apps
+        }
+
+        Component.onCompleted: {
+            apps.addAndWatchDir("/data/user/democompositor/apps/")
+        }
 
         Rectangle {
             id: curtain
@@ -252,46 +260,20 @@ WaylandOutput {
                     height: 5
                     width: 1
                 }
-                LaunchButton {
-                    height: 60
-                    width: sidebar.width - 10
-                    buttonColor: backgroundCol
-                    pressedColor: pressedCol
-                    textColor: textCol
-                    text.text: "Clocks"
-                    executable: "./clocks"
-                    icon.source: "qrc:/images/Icon_Clocks.png"
-                }
 
-                LaunchButton {
-                    height: 60
-                    width: sidebar.width - 10
-                    buttonColor: backgroundCol
-                    pressedColor: pressedCol
-                    textColor: textCol
-                    text.text: "RSS News"
-                    executable: "./rssnews"
-                    icon.source: "qrc:/images/Icon_RSS.png"
-                }
-                LaunchButton {
-                    height: 60
-                    width: sidebar.width - 10
-                    buttonColor: backgroundCol
-                    pressedColor: pressedCol
-                    textColor: textCol
-                    text.text: "StoQt"
-                    executable: "./stocqt"
-                    icon.source: "qrc:/images/Icon_StocQt.png"
-                }
-                LaunchButton {
-                    height: 60
-                    width: sidebar.width - 10
-                    buttonColor: backgroundCol
-                    pressedColor: pressedCol
-                    textColor: textCol
-                    text.text: "Maps"
-                    executable: "./qml_location_mapviewer"
-                    icon.source: "qrc:/images/Icon_Maps.png"
+                Repeater {
+                    model: apps
+
+                    LaunchButton {
+                        height: 60
+                        width: sidebar.width - 10
+                        buttonColor: backgroundCol
+                        pressedColor: pressedCol
+                        textColor: textCol
+                        text.text: model.applicationName
+                        executable: model.executableName
+                        icon.source: model.iconName
+                    }
                 }
 
                 TimedButton {

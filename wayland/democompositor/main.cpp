@@ -55,11 +55,14 @@
 #include <QtGui/QFont>
 #include <QtQml/qqml.h>
 #include <QtQml/QQmlApplicationEngine>
+
+#include "apps/applistmodel.h"
 #include "processlauncher.h"
 
 static void registerTypes()
 {
     qmlRegisterType<WaylandProcessLauncher>("com.theqtcompany.wlprocesslauncher", 1, 0, "ProcessLauncher");
+    qmlRegisterType<AppListModel>("com.theqtcompany.wlapplistmodel", 1, 0, "AppListModel");
 }
 
 
