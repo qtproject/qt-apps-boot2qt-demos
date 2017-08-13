@@ -105,6 +105,7 @@ void WaylandProcessLauncher::launch(const AppEntry &entry)
     qCDebug(procs) << "Launching" << entry.executableName;
 
     QProcess *process = new QProcess(this);
+    process->setProcessChannelMode(QProcess::ForwardedChannels);
 
     AppState state{process, entry};
     m_appStates.push_back(state);
