@@ -69,9 +69,22 @@ void WaylandProcessLauncher::launch(const AppEntry &entry)
     qCDebug(procs) << "Launching" << entry.executableName;
 
     QProcess *process = new QProcess(this);
+
+    /* handle potential errors and life cycle */
     connect(process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-            process, &QProcess::deleteLater);
-    connect(process, &QProcess::errorOccurred, &QProcess::deleteLater);
+            [process, entry](int exitCode, QProcess::ExitStatus status) {
+                qCDebug(procs) << "AppEntry finished" << entry.executableName << exitCode << status;
+                process->deleteLater();
+    });
+    connect(process, &QProcess::errorOccurred,
+            [process, entry](QProcess::ProcessError err) {
+                qCDebug(procs) << "AppEntry error occurred" << entry.executableName << err;
+                process->deleteLater();
+    });
+    connect(process, &QProcess::started,
+            [process, entry]() {
+                qCDebug(procs) << "AppEntry started" << entry.executableName;
+    });
 
     if (!entry.executablePath.isNull()) {
         auto env = QProcessEnvironment::systemEnvironment();
