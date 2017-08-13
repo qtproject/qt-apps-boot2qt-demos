@@ -59,6 +59,7 @@ import com.theqtcompany.wlapplistmodel 1.0
 WaylandOutput {
     id: output
     property alias surfaceArea: background
+    property alias appLauncher: launcher
     property var windowList: [ ]
     property int hiddenWindowCount
 

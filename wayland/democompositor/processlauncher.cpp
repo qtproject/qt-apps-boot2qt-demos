@@ -74,6 +74,19 @@ WaylandProcessLauncher::~WaylandProcessLauncher()
 {
 }
 
+QVariant WaylandProcessLauncher::appStateForPid(int pid) const
+{
+    for (auto state : m_appStates) {
+        if (state.process->pid() == pid) {
+            qCDebug(procs) << "Found state for" << pid << state.appEntry.executableName;
+            return QVariant::fromValue(state);
+        }
+    }
+
+    qCDebug(procs) << "Couldn't find entry for" << pid;
+    return QVariant();
+}
+
 bool WaylandProcessLauncher::isRunning(const AppEntry& entry) const
 {
     for (auto state : m_appStates) {

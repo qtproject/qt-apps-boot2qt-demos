@@ -57,6 +57,7 @@ WaylandCompositor {
     property var primarySurfacesArea: null
 
     Screen {
+        id: mainScreen
         compositor: comp
     }
 
@@ -69,6 +70,13 @@ WaylandCompositor {
     WlShell {
         id: defaultShell
         onWlShellSurfaceCreated: {
+            const pid = shellSurface.surface.client.processId;
+            const appState = mainScreen.appLauncher.appStateForPid(pid);
+            if (!appState) {
+                console.log("shellSurface of unknown application. Continuing. PID=" + pid);
+            } else {
+                console.log("shellSurface belonging to " + appState.appEntry.executableName);
+            }
             chromeComponent.createObject(defaultOutput.surfaceArea, { "shellSurface": shellSurface } );
             defaultOutput.relayout();
         }

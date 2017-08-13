@@ -81,6 +81,7 @@ public:
     ~WaylandProcessLauncher();
     Q_INVOKABLE void launch(const AppEntry &entry);
 
+    Q_INVOKABLE QVariant appStateForPid(int pid) const;
     Q_INVOKABLE bool isRunning(const AppEntry& entry) const;
 
 Q_SIGNALS:
