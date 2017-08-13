@@ -55,6 +55,16 @@
 
 Q_LOGGING_CATEGORY(procs, "launcher.procs")
 
+/*
+ * Two AppState's are equal if they are managing the same
+ * QProcess. It is assumed that no AppState survives beyond
+ * the QProcess.
+ */
+bool operator==(const AppState& lhs, const AppState& rhs)
+{
+    return lhs.process == rhs.process;
+}
+
 WaylandProcessLauncher::WaylandProcessLauncher(QObject *parent)
     : QObject(parent)
 {
@@ -64,26 +74,52 @@ WaylandProcessLauncher::~WaylandProcessLauncher()
 {
 }
 
+bool WaylandProcessLauncher::isRunning(const AppEntry& entry) const
+{
+    for (auto state : m_appStates) {
+        if (state.appEntry.sourceFileName == entry.sourceFileName) {
+            qCDebug(procs) << "AppEntry associated to a state" << entry.executableName;
+            return true;
+        }
+    }
+
+    qCDebug(procs) << "AppEntry not associated to a state " << entry.executableName;
+    return false;
+}
+
 void WaylandProcessLauncher::launch(const AppEntry &entry)
 {
     qCDebug(procs) << "Launching" << entry.executableName;
 
     QProcess *process = new QProcess(this);
 
+    AppState state{process, entry};
+    m_appStates.push_back(state);
+
     /* handle potential errors and life cycle */
     connect(process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-            [process, entry](int exitCode, QProcess::ExitStatus status) {
-                qCDebug(procs) << "AppEntry finished" << entry.executableName << exitCode << status;
-                process->deleteLater();
+            [state, this](int exitCode, QProcess::ExitStatus status) {
+                qCDebug(procs) << "AppEntry finished" << state.appEntry.executableName << exitCode << status;
+                emit appFinished(state, exitCode, status);
+                m_appStates.removeOne(state);
+                state.process->deleteLater();
     });
     connect(process, &QProcess::errorOccurred,
-            [process, entry](QProcess::ProcessError err) {
-                qCDebug(procs) << "AppEntry error occurred" << entry.executableName << err;
-                process->deleteLater();
+            [state, this](QProcess::ProcessError err) {
+                qCDebug(procs) << "AppEntry error occurred" << state.appEntry.executableName << err;
+
+                /* Maybe finished was already emitted. Let's not emit an error after that */
+                if (!m_appStates.removeOne(state))
+                    return;
+
+                if (err == QProcess::FailedToStart || err == QProcess::UnknownError)
+                    emit appNotStarted(state);
+                state.process->deleteLater();
     });
     connect(process, &QProcess::started,
-            [process, entry]() {
-                qCDebug(procs) << "AppEntry started" << entry.executableName;
+            [state, this]() {
+                qCDebug(procs) << "AppEntry started" << state.appEntry.executableName;
+                emit appStarted(state);
     });
 
     if (!entry.executablePath.isNull()) {

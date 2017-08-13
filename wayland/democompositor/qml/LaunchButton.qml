@@ -57,5 +57,8 @@ MyButton {
     text.maximumLineCount: 1
     iconSize: 32
 
-    onTriggered: launcher.launch(appEntry)
+    onTriggered: {
+        if (!launcher.isRunning(appEntry))
+            launcher.launch(appEntry)
+    }
 }

@@ -51,12 +51,26 @@
 #ifndef PROCESSLAUNCHER_H
 #define PROCESSLAUNCHER_H
 
+#include "apps/appentry.h"
+
 #include <QObject>
+#include <QProcess>
 #include <QLoggingCategory>
 
-class AppEntry;
-
 Q_DECLARE_LOGGING_CATEGORY(procs)
+
+/**
+ * Transient class. Do not keep AppState beyond the
+ * finished signal.
+ */
+class AppState {
+    Q_GADGET
+    Q_PROPERTY(QProcess *process MEMBER process CONSTANT)
+    Q_PROPERTY(AppEntry appEntry MEMBER appEntry CONSTANT)
+public:
+    QProcess *process;
+    AppEntry appEntry;
+};
 
 class WaylandProcessLauncher : public QObject
 {
@@ -66,6 +80,18 @@ public:
     explicit WaylandProcessLauncher(QObject *parent = 0);
     ~WaylandProcessLauncher();
     Q_INVOKABLE void launch(const AppEntry &entry);
+
+    Q_INVOKABLE bool isRunning(const AppEntry& entry) const;
+
+Q_SIGNALS:
+    void appStarted(const AppState &appState);
+    void appFinished(const AppState &appState, int exitCode, QProcess::ExitStatus exitStatus);
+    void appNotStarted(const AppState& appState);
+
+private:
+    QVector<AppState> m_appStates;
 };
+
+Q_DECLARE_METATYPE(AppState)
 
 #endif // PROCESSLAUNCHER_H
