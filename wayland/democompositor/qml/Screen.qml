@@ -271,7 +271,7 @@ WaylandOutput {
                         pressedColor: pressedCol
                         textColor: textCol
                         text.text: model.applicationName
-                        executable: model.executableName
+                        appEntry: model.appEntry
                         icon.source: model.iconName
                     }
                 }

@@ -52,6 +52,11 @@
 #define PROCESSLAUNCHER_H
 
 #include <QObject>
+#include <QLoggingCategory>
+
+class AppEntry;
+
+Q_DECLARE_LOGGING_CATEGORY(procs)
 
 class WaylandProcessLauncher : public QObject
 {
@@ -60,7 +65,7 @@ class WaylandProcessLauncher : public QObject
 public:
     explicit WaylandProcessLauncher(QObject *parent = 0);
     ~WaylandProcessLauncher();
-    Q_INVOKABLE void launch(const QString &program);
+    Q_INVOKABLE void launch(const AppEntry &entry);
 };
 
 #endif // PROCESSLAUNCHER_H

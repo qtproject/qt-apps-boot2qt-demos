@@ -51,11 +51,11 @@
 import QtQuick 2.6
 
 MyButton {
-    property string executable
+    property var appEntry
     text.text: "Uninitialized"
     text.elide: Text.ElideRight
     text.maximumLineCount: 1
     iconSize: 32
 
-    onTriggered: launcher.launch(executable)
+    onTriggered: launcher.launch(appEntry)
 }

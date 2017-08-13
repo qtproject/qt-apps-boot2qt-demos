@@ -49,8 +49,11 @@
 ****************************************************************************/
 
 #include "processlauncher.h"
+#include "apps/appentry.h"
 
 #include <QProcess>
+
+Q_LOGGING_CATEGORY(procs, "launcher.procs")
 
 WaylandProcessLauncher::WaylandProcessLauncher(QObject *parent)
     : QObject(parent)
@@ -61,16 +64,22 @@ WaylandProcessLauncher::~WaylandProcessLauncher()
 {
 }
 
-void WaylandProcessLauncher::launch(const QString &program)
+void WaylandProcessLauncher::launch(const AppEntry &entry)
 {
+    qCDebug(procs) << "Launching" << entry.executableName;
+
     QProcess *process = new QProcess(this);
     connect(process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
             process, &QProcess::deleteLater);
     connect(process, &QProcess::errorOccurred, &QProcess::deleteLater);
 
+    if (!entry.executablePath.isNull()) {
+        auto env = QProcessEnvironment::systemEnvironment();
+        env.insert(QStringLiteral("PATH"), entry.executablePath);
+        process->setProcessEnvironment(env);
+    }
+
     QStringList arguments;
     arguments << "-platform" << "wayland";
-    process->start(program, arguments);
-
+    process->start(entry.executableName, arguments);
 }
-
