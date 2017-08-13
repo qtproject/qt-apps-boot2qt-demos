@@ -64,11 +64,12 @@ class AppEntry {
     Q_PROPERTY(QString executableName MEMBER executableName CONSTANT)
     Q_PROPERTY(QString executablePath MEMBER executablePath CONSTANT)
 public:
-    const QString iconName;
-    const QString appName;
-    const QString executableName;
-    const QString executablePath;
-    const QString sourceFileName;
+
+    QString iconName;
+    QString appName;
+    QString executableName;
+    QString executablePath;
+    QString sourceFileName;
 
     static AppEntry empty();
 };

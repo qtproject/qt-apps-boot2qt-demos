@@ -50,10 +50,10 @@
 
 #pragma once
 
+#include "appentry.h"
+
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QVector>
-
-class AppEntry;
 
 /**
  * A model that holds all available applications and
@@ -62,8 +62,6 @@ class AppEntry;
 class AppListModel : public QAbstractListModel {
     Q_OBJECT
 public:
-
-    ~AppListModel();
 
     enum Roles {
         App = Qt::UserRole,
@@ -87,6 +85,6 @@ public Q_SLOTS:
 private:
     void doAddFile(const QString& fileName);
 
-    QVector<AppEntry*> m_rows;
+    QVector<AppEntry> m_rows;
     static QHash<int, QByteArray> m_roles;
 };

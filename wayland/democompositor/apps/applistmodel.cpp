@@ -69,11 +69,6 @@ static QHash<int, QByteArray> modelRoles()
 
 QHash<int, QByteArray> AppListModel::m_roles = modelRoles();
 
-AppListModel::~AppListModel()
-{
-    qDeleteAll(m_rows);
-}
-
 int AppListModel::rowCount(const QModelIndex& index) const
 {
     if (index.isValid())
@@ -90,17 +85,17 @@ QVariant AppListModel::data(const QModelIndex& index, int role) const
 
     switch (role) {
     case App:
-        return QVariant::fromValue(*entry);
+        return QVariant::fromValue(entry);
     case IconName:
-        return entry->iconName;
+        return entry.iconName;
     case ApplicationName:
-        return entry->appName;
+        return entry.appName;
     case ExeuctableName:
-        return entry->executableName;
+        return entry.executableName;
     case ExecutablePath:
-        return entry->executablePath;
+        return entry.executablePath;
     case SourceFileName:
-        return entry->sourceFileName;
+        return entry.sourceFileName;
     default:
         qCWarning(apps) << "Unhandled role" << role;
         return QVariant();
@@ -154,13 +149,11 @@ void AppListModel::doAddFile(const QString& fileName)
         return;
 
     for (int i = 0; i < m_rows.count(); ++i) {
-        auto oldEntry = m_rows[i];
-        if (oldEntry->sourceFileName == fileName) {
-            m_rows[i] = new AppEntry(newEntry);
-            delete oldEntry;
+        if (m_rows[i].sourceFileName == fileName) {
+            m_rows[i] = newEntry;
             return;
         }
     }
 
-    m_rows.push_back(new AppEntry(newEntry));
+    m_rows.push_back(newEntry);
 }
