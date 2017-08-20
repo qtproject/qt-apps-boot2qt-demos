@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
     qputenv("QT_QPA_EGLFS_HIDECURSOR", "1");
     QGuiApplication app(argc, argv);
 
-    QFont f("Open Sans", 12.5);
+    QFont f("Open Sans", 12);
     app.setFont(f);
 
     qputenv("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1");
