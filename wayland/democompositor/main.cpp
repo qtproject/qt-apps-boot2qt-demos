@@ -48,6 +48,8 @@
 **
 ****************************************************************************/
 
+#include <QtCore/QCommandLineOption>
+#include <QtCore/QCommandLineParser>
 #include <QtCore/QUrl>
 #include <QtCore/QDebug>
 
@@ -71,13 +73,38 @@ int main(int argc, char *argv[])
 {
     qputenv("QT_QPA_EGLFS_HIDECURSOR", "1");
     QGuiApplication app(argc, argv);
+    QGuiApplication::setApplicationName("democompositor");
+    QGuiApplication::setApplicationVersion("1.0");
 
-    QFont f("Open Sans", 12);
+    /* Parse options */
+    QCommandLineParser parser;
+    parser.setApplicationDescription("Demo Compositor");
+    parser.addHelpOption();
+    parser.addVersionOption();
+
+    QCommandLineOption fontNameOpt(QStringList() << "f" << "font",
+            QCoreApplication::translate("main", "Default font to use"),
+            QCoreApplication::translate("main", "Name of the font"),
+            "Open Sans");
+    parser.addOption(fontNameOpt);
+    QCommandLineOption fontNameSzeOpt(QStringList() << "s" << "size",
+            QCoreApplication::translate("main", "Default font size to use"),
+            QCoreApplication::translate("main", "Point size of the font"),
+            "12");
+    parser.addOption(fontNameSzeOpt);
+    QCommandLineOption qmlUrlOpt(QStringList() << "o" << "open",
+            QCoreApplication::translate("main", "QML scene to open"),
+            QCoreApplication::translate("main", "URL"),
+            "qrc:///qml/main.qml");
+    parser.addOption(qmlUrlOpt);
+    parser.process(app);
+
+    QFont f(parser.value(fontNameOpt), parser.value(fontNameSzeOpt).toInt());
     app.setFont(f);
 
     qputenv("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1");
     registerTypes();
-    QQmlApplicationEngine appEngine(QUrl("qrc:///qml/main.qml"));
+    QQmlApplicationEngine appEngine(QUrl(parser.value(qmlUrlOpt)));
 
     return app.exec();
 }
