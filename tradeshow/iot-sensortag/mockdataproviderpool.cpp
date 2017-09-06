@@ -69,7 +69,7 @@ void MockDataProviderPool::startScanning()
     p->setTagType(SensorTagDataProvider::Humidity | SensorTagDataProvider::Light | SensorTagDataProvider::Accelometer);
     m_dataProviders.push_back(p);
     p = new MockDataProvider("MOCK_PROVIDER_3", this);
-    p->setTagType(SensorTagDataProvider::Magnetometer | SensorTagDataProvider::AirPressure);
+    p->setTagType(SensorTagDataProvider::Magnetometer | SensorTagDataProvider::AirPressure | SensorTagDataProvider::Altitude);
     m_dataProviders.push_back(p);
     for (int i=0; i < m_dataProviders.length(); i++) {
         m_dataProviders.at(i)->startDataFetching();
