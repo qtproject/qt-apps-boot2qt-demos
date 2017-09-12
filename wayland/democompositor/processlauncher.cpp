@@ -107,6 +107,17 @@ bool WaylandProcessLauncher::isRunning(const AppEntry& entry) const
     return false;
 }
 
+void WaylandProcessLauncher::kill(const AppEntry& entry)
+{
+    for (auto state : m_appStates) {
+        if (state.appEntry.sourceFileName != entry.sourceFileName)
+            continue;
+
+        qCDebug(procs) << "Killing process " << state.process->pid() << " for " << entry.sourceFileName;
+        state.process->kill();
+    }
+}
+
 void WaylandProcessLauncher::launch(const AppEntry &entry)
 {
     qCDebug(procs) << "Launching" << entry.executableName;
