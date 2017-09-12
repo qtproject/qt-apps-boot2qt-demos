@@ -78,7 +78,7 @@ Item {
 
     ListModel {
         id: listModel
-        ListElement { name: "Brignthness / Contrast"; file: "effect_BrightnessContrast.qml" }
+        ListElement { name: "Brightness / Contrast"; file: "effect_BrightnessContrast.qml" }
         ListElement { name: "Colorize"; file: "effect_Colorize.qml" }
         ListElement { name: "Displacement"; file: "effect_Displacement.qml" }
         ListElement { name: "Drop Shadow"; file: "effect_DropShadow.qml" }
