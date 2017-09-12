@@ -89,6 +89,10 @@ WaylandOutput {
 
         AppListModel {
             id: apps
+            onAppRemoved: {
+                console.log("Application was removed: " + appEntry.appName);
+                launcher.stop(appEntry);
+            }
         }
 
         Component.onCompleted: {

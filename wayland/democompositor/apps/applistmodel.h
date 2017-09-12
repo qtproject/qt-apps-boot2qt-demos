@@ -76,6 +76,9 @@ public:
     QVariant data(const QModelIndex& index, int role) const Q_DECL_OVERRIDE;
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
+Q_SIGNALS:
+    void appRemoved(const AppEntry& appEntry);
+
 public Q_SLOTS:
     bool addAndWatchDir(const QString& dirName);
 
@@ -83,7 +86,9 @@ public Q_SLOTS:
     void addDir(const QString& dirName);
 
 private:
-    void doAddFile(const QString& fileName);
+    QVector<QString> entriesWithPrefix(const QString& prefix) const;
+    QVector<AppEntry> removeEntries(const QVector<QString>& sourceFileNames);
+    bool doAddFile(const QString& fileName);
 
     QVector<AppEntry> m_rows;
     static QHash<int, QByteArray> m_roles;

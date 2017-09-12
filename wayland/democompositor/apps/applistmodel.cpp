@@ -135,25 +135,74 @@ void AppListModel::addDir(const QString& dirName)
 {
     QDirIterator dirIt(dirName, QDir::Files | QDir::NoDotAndDotDot | QDir::Readable);
 
+    // We want to deal with the corner case of some files being
+    // removed. One option would have been to keep a marker bit
+    // inside the AppEntry but that might leak too much of the
+    // implementation to the outside. Let's keep a list of file
+    // names that came from the directory and remove items from
+    // the list as we re-parse them. Once we are done emit the
+    // signals.
+    QVector<QString> deletionCandidates = entriesWithPrefix(dirName);
+
     beginResetModel();
-    while (dirIt.hasNext())
-        doAddFile(dirIt.next());
+    while (dirIt.hasNext()) {
+        auto fileName = dirIt.next();
+        if (!doAddFile(fileName))
+            continue;
+        deletionCandidates.removeAll(fileName);
+    }
+    QVector<AppEntry> removedApps = removeEntries(deletionCandidates);
     endResetModel();
+
+    // Announce the apps we removed after the model has been updated
+    for (const auto& app : removedApps) {
+        qCDebug(apps) << "Going to remove entry for " << app.sourceFileName;
+        emit appRemoved(app);
+    }
 }
 
-void AppListModel::doAddFile(const QString& fileName)
+bool AppListModel::doAddFile(const QString& fileName)
 {
     bool ok;
     auto newEntry = AppParser::parseFile(fileName, &ok);
     if (!ok)
-        return;
+        return false;
 
     for (int i = 0; i < m_rows.count(); ++i) {
         if (m_rows[i].sourceFileName == fileName) {
             m_rows[i] = newEntry;
-            return;
+            return true;
         }
     }
 
     m_rows.push_back(newEntry);
+    return true;
+}
+
+QVector<QString> AppListModel::entriesWithPrefix(const QString& prefix) const
+{
+    QVector<QString> entries;
+
+    for (const AppEntry& entry : m_rows)
+        if (entry.sourceFileName.startsWith(prefix))
+            entries.push_back(entry.sourceFileName);
+    return entries;
+}
+
+QVector<AppEntry> AppListModel::removeEntries(const QVector<QString>& fileNames)
+{
+    QVector<AppEntry> removedEntries(fileNames.size());
+
+    // Rare but quadratic. The actual removal.
+    for (const auto &toRemoveFile: fileNames) {
+        for (int i = 0; i < m_rows.size(); ++i) {
+            if (m_rows[i].sourceFileName != toRemoveFile)
+                continue;
+            removedEntries.append(m_rows[i]);
+            m_rows.removeAt(i);
+            break;
+        }
+    }
+
+    return removedEntries;
 }
