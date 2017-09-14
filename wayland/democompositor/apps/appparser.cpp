@@ -94,6 +94,18 @@ static int readInt(const QJsonObject& object, const QString& key, bool *ok)
     return doReadInt(object.value(key), ok);
 }
 
+static QVariantMap readExtensions(const QJsonObject& object, const QString& prefixKey)
+{
+    QVariantMap map;
+
+    for (auto it = object.constBegin(); it != object.constEnd(); ++it) {
+        if (!it.key().startsWith(prefixKey))
+            continue;
+        map[it.key()] = it.value().toVariant();
+    }
+    return map;
+}
+
 AppEntry AppParser::parseData(const QByteArray& content, const QString& fileName, bool *ok)
 {
     *ok = true;
@@ -129,10 +141,11 @@ AppEntry AppParser::parseData(const QByteArray& content, const QString& fileName
     QString appName = readString(root, QStringLiteral("Name"), ok);
     QString executableName = readString(root, QStringLiteral("Exec"), ok);
     QString executablePath = readStringOptional(root, QStringLiteral("Path"), ok);
+    QVariantMap extensions = readExtensions(root, QStringLiteral("X-"));
     if (!*ok)
         return AppEntry::empty();
 
-    return AppEntry{iconName, appName, executableName, executablePath, fileName};
+    return AppEntry{iconName, appName, executableName, executablePath, fileName, extensions};
 }
 
 AppEntry AppParser::parseFile(const QString& fileName, bool *ok)

@@ -18,3 +18,4 @@ Icon	The icon to use for display             Yes             String
 Name    A user displayable name                 Yes             String
 Exec    Application to execute to launch        Yes             String
 Path    The directory to search for the app     No              String
+X-*     Extensions to the specification         No              Any

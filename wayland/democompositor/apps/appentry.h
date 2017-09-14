@@ -52,6 +52,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
+#include <QtCore/QVariantMap>
 
 /**
  * A const representatation of an application entry. Members include
@@ -63,6 +64,7 @@ class AppEntry {
     Q_PROPERTY(QString appName MEMBER appName CONSTANT)
     Q_PROPERTY(QString executableName MEMBER executableName CONSTANT)
     Q_PROPERTY(QString executablePath MEMBER executablePath CONSTANT)
+    Q_PROPERTY(QVariantMap extensions MEMBER extensions CONSTANT)
 public:
 
     QString iconName;
@@ -70,6 +72,7 @@ public:
     QString executableName;
     QString executablePath;
     QString sourceFileName;
+    QVariantMap extensions;
 
     static AppEntry empty();
 };

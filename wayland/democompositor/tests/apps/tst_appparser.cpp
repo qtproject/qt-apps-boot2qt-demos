@@ -127,6 +127,14 @@ void tst_AppParser::testFileOpen()
     QCOMPARE(entry.appName, QStringLiteral("Clocks"));
     QCOMPARE(entry.executableName, QStringLiteral("clocks"));
     QCOMPARE(entry.executablePath, QStringLiteral("./"));
+
+    // Look at extensions
+    QVERIFY(entry.extensions["X-Fullscreen"].canConvert(QMetaType::Bool));
+    QCOMPARE(entry.extensions["X-Fullscreen"].toBool(), true);
+    QVERIFY(entry.extensions["X-Priority"].canConvert(QMetaType::Double));
+    QCOMPARE(entry.extensions["X-Priority"].toInt(), 100);
+    QVERIFY(entry.extensions["X-Screen"].canConvert(QMetaType::QString));
+    QCOMPARE(entry.extensions["X-Screen"].toString(), QStringLiteral("left"));
 }
 
 QTEST_MAIN(tst_AppParser)
