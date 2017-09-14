@@ -6,15 +6,15 @@
         <file>qml/MyButton.qml</file>
         <file>qml/LaunchButton.qml</file>
         <file>qml/TimedButton.qml</file>
-        <file>images/quit.png</file>
-        <file>images/greendot.png</file>
-        <file>images/reddot.png</file>
-        <file>images/graydot.png</file>
-        <file>images/graydots.png</file>
-        <file>images/greendots.png</file>
-        <file>images/Icon_Clocks.png</file>
-        <file>images/Icon_Maps.png</file>
-        <file>images/Icon_RSS.png</file>
-        <file>images/Icon_StocQt.png</file>
+        <file alias="images/quit.png">resources/images/quit.png</file>
+        <file alias="images/greendot.png">resources/images/greendot.png</file>
+        <file alias="images/reddot.png">resources/images/reddot.png</file>
+        <file alias="images/graydot.png">resources/images/graydot.png</file>
+        <file alias="images/graydots.png">resources/images/graydots.png</file>
+        <file alias="images/greendots.png">resources/images/greendots.png</file>
+        <file alias="images/Icon_Clocks.png">resources/images/Icon_Clocks.png</file>
+        <file alias="images/Icon_Maps.png">resources/images/Icon_Maps.png</file>
+        <file alias="images/Icon_RSS.png">resources/images/Icon_RSS.png</file>
+        <file alias="images/Icon_StocQt.png">resources/images/Icon_StocQt.png</file>
     </qresource>
 </RCC>

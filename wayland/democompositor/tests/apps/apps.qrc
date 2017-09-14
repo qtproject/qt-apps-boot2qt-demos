@@ -1,5 +1,5 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource prefix="/">
-    <file alias="app.json">../../apps/files/clock.app</file>
+    <file alias="app.json">../../resources/apps/clock.app</file>
 </qresource>
 </RCC>

@@ -25,4 +25,4 @@ target.path = /data/user/$$TARGET
 
 # TODO. How does /data/user/$$TARGET map to QStandardPaths
 apps.path = /data/user/$$TARGET/apps/
-apps.files = apps/files/*.app
+apps.files = resources/apps/*.app
