@@ -47,31 +47,77 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef MQTTDATAPROVIDERPOOL_H
-#define MQTTDATAPROVIDERPOOL_H
 
-#include "dataproviderpool.h"
-#include <QtMqtt/QMqttClient>
+#include "mqttdataproviderpool.h"
+#include "mqttdataprovider.h"
 
-class MqttDataProvider;
+#include <QtCore/QDebug>
 
-#define MQTT_BROKER ""
-#define MQTT_PORT 1883
-#define MQTT_USERNAME ""
-#define MQTT_PASSWORD ""
-
-class MqttDataProviderPool : public DataProviderPool
+MqttDataProviderPool::MqttDataProviderPool(QObject *parent)
+    : DataProviderPool(parent)
+    , m_client(new QMqttClient(this))
 {
-public:
-    explicit MqttDataProviderPool(QObject *parent = 0);
+    m_poolName = "Mqtt";
+}
 
-    void startScanning() override;
+void MqttDataProviderPool::startScanning()
+{
+    emit providerConnected("MQTT_CLOUD");
+    emit providersUpdated();
+    emit dataProvidersChanged();
 
-public Q_SLOTS:
-    void deviceUpdate(const QMqttMessage &msg);
+    m_client->setHostname(QLatin1String(MQTT_BROKER));
+    m_client->setPort(MQTT_PORT);
+    m_client->setUsername(QByteArray(MQTT_USERNAME));
+    m_client->setPassword(QByteArray(MQTT_PASSWORD));
 
-private:
-    QMqttClient *m_client;
-};
+    connect(m_client, &QMqttClient::connected, [this]() {
+        auto sub = m_client->subscribe(QLatin1String("sensors/active"));
+        connect(sub, &QMqttSubscription::messageReceived, this, &MqttDataProviderPool::deviceUpdate);
+    });
+    connect(m_client, &QMqttClient::disconnected, [this]() {
+        qDebug() << "Pool client disconnected";
+    });
+    m_client->connectToHost();
+}
 
-#endif // MQTTDATAPROVIDERPOOL_H
+void MqttDataProviderPool::deviceUpdate(const QMqttMessage &msg)
+{
+    static QSet<QString> knownDevices;
+    // Registration is: deviceName>Online
+    const QByteArrayList payload = msg.payload().split('>');
+    const QString deviceName = payload.first();
+    const QString deviceStatus = payload.at(1);
+    const QString subName = QString::fromLocal8Bit("sensors/%1/#").arg(deviceName);
+
+    bool updateRequired = false;
+    if (deviceStatus == QLatin1String("Online")) { // new device
+        // Skip local items
+        if (deviceName.startsWith(QSysInfo::machineHostName()))
+            return;
+
+        if (!knownDevices.contains(deviceName)) {
+            auto prov = new MqttDataProvider(deviceName, m_client, this);
+            prov->setState(SensorTagDataProvider::Connected);
+            m_dataProviders.push_back(prov);
+            if (m_currentProvider == nullptr)
+                setCurrentProviderIndex(m_dataProviders.size() - 1);
+            knownDevices.insert(deviceName);
+            updateRequired = true;
+        }
+    } else if (deviceStatus == QLatin1String("Offline")) { // device died
+        knownDevices.remove(deviceName);
+        updateRequired = true;
+        for (auto prov : m_dataProviders) {
+            if (prov->id() == deviceName) {
+                m_dataProviders.removeAll(prov);
+                break;
+            }
+        }
+    }
+
+    if (updateRequired) {
+        emit providersUpdated();
+        emit dataProvidersChanged();
+    }
+}

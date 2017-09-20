@@ -47,31 +47,75 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef MQTTDATAPROVIDERPOOL_H
-#define MQTTDATAPROVIDERPOOL_H
+#ifndef MQTTUPDATE_H
+#define MQTTUPDATE_H
 
-#include "dataproviderpool.h"
-#include <QtMqtt/QMqttClient>
+#include <QObject>
+#include <QTimer>
 
-class MqttDataProvider;
+class DataProviderPool;
+class SensorTagDataProvider;
+class QMqttClient;
 
-#define MQTT_BROKER ""
-#define MQTT_PORT 1883
-#define MQTT_USERNAME ""
-#define MQTT_PASSWORD ""
+//#define MQTT_TIMER_BASED_PUBLISH 1
 
-class MqttDataProviderPool : public DataProviderPool
+class MqttEventHandler : public QObject
 {
+    Q_OBJECT
 public:
-    explicit MqttDataProviderPool(QObject *parent = 0);
+    explicit MqttEventHandler(const QString &name, QObject *parent = 0);
+    ~MqttEventHandler();
+    DataProviderPool *m_providerPool;
+public slots:
+    void uploadGyro();
+    void uploadTemperature();
+    void uploadHumidity();
+    void uploadLight();
+    void uploadAltitude();
+    void uploadBarometer();
+    void uploadAccelerometer();
+    void uploadMagnetometer();
+    void uploadRotation();
 
-    void startScanning() override;
-
-public Q_SLOTS:
-    void deviceUpdate(const QMqttMessage &msg);
+    void clientConnected();
+    void sendAlive();
 
 private:
+    QString m_deviceName;
+    QString m_topicPrefix;
     QMqttClient *m_client;
+    QTimer m_pingTimer;
 };
 
-#endif // MQTTDATAPROVIDERPOOL_H
+class MqttUpdate : public QObject
+{
+    Q_OBJECT
+public:
+    explicit MqttUpdate(QObject *parent = 0);
+
+    void setDataProviderPool(DataProviderPool *provider);
+
+    int updateInterval() const;
+    void setUpdateInterval(int interval);
+    void restart();
+    void stop();
+
+#ifdef MQTT_TIMER_BASED_PUBLISH
+protected:
+    void timerEvent(QTimerEvent* event);
+    virtual void writeToCloud();
+#else
+#endif
+
+protected:
+    DataProviderPool *m_providerPool;
+private:
+    QThread *m_handlerThread;
+    MqttEventHandler *m_handler;
+    int m_updateInterval;
+#ifdef MQTT_TIMER_BASED_PUBLISH
+    int m_timerId;
+#endif
+};
+
+#endif // MQTTUPDATE_H

@@ -47,13 +47,6 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include <QApplication>
-#include <QQmlApplicationEngine>
-#include <QQuickWindow>
-#include <QQmlContext>
-#include <QCommandLineParser>
-#include <QFontDatabase>
-#include <QScreen>
 
 #if defined(RUNS_AS_HOST)
 #include "bluetoothdataprovider.h"
@@ -67,8 +60,20 @@
 #include "mockdataproviderpool.h"
 #ifdef AZURE_UPLOAD
 #include "cloudupdate.h"
+#elif defined (MQTT_UPLOAD)
+#include "mqttupdate.h"
+#include "mqttdataprovider.h"
+#include "mqttdataproviderpool.h"
 #endif
 #include "seriesstorage.h"
+
+#include <QApplication>
+#include <QQmlApplicationEngine>
+#include <QQuickWindow>
+#include <QQmlContext>
+#include <QCommandLineParser>
+#include <QFontDatabase>
+#include <QScreen>
 
 Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
 Q_LOGGING_CATEGORY(boot2QtDemos, "boot2qt.demos.iot")
@@ -90,6 +95,9 @@ int main(int argc, char *argv[])
     parser.addHelpOption();
     parser.process(app);
 
+#if defined(MQTT_UPLOAD)
+    remoteProviderPool = new MqttDataProviderPool;
+#endif
 #if defined(RUNS_AS_HOST)
 //    localProviderPool = new MockDataProviderPool;
     localProviderPool = new DemoDataProviderPool;
@@ -100,8 +108,13 @@ int main(int argc, char *argv[])
     qmlRegisterType<DataProviderPool>("SensorTag.DataProvider", 1, 0, "DataProviderPool");
     qmlRegisterType<SeriesStorage>("SensorTag.SeriesStorage", 1, 0, "SeriesStorage");
 
-#if defined(RUNS_AS_HOST) && defined(AZURE_UPLOAD)
+#if defined(RUNS_AS_HOST) && (defined(AZURE_UPLOAD) || defined(MQTT_UPLOAD))
+#if AZURE_UPLOAD
     CloudUpdate update;
+#  else
+    MqttUpdate update;
+#  endif
+
     update.setDataProviderPool(localProviderPool);
     update.restart();
 #endif

@@ -1,7 +1,15 @@
 TEMPLATE = app
 
-QT += 3dcore 3drender 3dinput 3dquick 3dlogic core gui qml quick 3dquickextras widgets
-QT += bluetooth network charts
+QT += \
+      bluetooth \
+      core \
+      charts \
+      gui \
+      network \
+      qml \
+      quick \
+      widgets
+
 CONFIG += c++11
 DEFINES += QT_NO_FOREACH
 
@@ -9,25 +17,17 @@ DEFINES += QT_NO_FOREACH
 # Needed at least for RPi3 and iMX
 #CONFIG += DEPLOY_TO_FS
 
-# Uncomment DEVICE_TYPE and assign either UI_SMALL, UI_MEDIUM, UI_LARGE
-# to force using that UI form factor. Otherwise
-# the form factor is determined based on the platform
-DEVICE_TYPE = UI_SMALL
-
-# If DEVICE_TYPE is not set manually, try to determine
-# the correct device type by the used operating system
-win32|linux:!android:!qnx {
+win32|linux|android:!qnx {
     CONFIG += BLUETOOTH_HOST
-    isEmpty(DEVICE_TYPE) { DEVICE_TYPE = UI_SMALL }
-} else:android {
-    isEmpty(DEVICE_TYPE) { DEVICE_TYPE = UI_MEDIUM }
-    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
-    QMAKE_CXX_FLAGS -= -DQT_OPENGL_FORCE_SHADER_DEFINES
-} else:ios {
-     isEmpty(DEVICE_TYPE) { DEVICE_TYPE = UI_MEDIUM }
+} else {
+    message(Unsupported target platform)
 }
 
-win32 {
+# For using MQTT upload enable this config.
+# This enables both, host and client mode
+CONFIG += UPDATE_TO_MQTT_BROKER
+
+win32:!contains(CONFIG, UPDATE_TO_MQTT_BROKER) {
     WASTORAGE_PATH = $$(WASTORAGE_LOCATION)
     isEmpty(WASTORAGE_PATH): message("Location for Azure Storage libs unknown. Please specify WASTORAGE_LOCATION")
     CPPRESTSDK_PATH = $$(CPPRESTSDK_LOCATION)
@@ -83,6 +83,21 @@ BLUETOOTH_HOST {
         bluetoothdevice.h
 }
 
+UPDATE_TO_MQTT_BROKER {
+    CONFIG -= UPDATE_TO_AZURE
+
+    !qtHaveModule(mqtt): error("Could not find MQTT module for Qt version")
+    QT += mqtt
+    DEFINES += MQTT_UPLOAD
+
+    SOURCES += mqttupdate.cpp \
+               mqttdataproviderpool.cpp \
+               mqttdataprovider.cpp
+    HEADERS += mqttupdate.h \
+               mqttdataproviderpool.h \
+               mqttdataprovider.h
+}
+
 UPDATE_TO_AZURE {
     SOURCES += cloudupdate.cpp
     HEADERS += cloudupdate.h
@@ -100,29 +115,9 @@ UPDATE_TO_AZURE {
 
 RESOURCES += base.qrc
 
-equals(DEVICE_TYPE, "UI_SMALL") {
-    DEFINES += UI_SMALL
-    !DEPLOY_TO_FS: RESOURCES += uismall.qrc
-    uiVariant.files = resources/small
-    uiVariant.path = /opt/$${TARGET}/resources
-    message("Resource file for SMALL display picked")
-}
-
-equals(DEVICE_TYPE, "UI_MEDIUM") {
-    DEFINES += UI_MEDIUM
-    !DEPLOY_TO_FS: RESOURCES += uimedium.qrc
-    uiVariant.files = resources/medium
-    uiVariant.path = /opt/$${TARGET}/resources
-    message("Resource file for MEDIUM display picked")
-}
-
-equals(DEVICE_TYPE, "UI_LARGE") {
-    DEFINES += UI_LARGE
-    !DEPLOY_TO_FS: RESOURCES += uilarge.qrc
-    uiVariant.files = resources/large
-    uiVariant.path = /opt/$${TARGET}/resources
-    message("Resource file for LARGE display picked")
-}
+!DEPLOY_TO_FS: RESOURCES += uismall.qrc
+uiVariant.files = resources/small
+uiVariant.path = /opt/$${TARGET}/resources
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
