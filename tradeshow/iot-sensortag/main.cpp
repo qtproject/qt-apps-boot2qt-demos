@@ -81,63 +81,29 @@ int main(int argc, char *argv[])
     QFontDatabase::addApplicationFont(QString::fromLatin1(":/resources/base/fonts/titilliumweb/TitilliumWeb-Regular.ttf"));
     app.setFont(QFont("Titillium Web", 13));
 
-    DataProviderPool *dataProviderPool = 0;
+    DataProviderPool *remoteProviderPool = nullptr;
+    DataProviderPool *localProviderPool = nullptr;
     SeriesStorage seriesStorage;
 
     QCommandLineParser parser;
-    parser.addOptions({{"source", "Sensor data source", "cloud | sensor | mock"}, {"fullscreen", "Fullscreen mode", "true | false"}});
+    parser.addOptions({{"fullscreen", "Fullscreen mode", "true | false"}});
     parser.addHelpOption();
     parser.process(app);
 
-    QString sensorSource = parser.value("source");
-
-    if (sensorSource.isEmpty())
-        sensorSource = qgetenv("QT_IOT_DEMO_DATA_SOURCE");
-
-    if (sensorSource.isEmpty())
-        // There is no wastorage package available for WinRT
-#ifdef Q_OS_WINRT
-        sensorSource = "mock";
-#else
-        sensorSource = "cloud";
-#endif
-
-    if (sensorSource == QString("cloud").toLower()) {
-        qCDebug(boot2QtDemos) << "Running in cloud mode";
-        dataProviderPool = new CloudDataProviderPool;
-    }
 #if defined(RUNS_AS_HOST)
-    else if (sensorSource == QString("sensor").toLower()) {
-        qCDebug(boot2QtDemos) << "Running in sensor mode";
-        dataProviderPool = new DemoDataProviderPool;
-        // List of devices used in Embedded World
-        static_cast<SensorTagDataProviderPool*>(dataProviderPool)->setMacFilterList(QStringList() <<
-                                                                                    "24:71:89:BF:3B:82" <<
-                                                                                    "24:71:89:BC:44:82");
-    }
+//    localProviderPool = new MockDataProviderPool;
+    localProviderPool = new DemoDataProviderPool;
 #endif
-    else if (sensorSource == QString("mock").toLower()){
-        qCDebug(boot2QtDemos) << "Running in mock data mode";
-        dataProviderPool = new MockDataProviderPool;
-    }
-    else {
-        qCDebug(boot2QtDemos) << "Unknown mode: " << sensorSource;
-        return 1;
-    }
-
-    seriesStorage.setDataProviderPool(dataProviderPool);
+    seriesStorage.setDataProviderPool(remoteProviderPool);
 
     qmlRegisterType<SensorTagDataProvider>("SensorTag.DataProvider", 1, 0, "SensorTagData");
-    qmlRegisterType<SensorTagDataProvider>("SensorTag.DataProvider", 1, 0, "ProviderState");
     qmlRegisterType<DataProviderPool>("SensorTag.DataProvider", 1, 0, "DataProviderPool");
     qmlRegisterType<SeriesStorage>("SensorTag.SeriesStorage", 1, 0, "SeriesStorage");
 
 #if defined(RUNS_AS_HOST) && defined(AZURE_UPLOAD)
     CloudUpdate update;
-    if (sensorSource == "sensor" || sensorSource == "mock") {
-        update.setDataProviderPool(dataProviderPool);
-        update.restart();
-    }
+    update.setDataProviderPool(localProviderPool);
+    update.restart();
 #endif
 
 #ifdef DEPLOY_TO_FS
@@ -169,34 +135,13 @@ int main(int argc, char *argv[])
             addressString.append(QLatin1Char('/'));
         }
     }
-#if defined(UI_SMALL)
-        mainFile = namingScheme + QStringLiteral("/resources/small/MainSmall.qml");
-        styleFile = namingScheme + QStringLiteral("/resources/small/StyleSmall.qml");
+    mainFile = namingScheme + QStringLiteral("/resources/small/MainSmall.qml");
+    styleFile = namingScheme + QStringLiteral("/resources/small/StyleSmall.qml");
 
-        uiVariant = "small";
-        fullScreen = true;
-        appWidth = 1920;
-        appHeight = 1080;
-        qCDebug(boot2QtDemos) << "Using SMALL UI variant";
-#elif defined(UI_MEDIUM)
-        mainFile =QStringLiteral("qrc:/resources/medium/MainMedium.qml");
-        styleFile = QUrl("qrc:/resources/medium/StyleMedium.qml");
-        uiVariant = "medium";
-        fullScreen = true;
-        appWidth = 1920;
-        appHeight = 1080;
-        qCDebug(boot2QtDemos) << "Using MEDIUM UI variant";
-#elif defined(UI_LARGE)
-        mainFile = QStringLiteral("qrc:/resources/large/MainLarge.qml");
-        styleFile = QUrl("qrc:/resources/large/StyleLarge.qml");
-        uiVariant = "large";
-        fullScreen = true;
-        appWidth = 3840;
-        appHeight = 2160;
-        qCDebug(boot2QtDemos) << "Using LARGE UI variant";
-#else
-#error "Unknown UI form factor set in the project file"
-#endif
+    uiVariant = "small";
+    fullScreen = false;
+    appWidth = 1920;
+    appHeight = 1080;
 
     qmlRegisterSingletonType(styleFile, "Style", 1,0, "Style");
 
@@ -221,12 +166,14 @@ int main(int argc, char *argv[])
         if (fullScreen)
             item->showFullScreen();
 
-        item->setProperty("dataProviderPool", QVariant::fromValue(dataProviderPool));
+        item->setProperty("localProviderPool", QVariant::fromValue(localProviderPool));
+        item->setProperty("remoteProviderPool", QVariant::fromValue(remoteProviderPool));
         item->setProperty("contentFile", mainFile);
         item->setProperty("seriesStorage", QVariant::fromValue(&seriesStorage));
         item->setProperty("addresses", addressString);
     }
     int returnValue = app.exec();
-    dataProviderPool->stopScanning();
+    remoteProviderPool->stopScanning();
+
     return returnValue;
 }

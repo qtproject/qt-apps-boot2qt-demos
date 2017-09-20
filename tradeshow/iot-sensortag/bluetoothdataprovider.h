@@ -55,12 +55,13 @@
 #include <QQmlEngine>
 #include <QJSEngine>
 #include <QTimer>
+#include <QBluetoothDeviceInfo>
 
 class BluetoothDataProvider : public SensorTagDataProvider
 {
     Q_OBJECT
 public:
-    BluetoothDataProvider(QString id, QObject* parent = 0);
+    BluetoothDataProvider(const QBluetoothDeviceInfo &id, QObject *parent = 0);
 
     virtual ~BluetoothDataProvider();
 
@@ -69,9 +70,8 @@ public:
     QString sensorType() const;
     QString versionString() const;
 
-    void bindToDevice(BluetoothDevice *device);
     void unbindDevice();
-    BluetoothDevice* device();
+    BluetoothDevice *device();
 
 public slots:
     void startServiceScan();
@@ -80,7 +80,7 @@ public slots:
     void barometerReceived(double temperature, double barometer);
     void humidityReceived(double humidity);
     void lightIntensityReceived(double lightIntensity);
-    void motionReceived(MotionSensorData &data);
+    void motionReceived(const MotionSensorData &data);
 
 protected:
     void reset() override;
@@ -89,6 +89,7 @@ protected:
 private:
     void updateState();
     float countRotationDegrees(double degreesPerSecond, quint64 milliseconds);
+    QBluetoothDeviceInfo m_info;
     BluetoothDevice *m_btDevice;
     int m_smaSamples;
     int m_zeroAltitudeSamples;

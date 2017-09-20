@@ -55,11 +55,21 @@ import SensorTag.SeriesStorage 1.0
 Window {
     id: mainWindow
 
+    property var singleSensorSource : null
     property alias contentFile: contentLoader.source
-    property DataProviderPool dataProviderPool
+    property DataProviderPool localProviderPool
+    property DataProviderPool remoteProviderPool
     property SeriesStorage seriesStorage
     property real globalBlinkOpacity: 1.0
     property string addresses : ""
+    property bool localSelected : true
+
+    function getCurrentPool() {
+        if (localSelected)
+            return localProviderPool
+        else
+            return remoteProviderPool
+    }
 
     // Size defaults to the small display
     width: 1920
@@ -74,12 +84,10 @@ Window {
 
     Loader {
         id: contentLoader
-
+        visible: true
         anchors.fill: parent
         anchors.centerIn: parent
     }
-
-
 
     function startBlink() {
         flash.blinkers++;

@@ -83,7 +83,7 @@ QString DemoCloudProvider::versionString() const
 
 double DemoCloudProvider::getRelativeHumidity() const
 {
-   for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+   for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
        if (p->tagType() & SensorTagDataProvider::Humidity)
            return p->getRelativeHumidity();
    }
@@ -92,7 +92,7 @@ double DemoCloudProvider::getRelativeHumidity() const
 
 double DemoCloudProvider::getInfraredAmbientTemperature() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::AmbientTemperature)
             return p->getInfraredAmbientTemperature();
     }
@@ -101,7 +101,7 @@ double DemoCloudProvider::getInfraredAmbientTemperature() const
 
 double DemoCloudProvider::getInfraredObjectTemperature() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::ObjectTemperature)
             return p->getInfraredObjectTemperature();
     }
@@ -110,7 +110,7 @@ double DemoCloudProvider::getInfraredObjectTemperature() const
 
 double DemoCloudProvider::getLightIntensityLux() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Light)
             return p->getLightIntensityLux();
     }
@@ -119,7 +119,7 @@ double DemoCloudProvider::getLightIntensityLux() const
 
 double DemoCloudProvider::getBarometerCelsiusTemperature() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::AirPressure)
             return p->getBarometerCelsiusTemperature();
     }
@@ -128,7 +128,7 @@ double DemoCloudProvider::getBarometerCelsiusTemperature() const
 
 double DemoCloudProvider::getBarometerTemperatureAverage() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::AirPressure)
             return p->getBarometerTemperatureAverage();
     }
@@ -137,7 +137,7 @@ double DemoCloudProvider::getBarometerTemperatureAverage() const
 
 double DemoCloudProvider::getBarometer_hPa() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::AirPressure)
             return p->getBarometer_hPa();
     }
@@ -146,7 +146,7 @@ double DemoCloudProvider::getBarometer_hPa() const
 
 float DemoCloudProvider::getGyroscopeX_degPerSec() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Magnetometer)
             return p->getGyroscopeX_degPerSec();
     }
@@ -155,7 +155,7 @@ float DemoCloudProvider::getGyroscopeX_degPerSec() const
 
 float DemoCloudProvider::getGyroscopeY_degPerSec() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Magnetometer)
             return p->getGyroscopeY_degPerSec();
     }
@@ -164,7 +164,7 @@ float DemoCloudProvider::getGyroscopeY_degPerSec() const
 
 float DemoCloudProvider::getGyroscopeZ_degPerSec() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Magnetometer)
             return p->getGyroscopeZ_degPerSec();
     }
@@ -173,7 +173,7 @@ float DemoCloudProvider::getGyroscopeZ_degPerSec() const
 
 float DemoCloudProvider::getAccelometer_xAxis() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Accelometer)
             return p->getAccelometer_xAxis();
     }
@@ -182,7 +182,7 @@ float DemoCloudProvider::getAccelometer_xAxis() const
 
 float DemoCloudProvider::getAccelometer_yAxis() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Accelometer)
             return p->getAccelometer_yAxis();
     }
@@ -191,7 +191,7 @@ float DemoCloudProvider::getAccelometer_yAxis() const
 
 float DemoCloudProvider::getAccelometer_zAxis() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Accelometer)
             return p->getAccelometer_zAxis();
     }
@@ -200,7 +200,7 @@ float DemoCloudProvider::getAccelometer_zAxis() const
 
 float DemoCloudProvider::getMagnetometerMicroT_xAxis() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Magnetometer)
             return p->getMagnetometerMicroT_xAxis();
     }
@@ -209,7 +209,7 @@ float DemoCloudProvider::getMagnetometerMicroT_xAxis() const
 
 float DemoCloudProvider::getMagnetometerMicroT_yAxis() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Magnetometer)
             return p->getMagnetometerMicroT_yAxis();
     }
@@ -218,7 +218,7 @@ float DemoCloudProvider::getMagnetometerMicroT_yAxis() const
 
 float DemoCloudProvider::getMagnetometerMicroT_zAxis() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Magnetometer)
             return p->getMagnetometerMicroT_zAxis();
     }
@@ -227,7 +227,7 @@ float DemoCloudProvider::getMagnetometerMicroT_zAxis() const
 
 float DemoCloudProvider::getRotationX() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Rotation)
             return p->getRotationX();
     }
@@ -236,7 +236,7 @@ float DemoCloudProvider::getRotationX() const
 
 float DemoCloudProvider::getRotationY() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Rotation)
             return p->getRotationY();
     }
@@ -245,7 +245,7 @@ float DemoCloudProvider::getRotationY() const
 
 float DemoCloudProvider::getRotationZ() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Rotation)
             return p->getRotationZ();
     }
@@ -254,7 +254,7 @@ float DemoCloudProvider::getRotationZ() const
 
 float DemoCloudProvider::getAltitude() const
 {
-    for (SensorTagDataProvider *p : qAsConst(m_dataProviders)) {
+    for (SensorTagDataProvider *p: qAsConst(m_dataProviders)) {
         if (p->tagType() & SensorTagDataProvider::Altitude)
             return p->getAltitude();
     }
@@ -272,74 +272,28 @@ DemoDataProviderPool::DemoDataProviderPool(QObject *parent)
 
 void DemoDataProviderPool::startScanning()
 {
-    if (m_mockData) {
-        qDeleteAll(m_dataProviders);
-        m_dataProviders.clear();
+    qDeleteAll(m_dataProviders);
+    m_dataProviders.clear();
 
-        MockDataProvider* p = new MockDataProvider("MOCK_PROVIDER_1", this);
-        p->setTagType(SensorTagDataProvider::ObjectTemperature | SensorTagDataProvider::AmbientTemperature | SensorTagDataProvider::Rotation);
-        m_dataProviders.push_back(p);
-        p = new MockDataProvider("MOCK_PROVIDER_2", this);
-        p->setTagType(SensorTagDataProvider::Humidity | SensorTagDataProvider::Light | SensorTagDataProvider::Accelometer);
-        m_dataProviders.push_back(p);
-        p = new MockDataProvider("MOCK_PROVIDER_3", this);
-        p->setTagType(SensorTagDataProvider::Magnetometer | SensorTagDataProvider::AirPressure);
-        m_dataProviders.push_back(p);
-        for (int i=0; i < m_dataProviders.length(); i++) {
-            m_dataProviders.at(i)->startDataFetching();
-            emit providerConnected(p->id());
-        }
-        // Stop scanning as we already have a provider
-        finishScanning();
-    }
-    else {
-        if (!m_initialized) {
-            // Create a DataProvider objects early on for UI to be able to
-            // show all data providers as available. The BT device information
-            // will be added later on when the Bluetooth device has been found
-            for (const QString& id : m_macFilters) {
-                BluetoothDataProvider *p = new BluetoothDataProvider(id, this);
-                m_dataProviders.push_back(p);
-                // Set initial state to Scanning for UI to be
-                // able to show "Connecting.." information
-                p->setState(SensorTagDataProvider::Scanning);
-                // Empty tag type, it will be set next
-                p->setTagType(0);
-            }
-            // Fake that we have set of sensors with different capabilities
-            // by assigning only some of the sensor data types to each sensor tag
-            int i = 0;
-            while (i < SensorTagDataProvider::tagTypeCount) {
-                for (int p = 0; p < m_dataProviders.count() && i < SensorTagDataProvider::tagTypeCount; p++) {
-                    SensorTagDataProvider *provider = m_dataProviders.at(p);
-                    int tagType = provider->tagType() | (1 << i++);
-                    provider->setTagType(tagType);
-                    qCDebug(boot2QtDemos) << "Set tag type for provider" << provider->id() << "to" << QString::number(tagType, 2);
-                }
-            }
-            emit dataProvidersChanged();
-            m_initialized = true;
-        }
-        SensorTagDataProviderPool::startScanning();
-    }
+    MockDataProvider* p = new MockDataProvider("MOCK_PROVIDER_1", this);
+    p->setTagType(SensorTagDataProvider::ObjectTemperature | SensorTagDataProvider::AmbientTemperature | SensorTagDataProvider::Rotation);
+    m_dataProviders.push_back(p);
+    p = new MockDataProvider("MOCK_PROVIDER_2", this);
+    p->setTagType(SensorTagDataProvider::Humidity | SensorTagDataProvider::Light | SensorTagDataProvider::Accelometer);
+    m_dataProviders.push_back(p);
+    p = new MockDataProvider("MOCK_PROVIDER_3", this);
+    p->setTagType(SensorTagDataProvider::Magnetometer | SensorTagDataProvider::AirPressure);
+    m_dataProviders.push_back(p);
+    for (int i=0; i < m_dataProviders.length(); i++)
+        emit providerConnected(p->id());
+    // Stop scanning as we already have a provider
+    finishScanning();
+
+    SensorTagDataProviderPool::startScanning();
 }
 
 void DemoDataProviderPool::finishScanning()
 {
-    if (m_dataProviders.length() && m_mockData) {
-        // For mock data we have only one provider and
-        // it servers as the provider to the cloud, too
-        m_cloudProvider = m_dataProviders.at(0);
-        emit providerForCloudChanged();
-    } else {
-        m_cloudProvider = new DemoCloudProvider(this);
-        static_cast<DemoCloudProvider*>(m_cloudProvider)->setDataProviders(m_dataProviders);
-        for (SensorTagDataProvider *p : m_dataProviders) {
-            // If BluetoothDevice object is not attached, the device has not been found
-            if (!static_cast<BluetoothDataProvider*>(p)->device())
-                p->setState(SensorTagDataProvider::NotFound);
-        }
-    }
     emit dataProvidersChanged();
     emit scanFinished();
 }

@@ -58,18 +58,25 @@
 class DataProviderPool : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY (QQmlListProperty<SensorTagDataProvider> dataProviders READ dataProviders NOTIFY dataProvidersChanged)
+    Q_PROPERTY(QQmlListProperty<SensorTagDataProvider> dataProviders READ dataProviders NOTIFY dataProvidersChanged)
+    Q_PROPERTY(SensorTagDataProvider* currentProvider READ currentProvider NOTIFY currentProviderChanged)
+    Q_PROPERTY(int currentProviderIndex READ currentProviderIndex WRITE setCurrentProviderIndex NOTIFY currentProviderIndexChanged)
     Q_PROPERTY(QString name MEMBER m_poolName CONSTANT)
 
 public:
     Q_INVOKABLE virtual void startScanning();
     Q_INVOKABLE virtual void stopScanning();
-    Q_INVOKABLE virtual SensorTagDataProvider* getProvider(SensorTagDataProvider::TagType type) const;
-    Q_INVOKABLE virtual void disconnectProvider(QString id);
+    Q_INVOKABLE virtual void disconnectProvider(const QString &id);
+    Q_INVOKABLE virtual SensorTagDataProvider *currentProvider() const;
+    Q_INVOKABLE virtual int currentProviderIndex() const;
 
     QQmlListProperty<SensorTagDataProvider> dataProviders();
 
-    virtual SensorTagDataProvider* providerForCloud() const;
+    virtual SensorTagDataProvider *providerForCloud() const;
+
+
+public slots:
+    void setCurrentProviderIndex(int currentProviderIndex);
 
 signals:
     void providerConnected(QString id);
@@ -80,14 +87,18 @@ signals:
     void scanFinished();
     void providerForCloudChanged();
     void dataProvidersChanged();
+    void currentProviderChanged(SensorTagDataProvider* currentProvider);
+    void currentProviderIndexChanged(int currentProviderIndex);
 
 protected:
     explicit DataProviderPool(QObject *parent = 0);
-    DataProviderPool(QString poolName, QObject* parent = 0);
+    DataProviderPool(QString poolName, QObject *parent = 0);
 
 protected:
-    QList<SensorTagDataProvider*> m_dataProviders;
+    QList<SensorTagDataProvider *> m_dataProviders;
     QString m_poolName;
+    SensorTagDataProvider *m_currentProvider;
+    int m_currentProviderIndex;
 };
 
 #endif // DATAPROVIDERPOOL_H

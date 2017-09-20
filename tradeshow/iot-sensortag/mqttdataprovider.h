@@ -47,13 +47,37 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-pragma Singleton
-import QtQuick 2.0
+#ifndef MQTTDATAPROVIDER_H
+#define MQTTDATAPROVIDER_H
 
-QtObject {
-    property int indicatorTitleFontSize: 22
-    property int indicatorTitleSize: 41
+#include "sensortagdataprovider.h"
+#include <QtQml/QQmlEngine>
+#include <QtQml/QJSEngine>
+#include <QtMqtt/QMqttClient>
+#include <QtMqtt/QMqttSubscription>
 
-    property int topToolbarSmallFontSize: 20
-    property int topToolbarLargeFontSize: 62
-}
+class QTimer;
+
+class MqttDataProvider : public SensorTagDataProvider
+{
+    Q_OBJECT
+public:
+    explicit MqttDataProvider(QString id, QMqttClient *client, QObject *parent = 0);
+
+    bool startDataFetching();
+    void endDataFetching();
+    QString sensorType() const;
+    QString versionString() const;
+    void reset() override;
+
+public slots:
+    void messageReceived(const QMqttMessage &msg);
+    void parseMessage(const QString &content, const QString &topic);
+    void dataTimeout();
+
+private:
+    QTimer *m_pollTimer;
+    QMqttClient *m_client;
+    QMqttSubscription *m_subscription;
+};
+#endif // MQTTDATAPROVIDER_H

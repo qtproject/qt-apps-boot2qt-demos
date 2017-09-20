@@ -71,10 +71,9 @@ void MockDataProviderPool::startScanning()
     p = new MockDataProvider("MOCK_PROVIDER_3", this);
     p->setTagType(SensorTagDataProvider::Magnetometer | SensorTagDataProvider::AirPressure);
     m_dataProviders.push_back(p);
-    for (int i=0; i < m_dataProviders.length(); i++) {
-        m_dataProviders.at(i)->startDataFetching();
+    for (int i=0; i < m_dataProviders.length(); i++)
         emit providerConnected(p->id());
-    }
+
     // Stop scanning as we already have a provider
     finishScanning();
 }

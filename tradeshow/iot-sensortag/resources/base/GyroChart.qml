@@ -92,7 +92,6 @@ BaseChart {
             anchors.left: parent.left
             anchors.leftMargin: -20
             anchors.right: parent.right
-            anchors.rightMargin: -15
             antialiasing: true
             backgroundColor: "transparent"
             legend.visible: false

@@ -62,8 +62,7 @@ public:
 
     void startScanning() override;
 
-    SensorTagDataProvider* providerForCloud() const override;
-
+    SensorTagDataProvider *providerForCloud() const override;
     void setMockDataMode(bool mode);
 
 protected:
@@ -71,7 +70,7 @@ protected:
 
 private:
     bool m_mockData;
-    SensorTagDataProvider* m_cloudProvider;
+    SensorTagDataProvider *m_cloudProvider;
     bool m_initialized;
 };
 
@@ -82,7 +81,7 @@ class DemoCloudProvider : public SensorTagDataProvider
 public:
     explicit DemoCloudProvider(QObject *parent);
 
-    void setDataProviders(const QList<SensorTagDataProvider*>& dataProviders);
+    void setDataProviders(const QList<SensorTagDataProvider *> &dataProviders);
 
     QString sensorType() const override;
     QString versionString() const override;
@@ -108,7 +107,7 @@ public:
     float getRotationZ() const override;
     float getAltitude() const override;
 
-    QList<SensorTagDataProvider*> m_dataProviders;
+    QList<SensorTagDataProvider *> m_dataProviders;
 };
 
 #endif // DEMODATAPROVIDERPOOL_H

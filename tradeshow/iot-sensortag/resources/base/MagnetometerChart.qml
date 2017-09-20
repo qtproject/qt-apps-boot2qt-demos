@@ -57,7 +57,6 @@ BaseChart {
 
     property int maxNumOfMagnReadings: 24
 
-    readonly property color chartColor: "#15bdff"
     readonly property string xColor: "#4db300"
     readonly property string yColor: "white"
     readonly property string zColor: "#f64405"

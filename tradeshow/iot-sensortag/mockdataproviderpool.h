@@ -60,13 +60,13 @@ public:
 
     void startScanning() override;
 
-    SensorTagDataProvider* providerForCloud() const override;
+    SensorTagDataProvider *providerForCloud() const override;
 
 protected:
     void finishScanning();
 
 private:
-    SensorTagDataProvider* m_cloudProvider;
+    SensorTagDataProvider *m_cloudProvider;
 };
 
 #endif // MOCKDATAPROVIDERPOOL_H

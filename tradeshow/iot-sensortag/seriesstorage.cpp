@@ -47,6 +47,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
+
 #include "seriesstorage.h"
 
 Q_DECLARE_METATYPE(QAbstractSeries *)
@@ -70,7 +71,7 @@ void SeriesStorage::setDataProviderPool(DataProviderPool *pool)
     m_providerPool = pool;
     if (!m_providerPool)
         return;
-    connect(m_providerPool, &DataProviderPool::dataProvidersChanged, this, &SeriesStorage::dataProviderPoolChanged);
+    connect(m_providerPool, &DataProviderPool::currentProviderIndexChanged, this, &SeriesStorage::dataProviderPoolChanged);
 }
 
 void SeriesStorage::setTemperatureSeries(QAbstractSeries *series)
@@ -94,20 +95,20 @@ void SeriesStorage::setMagnetoMeterSeries(QAbstractSeries *xSeries, QAbstractSer
 
 void SeriesStorage::dataProviderPoolChanged()
 {
-    m_gyroProvider = m_providerPool->getProvider(SensorTagDataProvider::Rotation);
-    if (m_gyroProvider) {
-        connect(m_gyroProvider, &SensorTagDataProvider::rotationValuesChanged, this, &SeriesStorage::changeRotationSeries);
-    }
+    m_gyroProvider = m_providerPool->currentProvider();
+    if (m_gyroProvider)
+        connect(m_gyroProvider, &SensorTagDataProvider::rotationValuesChanged,
+                this, &SeriesStorage::changeRotationSeries, Qt::UniqueConnection);
 
-    m_magnetoProvider = m_providerPool->getProvider(SensorTagDataProvider::Magnetometer);
-    if (m_magnetoProvider) {
-        connect(m_magnetoProvider, &SensorTagDataProvider::magnetometerMicroTChanged, this, &SeriesStorage::changeMagnetoSeries);
-    }
+    m_magnetoProvider = m_providerPool->currentProvider();
+    if (m_magnetoProvider)
+        connect(m_magnetoProvider, &SensorTagDataProvider::magnetometerMicroTChanged,
+                this, &SeriesStorage::changeMagnetoSeries, Qt::UniqueConnection);
 
-    m_temperatureProvider = m_providerPool->getProvider(SensorTagDataProvider::AmbientTemperature);
-    if (m_temperatureProvider) {
-        connect(m_temperatureProvider, &SensorTagDataProvider::infraredAmbientTemperatureChanged, this, &SeriesStorage::changeTemperatureSeries);
-    }
+    m_temperatureProvider = m_providerPool->currentProvider();
+    if (m_temperatureProvider)
+        connect(m_temperatureProvider, &SensorTagDataProvider::infraredAmbientTemperatureChanged,
+                this, &SeriesStorage::changeTemperatureSeries, Qt::UniqueConnection);
 }
 
 void SeriesStorage::changeRotationSeries()
@@ -146,11 +147,14 @@ void SeriesStorage::changeMagnetoSeries()
     static int axisMin = 0;
     static int axisMax = maxMagneticReadings;
 
-    updatePoints(m_magnetoListX, magneticSeriesIndex, m_magnetoProvider->getMagnetometerMicroT_xAxis(), maxMagneticReadings);
+    updatePoints(m_magnetoListX, magneticSeriesIndex,
+                 m_magnetoProvider->getMagnetometerMicroT_xAxis(), maxMagneticReadings);
     m_magnetoX->replace(m_magnetoListX);
-    updatePoints(m_magnetoListY, magneticSeriesIndex, m_magnetoProvider->getMagnetometerMicroT_yAxis(), maxMagneticReadings);
+    updatePoints(m_magnetoListY, magneticSeriesIndex,
+                 m_magnetoProvider->getMagnetometerMicroT_yAxis(), maxMagneticReadings);
     m_magnetoY->replace(m_magnetoListY);
-    updatePoints(m_magnetoListZ, magneticSeriesIndex, m_magnetoProvider->getMagnetometerMicroT_zAxis(), maxMagneticReadings);
+    updatePoints(m_magnetoListZ, magneticSeriesIndex,
+                 m_magnetoProvider->getMagnetometerMicroT_zAxis(), maxMagneticReadings);
     m_magnetoZ->replace(m_magnetoListZ);
 
     if (magneticSeriesIndex >= maxMagneticReadings) {
@@ -174,7 +178,7 @@ void SeriesStorage::changeTemperatureSeries()
     static const int defaultAvgValue = 25;
 
     m_temperatureList.removeLast();
-    m_temperatureList.append(QPointF(temperatureSeriesIndex -1, m_temperatureProvider->getInfraredAmbientTemperature()));
+    m_temperatureList.append(QPointF(temperatureSeriesIndex - 1, m_temperatureProvider->getInfraredAmbientTemperature()));
     m_temperatureList.append(QPointF(temperatureSeriesIndex, defaultAvgValue));
 
     if (m_temperatureList.size() >= maxTemperatureReadings)

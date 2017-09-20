@@ -47,22 +47,23 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
+
 #include "mockdataprovider.h"
 #include <QtCore/QDateTime>
 
 #define MOCK_DATA_SLOW_REFRESH_INTERVAL_MS   1000
 #define MOCK_DATA_RAPID_REFRESH_INTERVAL_MS   200
 
-MockDataProvider::MockDataProvider(QString id, QObject* parent)
-    : SensorTagDataProvider(id, parent),
-    xAxisG(-0.02f),
-    yAxisG(0.0f),
-    zAxisG(0.02f),
-    luxIncrease(100),
-    rotationDegPerSecXIncrease(5),
-    rotationDegPerSecYIncrease(7),
-    rotationDegPerSecZIncrease(-9),
-    m_smaSamples(0)
+MockDataProvider::MockDataProvider(QString id, QObject *parent)
+    : SensorTagDataProvider(id, parent)
+    , xAxisG(-0.02f)
+    , yAxisG(0.0f)
+    , zAxisG(0.02f)
+    , luxIncrease(100)
+    , rotationDegPerSecXIncrease(5)
+    , rotationDegPerSecYIncrease(7)
+    , rotationDegPerSecZIncrease(-9)
+    , m_smaSamples(0)
 {
     intervalRotation = MOCK_DATA_RAPID_REFRESH_INTERVAL_MS;
     humidity = 40;
@@ -81,21 +82,22 @@ MockDataProvider::MockDataProvider(QString id, QObject* parent)
 bool MockDataProvider::startDataFetching()
 {
     // Mock data is immediately available
-    m_state = Connected;
+    setState(Connected);
 
     qsrand(QDateTime::currentMSecsSinceEpoch() / 1000);
-    slowUpdateTimer = new QTimer(this);
-    connect(slowUpdateTimer, SIGNAL(timeout()), this, SLOT(slowTimerExpired()));
-    slowUpdateTimer->start(MOCK_DATA_SLOW_REFRESH_INTERVAL_MS);
-    rapidUpdateTimer = new QTimer(this);
-    connect(rapidUpdateTimer, SIGNAL(timeout()), this, SLOT(rapidTimerExpired()));
-    rapidUpdateTimer->start(MOCK_DATA_RAPID_REFRESH_INTERVAL_MS);
+    connect(&slowUpdateTimer, &QTimer::timeout,
+            this, &MockDataProvider::slowTimerExpired, Qt::UniqueConnection);
+    slowUpdateTimer.start(MOCK_DATA_SLOW_REFRESH_INTERVAL_MS);
+    connect(&rapidUpdateTimer, &QTimer::timeout,
+            this, &MockDataProvider::rapidTimerExpired, Qt::UniqueConnection);
+    rapidUpdateTimer.start(MOCK_DATA_RAPID_REFRESH_INTERVAL_MS);
     return true;
 }
 
 void MockDataProvider::endDataFetching()
 {
-    slowUpdateTimer->stop();
+    slowUpdateTimer.stop();
+    rapidUpdateTimer.stop();
 }
 
 QString MockDataProvider::sensorType() const
@@ -235,7 +237,6 @@ void MockDataProvider::rapidTimerExpired()
 
 void MockDataProvider::startServiceScan()
 {
-
 }
 
 void MockDataProvider::reset()

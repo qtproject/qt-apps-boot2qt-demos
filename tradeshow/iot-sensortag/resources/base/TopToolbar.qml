@@ -57,63 +57,22 @@ Item {
     height: 100
     width: implicitWidth
 
-    CloudSettings {
-        id: cloudSettings
-
-        x: cloudItem.x
-        y: topToolbar.height
-        visible: false
-    }
-
     SensorSettings {
         id: sensorList
 
         x: sensorItem.x
         y: topToolbar.height
-        visible: false
-    }
-
-    Item {
-        id: cloudItem
-
-        height: topToolbar.height
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.leftMargin: 8
-        width: icon.width + cloudText.width + 3 * anchors.leftMargin
-        opacity: dataProviderPool.name === "Cloud" || dataProviderPool.name === "Demo" ? 1.0 : 0.0
-
-        Image {
-            id: icon
-            width: 58
-            height: 40
-            anchors.top: parent.top
-            anchors.margins: 8
-            source: pathPrefix + "Toolbar/icon_topbar_cloud.png"
-        }
-
-        Text {
-            id: cloudText
-            color: "white"
-            text: "CLOUD"
-            width: contentWidth
-            font.pixelSize: Style.topToolbarSmallFontSize
-            anchors.verticalCenter: icon.verticalCenter
-            anchors.left: icon.right
-            anchors.margins: 8
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: clickBait.activate(cloudSettings)
-        }
+        width: Math.min(mainWindow.width, 800)
+        height: mainWindow.height - topToolbar.height
+        visible: true
     }
 
     Item {
         id: sensorItem
         height: topToolbar.height
         anchors.top: parent.top
-        anchors.left: cloudItem.right
+        anchors.left: parent.left //cloudItem.right
+        anchors.leftMargin:  8
         width: sensorIcon.width + sensorButton.width + 3 * anchors.leftMargin
 
         Image {
@@ -127,7 +86,7 @@ Item {
 
             Text {
                 anchors.centerIn: parent
-                text: sensorList.listModelCount
+                text: sensorList.sensorCount
                 color: "white"
                 font.pixelSize: Style.topToolbarSmallFontSize
             }
@@ -233,4 +192,6 @@ Item {
                 deactivate();
         }
     }
+
+    Component.onCompleted: clickBait.activate(sensorList)
 }

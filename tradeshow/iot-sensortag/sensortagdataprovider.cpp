@@ -47,6 +47,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
+
 #include "sensortagdataprovider.h"
 
 #include <QtCore/QtMath>
@@ -72,36 +73,35 @@ SensorTagDataProvider::SensorTagDataProvider(QObject *parent)
     : QObject(parent)
     , pressureAtZeroAltitude(AIR_PRESSURE_P0)
 {
-
 }
 
-SensorTagDataProvider::SensorTagDataProvider(QString id, QObject* parent)
-    : QObject(parent),
-    humidity(0),
-    irAmbientTemperature(0),
-    irObjectTemperature(0),
-    lightIntensityLux(0),
-    barometerCelsiusTemperature(0),
-    barometerTemperatureAverage(25),
-    barometerHPa(0),
-    gyroscopeX_degPerSec(0),
-    gyroscopeY_degPerSec(0),
-    gyroscopeZ_degPerSec(0),
-    accelometerX(0),
-    accelometerY(0),
-    accelometerZ(0),
+SensorTagDataProvider::SensorTagDataProvider(QString id, QObject *parent)
+    : QObject(parent)
+    , humidity(0)
+    , irAmbientTemperature(0)
+    , irObjectTemperature(0)
+    , lightIntensityLux(0)
+    , barometerCelsiusTemperature(0)
+    , barometerTemperatureAverage(25)
+    , barometerHPa(0)
+    , gyroscopeX_degPerSec(0)
+    , gyroscopeY_degPerSec(0)
+    , gyroscopeZ_degPerSec(0)
+    , accelometerX(0)
+    , accelometerY(0)
+    , accelometerZ(0)
     /* Object is not "walking in the air" so have one axis at 1G */
-    magnetometerMicroT_xAxis(-1),
-    magnetometerMicroT_yAxis(0),
-    magnetometerMicroT_zAxis(0),
-    rotation_x(0),
-    rotation_y(0),
-    rotation_z(0),
-    intervalRotation(DEFAULT_REFRESH_INTERVAL_MS),
-    altitude(0),
-    m_tagType(AmbientTemperature | ObjectTemperature | Humidity | AirPressure | Light | Magnetometer | Rotation | Accelometer | Altitude),
-    m_id(id),
-    m_state(NotFound)
+    , magnetometerMicroT_xAxis(-1)
+    , magnetometerMicroT_yAxis(0)
+    , magnetometerMicroT_zAxis(0)
+    , rotation_x(0)
+    , rotation_y(0)
+    , rotation_z(0)
+    , intervalRotation(DEFAULT_REFRESH_INTERVAL_MS)
+    , altitude(0)
+    , m_tagType(AmbientTemperature | ObjectTemperature | Humidity | AirPressure | Light | Magnetometer | Rotation | Accelometer | Altitude)
+    , m_id(id)
+    , m_state(NotFound)
 {
 }
 

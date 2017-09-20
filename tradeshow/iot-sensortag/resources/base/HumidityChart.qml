@@ -48,8 +48,6 @@
 **
 ****************************************************************************/
 import QtQuick 2.5
-import QtQuick.Controls 2.0
-import QtQuick.Controls.Styles 1.4
 import QtCharts 2.1
 import SensorTag.DataProvider 1.0
 import QtQuick.Extras 1.4

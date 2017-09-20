@@ -63,28 +63,16 @@
 class MotionSensorData
 {
 public:
-    double gyroScope_x;
-    double gyroScope_y;
-    double gyroScope_z;
-    double accelometer_x;
-    double accelometer_y;
-    double accelometer_z;
-    double magnetometer_x;
-    double magnetometer_y;
-    double magnetometer_z;
-    quint64 msSincePreviousData;
-    MotionSensorData() {
-        gyroScope_x = 0;
-        gyroScope_y = 0;
-        gyroScope_z = 0;
-        accelometer_x = 0;
-        accelometer_y = 0;
-        accelometer_z = 0;
-        magnetometer_x = 0;
-        magnetometer_y = 0;
-        magnetometer_z = 0;
-        msSincePreviousData = 0;
-    }
+    double gyroScope_x{};
+    double gyroScope_y{};
+    double gyroScope_z{};
+    double accelometer_x{};
+    double accelometer_y{};
+    double accelometer_z{};
+    double magnetometer_x{};
+    double magnetometer_y{};
+    double magnetometer_z{};
+    quint64 msSincePreviousData{};
 };
 
 typedef enum CharacteristicType {
@@ -105,7 +93,12 @@ class BluetoothDevice: public QObject
     Q_PROPERTY(DeviceState state READ state NOTIFY stateChanged)
 
 public:
-    enum DeviceState {Disconnected = 0, Scanning, Connected, Error};
+    enum DeviceState {
+        Disconnected = 0,
+        Scanning,
+        Connected,
+        Error
+    };
     Q_ENUM(DeviceState)
 
     BluetoothDevice();
@@ -124,7 +117,7 @@ signals:
     void barometerChanged(double temperature, double barometer);
     void humidityChanged(double humidity);
     void lightIntensityChanged(double intensity);
-    void motionChanged(MotionSensorData& data);
+    void motionChanged(MotionSensorData data);
     void statusUpdated(QString statusMsg);
 
 public slots:
@@ -170,11 +163,11 @@ private:
     void updateServiceDetails();
 
     QLowEnergyController *m_controller;
-    QLowEnergyService* m_irTemperatureService;
-    QLowEnergyService* m_baroService;
-    QLowEnergyService* m_humidityService;
-    QLowEnergyService* m_lightService;
-    QLowEnergyService* m_motionService;
+    QLowEnergyService *m_irTemperatureService;
+    QLowEnergyService *m_baroService;
+    QLowEnergyService *m_humidityService;
+    QLowEnergyService *m_lightService;
+    QLowEnergyService *m_motionService;
     DeviceState m_deviceState;
     bool m_temperatureMeasurementStarted;
     bool m_barometerMeasurementStarted;
@@ -182,11 +175,8 @@ private:
     bool m_lightIntensityMeasurementStarted;
     bool m_motionMeasurementStarted;
     quint64 m_lastMilliseconds;
-
     QBluetoothDeviceInfo m_deviceInfo;
-
     SensorTagDataProvider *m_dataProvider;
-
     QTimer *m_serviceDetailsTimer;
 };
 

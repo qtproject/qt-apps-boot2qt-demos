@@ -49,7 +49,9 @@
 ****************************************************************************/
 #ifndef MOCKDATAPROVIDER_H
 #define MOCKDATAPROVIDER_H
+
 #include "sensortagdataprovider.h"
+
 #include <QtQml/QQmlEngine>
 #include <QtQml/QJSEngine>
 #include <QtCore/QTimer>
@@ -58,7 +60,7 @@ class MockDataProvider : public SensorTagDataProvider
 {
     Q_OBJECT
 public:
-    explicit MockDataProvider(QString id, QObject* parent = 0);
+    explicit MockDataProvider(QString id, QObject *parent = 0);
 
     bool startDataFetching();
     void endDataFetching();
@@ -75,8 +77,8 @@ protected:
     void reset() override;
 
 private:
-    QTimer *slowUpdateTimer;
-    QTimer *rapidUpdateTimer;
+    QTimer slowUpdateTimer;
+    QTimer rapidUpdateTimer;
     float xAxisG;
     float yAxisG;
     float zAxisG;

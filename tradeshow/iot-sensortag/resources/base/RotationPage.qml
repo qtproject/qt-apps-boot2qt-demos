@@ -53,7 +53,7 @@ import SensorTag.DataProvider 1.0
 Item {
     id: dialerRoot
 
-    property var sensor
+    property var sensor : singleSensorSource
     property var rotationUpdateInterval: sensor ? sensor.rotationUpdateInterval : 0
 
     property int sensorState: sensor ? sensor.state : SensorTagData.Disconnected

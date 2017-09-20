@@ -55,9 +55,10 @@ Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
 
 #define SAMPLE_COUNT_FOR_ZERO_ALTITUDE  10
 
-BluetoothDataProvider::BluetoothDataProvider(QString id, QObject *parent)
-    : SensorTagDataProvider(id, parent)
-    , m_btDevice(Q_NULLPTR)
+BluetoothDataProvider::BluetoothDataProvider(const QBluetoothDeviceInfo &id, QObject *parent)
+    : SensorTagDataProvider(id.address().toString(), parent)
+    , m_info(id)
+    , m_btDevice(nullptr)
     , m_smaSamples(0)
     , m_zeroAltitudeSamples(0)
     , gyroscopeX_calibration(0)
@@ -76,42 +77,52 @@ BluetoothDataProvider::~BluetoothDataProvider()
 
 bool BluetoothDataProvider::startDataFetching()
 {
-    qCDebug(boot2QtDemos) << Q_FUNC_INFO;
-    if (m_btDevice) {
-        connect(m_btDevice, &BluetoothDevice::statusUpdated, this, [=](const QString& statusMsg) {
-            qCDebug(boot2QtDemos) << id() << "----------" << statusMsg;
-        });
-        connect(m_btDevice, &BluetoothDevice::stateChanged,
-                this, &BluetoothDataProvider::updateState);
-        connect(m_btDevice, &BluetoothDevice::temperatureChanged,
-                this, &BluetoothDataProvider::temperatureReceived);
-        connect(m_btDevice, &BluetoothDevice::barometerChanged,
-                this, &BluetoothDataProvider::barometerReceived);
-        connect(m_btDevice, &BluetoothDevice::humidityChanged,
-                this, &BluetoothDataProvider::humidityReceived);
-        connect(m_btDevice, &BluetoothDevice::lightIntensityChanged,
-                this, &BluetoothDataProvider::lightIntensityReceived);
-        connect(m_btDevice, &BluetoothDevice::motionChanged,
-                this, &BluetoothDataProvider::motionReceived);
-        startServiceScan();
-    }
+    qCDebug(boot2QtDemos) << Q_FUNC_INFO << " :" << m_btDevice;
+
+    m_btDevice = new BluetoothDevice(m_info);
+
+    connect(m_btDevice, &BluetoothDevice::statusUpdated, this, [=](const QString& statusMsg) {
+        qCDebug(boot2QtDemos) << id() << "----------" << statusMsg;
+    });
+    connect(m_btDevice, &BluetoothDevice::stateChanged,
+            this, &BluetoothDataProvider::updateState);
+    connect(m_btDevice, &BluetoothDevice::temperatureChanged,
+            this, &BluetoothDataProvider::temperatureReceived);
+    connect(m_btDevice, &BluetoothDevice::barometerChanged,
+            this, &BluetoothDataProvider::barometerReceived);
+    connect(m_btDevice, &BluetoothDevice::humidityChanged,
+            this, &BluetoothDataProvider::humidityReceived);
+    connect(m_btDevice, &BluetoothDevice::lightIntensityChanged,
+            this, &BluetoothDataProvider::lightIntensityReceived);
+    connect(m_btDevice, &BluetoothDevice::motionChanged,
+            this, &BluetoothDataProvider::motionReceived);
+    startServiceScan();
+
     return true;
 }
 
 void BluetoothDataProvider::endDataFetching()
 {
+    // BluetoothDevice is not capable of restarting
+    qCDebug(boot2QtDemos) << Q_FUNC_INFO << " :" << m_btDevice;
+    m_btDevice->disconnectFromDevice();
+    setState(Scanning);
+
+    m_btDevice->deleteLater();
+    m_btDevice = nullptr;
 }
 
 void BluetoothDataProvider::startServiceScan()
 {
-    qCDebug(boot2QtDemos)<<Q_FUNC_INFO;
+    qCDebug(boot2QtDemos) << Q_FUNC_INFO << m_btDevice;
     if (m_btDevice) {
         setState(Scanning);
         m_btDevice->scanServices();
     }
 }
 
-void BluetoothDataProvider::temperatureReceived(double newAmbientTemperature, double newObjectTemperature)
+void BluetoothDataProvider::temperatureReceived(double newAmbientTemperature,
+                                                double newObjectTemperature)
 {
     /* NOTE: We emit the signals even if value is unchanged.
      * Otherwise the scrolling graphs in UI will not scroll.
@@ -129,17 +140,18 @@ void BluetoothDataProvider::barometerReceived(double temperature, double baromet
      */
     barometerCelsiusTemperature = temperature;
     emit barometerCelsiusTemperatureChanged();
-    barometerTemperatureAverage = (temperature + m_smaSamples * barometerTemperatureAverage)  / (m_smaSamples + 1);
+    barometerTemperatureAverage = (temperature + m_smaSamples * barometerTemperatureAverage)
+                                / (m_smaSamples + 1);
     m_smaSamples++;
     emit barometerCelsiusTemperatureAverageChanged();
-    // Use a limited number of samples. It will eventually give wrong avg values, but this is just a demo...
+    // Use a limited number of samples. It will eventually give wrong avg values,
+    // but this is just a demo...
     if (m_smaSamples > 10000)
         m_smaSamples = 0;
     barometerHPa = barometer;
     emit barometer_hPaChanged();
 
     recalibrateZeroAltitude();
-
     calculateZeroAltitude();
 }
 
@@ -167,7 +179,7 @@ float BluetoothDataProvider::countRotationDegrees(double degreesPerSecond, quint
     return ((float)degreesPerSecond) * seconds;
 }
 
-void BluetoothDataProvider::motionReceived(MotionSensorData &data)
+void BluetoothDataProvider::motionReceived(const MotionSensorData &data)
 {
     /* NOTE: We emit the signals even if value is unchanged.
      * Otherwise the scrolling graphs in UI will not scroll.
@@ -222,9 +234,11 @@ QString BluetoothDataProvider::versionString() const
 
 void BluetoothDataProvider::updateState()
 {
+    if (!m_btDevice)
+        return;
+
     switch (m_btDevice->state()) {
     case BluetoothDevice::Disconnected:
-        unbindDevice();
         break;
     case BluetoothDevice::Scanning:
         setState(Scanning);
@@ -267,13 +281,6 @@ void BluetoothDataProvider::recalibrateZeroAltitude()
                                 / (m_zeroAltitudeSamples + 1);
         m_zeroAltitudeSamples++;
     }
-}
-
-void BluetoothDataProvider::bindToDevice(BluetoothDevice *device)
-{
-    if (m_btDevice)
-        delete m_btDevice;
-    m_btDevice = device;
 }
 
 void BluetoothDataProvider::unbindDevice()

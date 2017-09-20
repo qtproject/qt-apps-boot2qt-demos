@@ -53,152 +53,156 @@ import Style 1.0
 import SensorTag.DataProvider 1.0
 
 Rectangle {
-    id: mainRect
+    id: sourceSelector
+    property alias sensorCount : sensorListView.count
+    property color selectedBackgroundColor : "#15bdff"
+    property color deselectedBackgroundColor: "transparent"
 
-    property alias listModelCount: list.count
+    color: "transparent"
+    width: 800
+    height: 800
+    anchors.horizontalCenter: parent.horizontalCenter
 
-    width: 620
-    height: 480
-    color: "black"
-
-    Text {
-        id: titleText
-        color: "white"
-        text: "SENSOR SETTINGS"
-        font.pixelSize: Style.indicatorTitleFontSize
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.topMargin: 8
+    Image {
+        source: "images/bg_blue.jpg"
+        anchors.fill: parent
     }
 
     Image {
-        id: icon
+        id: separator
+        source: pathPrefix + "General/separator.png"
+        anchors.top: parent.top
+        width: parent.width
+        transform: Rotation {
+            origin.x: separator.width / 2
+            origin.y: separator.height / 2
+            angle: 180
+        }
+    }
 
-        anchors.top: titleText.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.margins: 8
-        source: pathPrefix + "Toolbar/icon_topbar_sensor.png"
+    Rectangle {
+        id: buttonRect
+        anchors.top: separator.bottom
+        anchors.margins: 20
+        color: "transparent"
+        width: parent.width - 20
+        height: 40
+
+        Rectangle {
+            border.color: "white"
+            color: localSelected ? sourceSelector.selectedBackgroundColor : sourceSelector.deselectedBackgroundColor
+            anchors.top: parent.top
+            anchors.left: parent.left
+            width: parent.width / 2
+            height: 30
+            Text {
+                text: "Local"
+                anchors.centerIn: parent
+                color: "white"
+                font.pixelSize: 26
+            }
+        }
+
+        Rectangle {
+            border.color: "white"
+            color: !localSelected ? sourceSelector.selectedBackgroundColor : sourceSelector.deselectedBackgroundColor
+            anchors.top: parent.top
+            anchors.right: parent.right
+            width: parent.width / 2
+            height: 30
+            Text {
+                text: "Remote"
+                anchors.centerIn: parent
+                color: "white"
+                font.pixelSize: 26
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: localSelected = !localSelected
+        }
     }
 
     ListView {
-        id: list
-        anchors.top: icon.bottom
-        anchors.topMargin: 16
-        anchors.left: parent.left
-        anchors.leftMargin: 30
-        anchors.right: parent.right
-        anchors.rightMargin: 30
-        orientation: ListView.Horizontal
-        model: dataProviderPool.dataProviders
-        height: parent.height
+        id: sensorListView
+        model: localSelected ? (localProviderPool ? localProviderPool.dataProviders : 0)
+                                            : (remoteProviderPool ? remoteProviderPool.dataProviders : 0)
+
+        width: buttonRect.width
+        anchors.top: buttonRect.bottom
+        anchors.bottom: connectButton.top
+        focus: true
         clip: true
-        snapMode: ListView.SnapToItem
-        boundsBehavior: Flickable.StopAtBounds
 
-        function getTagTypeStr(tagType) {
-            var tagStr = "";
-            if (tagType & SensorTagData.AmbientTemperature)
-                tagStr += "Ambient Temperature\n";
-            if (tagType & SensorTagData.ObjectTemperature)
-                tagStr += "Object Temperature\n";
-            if (tagType & SensorTagData.Humidity)
-                tagStr += "Humidity\n";
-            if (tagType & SensorTagData.Altitude)
-                tagStr += "Altitude\n";
-            if (tagType & SensorTagData.Light)
-                tagStr += "Light\n";
-            if (tagType & SensorTagData.Rotation)
-                tagStr += "Gyroscope\n";
-            if (tagType & SensorTagData.Magnetometer)
-                tagStr += "Magnetometer\n";
-            if (tagType & SensorTagData.Accelometer)
-                tagStr += "Accelometer\n";
-
-            return tagStr;
+        delegate: Rectangle {
+            border.color: "white"
+            color: ListView.isCurrentItem ? sourceSelector.selectedBackgroundColor
+                                          : sourceSelector.deselectedBackgroundColor
+            radius: 5
+            height: 30
+            width: parent.width
+            Text {
+                text: providerId
+                anchors.centerIn: parent
+                color: "white"
+                font.pixelSize: 26
+            }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: sensorListView.currentIndex = index
+            }
         }
+    }
 
-        delegate: Item {
-            id: listItem
-            width: mainRect.width / 3
-            height: childrenRect.height
+    Rectangle {
+        id: connectButton
+        width: buttonRect.width / 2
+        height: 30
+        anchors.bottom: bottomSeparator.top
+        anchors.right: parent.right
+        color: sensorListView.currentIndex != -1 ? sourceSelector.selectedBackgroundColor : "transparent"
+        border.color: "white"
+        Text {
+            text: "Connect"
+            anchors.centerIn: parent
+            color: "white"
+            font.pixelSize: 26
+        }
+        MouseArea {
+            id: connectButtonArea
+            anchors.fill: parent
+            enabled: sensorListView.currentIndex != -1
+            onClicked: {
+                clickBait.deactivate()
 
-            ColumnLayout {
-                spacing: 8
-
-                Text {
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    horizontalAlignment: Text.AlignHCenter
-                    text: providerId
-                    color: "white"
-                    font.pixelSize: 16
-                    elide: Text.ElideMiddle
+                var currentPool = getCurrentPool();
+                if (currentPool.dataProviders[sensorListView.currentIndex] === singleSensorSource) {
+                    console.log("Same data provider selected, nothing to change...")
+                    return;
                 }
 
-                BlinkingIcon {
-                    id: sensorIcon
+                if (singleSensorSource)
+                    singleSensorSource.endDataFetching();
+                // UI gets information about the intended setup of the
+                // sensor even though they have not been really discovered yet
+                if (currentPool) {
+                    singleSensorSource = currentPool.dataProviders[sensorListView.currentIndex]
+                    currentPool.currentProviderIndex = sensorListView.currentIndex
 
-                    property bool canBlink: modelData.state === SensorTagData.Scanning
+                    seriesStorage.setDataProviderPool(currentPool);
+                    seriesStorage.dataProviderPoolChanged();
 
-                    onCanBlinkChanged: {
-                            if (canBlink)
-                                sensorIcon.startBlinking();
-                             else
-                                sensorIcon.stopBlinking();
-                    }
-
-                    source: pathPrefix + "Toolbar/icon_topbar_sensor.png"
-                    anchors.horizontalCenter: parent.horizontalCenter
-
-                    Component.onDestruction: {
-                        sensorIcon.stopBlinking()
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            if (modelData.state === SensorTagData.Connected)
-                                dataProviderPool.disconnectProvider(modelData.providerId);
-                            else if (modelData.state === SensorTagData.NotFound)
-                                dataProviderPool.startScanning();
-                            else if (modelData.state === SensorTagData.Scanning)
-                                dataProviderPool.disconnectProvider(modelData.providerId)
-                            else
-                                modelData.startServiceScan();
-                        }
-                    }
-                }
-
-                Text {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: modelData.state === SensorTagData.NotFound ? "\nNOT FOUND"
-                          : (modelData.state === SensorTagData.Disconnected) ? "\nDISCONNECTED"
-                          : (modelData.state === SensorTagData.Scanning) ? "\nCONNECTING"
-                          : (modelData.state === SensorTagData.Connected) ? "\nCONNECTED"
-                          : "Error"
-                    color: "white"
-                    font.pixelSize: 14
-                }
-
-                Item {
-                    height: 30
-                    width: 10
-                }
-
-                Text {
-                    color: "white"
-                    text: "Provides data for:"
-                    font.pixelSize: 14
-                }
-
-                Text {
-                    color: "white"
-                    lineHeight: 0.7
-                    text: list.getTagTypeStr(modelData.tagType())
-                    font.pixelSize: 14
+                    singleSensorSource.startDataFetching()
                 }
             }
         }
+    }
+
+    Image {
+        id: bottomSeparator
+        source: pathPrefix + "General/separator.png"
+        anchors.bottom: parent.bottom
+        width: parent.width
     }
 }

@@ -47,11 +47,11 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
+
 #include "cloudupdate.h"
 #include "cloudservice.h"
 #include "dataproviderpool.h"
 #include "sensortagdataprovider.h"
-
 #include "demodataproviderpool.h"
 
 #include "was/storage_account.h"
@@ -72,11 +72,10 @@ CloudUpdate::CloudUpdate(QObject *parent)
 void CloudUpdate::setDataProviderPool(DataProviderPool *provider)
 {
     m_providerPool = provider;
-    connect(m_providerPool, &DataProviderPool::providerForCloudChanged, this, [=]() {
-         m_provider = m_providerPool->providerForCloud();
-         if (!m_provider) {
+    connect(m_providerPool, &DataProviderPool::currentProviderChanged, this, [=]() {
+         m_provider = m_providerPool->currentProvider();
+         if (!m_provider)
              stop();
-         }
     });
 }
 
@@ -126,7 +125,7 @@ void CloudUpdate::writeToCloud()
 #ifndef Q_OS_WIN
     const utility::string_t storage_connection_string(U(accStr.data()));
 #else
-    const utility::string_t storage_connection_string(reinterpret_cast<const wchar_t*>(QString(accStr).utf16()));
+    const utility::string_t storage_connection_string(reinterpret_cast<const wchar_t *>(QString(accStr).utf16()));
 #endif
     azure::storage::cloud_blob_container container;
 
@@ -154,7 +153,7 @@ void CloudUpdate::writeToCloud()
 #ifndef Q_OS_WIN
     blob.upload_text(U(sensorData.toLocal8Bit().data()));
 #else
-    blob.upload_text(reinterpret_cast<const wchar_t*>(sensorData.utf16()));
+    blob.upload_text(reinterpret_cast<const wchar_t *>(sensorData.utf16()));
 #endif
 }
 
@@ -181,5 +180,6 @@ QString CloudUpdate::buildString() const
     exportString += QString("RotX:\n%1\n").arg(m_provider->getRotationX(), 0, 'f', ROUNDING_DECIMALS);
     exportString += QString("RotY:\n%1\n").arg(m_provider->getRotationY(), 0, 'f', ROUNDING_DECIMALS);
     exportString += QString("RotZ:\n%1").arg(m_provider->getRotationZ(), 0, 'f', ROUNDING_DECIMALS);
+
     return exportString;
 }

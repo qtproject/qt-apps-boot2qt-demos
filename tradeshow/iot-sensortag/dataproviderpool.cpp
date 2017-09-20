@@ -51,12 +51,16 @@
 
 DataProviderPool::DataProviderPool(QObject *parent)
     : QObject(parent)
+    , m_currentProvider(nullptr)
+    , m_currentProviderIndex(-1)
 {
 }
 
 DataProviderPool::DataProviderPool(QString poolName, QObject *parent)
     : QObject(parent)
     , m_poolName(poolName)
+    , m_currentProvider(nullptr)
+    , m_currentProviderIndex(-1)
 {
 
 }
@@ -70,21 +74,7 @@ void DataProviderPool::stopScanning()
     emit scanFinished();
 }
 
-SensorTagDataProvider *DataProviderPool::getProvider(SensorTagDataProvider::TagType type) const
-{
-    auto it = m_dataProviders.constBegin();
-    SensorTagDataProvider* p = 0;
-    while (it != m_dataProviders.end()) {
-        if ((*it)->tagType() & type) {
-            p = *it;
-            break;
-        }
-        it++;
-    }
-    return p;
-}
-
-void DataProviderPool::disconnectProvider(QString id)
+void DataProviderPool::disconnectProvider(const QString &id)
 {
     Q_UNUSED(id)
 }
@@ -97,4 +87,25 @@ QQmlListProperty<SensorTagDataProvider> DataProviderPool::dataProviders()
 SensorTagDataProvider *DataProviderPool::providerForCloud() const
 {
     return 0;
+}
+
+SensorTagDataProvider *DataProviderPool::currentProvider() const
+{
+    return m_currentProvider;
+}
+
+int DataProviderPool::currentProviderIndex() const
+{
+    return m_currentProviderIndex;
+}
+
+void DataProviderPool::setCurrentProviderIndex(int currentProviderIndex)
+{
+    if (m_currentProviderIndex == currentProviderIndex)
+        return;
+
+    m_currentProviderIndex = currentProviderIndex;
+    m_currentProvider = m_dataProviders.at(m_currentProviderIndex);
+    emit currentProviderIndexChanged(m_currentProviderIndex);
+    emit currentProviderChanged(m_currentProvider);
 }
