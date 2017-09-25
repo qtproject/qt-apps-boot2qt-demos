@@ -152,6 +152,7 @@ BaseChart {
                 anchors.centerIn: parent
                 anchors.horizontalCenterOffset: 74
                 color: "white"
+                font.pixelSize: 26
             }
         }
     }

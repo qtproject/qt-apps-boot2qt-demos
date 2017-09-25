@@ -159,6 +159,7 @@ BaseChart {
                         color: "white"
                         anchors.left: parent.left
                         anchors.bottom: parent.bottom
+                        font.pixelSize: 26
                     }
 
                     Text {
@@ -170,6 +171,7 @@ BaseChart {
                         anchors.left: coordText.right
                         anchors.leftMargin: 16
                         anchors.bottom: parent.bottom
+                        font.pixelSize: 26
                     }
                 }
             }

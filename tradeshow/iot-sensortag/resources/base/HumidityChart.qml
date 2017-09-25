@@ -102,6 +102,7 @@ BaseChart {
             text: "Max\n" + maxHumi.toFixed(0) + " %"
             lineHeight: 0.8
             color: "white"
+            font.pixelSize: 26
         }
 
         Text {
@@ -111,6 +112,7 @@ BaseChart {
             text: "Min\n" + minHumi.toFixed(0) + " %"
             lineHeight: 0.8
             color: "white"
+            font.pixelSize: 26
         }
     }
 }

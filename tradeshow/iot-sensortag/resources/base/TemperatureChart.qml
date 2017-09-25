@@ -106,6 +106,7 @@ BaseChart {
                 anchors.horizontalCenter: reading.horizontalCenter
                 anchors.top: parent.top
                 color: "white"
+                font.pixelSize: 26
             }
 
             Image {
@@ -132,6 +133,7 @@ BaseChart {
                 color: "white"
                 anchors.bottom: parent.bottom
                 anchors.horizontalCenter: reading.horizontalCenter
+                font.pixelSize: 26
             }
 
             Text {
@@ -143,6 +145,7 @@ BaseChart {
                 color: "white"
                 anchors.right: parent.right
                 anchors.verticalCenter: reading.verticalCenter
+                font.pixelSize: 26
             }
         }
 
