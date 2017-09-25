@@ -129,10 +129,15 @@ int main(int argc, char *argv[])
 
     QString mainFile;
     QUrl styleFile;
-    QString uiVariant;
-    bool fullScreen;
-    int appWidth = 0;
-    int appHeight = 0;
+    QString uiVariant = QStringLiteral("small");
+    bool fullScreen =
+#ifdef Q_OS_ANDROID
+                    true;
+#else
+                    false;
+#endif
+    int appWidth = 1920;
+    int appHeight = 1080;
 
     QScreen* scr = qApp->screens().at(0);
 
@@ -150,11 +155,6 @@ int main(int argc, char *argv[])
     }
     mainFile = namingScheme + QStringLiteral("/resources/small/MainSmall.qml");
     styleFile = namingScheme + QStringLiteral("/resources/small/StyleSmall.qml");
-
-    uiVariant = "small";
-    fullScreen = false;
-    appWidth = 1920;
-    appHeight = 1080;
 
     qmlRegisterSingletonType(styleFile, "Style", 1,0, "Style");
 
