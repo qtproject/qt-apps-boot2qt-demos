@@ -120,6 +120,7 @@ Item {
         horizontalAlignment: Text.AlignRight
         font.pixelSize: Style.topToolbarSmallFontSize
         font.capitalization: Font.AllUppercase
+        visible: rotationMain.visible
         MouseArea {
             anchors.fill: parent
             onClicked: parent.showAddress = !parent.showAddress
