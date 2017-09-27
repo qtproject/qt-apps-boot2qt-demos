@@ -67,6 +67,26 @@ Item {
         visible: true
     }
 
+    Image {
+        id: logWindow
+        source: "images/bg_blue.jpg"
+        x: sensorItem.x
+        y: topToolbar.height
+        width: Math.min(mainWindow.width, 600)
+        height: Math.min(mainWindow.height - topToolbar.height, 400)
+        anchors.horizontalCenter: parent.horizontalCenter
+        visible: false
+        Text {
+            clip: true
+            color: "white"
+            font.pixelSize: 26
+            text: mainWindow.loggingOutput ? mainWindow.loggingOutput : "...debug..."
+            anchors.fill: parent
+            anchors.margins: 15
+        }
+    }
+
+
     Item {
         id: sensorItem
         height: topToolbar.height
@@ -134,6 +154,10 @@ Item {
         font.pixelSize: Style.topToolbarLargeFontSize
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
+        MouseArea {
+            anchors.fill: parent
+            onClicked: clickBait.activate(logWindow)
+        }
     }
 
     Timer {

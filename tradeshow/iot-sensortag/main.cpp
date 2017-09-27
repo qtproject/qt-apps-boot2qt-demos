@@ -78,8 +78,22 @@
 Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
 Q_LOGGING_CATEGORY(boot2QtDemos, "boot2qt.demos.iot")
 
+QString loggingOutput;
+QQuickWindow *loggingItem{nullptr};
+void handleMessageOutput(QtMsgType, const QMessageLogContext &, const QString &text)
+{
+    loggingOutput.prepend("\n");
+    loggingOutput.prepend(text);
+
+    loggingOutput.chop(loggingOutput.size() - 1024);
+    if (loggingItem)
+        loggingItem->setProperty("loggingOutput", loggingOutput);
+}
+
 int main(int argc, char *argv[])
 {
+    auto oldHandler = qInstallMessageHandler(handleMessageOutput);
+
     // QtChars mandate using QApplication as it uses the graphics view fw
     QApplication app(argc, argv);
 
@@ -184,9 +198,12 @@ int main(int argc, char *argv[])
         item->setProperty("contentFile", mainFile);
         item->setProperty("seriesStorage", QVariant::fromValue(&seriesStorage));
         item->setProperty("addresses", addressString);
+        loggingItem = item;
     }
     int returnValue = app.exec();
     remoteProviderPool->stopScanning();
+
+    qInstallMessageHandler(oldHandler);
 
     return returnValue;
 }

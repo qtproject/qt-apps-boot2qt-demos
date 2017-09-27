@@ -63,6 +63,7 @@ Window {
     property real globalBlinkOpacity: 1.0
     property string addresses : ""
     property bool localSelected : true
+    property var loggingOutput : null
 
     function getCurrentPool() {
         if (localSelected)
