@@ -53,5 +53,5 @@
 AppEntry AppEntry::empty()
 {
     QString empty;
-    return AppEntry{empty, empty, empty, empty, empty, QVariantMap()};
+    return AppEntry{empty, empty, empty, empty, empty, empty, QVariantMap()};
 }

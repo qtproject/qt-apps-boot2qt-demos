@@ -16,6 +16,7 @@ Version The version of the specification
         addressed. Currently version 1          Yes             Number
 Icon	The icon to use for display             Yes             String
 Name    A user displayable name                 Yes             String
+Id      Reverse-DNS as unique application Id    Yes             String
 Exec    Application to execute to launch        Yes             String
 Path    The directory to search for the app     No              String
 X-*     Extensions to the specification         No              Any

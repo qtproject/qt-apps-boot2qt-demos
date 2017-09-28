@@ -71,15 +71,16 @@ void tst_AppParser::testValidVersion1_data()
     QTest::addColumn<QByteArray>("input");
     QTest::addColumn<QString>("icon");
     QTest::addColumn<QString>("name");
+    QTest::addColumn<QString>("id");
     QTest::addColumn<QString>("exec");
     QTest::addColumn<QString>("path");
 
     QTest::addRow("clock")
-        << QByteArray("{\"Type\":\"Application\", \"Version\":1, \"Icon\":\"icon\", \"Name\":\"Clocks\",\"Exec\":\"clocks\"}")
-        << QStringLiteral("icon") << QStringLiteral("Clocks") << QStringLiteral("clocks") << QString();
+        << QByteArray("{\"Type\":\"Application\", \"Version\":1, \"Icon\":\"icon\", \"Name\":\"Clocks\",\"Id\":\"io.qt.clocks\",\"Exec\":\"clocks\"}")
+        << QStringLiteral("icon") << QStringLiteral("Clocks") << QStringLiteral("io.qt.clocks") << QStringLiteral("clocks") << QString();
     QTest::addRow("path")
-        << QByteArray("{\"Type\":\"Application\", \"Version\":1, \"Icon\":\"icon\", \"Name\":\"Clocks\",\"Exec\":\"clocks\",\"Path\":\"P\"}")
-        << QStringLiteral("icon") << QStringLiteral("Clocks") << QStringLiteral("clocks") << QStringLiteral("P");
+        << QByteArray("{\"Type\":\"Application\", \"Version\":1, \"Icon\":\"icon\", \"Name\":\"Clocks\",\"Id\":\"io.qt.clocks\",\"Exec\":\"clocks\",\"Path\":\"P\"}")
+        << QStringLiteral("icon") << QStringLiteral("Clocks") << QStringLiteral("io.qt.clocks") << QStringLiteral("clocks") << QStringLiteral("P");
 }
 
 void tst_AppParser::testValidVersion1()

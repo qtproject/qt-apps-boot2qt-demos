@@ -61,6 +61,7 @@ static QHash<int, QByteArray> modelRoles()
     roles[AppListModel::App] = "appEntry";
     roles[AppListModel::IconName] = "iconName";
     roles[AppListModel::ApplicationName] = "applicationName";
+    roles[AppListModel::ApplicationId] = "applicationId";
     roles[AppListModel::ExeuctableName] = "executableName";
     roles[AppListModel::ExecutablePath] = "executablePath";
     roles[AppListModel::SourceFileName] = "sourceFileName";
@@ -90,6 +91,8 @@ QVariant AppListModel::data(const QModelIndex& index, int role) const
         return entry.iconName;
     case ApplicationName:
         return entry.appName;
+    case ApplicationId:
+        return entry.appId;
     case ExeuctableName:
         return entry.executableName;
     case ExecutablePath:
@@ -205,4 +208,14 @@ QVector<AppEntry> AppListModel::removeEntries(const QVector<QString>& fileNames)
     }
 
     return removedEntries;
+}
+
+QVariant AppListModel::findApplicationId(const QString& appId) const
+{
+    for (const auto& entry : m_rows) {
+        if (entry.appId == appId)
+            return QVariant::fromValue(entry);
+    }
+
+    return QVariant();
 }

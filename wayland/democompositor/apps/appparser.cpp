@@ -139,13 +139,14 @@ AppEntry AppParser::parseData(const QByteArray& content, const QString& fileName
 
     QString iconName = readString(root, QStringLiteral("Icon"), ok);
     QString appName = readString(root, QStringLiteral("Name"), ok);
+    QString appId = readString(root, QStringLiteral("Id"), ok);
     QString executableName = readString(root, QStringLiteral("Exec"), ok);
     QString executablePath = readStringOptional(root, QStringLiteral("Path"), ok);
     QVariantMap extensions = readExtensions(root, QStringLiteral("X-"));
     if (!*ok)
         return AppEntry::empty();
 
-    return AppEntry{iconName, appName, executableName, executablePath, fileName, extensions};
+    return AppEntry{iconName, appName, appId, executableName, executablePath, fileName, extensions};
 }
 
 AppEntry AppParser::parseFile(const QString& fileName, bool *ok)

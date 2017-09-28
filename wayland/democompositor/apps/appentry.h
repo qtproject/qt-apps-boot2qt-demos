@@ -62,6 +62,7 @@ class AppEntry {
     Q_GADGET
     Q_PROPERTY(QString iconName MEMBER iconName CONSTANT)
     Q_PROPERTY(QString appName MEMBER appName CONSTANT)
+    Q_PROPERTY(QString appId MEMBER appId CONSTANT)
     Q_PROPERTY(QString executableName MEMBER executableName CONSTANT)
     Q_PROPERTY(QString executablePath MEMBER executablePath CONSTANT)
     Q_PROPERTY(QVariantMap extensions MEMBER extensions CONSTANT)
@@ -69,6 +70,7 @@ public:
 
     QString iconName;
     QString appName;
+    QString appId;
     QString executableName;
     QString executablePath;
     QString sourceFileName;

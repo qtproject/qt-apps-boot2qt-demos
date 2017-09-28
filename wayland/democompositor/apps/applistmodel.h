@@ -67,6 +67,7 @@ public:
         App = Qt::UserRole,
         IconName,
         ApplicationName,
+        ApplicationId,
         ExeuctableName,
         ExecutablePath,
         SourceFileName,
@@ -75,6 +76,8 @@ public:
     int rowCount(const QModelIndex& parent) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex& index, int role) const Q_DECL_OVERRIDE;
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
+
+    Q_INVOKABLE QVariant findApplicationId(const QString& appId) const;
 
 Q_SIGNALS:
     void appRemoved(const AppEntry& appEntry);
