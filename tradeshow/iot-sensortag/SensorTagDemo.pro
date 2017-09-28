@@ -25,7 +25,7 @@ win32|linux|android:!qnx {
 
 # For using MQTT upload enable this config.
 # This enables both, host and client mode
-CONFIG += UPDATE_TO_MQTT_BROKER
+# CONFIG += UPDATE_TO_MQTT_BROKER
 
 win32:!contains(CONFIG, UPDATE_TO_MQTT_BROKER) {
     WASTORAGE_PATH = $$(WASTORAGE_LOCATION)
