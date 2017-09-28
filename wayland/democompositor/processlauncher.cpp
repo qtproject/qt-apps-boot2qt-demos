@@ -72,6 +72,13 @@ WaylandProcessLauncher::WaylandProcessLauncher(QObject *parent)
 
 WaylandProcessLauncher::~WaylandProcessLauncher()
 {
+    for (auto state : m_appStates) {
+        state.process->disconnect(state.finishedConn);
+        state.process->disconnect(state.errorOccurredConn);
+        state.process->disconnect(state.startedConn);
+        delete state.process;
+    }
+    m_appStates.clear();
 }
 
 QVariant WaylandProcessLauncher::appStateForPid(int pid) const
@@ -107,18 +114,19 @@ void WaylandProcessLauncher::launch(const AppEntry &entry)
     QProcess *process = new QProcess(this);
     process->setProcessChannelMode(QProcess::ForwardedChannels);
 
-    AppState state{process, entry};
+    QMetaObject::Connection conn;
+    AppState state{process, entry, conn, conn, conn};
     m_appStates.push_back(state);
 
     /* handle potential errors and life cycle */
-    connect(process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+    state.finishedConn = connect(process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
             [state, this](int exitCode, QProcess::ExitStatus status) {
                 qCDebug(procs) << "AppEntry finished" << state.appEntry.executableName << exitCode << status;
                 emit appFinished(state, exitCode, status);
                 m_appStates.removeOne(state);
                 state.process->deleteLater();
     });
-    connect(process, &QProcess::errorOccurred,
+    state.errorOccurredConn = connect(process, &QProcess::errorOccurred,
             [state, this](QProcess::ProcessError err) {
                 qCDebug(procs) << "AppEntry error occurred" << state.appEntry.executableName << err;
 
@@ -130,7 +138,7 @@ void WaylandProcessLauncher::launch(const AppEntry &entry)
                     emit appNotStarted(state);
                 state.process->deleteLater();
     });
-    connect(process, &QProcess::started,
+    state.startedConn = connect(process, &QProcess::started,
             [state, this]() {
                 qCDebug(procs) << "AppEntry started" << state.appEntry.executableName;
                 emit appStarted(state);

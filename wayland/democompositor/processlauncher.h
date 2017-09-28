@@ -70,6 +70,9 @@ class AppState {
 public:
     QProcess *process;
     AppEntry appEntry;
+    QMetaObject::Connection finishedConn;
+    QMetaObject::Connection errorOccurredConn;
+    QMetaObject::Connection startedConn;
 };
 
 class WaylandProcessLauncher : public QObject
