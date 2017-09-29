@@ -65,6 +65,8 @@ Rectangle {
     property int marginWidth : 5
     property int titlebarHeight : 5
 
+    property var appEntry
+
     function requestSize(w, h) {
         surfaceItem.requestSize(Qt.size(w - 2 * marginWidth, h - titlebarHeight - marginWidth))
     }

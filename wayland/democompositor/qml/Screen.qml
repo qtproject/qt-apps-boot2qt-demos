@@ -189,7 +189,7 @@ WaylandOutput {
                                 pressedColor: pressedCol
 
                                 text.maximumLineCount: 1
-                                text.text: modelData.shellSurface.title.length > 0 ? modelData.shellSurface.title : "Untitled"
+                                text.text: winItem.appEntry === null ? "Untitled" : winItem.appEntry.appName
                                 text.elide: Text.ElideRight
                                 text.color: textCol
                                 onTriggered: {

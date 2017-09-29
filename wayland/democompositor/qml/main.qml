@@ -72,12 +72,16 @@ WaylandCompositor {
         onWlShellSurfaceCreated: {
             const pid = shellSurface.surface.client.processId;
             const appState = mainScreen.appLauncher.appStateForPid(pid);
+            var appEntry;
             if (!appState) {
                 console.log("shellSurface of unknown application. Continuing. PID=" + pid);
             } else {
                 console.log("shellSurface belonging to " + appState.appEntry.executableName);
+                appEntry = appState.appEntry;
             }
-            chromeComponent.createObject(defaultOutput.surfaceArea, { "shellSurface": shellSurface } );
+            chromeComponent.createObject(defaultOutput.surfaceArea, {
+                                            "shellSurface": shellSurface,
+                                            "appEntry": appEntry } );
             defaultOutput.relayout();
         }
     }
