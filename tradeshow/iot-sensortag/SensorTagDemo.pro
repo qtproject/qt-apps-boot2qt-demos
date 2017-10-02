@@ -115,6 +115,8 @@ UPDATE_TO_AZURE {
 
 RESOURCES += base.qrc
 
+android: ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
+
 !DEPLOY_TO_FS: RESOURCES += uismall.qrc
 uiVariant.files = resources/small
 uiVariant.path = /opt/$${TARGET}/resources
