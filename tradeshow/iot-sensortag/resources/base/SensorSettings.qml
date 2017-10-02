@@ -63,6 +63,30 @@ Rectangle {
     height: 800
     anchors.horizontalCenter: parent.horizontalCenter
 
+    function createSensorConnection() {
+        clickBait.deactivate()
+
+        var currentPool = getCurrentPool();
+        if (currentPool.dataProviders[sensorListView.currentIndex] === singleSensorSource) {
+            console.log("Same data provider selected, nothing to change...")
+            return;
+        }
+
+        if (singleSensorSource)
+            singleSensorSource.endDataFetching();
+        // UI gets information about the intended setup of the
+        // sensor even though they have not been really discovered yet
+        if (currentPool) {
+            singleSensorSource = currentPool.dataProviders[sensorListView.currentIndex]
+            currentPool.currentProviderIndex = sensorListView.currentIndex
+
+            seriesStorage.setDataProviderPool(currentPool);
+            seriesStorage.dataProviderPoolChanged();
+
+            singleSensorSource.startDataFetching()
+        }
+    }
+
     Image {
         source: "images/bg_blue.jpg"
         anchors.fill: parent
@@ -151,6 +175,10 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 onClicked: sensorListView.currentIndex = index
+                onDoubleClicked: {
+                    sensorListView.currentIndex = index
+                    createSensorConnection()
+                }
             }
         }
     }
@@ -173,29 +201,7 @@ Rectangle {
             id: connectButtonArea
             anchors.fill: parent
             enabled: sensorListView.currentIndex != -1
-            onClicked: {
-                clickBait.deactivate()
-
-                var currentPool = getCurrentPool();
-                if (currentPool.dataProviders[sensorListView.currentIndex] === singleSensorSource) {
-                    console.log("Same data provider selected, nothing to change...")
-                    return;
-                }
-
-                if (singleSensorSource)
-                    singleSensorSource.endDataFetching();
-                // UI gets information about the intended setup of the
-                // sensor even though they have not been really discovered yet
-                if (currentPool) {
-                    singleSensorSource = currentPool.dataProviders[sensorListView.currentIndex]
-                    currentPool.currentProviderIndex = sensorListView.currentIndex
-
-                    seriesStorage.setDataProviderPool(currentPool);
-                    seriesStorage.dataProviderPoolChanged();
-
-                    singleSensorSource.startDataFetching()
-                }
-            }
+            onClicked: createSensorConnection()
         }
     }
 
