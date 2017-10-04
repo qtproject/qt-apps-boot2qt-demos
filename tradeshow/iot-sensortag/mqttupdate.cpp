@@ -55,6 +55,7 @@
 #include "demodataproviderpool.h"
 #include "mqttdataproviderpool.h"
 
+#include <QtCore/QUuid>
 #include <QtMqtt/QtMqtt>
 #include <QSysInfo>
 
@@ -85,7 +86,11 @@ void MqttUpdate::setDataProviderPool(DataProviderPool *provider)
         if (!provider)
             return;
 
-        const QString hostname = QSysInfo::machineHostName();
+        QString hostname = QSysInfo::machineHostName();
+        if (hostname == QLatin1String("localhost")) {
+            hostname = QUuid::createUuid().toString();
+            qCDebug(boot2QtDemos) << "localhost not unique. New ID:" << hostname;
+        }
 
         m_handler = new MqttEventHandler(hostname + QLatin1String(" - ") + provider->id());
         m_handler->m_providerPool = m_providerPool;
