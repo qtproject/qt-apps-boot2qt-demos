@@ -85,6 +85,9 @@ Rectangle {
     Loader {
         id: effectLoader
         source: effectSource
+        onItemChanged: {
+            updateSource()
+        }
     }
 
     onWidthChanged: {
@@ -99,11 +102,7 @@ Rectangle {
 
     onEffectSourceChanged: {
         effectLoader.source = effectSource
-        effectLoader.item.parent = root
-        effectLoader.item.targetWidth = root.width
-        effectLoader.item.targetHeight = root.height
         updateSource()
-        effectLoader.item.source = theSource
     }
 
     function init() {
@@ -114,8 +113,13 @@ Rectangle {
     function updateSource() {
 
         theSource.sourceItem = videoContent.mediaSource == "" ? introBackground : videoContent
-        if (effectLoader.item)
+        if (effectLoader.item) {
+            effectLoader.item.parent = root
+            effectLoader.item.targetWidth = root.width
+            effectLoader.item.targetHeight = root.height
             effectLoader.item.anchors.fill = videoContent
+            effectLoader.item.source = theSource
+        }
     }
 
     function openVideo(path) {
