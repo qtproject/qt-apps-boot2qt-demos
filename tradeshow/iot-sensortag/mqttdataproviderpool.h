@@ -47,13 +47,31 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-pragma Singleton
-import QtQuick 2.0
+#ifndef MQTTDATAPROVIDERPOOL_H
+#define MQTTDATAPROVIDERPOOL_H
 
-QtObject {
-    property int indicatorTitleFontSize: 22
-    property int indicatorTitleSize: 41
+#include "dataproviderpool.h"
+#include <QtMqtt/QMqttClient>
 
-    property int topToolbarSmallFontSize: 20
-    property int topToolbarLargeFontSize: 62
-}
+class MqttDataProvider;
+
+#define MQTT_BROKER ""
+#define MQTT_PORT 1883
+#define MQTT_USERNAME ""
+#define MQTT_PASSWORD ""
+
+class MqttDataProviderPool : public DataProviderPool
+{
+public:
+    explicit MqttDataProviderPool(QObject *parent = 0);
+
+    void startScanning() override;
+
+public Q_SLOTS:
+    void deviceUpdate(const QMqttMessage &msg);
+
+private:
+    QMqttClient *m_client;
+};
+
+#endif // MQTTDATAPROVIDERPOOL_H

@@ -50,7 +50,7 @@
 #include "clouddataproviderpool.h"
 #include "clouddataprovider.h"
 
-CloudDataProviderPool::CloudDataProviderPool(QObject* parent)
+CloudDataProviderPool::CloudDataProviderPool(QObject *parent)
     : DataProviderPool(parent)
 {
     m_poolName = "Cloud";
@@ -60,9 +60,8 @@ void CloudDataProviderPool::startScanning()
 {
     qDeleteAll(m_dataProviders);
     m_dataProviders.clear();
-
     m_dataProviders.push_back(new CloudDataProvider("CLOUD_PROVIDER", this));
-    m_dataProviders.at(0)->startDataFetching();
+
     emit providerConnected("MS_AZURE_CLOUD");
     emit providersUpdated();
     emit dataProvidersChanged();

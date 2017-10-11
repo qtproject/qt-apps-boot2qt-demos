@@ -55,7 +55,7 @@
 
 #define MAJOR_VERSION_NUMBER 1
 #define MINOR_VERSION_NUMBER 1
-#define CLOUD_DATA_POLL_INTERVAL_MS    1000 /* 1 second update interval */
+#define CLOUD_DATA_POLL_INTERVAL_MS 1000 /* 1 second update interval */
 #ifndef QT_NO_SSL
 static QString dataFetchUrl = "https://ottoryynanenqt.blob.core.windows.net/btsensortagreadings/sensorTagReadings.txt";
 #else
@@ -64,9 +64,9 @@ static QString dataFetchUrl = "http://ottoryynanenqt.blob.core.windows.net/btsen
 
 Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
 
-CloudDataProvider::CloudDataProvider(QString id, QObject* parent)
+CloudDataProvider::CloudDataProvider(QString id, QObject *parent)
     : SensorTagDataProvider(id, parent)
-    , reply(Q_NULLPTR)
+    , reply(nullptr)
 {
     intervalRotation = CLOUD_DATA_POLL_INTERVAL_MS;
     connect(&qnam, &QNetworkAccessManager::authenticationRequired,
@@ -79,8 +79,9 @@ CloudDataProvider::CloudDataProvider(QString id, QObject* parent)
 
 bool CloudDataProvider::startDataFetching()
 {
+    setState(Connected);
     pollTimer = new QTimer(this);
-    connect(pollTimer, SIGNAL(timeout()), this, SLOT(pollTimerExpired()));
+    connect(pollTimer, &QTimer::timeout, this, &CloudDataProvider::pollTimerExpired);
     pollTimer->start(CLOUD_DATA_POLL_INTERVAL_MS);
     return true;
 }
@@ -105,7 +106,8 @@ void CloudDataProvider::parseReceivedText()
     if ((MAJOR_VERSION_NUMBER < dataMajorVersion) ||   // Major version not supported OR
         ((MAJOR_VERSION_NUMBER == dataMajorVersion) && // Major version OK but
          (MINOR_VERSION_NUMBER < dataMinorVersion))) { // Minor version not supported
-        qWarning() << Q_FUNC_INFO << "Version" << dataList[3] << "not supported by version" << QString::number(MAJOR_VERSION_NUMBER)+"."+QString::number(MINOR_VERSION_NUMBER);
+        qWarning() << Q_FUNC_INFO << "Version" << dataList[3] << "not supported by version"
+                   << QString::number(MAJOR_VERSION_NUMBER)+"."+QString::number(MINOR_VERSION_NUMBER);
         return;
     }
     // Header OK, parse data.
@@ -113,10 +115,10 @@ void CloudDataProvider::parseReceivedText()
     bool accelometerReadingGot = false;
     bool magnetometerReadingGot = false;
     bool rotationReadingsGot = false;
-    for (int stringIndex = 4 ; stringIndex < (dataList.length()-1) ; stringIndex+=2) {
+    for (int stringIndex = 4; stringIndex < (dataList.length() - 1); stringIndex += 2) {
         const QString headerText(dataList[stringIndex]);
-        const double doubleValue = QString(dataList[stringIndex+1]).toDouble();
-        const float floatValue = QString(dataList[stringIndex+1]).toFloat();
+        const double doubleValue = QString(dataList[stringIndex + 1]).toDouble();
+        const float floatValue = QString(dataList[stringIndex + 1]).toFloat();
         /* NOTE: We emit the signals even if value is unchanged.
          * Otherwise the scrolling graphs in UI will not scroll.
          */
@@ -216,10 +218,8 @@ void CloudDataProvider::httpFinished()
     }
 
     parseReceivedText();
-    const QVariant redirectionTarget = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
-
     reply->deleteLater();
-    reply = Q_NULLPTR;
+    reply = nullptr;
 }
 
 void CloudDataProvider::httpReadyRead()
@@ -232,7 +232,7 @@ void CloudDataProvider::httpReadyRead()
 }
 
 #ifndef QT_NO_SSL
-void CloudDataProvider::sslErrors(QNetworkReply*, const QList<QSslError> &errors)
+void CloudDataProvider::sslErrors(QNetworkReply *, const QList<QSslError> &errors)
 {
     QString errorString;
     for (const QSslError &error : errors) {
@@ -246,7 +246,7 @@ void CloudDataProvider::sslErrors(QNetworkReply*, const QList<QSslError> &errors
 }
 #endif
 
-void CloudDataProvider::slotAuthenticationRequired(QNetworkReply*, QAuthenticator *authenticator)
+void CloudDataProvider::slotAuthenticationRequired(QNetworkReply *, QAuthenticator *authenticator)
 {
     Q_UNUSED(authenticator);
 }
@@ -258,5 +258,5 @@ QString CloudDataProvider::sensorType() const
 
 QString CloudDataProvider::versionString() const
 {
-    return QString::number(MAJOR_VERSION_NUMBER)+"."+QString::number(MINOR_VERSION_NUMBER);
+    return QString::number(MAJOR_VERSION_NUMBER) + "." + QString::number(MINOR_VERSION_NUMBER);
 }

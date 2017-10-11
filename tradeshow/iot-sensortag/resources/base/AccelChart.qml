@@ -90,6 +90,7 @@ BaseChart {
                             anchors.centerIn: parent
                             text: (index == 0) ? acceXValue : ((index == 1) ? acceYValue : acceZValue)
                             color: "white"
+                            font.pixelSize: 26
                         }
                     }
 

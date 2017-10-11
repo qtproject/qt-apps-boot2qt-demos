@@ -63,7 +63,7 @@ class SeriesStorage : public QObject
 public:
     explicit SeriesStorage(QObject *parent = nullptr);
 
-    void setDataProviderPool(DataProviderPool *pool);
+    Q_INVOKABLE void setDataProviderPool(DataProviderPool *pool);
     Q_INVOKABLE void setTemperatureSeries(QAbstractSeries *series);
     Q_INVOKABLE void setGyroSeries(QAbstractSeries *xSeries, QAbstractSeries *ySeries,
                        QAbstractSeries *zSeries);

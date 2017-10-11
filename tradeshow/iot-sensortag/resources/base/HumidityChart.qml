@@ -48,8 +48,6 @@
 **
 ****************************************************************************/
 import QtQuick 2.5
-import QtQuick.Controls 2.0
-import QtQuick.Controls.Styles 1.4
 import QtCharts 2.1
 import SensorTag.DataProvider 1.0
 import QtQuick.Extras 1.4
@@ -104,6 +102,7 @@ BaseChart {
             text: "Max\n" + maxHumi.toFixed(0) + " %"
             lineHeight: 0.8
             color: "white"
+            font.pixelSize: 26
         }
 
         Text {
@@ -113,6 +112,7 @@ BaseChart {
             text: "Min\n" + minHumi.toFixed(0) + " %"
             lineHeight: 0.8
             color: "white"
+            font.pixelSize: 26
         }
     }
 }

@@ -55,30 +55,20 @@ Item {
     id: main
 
     function startRescan(sensor) {
-        if (sensor.state === SensorTagData.NotFound)
-            dataProviderPool.startScanning();
-        else if (sensor.state === SensorTagData.Scanning)
-            dataProviderPool.disconnectProvider(sensor.providerId)
-        else if (sensor.state !== SensorTagData.Connected)
-            sensor.startServiceScan();
+        // ### Only do this magic when a local device is connected
+//        if (sensor.state === SensorTagData.NotFound)
+//            dataProviderPool.startScanning();
+//        else if (sensor.state === SensorTagData.Scanning)
+//            dataProviderPool.disconnectProvider(sensor.providerId)
+//        else if (sensor.state !== SensorTagData.Connected)
+//            sensor.startServiceScan();
     }
 
     anchors.fill: parent
 
     Component.onCompleted: {
-        dataProviderPool.startScanning();
-
-        // UI gets information about the intended setup of the
-        // sensor even though they have not been really discovered yet
-        ambientTemp.sensor = dataProviderPool.getProvider(SensorTagData.AmbientTemperature);
-        objectTemp.sensor = dataProviderPool.getProvider(SensorTagData.ObjectTemperature);
-        humidity.sensor = dataProviderPool.getProvider(SensorTagData.Humidity);
-        airPressure.sensor = dataProviderPool.getProvider(SensorTagData.AirPressure);
-        light.sensor = dataProviderPool.getProvider(SensorTagData.Light);
-        magnetometer.sensor = dataProviderPool.getProvider(SensorTagData.Magnetometer);
-        rotation.sensor = dataProviderPool.getProvider(SensorTagData.Rotation);
-        accelometer.sensor = dataProviderPool.getProvider(SensorTagData.Accelometer);
-        rotationMain.sensor = dataProviderPool.getProvider(SensorTagData.Rotation);
+        localProviderPool.startScanning();
+        remoteProviderPool.startScanning();
     }
 
     Column {
@@ -172,6 +162,7 @@ Item {
     RotationPage {
         id: rotationMain
 
+        visible: main.width > (leftPane.width + rightPane.width + 800)
         anchors.top: topToolbar.bottom
         anchors.left: leftPane.right
         anchors.leftMargin: 32

@@ -57,7 +57,7 @@ class CloudDataProvider;
 class CloudDataProviderPool : public DataProviderPool
 {
 public:
-    explicit CloudDataProviderPool(QObject* parent = 0);
+    explicit CloudDataProviderPool(QObject *parent = 0);
 
     void startScanning() override;
 };

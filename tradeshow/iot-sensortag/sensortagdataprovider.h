@@ -49,6 +49,7 @@
 ****************************************************************************/
 #ifndef SENSORTAGDATAPROVIDER_H
 #define SENSORTAGDATAPROVIDER_H
+
 #include <QObject>
 #include <QString>
 #include <QColor>
@@ -100,13 +101,19 @@ public:
                    Altitude = 1 << 8
                  };
     static const int tagTypeCount = 9;
-    enum ProviderState {NotFound = 0, Disconnected, Scanning, Connected, Error};
+    enum ProviderState {
+        NotFound = 0,
+        Disconnected,
+        Scanning,
+        Connected,
+        Error
+    };
 
     explicit SensorTagDataProvider(QObject *parent = 0);
     SensorTagDataProvider(QString id, QObject *parent = 0);
 
-    virtual bool startDataFetching() {return false;}
-    virtual void endDataFetching() {}
+    Q_INVOKABLE virtual bool startDataFetching() {return false;}
+    Q_INVOKABLE virtual void endDataFetching() {}
     QString getRelativeHumidityString() const;
     virtual double getRelativeHumidity() const;
     virtual double getInfraredAmbientTemperature() const;
@@ -176,7 +183,6 @@ protected:
     double barometerCelsiusTemperature;
     double barometerTemperatureAverage;
     double barometerHPa;
-    //double temperatureAverage;
     float gyroscopeX_degPerSec;
     float gyroscopeY_degPerSec;
     float gyroscopeZ_degPerSec;

@@ -58,22 +58,23 @@ Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
 SensorTagDataProviderPool::SensorTagDataProviderPool(QObject *parent)
     : SensorTagDataProviderPool("SensorTag", parent)
 {
-
 }
 
-SensorTagDataProviderPool::SensorTagDataProviderPool(QString poolName, QObject* parent)
+SensorTagDataProviderPool::SensorTagDataProviderPool(QString poolName, QObject *parent)
     : DataProviderPool(poolName, parent)
 {
     m_discoveryAgent = new QBluetoothDeviceDiscoveryAgent();
-    connect(m_discoveryAgent, SIGNAL(deviceDiscovered(const QBluetoothDeviceInfo&)),
-            this, SLOT(btDeviceFound(const QBluetoothDeviceInfo&)));
-    connect(m_discoveryAgent, SIGNAL(error(QBluetoothDeviceDiscoveryAgent::Error)),
-            this, SLOT(deviceScanError(QBluetoothDeviceDiscoveryAgent::Error)));
-    connect(m_discoveryAgent, SIGNAL(finished()), this, SLOT(deviceDiscoveryFinished()));
+    connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
+            this, &SensorTagDataProviderPool::btDeviceFound);
+    connect(m_discoveryAgent, QOverload<QBluetoothDeviceDiscoveryAgent::Error>::of(&QBluetoothDeviceDiscoveryAgent::error),
+            this, &SensorTagDataProviderPool::deviceScanError);
+    connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished,
+            this, &SensorTagDataProviderPool::deviceDiscoveryFinished);
 }
 
 void SensorTagDataProviderPool::startScanning()
 {
+    m_discoveryAgent->setLowEnergyDiscoveryTimeout(0);
     m_discoveryAgent->start(QBluetoothDeviceDiscoveryAgent::LowEnergyMethod);
 
     if (m_discoveryAgent->isActive()) {
@@ -81,28 +82,13 @@ void SensorTagDataProviderPool::startScanning()
     }
 }
 
-void SensorTagDataProviderPool::disconnectProvider(QString id)
+void SensorTagDataProviderPool::disconnectProvider(const QString &id)
 {
     SensorTagDataProvider *p = findProvider(id);
     if (BluetoothDataProvider *btp = qobject_cast<BluetoothDataProvider*>(findProvider(id)))
         btp->unbindDevice();
     else if (p)
         p->setState(SensorTagDataProvider::Disconnected);
-}
-
-void SensorTagDataProviderPool::setMacFilterList(const QStringList &addressList)
-{
-    m_macFilters = addressList;
-}
-
-QStringList SensorTagDataProviderPool::macFilters() const
-{
-    return m_macFilters;
-}
-
-void SensorTagDataProviderPool::setnameFilteList(const QStringList &nameList)
-{
-    m_nameFilters = nameList;
 }
 
 SensorTagDataProvider *SensorTagDataProviderPool::providerForCloud() const
@@ -136,40 +122,27 @@ void SensorTagDataProviderPool::finishScanning()
 void SensorTagDataProviderPool::btDeviceFound(const QBluetoothDeviceInfo &info)
 {
     if (info.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration) {
-        bool filtered = m_macFilters.length() || m_nameFilters.length();
-        bool found = filtered ? false : true;
+        // all tags by TI have this naming convention
+        if (info.name().contains(QLatin1String("SensorTag")) && !m_knownDevices.contains(info)) {
+            qCDebug(boot2QtDemos) << "Found a new device:" << info.name();
+            m_knownDevices.append(info);
+            BluetoothDataProvider *p = new BluetoothDataProvider(info, this);
+            m_dataProviders.push_back(p);
+            connect(p, &SensorTagDataProvider::stateChanged,
+                    this, &SensorTagDataProviderPool::handleStateChange);
 
-        if (m_macFilters.length() && m_macFilters.contains(info.address().toString()))
-            found = true;
-        else if (m_nameFilters.length() && m_nameFilters.contains(info.name()))
-            found = true;
+            emit dataProvidersChanged();
 
-        if (found) {
-            BluetoothDataProvider *dataProvider = static_cast<BluetoothDataProvider *>(findProvider(info.address().toString()));
-            if (!dataProvider) {
-                qCDebug(boot2QtDemos) << "Found a new Sensor tag. Name:" << info.name() << ", addr:" << info.address().toString() ;
-                dataProvider = new BluetoothDataProvider(info.address().toString(), this);
-                m_dataProviders.append(dataProvider);
-                emit dataProvidersChanged();
-            }
-            if (!dataProvider->device()) {
-                qCDebug(boot2QtDemos) << "Attach BluetoothDevice info for an existing Sensor Tag:" << info.name();
-                BluetoothDevice *d = new BluetoothDevice(info);
-                dataProvider->bindToDevice(d);
-                connect(dataProvider, &SensorTagDataProvider::stateChanged, this, &SensorTagDataProviderPool::handleStateChange);
-                dataProvider->startDataFetching();
-            }
-            else if (dataProvider->state() != SensorTagDataProvider::Connected) {
-                qCDebug(boot2QtDemos) << "Start service scan for already attached Sensor Tag" << dataProvider->id();
-                dataProvider->startServiceScan();
-            }
+            // Set initial state to Scanning for UI to be
+            // able to show "Connecting.." information
+            p->setState(SensorTagDataProvider::Scanning);
         }
     }
 }
 
 void SensorTagDataProviderPool::handleStateChange()
 {
-    SensorTagDataProvider *provider = static_cast<SensorTagDataProvider*>(sender());
+    SensorTagDataProvider *provider = static_cast<SensorTagDataProvider *>(sender());
 
     switch (provider->state()) {
     case SensorTagDataProvider::Disconnected:
@@ -200,7 +173,7 @@ void SensorTagDataProviderPool::deviceScanError(QBluetoothDeviceDiscoveryAgent::
     emit scanFinished();
 }
 
-SensorTagDataProvider* SensorTagDataProviderPool::findProvider(QString id) const
+SensorTagDataProvider *SensorTagDataProviderPool::findProvider(QString id) const
 {
     for (SensorTagDataProvider *p : m_dataProviders) {
         if (id == p->id())

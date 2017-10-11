@@ -47,46 +47,37 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef MOCKDATAPROVIDER_H
-#define MOCKDATAPROVIDER_H
+#ifndef MQTTDATAPROVIDER_H
+#define MQTTDATAPROVIDER_H
 
 #include "sensortagdataprovider.h"
-
 #include <QtQml/QQmlEngine>
 #include <QtQml/QJSEngine>
-#include <QtCore/QTimer>
+#include <QtMqtt/QMqttClient>
+#include <QtMqtt/QMqttSubscription>
 
-class MockDataProvider : public SensorTagDataProvider
+class QTimer;
+
+class MqttDataProvider : public SensorTagDataProvider
 {
     Q_OBJECT
 public:
-    explicit MockDataProvider(QString id, QObject *parent = 0);
+    explicit MqttDataProvider(QString id, QMqttClient *client, QObject *parent = 0);
 
     bool startDataFetching();
     void endDataFetching();
-
     QString sensorType() const;
     QString versionString() const;
-
-public slots:
-    void slowTimerExpired();
-    void rapidTimerExpired();
-    void startServiceScan();
-
-protected:
     void reset() override;
 
-private:
-    QTimer slowUpdateTimer;
-    QTimer rapidUpdateTimer;
-    float xAxisG;
-    float yAxisG;
-    float zAxisG;
-    int luxIncrease;
-    int rotationDegPerSecXIncrease;
-    int rotationDegPerSecYIncrease;
-    int rotationDegPerSecZIncrease;
-    int m_smaSamples;
-};
+public slots:
+    void messageReceived(const QMqttMessage &msg);
+    void parseMessage(const QString &content, const QString &topic);
+    void dataTimeout();
 
-#endif // MOCKDATAPROVIDER_H
+private:
+    QTimer *m_pollTimer;
+    QMqttClient *m_client;
+    QMqttSubscription *m_subscription;
+};
+#endif // MQTTDATAPROVIDER_H

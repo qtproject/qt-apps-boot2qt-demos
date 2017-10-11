@@ -92,7 +92,6 @@ BaseChart {
             anchors.left: parent.left
             anchors.leftMargin: -20
             anchors.right: parent.right
-            anchors.rightMargin: -15
             antialiasing: true
             backgroundColor: "transparent"
             legend.visible: false
@@ -160,6 +159,7 @@ BaseChart {
                         color: "white"
                         anchors.left: parent.left
                         anchors.bottom: parent.bottom
+                        font.pixelSize: 26
                     }
 
                     Text {
@@ -171,6 +171,7 @@ BaseChart {
                         anchors.left: coordText.right
                         anchors.leftMargin: 16
                         anchors.bottom: parent.bottom
+                        font.pixelSize: 26
                     }
                 }
             }

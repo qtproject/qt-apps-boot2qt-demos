@@ -54,7 +54,7 @@ import SensorTag.DataProvider 1.0
 Item {
     id: baseChart
 
-    property var sensor: null
+    property var sensor: singleSensorSource
     property string title
     property alias contentItem: loader.item
     property alias content: loader.sourceComponent

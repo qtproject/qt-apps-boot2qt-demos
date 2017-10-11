@@ -139,22 +139,20 @@ void BluetoothDevice::scanServices()
         statusUpdated("(Connecting to device...)");
         // Connecting signals and slots for connecting to LE services.
         m_controller = new QLowEnergyController(m_deviceInfo);
-        connect(m_controller, SIGNAL(connected()),
-                this, SLOT(deviceConnected()));
-        connect(m_controller, SIGNAL(error(QLowEnergyController::Error)),
-                this, SLOT(errorReceived(QLowEnergyController::Error)));
-        connect(m_controller, SIGNAL(disconnected()),
-                this, SLOT(deviceDisconnected()));
-        connect(m_controller, SIGNAL(serviceDiscovered(QBluetoothUuid)),
-                this, SLOT(addLowEnergyService(QBluetoothUuid)));
-        connect(m_controller, SIGNAL(discoveryFinished()),
-                this, SLOT(serviceScanDone()));
+        connect(m_controller, &QLowEnergyController::connected,
+                this, &BluetoothDevice::deviceConnected);
+        connect(m_controller, QOverload<QLowEnergyController::Error>::of(&QLowEnergyController::error),
+                this, &BluetoothDevice::errorReceived);
+        connect(m_controller, &QLowEnergyController::disconnected,
+                this, &BluetoothDevice::deviceDisconnected);
+        connect(m_controller, &QLowEnergyController::serviceDiscovered,
+                this, &BluetoothDevice::addLowEnergyService);
+        connect(m_controller, &QLowEnergyController::discoveryFinished,
+                this, &BluetoothDevice::serviceScanDone);
 
         m_controller->setRemoteAddressType(QLowEnergyController::PublicAddress);
-        m_controller->connectToDevice();
-    } else {
-        deviceConnected();
     }
+    m_controller->connectToDevice();
 }
 
 void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
@@ -166,8 +164,10 @@ void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
             qWarning() << "Could not create infrared temperature service object.";
             return;
         }
-        connect(m_irTemperatureService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::temperatureDetailsDiscovered);
-        connect(m_irTemperatureService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::updateTemperature);
+        connect(m_irTemperatureService, &QLowEnergyService::stateChanged,
+                this, &BluetoothDevice::temperatureDetailsDiscovered);
+        connect(m_irTemperatureService, &QLowEnergyService::characteristicChanged,
+                this, &BluetoothDevice::updateTemperature);
         m_irTemperatureService->discoverDetails();
     } else if (serviceUuid == QBluetoothUuid(QLatin1String(BAROMETER_SERVICE_UUID))) {
         qCDebug(boot2QtDemos) << "Found barometer service.";
@@ -176,8 +176,10 @@ void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
             qWarning() << "Could not create barometer service object.";
             return;
         }
-        connect(m_baroService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::barometerDetailsDiscovered);
-        connect(m_baroService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::updatePressure);
+        connect(m_baroService, &QLowEnergyService::stateChanged,
+                this, &BluetoothDevice::barometerDetailsDiscovered);
+        connect(m_baroService, &QLowEnergyService::characteristicChanged,
+                this, &BluetoothDevice::updatePressure);
         m_baroService->discoverDetails();
     } else if (serviceUuid == QBluetoothUuid(QLatin1String(HUMIDITYSENSOR_SERVICE_UUID))) {
         qCDebug(boot2QtDemos) << "Found humidity service.";
@@ -186,8 +188,10 @@ void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
             qWarning() << "Could not create humidity service object.";
             return;
         }
-        connect(m_humidityService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::humidityDetailsDiscovered);
-        connect(m_humidityService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::updateHumidity);
+        connect(m_humidityService, &QLowEnergyService::stateChanged,
+                this, &BluetoothDevice::humidityDetailsDiscovered);
+        connect(m_humidityService, &QLowEnergyService::characteristicChanged,
+                this, &BluetoothDevice::updateHumidity);
         m_humidityService->discoverDetails();
     } else if (serviceUuid == QBluetoothUuid(QLatin1String(LIGHTSENSOR_SERVICE_UUID))) {
         qCDebug(boot2QtDemos) << "Found light service.";
@@ -196,8 +200,10 @@ void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
             qWarning() << "Could not create light service object.";
             return;
         }
-        connect(m_lightService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::lightIntensityDetailsDiscovered);
-        connect(m_lightService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::updateLight);
+        connect(m_lightService, &QLowEnergyService::stateChanged,
+                this, &BluetoothDevice::lightIntensityDetailsDiscovered);
+        connect(m_lightService, &QLowEnergyService::characteristicChanged,
+                this, &BluetoothDevice::updateLight);
         m_lightService->discoverDetails();
     } else if (serviceUuid == QBluetoothUuid(QLatin1String(MOTIONSENSOR_SERVICE_UUID))) {
         qCDebug(boot2QtDemos) << "Found motion service.";
@@ -206,8 +212,10 @@ void BluetoothDevice::addLowEnergyService(const QBluetoothUuid &serviceUuid)
             qWarning() << "Could not create motion service object.";
             return;
         }
-        connect(m_motionService, &QLowEnergyService::stateChanged, this, &BluetoothDevice::motionDetailsDiscovered);
-        connect(m_motionService, &QLowEnergyService::characteristicChanged, this, &BluetoothDevice::updateMotionValue);
+        connect(m_motionService, &QLowEnergyService::stateChanged,
+                this, &BluetoothDevice::motionDetailsDiscovered);
+        connect(m_motionService, &QLowEnergyService::characteristicChanged,
+                this, &BluetoothDevice::updateMotionValue);
         m_motionService->discoverDetails();
     } else {
         qCDebug(boot2QtDemos) << "Found unhandled service with id" << serviceUuid << ".";
@@ -243,7 +251,7 @@ void BluetoothDevice::temperatureDetailsDiscovered(QLowEnergyService::ServiceSta
             qCDebug(boot2QtDemos) << "Wrote Characteristic - temperature";
         });
 
-        connect(m_irTemperatureService, static_cast<void(QLowEnergyService::*)(QLowEnergyService::ServiceError)>(&QLowEnergyService::error),
+        connect(m_irTemperatureService, QOverload<QLowEnergyService::ServiceError>::of(&QLowEnergyService::error),
             [=](QLowEnergyService::ServiceError newError) {
             qCDebug(boot2QtDemos) << "error while writing - temperature:" << newError;
         });
@@ -282,7 +290,7 @@ void BluetoothDevice::barometerDetailsDiscovered(QLowEnergyService::ServiceState
             qCDebug(boot2QtDemos) << "Wrote Characteristic - barometer";
         });
 
-        connect(m_baroService, static_cast<void(QLowEnergyService::*)(QLowEnergyService::ServiceError)>(&QLowEnergyService::error),
+        connect(m_baroService, QOverload<QLowEnergyService::ServiceError>::of(&QLowEnergyService::error),
             [=](QLowEnergyService::ServiceError newError) {
             qCDebug(boot2QtDemos) << "error while writing - barometer:" << newError;
         });
@@ -322,7 +330,7 @@ void BluetoothDevice::humidityDetailsDiscovered(QLowEnergyService::ServiceState 
             qCDebug(boot2QtDemos) << "Wrote Characteristic - humidity";
         });
 
-        connect(m_humidityService, static_cast<void(QLowEnergyService::*)(QLowEnergyService::ServiceError)>(&QLowEnergyService::error),
+        connect(m_humidityService, QOverload<QLowEnergyService::ServiceError>::of(&QLowEnergyService::error),
             [=](QLowEnergyService::ServiceError newError) {
             qCDebug(boot2QtDemos) << "error while writing - humidity:" << newError;
         });
@@ -362,7 +370,7 @@ void BluetoothDevice::lightIntensityDetailsDiscovered(QLowEnergyService::Service
             qCDebug(boot2QtDemos) << "Wrote Characteristic - light intensity";
         });
 
-        connect(m_lightService, static_cast<void(QLowEnergyService::*)(QLowEnergyService::ServiceError)>(&QLowEnergyService::error),
+        connect(m_lightService, QOverload<QLowEnergyService::ServiceError>::of(&QLowEnergyService::error),
             [=](QLowEnergyService::ServiceError newError) {
             qCDebug(boot2QtDemos) << "error while writing - light intensity:" << newError;
         });
@@ -405,7 +413,7 @@ void BluetoothDevice::motionDetailsDiscovered(QLowEnergyService::ServiceState ne
             qCDebug(boot2QtDemos) << "Wrote Characteristic - gyro";
         });
 
-        connect(m_motionService, static_cast<void(QLowEnergyService::*)(QLowEnergyService::ServiceError)>(&QLowEnergyService::error),
+        connect(m_motionService, QOverload<QLowEnergyService::ServiceError>::of(&QLowEnergyService::error),
             [=](QLowEnergyService::ServiceError newError) {
             qCDebug(boot2QtDemos) << "error while writing - gyro:" << newError;
         });

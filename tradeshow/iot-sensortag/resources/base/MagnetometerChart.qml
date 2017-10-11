@@ -57,7 +57,6 @@ BaseChart {
 
     property int maxNumOfMagnReadings: 24
 
-    readonly property color chartColor: "#15bdff"
     readonly property string xColor: "#4db300"
     readonly property string yColor: "white"
     readonly property string zColor: "#f64405"
@@ -154,6 +153,7 @@ BaseChart {
                         color: (index == 0) ? xColor : ((index == 1) ? yColor : zColor)
                         anchors.left: parent.left
                         anchors.bottom: parent.bottom
+                        font.pixelSize: 26
                     }
 
                     Text {
@@ -165,6 +165,7 @@ BaseChart {
                         anchors.left: coordText.right
                         anchors.leftMargin: 16
                         anchors.bottom: parent.bottom
+                        font.pixelSize: 26
                     }
                 }
             }

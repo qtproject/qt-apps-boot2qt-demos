@@ -47,46 +47,77 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef MOCKDATAPROVIDER_H
-#define MOCKDATAPROVIDER_H
 
-#include "sensortagdataprovider.h"
+#include "mqttdataproviderpool.h"
+#include "mqttdataprovider.h"
 
-#include <QtQml/QQmlEngine>
-#include <QtQml/QJSEngine>
-#include <QtCore/QTimer>
+#include <QtCore/QDebug>
 
-class MockDataProvider : public SensorTagDataProvider
+MqttDataProviderPool::MqttDataProviderPool(QObject *parent)
+    : DataProviderPool(parent)
+    , m_client(new QMqttClient(this))
 {
-    Q_OBJECT
-public:
-    explicit MockDataProvider(QString id, QObject *parent = 0);
+    m_poolName = "Mqtt";
+}
 
-    bool startDataFetching();
-    void endDataFetching();
+void MqttDataProviderPool::startScanning()
+{
+    emit providerConnected("MQTT_CLOUD");
+    emit providersUpdated();
+    emit dataProvidersChanged();
 
-    QString sensorType() const;
-    QString versionString() const;
+    m_client->setHostname(QLatin1String(MQTT_BROKER));
+    m_client->setPort(MQTT_PORT);
+    m_client->setUsername(QByteArray(MQTT_USERNAME));
+    m_client->setPassword(QByteArray(MQTT_PASSWORD));
 
-public slots:
-    void slowTimerExpired();
-    void rapidTimerExpired();
-    void startServiceScan();
+    connect(m_client, &QMqttClient::connected, [this]() {
+        auto sub = m_client->subscribe(QLatin1String("sensors/active"));
+        connect(sub, &QMqttSubscription::messageReceived, this, &MqttDataProviderPool::deviceUpdate);
+    });
+    connect(m_client, &QMqttClient::disconnected, [this]() {
+        qDebug() << "Pool client disconnected";
+    });
+    m_client->connectToHost();
+}
 
-protected:
-    void reset() override;
+void MqttDataProviderPool::deviceUpdate(const QMqttMessage &msg)
+{
+    static QSet<QString> knownDevices;
+    // Registration is: deviceName>Online
+    const QByteArrayList payload = msg.payload().split('>');
+    const QString deviceName = payload.first();
+    const QString deviceStatus = payload.at(1);
+    const QString subName = QString::fromLocal8Bit("sensors/%1/#").arg(deviceName);
 
-private:
-    QTimer slowUpdateTimer;
-    QTimer rapidUpdateTimer;
-    float xAxisG;
-    float yAxisG;
-    float zAxisG;
-    int luxIncrease;
-    int rotationDegPerSecXIncrease;
-    int rotationDegPerSecYIncrease;
-    int rotationDegPerSecZIncrease;
-    int m_smaSamples;
-};
+    bool updateRequired = false;
+    if (deviceStatus == QLatin1String("Online")) { // new device
+        // Skip local items
+        if (deviceName.startsWith(QSysInfo::machineHostName()))
+            return;
 
-#endif // MOCKDATAPROVIDER_H
+        if (!knownDevices.contains(deviceName)) {
+            auto prov = new MqttDataProvider(deviceName, m_client, this);
+            prov->setState(SensorTagDataProvider::Connected);
+            m_dataProviders.push_back(prov);
+            if (m_currentProvider == nullptr)
+                setCurrentProviderIndex(m_dataProviders.size() - 1);
+            knownDevices.insert(deviceName);
+            updateRequired = true;
+        }
+    } else if (deviceStatus == QLatin1String("Offline")) { // device died
+        knownDevices.remove(deviceName);
+        updateRequired = true;
+        for (auto prov : m_dataProviders) {
+            if (prov->id() == deviceName) {
+                m_dataProviders.removeAll(prov);
+                break;
+            }
+        }
+    }
+
+    if (updateRequired) {
+        emit providersUpdated();
+        emit dataProvidersChanged();
+    }
+}

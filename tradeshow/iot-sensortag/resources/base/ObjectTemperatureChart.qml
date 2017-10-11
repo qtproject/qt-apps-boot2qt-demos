@@ -89,6 +89,7 @@ BaseChart {
             anchors.centerIn: gauge
             anchors.horizontalCenterOffset: -120
             anchors.verticalCenterOffset: 60
+            font.pixelSize: 26
         }
 
         Text {
@@ -107,6 +108,7 @@ BaseChart {
             anchors.centerIn: gauge
             anchors.horizontalCenterOffset: 120
             anchors.verticalCenterOffset: -30
+            font.pixelSize: 26
         }
     }
 }
