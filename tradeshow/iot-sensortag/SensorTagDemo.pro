@@ -27,6 +27,11 @@ win32|linux|android:!qnx {
 # This enables both, host and client mode
 # CONFIG += UPDATE_TO_MQTT_BROKER
 
+# For using Azure cloud connectivity enable
+# this config. This enabled both, host and
+# client mode
+# CONFIG += UPDATE_TO_AZURE
+
 win32:!contains(CONFIG, UPDATE_TO_MQTT_BROKER) {
     WASTORAGE_PATH = $$(WASTORAGE_LOCATION)
     isEmpty(WASTORAGE_PATH): message("Location for Azure Storage libs unknown. Please specify WASTORAGE_LOCATION")
@@ -61,11 +66,6 @@ HEADERS += \
     mockdataproviderpool.h
 
 BLUETOOTH_HOST {
-    win32 {
-        !isEmpty(WASTORAGE_PATH):!isEmpty(CPPRESTSDK_LOCATION): CONFIG += UPDATE_TO_AZURE
-    } else {
-        CONFIG += UPDATE_TO_AZURE
-    }
     DEFINES += RUNS_AS_HOST
 
     SOURCES += \
