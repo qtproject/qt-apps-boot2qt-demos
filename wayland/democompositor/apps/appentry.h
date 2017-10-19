@@ -65,6 +65,7 @@ class AppEntry {
     Q_PROPERTY(QString appId MEMBER appId CONSTANT)
     Q_PROPERTY(QString executableName MEMBER executableName CONSTANT)
     Q_PROPERTY(QString executablePath MEMBER executablePath CONSTANT)
+    Q_PROPERTY(QString sourceFileName MEMBER sourceFileName CONSTANT)
     Q_PROPERTY(QVariantMap extensions MEMBER extensions CONSTANT)
 public:
 
