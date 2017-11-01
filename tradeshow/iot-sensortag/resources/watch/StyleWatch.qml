@@ -47,82 +47,18 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.6
-import QtQuick.Controls 1.4
-import QtQuick.Window 2.0
-import SensorTag.DataProvider 1.0
-import SensorTag.SeriesStorage 1.0
-import Style 1.0
+pragma Singleton
+import QtQuick 2.0
 
-ApplicationWindow {
-    id: mainWindow
+QtObject {
+    property int indicatorTitleFontSize: 22
+    property int indicatorTitleSize: 20
 
-    property var singleSensorSource : null
-    property alias contentFile: contentLoader.source
-    property DataProviderPool localProviderPool
-    property DataProviderPool remoteProviderPool
-    property SeriesStorage seriesStorage
-    property real globalBlinkOpacity: 1.0
-    property string addresses : ""
-    property bool localSelected : true
-    property var loggingOutput : null
+    property int topToolbarSmallFontSize: 10
+    property int topToolbarLargeFontSize: 30
 
-    function getCurrentPool() {
-        if (localSelected)
-            return localProviderPool
-        else
-            return remoteProviderPool
-    }
+    property int height: 320
+    property int width: 320
 
-    // Size defaults to the small display
-    width: Style.width
-    height: Style.height
-    visible: true
-    color: "black"
-
-    Image {
-        source: "images/bg_blue.jpg"
-        anchors.fill: parent
-    }
-
-    Loader {
-        id: contentLoader
-        visible: true
-        anchors.fill: parent
-        anchors.centerIn: parent
-    }
-
-    function startBlink() {
-        flash.blinkers++;
-    }
-
-    function stopBlink() {
-        flash.blinkers--;
-    }
-
-    // Animation to allow synchronized
-    // blinking of BlinkingIcons
-    SequentialAnimation {
-        id: flash
-
-        property int blinkers: 0
-
-        running: blinkers
-        loops: Animation.Infinite
-        alwaysRunToEnd: true
-
-        PropertyAnimation {
-            target: mainWindow
-            property: "globalBlinkOpacity"
-            to: 0.3
-            duration: 700
-        }
-
-        PropertyAnimation {
-            target: mainWindow
-            property: "globalBlinkOpacity"
-            to: 1
-            duration: 700
-        }
-    }
+    property string uiStyle: "watch"
 }

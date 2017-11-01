@@ -57,6 +57,9 @@ Item {
     height: 100
     width: implicitWidth
 
+    property alias topbar: topbar
+    property alias date: dateLabel
+
     SensorSettings {
         id: sensorList
 
@@ -130,6 +133,7 @@ Item {
     }
 
     Text {
+        id: dateLabel
         property bool showAddress : false
         text: showAddress ? mainWindow.addresses : Qt.formatDateTime(new Date, "dddd, MMMM d, yyyy")
         color: "white"
@@ -168,6 +172,7 @@ Item {
     }
 
     Text {
+        id: utcGmt
         text: "UTC/GMT"
         color: "white"
         anchors.left: timeLabel.right
@@ -187,6 +192,7 @@ Item {
     }
 
     Image {
+        id: topbar
         anchors.bottom: parent.bottom
         anchors.bottomMargin: -18
         source: pathPrefix + "Toolbar/topbar_all.png"

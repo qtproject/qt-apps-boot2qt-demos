@@ -1,0 +1,34 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/watch/MainWatch.qml</file>
+        <file>resources/watch/StyleWatch.qml</file>
+        <file>resources/watch/images/Toolbar/exit_button.png</file>
+        <file>resources/small/images/General/icon_sensor.png</file>
+        <file>resources/small/images/General/separator.png</file>
+        <file>resources/small/images/Light/light_base_gauge.png</file>
+        <file>resources/small/images/Light/light_brightness.png</file>
+        <file>resources/small/images/Toolbar/icon_topbar_sensor.png</file>
+        <file>resources/small/images/Toolbar/topbar_all.png</file>
+        <file>resources/small/images/Toolbar/icon_topbar_cloud.png</file>
+        <file>resources/small/images/Accelometer/inner_ring.png</file>
+        <file>resources/small/images/Accelometer/outer_ring.png</file>
+        <file>resources/small/images/AmbientTemperature/temp_ring.png</file>
+        <file>resources/small/images/AmbientTemperature/temp_sensor.png</file>
+        <file>resources/small/images/Toolbar/Cloud_button_change_active.png</file>
+        <file>resources/small/images/Toolbar/Cloud_icon_settings.png</file>
+        <file>resources/small/images/ObjectTemperature/objTemp_display_obj_blue.png</file>
+        <file>resources/small/images/ObjectTemperature/objTemp_display_obj_green.png</file>
+        <file>resources/small/images/ObjectTemperature/objTemp_display_obj_orange.png</file>
+        <file>resources/small/images/ObjectTemperature/objTemp_display_obj_red.png</file>
+        <file>resources/small/images/ObjectTemperature/objTemp_outer_inner_ring.png</file>
+        <file>resources/small/images/Humidity/Hum_combined_all.png</file>
+        <file>resources/small/images/Altitude/Height_bar.png</file>
+        <file>resources/small/images/Altitude/Altitude_base_gauge.png</file>
+        <file>resources/small/images/Altitude/Altitude_base_gauge_outer.png</file>
+        <file>resources/small/images/Gyro/gyro_center.png</file>
+        <file>resources/small/images/Gyro/gyro_ring1.png</file>
+        <file>resources/small/images/Gyro/gyro_ring2.png</file>
+        <file>resources/small/images/Gyro/gyro_ring3.png</file>
+        <file>resources/small/images/Gyro/gyro_outer.png</file>
+    </qresource>
+</RCC>

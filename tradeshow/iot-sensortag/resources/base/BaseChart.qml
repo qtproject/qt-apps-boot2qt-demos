@@ -74,7 +74,7 @@ Item {
 
     Image {
         id: titleIcon
-
+        visible: Style.uiStyle == "small"
         anchors.top: parent.top
         source: pathPrefix + "General/icon_sensor.png"
     }
@@ -148,6 +148,7 @@ Item {
             axis.z: 0
             angle: rightSide ? 180 : 0
         }
+        visible: Style.uiStyle == "small"
     }
 
     MouseArea {

@@ -13,6 +13,9 @@ QT += \
 CONFIG += c++11
 DEFINES += QT_NO_FOREACH
 
+# Specify UI layout to use: UI_SMALL or UI_WATCH
+DEFINES += UI_WATCH
+
 # To overcome the bug QTBUG-58648, uncomment this define
 # Needed at least for RPi3 and iMX
 #CONFIG += DEPLOY_TO_FS
@@ -117,8 +120,14 @@ RESOURCES += base.qrc
 
 android: ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
 
-!DEPLOY_TO_FS: RESOURCES += uismall.qrc
-uiVariant.files = resources/small
+contains(DEFINES, UI_SMALL) {
+    !DEPLOY_TO_FS: RESOURCES += uismall.qrc
+    uiVariant.files = resources/small
+} else:contains(DEFINES, UI_WATCH) {
+    !DEPLOY_TO_FS: RESOURCES += uiwatch.qrc
+    uiVariant.files = resources/watch
+} else: error("No layout specified")
+
 uiVariant.path = /opt/$${TARGET}/resources
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
