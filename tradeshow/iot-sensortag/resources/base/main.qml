@@ -48,11 +48,13 @@
 **
 ****************************************************************************/
 import QtQuick 2.6
+import QtQuick.Controls 1.4
 import QtQuick.Window 2.0
 import SensorTag.DataProvider 1.0
 import SensorTag.SeriesStorage 1.0
+import Style 1.0
 
-Window {
+ApplicationWindow {
     id: mainWindow
 
     property var singleSensorSource : null
@@ -73,8 +75,8 @@ Window {
     }
 
     // Size defaults to the small display
-    width: 1920
-    height: 1080
+    width: Style.width
+    height: Style.height
     visible: true
     color: "black"
 

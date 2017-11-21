@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the examples of Qt for Device Creation.
@@ -47,91 +47,18 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
+pragma Singleton
 import QtQuick 2.0
-import QtMultimedia 5.0
 
-Rectangle {
-    id: root
-    property alias effect: effectLoader.item
-    property string effectSource
-    property alias videoPlayer: videoContent
-    signal contentSizeChanged(size contentSize)
+QtObject {
+    property int indicatorTitleFontSize: 22
+    property int indicatorTitleSize: 20
 
-    color: "black"
+    property int topToolbarSmallFontSize: 10
+    property int topToolbarLargeFontSize: 30
 
-    ShaderEffectSource {
-        id: theSource
-        smooth: true
-        hideSource: true
-    }
+    property int height: 320
+    property int width: 320
 
-    Intro {
-        id: introBackground
-        anchors.fill: root
-        visible: videoContent.mediaSource == "" ? true : false
-    }
-
-    ContentVideo {
-        id: videoContent
-        anchors.fill: root
-        visible: mediaSource == "" ? false : true
-
-        onSourceRectChanged: {
-            contentSizeChanged(Qt.size(sourceRect.width, sourceRect.height));
-        }
-    }
-
-    Loader {
-        id: effectLoader
-        source: effectSource
-        onItemChanged: {
-            updateSource()
-        }
-    }
-
-    onWidthChanged: {
-        if (effectLoader.item)
-            effectLoader.item.targetWidth = root.width
-    }
-
-    onHeightChanged: {
-        if (effectLoader.item)
-            effectLoader.item.targetHeight = root.height
-    }
-
-    onEffectSourceChanged: {
-        effectLoader.source = effectSource
-        updateSource()
-    }
-
-    function init() {
-        theSource.sourceItem = introBackground
-        root.effectSource = "Effects/EffectPassThrough.qml"
-    }
-
-    function updateSource() {
-
-        theSource.sourceItem = videoContent.mediaSource == "" ? introBackground : videoContent
-        if (effectLoader.item) {
-            effectLoader.item.parent = root
-            effectLoader.item.targetWidth = root.width
-            effectLoader.item.targetHeight = root.height
-            effectLoader.item.anchors.fill = videoContent
-            effectLoader.item.source = theSource
-        }
-    }
-
-    function openVideo(path) {
-        stop();
-        videoContent.mediaSource = path;
-        updateSource();
-    }
-
-    function stop() {
-        theSource.sourceItem = introBackground
-        if (videoContent.mediaSource !== undefined) {
-            videoContent.stop();
-        }
-    }
+    property string uiStyle: "watch"
 }

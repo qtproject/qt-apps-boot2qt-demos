@@ -7,7 +7,7 @@ Provides an introduction to what Qt for Device Creation is all about.
 </description>
 </application>
 
-<application title="Camera" location="/data/user/qt/camera" main="main.qml" icon="/data/user/qt/camera/preview_l.jpg" exclude="linux-beagleboard;linux-beaglebone;linux-raspberrypi;linux-emulator;linux-apalis-imx6;linux-colibri-vf">
+<application title="Camera" location="/data/user/qt/camera" main="main.qml" icon="/data/user/qt/camera/preview_l.jpg" exclude="linux-jetson-tx1;linux-beagleboard;linux-beaglebone;linux-raspberrypi;linux-emulator;linux-apalis-imx6;linux-colibri-vf">
 <description>
 This example demonstrates the use of the camera features of Qt Multimedia with Qt Quick.
 

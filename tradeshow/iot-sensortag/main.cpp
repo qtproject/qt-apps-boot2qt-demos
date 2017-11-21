@@ -167,9 +167,13 @@ int main(int argc, char *argv[])
             addressString.append(QLatin1Char('/'));
         }
     }
+#ifdef UI_WATCH
+    mainFile = namingScheme + QStringLiteral("/resources/watch/MainWatch.qml");
+    styleFile = namingScheme + QStringLiteral("/resources/watch/StyleWatch.qml");
+#else
     mainFile = namingScheme + QStringLiteral("/resources/small/MainSmall.qml");
     styleFile = namingScheme + QStringLiteral("/resources/small/StyleSmall.qml");
-
+#endif
     qmlRegisterSingletonType(styleFile, "Style", 1,0, "Style");
 
     if (qEnvironmentVariableIsSet("QT_IOS_DEMO_NO_FULLSCREEN")) {

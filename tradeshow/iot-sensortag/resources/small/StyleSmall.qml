@@ -56,4 +56,9 @@ QtObject {
 
     property int topToolbarSmallFontSize: 20
     property int topToolbarLargeFontSize: 62
+
+    property int height: 1080
+    property int width: 1920
+
+    property string uiStyle: "small" // "watch",...
 }

@@ -13,6 +13,9 @@ QT += \
 CONFIG += c++11
 DEFINES += QT_NO_FOREACH
 
+# Specify UI layout to use: UI_SMALL or UI_WATCH
+DEFINES += UI_WATCH
+
 # To overcome the bug QTBUG-58648, uncomment this define
 # Needed at least for RPi3 and iMX
 #CONFIG += DEPLOY_TO_FS
@@ -26,6 +29,11 @@ win32|linux|android:!qnx {
 # For using MQTT upload enable this config.
 # This enables both, host and client mode
 # CONFIG += UPDATE_TO_MQTT_BROKER
+
+# For using Azure cloud connectivity enable
+# this config. This enabled both, host and
+# client mode
+# CONFIG += UPDATE_TO_AZURE
 
 win32:!contains(CONFIG, UPDATE_TO_MQTT_BROKER) {
     WASTORAGE_PATH = $$(WASTORAGE_LOCATION)
@@ -61,11 +69,6 @@ HEADERS += \
     mockdataproviderpool.h
 
 BLUETOOTH_HOST {
-    win32 {
-        !isEmpty(WASTORAGE_PATH):!isEmpty(CPPRESTSDK_LOCATION): CONFIG += UPDATE_TO_AZURE
-    } else {
-        CONFIG += UPDATE_TO_AZURE
-    }
     DEFINES += RUNS_AS_HOST
 
     SOURCES += \
@@ -115,8 +118,16 @@ UPDATE_TO_AZURE {
 
 RESOURCES += base.qrc
 
-!DEPLOY_TO_FS: RESOURCES += uismall.qrc
-uiVariant.files = resources/small
+android: ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
+
+contains(DEFINES, UI_SMALL) {
+    !DEPLOY_TO_FS: RESOURCES += uismall.qrc
+    uiVariant.files = resources/small
+} else:contains(DEFINES, UI_WATCH) {
+    !DEPLOY_TO_FS: RESOURCES += uiwatch.qrc
+    uiVariant.files = resources/watch
+} else: error("No layout specified")
+
 uiVariant.path = /opt/$${TARGET}/resources
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
