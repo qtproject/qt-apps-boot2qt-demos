@@ -236,5 +236,18 @@ Item {
         height: 48
         topbar.visible: false
         date.visible: false
+        Image {
+            id: quit
+            source: "images/Toolbar/exit_button.png"
+            fillMode: Image.PreserveAspectFit
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.margins: 5
+            scale: 0.7
+            MouseArea {
+                anchors.fill: parent
+                onClicked: Qt.quit()
+            }
+        }
     }
 }
