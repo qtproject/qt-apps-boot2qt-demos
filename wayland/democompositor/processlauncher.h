@@ -87,6 +87,7 @@ public:
     Q_INVOKABLE QVariant appStateForPid(int pid) const;
     Q_INVOKABLE bool isRunning(const AppEntry& entry) const;
     Q_INVOKABLE void kill(const AppEntry& entry);
+    Q_INVOKABLE void stop(const AppEntry& entry, int timeout_ms);
 
 Q_SIGNALS:
     void appStarted(const AppState &appState);

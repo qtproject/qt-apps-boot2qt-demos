@@ -52,6 +52,7 @@
 #include "apps/appentry.h"
 
 #include <QProcess>
+#include <QTimer>
 
 Q_LOGGING_CATEGORY(procs, "launcher.procs")
 
@@ -115,6 +116,24 @@ void WaylandProcessLauncher::kill(const AppEntry& entry)
 
         qCDebug(procs) << "Killing process " << state.process->pid() << " for " << entry.sourceFileName;
         state.process->kill();
+    }
+}
+
+void WaylandProcessLauncher::stop(const AppEntry& entry, int ms)
+{
+    for (auto state : m_appStates) {
+        if (state.appEntry.sourceFileName != entry.sourceFileName)
+            continue;
+
+        auto timer = new QTimer(state.process);
+        connect(timer, &QTimer::timeout, [entry, state, timer] {
+            qCDebug(procs) << "Sending SIGKILL " << state.process->pid() << " for " << entry.sourceFileName;
+            timer->deleteLater();
+            state.process->kill();
+        });
+        timer->start(ms);
+        qCDebug(procs) << "Sending SIGTERM " << state.process->pid() << " for " << entry.sourceFileName;
+        state.process->terminate();
     }
 }
 

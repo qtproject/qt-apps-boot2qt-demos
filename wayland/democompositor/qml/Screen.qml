@@ -202,7 +202,9 @@ WaylandOutput {
                                 }
                                 onSlideTrigger: {
                                     //console.log("slide " + winItem + " : " + winItem.shellSurface.surface)
-                                    winItem.shellSurface.surface.client.close()
+                                    winItem.appEntry === null ?
+                                        winItem.shellSurface.surface.client.close() :
+                                        launcher.stop(winItem.appEntry, 5000);
                                 }
                             }
                             Rectangle {
