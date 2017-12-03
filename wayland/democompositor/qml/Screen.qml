@@ -189,7 +189,7 @@ WaylandOutput {
                                 pressedColor: pressedCol
 
                                 text.maximumLineCount: 1
-                                text.text: winItem.appEntry === null ? "Untitled" : winItem.appEntry.appName
+                                text.text: winItem.appEntry == null ? "Untitled" : winItem.appEntry.appName
                                 text.elide: Text.ElideRight
                                 text.color: textCol
                                 onTriggered: {
@@ -202,7 +202,7 @@ WaylandOutput {
                                 }
                                 onSlideTrigger: {
                                     //console.log("slide " + winItem + " : " + winItem.shellSurface.surface)
-                                    winItem.appEntry === null ?
+                                    winItem.appEntry == null ?
                                         winItem.shellSurface.surface.client.close() :
                                         launcher.stop(winItem.appEntry, 5000);
                                 }
