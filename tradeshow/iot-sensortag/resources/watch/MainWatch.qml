@@ -226,6 +226,54 @@ Item {
                 title: ""
             }
         }
+
+        Item {
+            Text {
+                text: qsTr("About")
+                anchors.fill: parent
+                color: "white"
+                font.pixelSize: titleFontSize
+            }
+
+            Rectangle {
+                id: aboutView
+                width: swipePane.width
+                height: swipePane.height
+                color: "transparent"
+
+                ColumnLayout {
+                    id: aboutLayout
+                    width: parent.width * 0.8
+                    height: parent.width * 0.8
+                    anchors.centerIn: parent
+
+                    Image {
+                        source: "images/BuiltWithQt.png"
+                        fillMode: Image.PreserveAspectFit
+                        width: parent.width
+                        Layout.maximumWidth: parent.width - 20
+                        Layout.maximumHeight: 100
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
+                    Text {
+                        id: qtLinkLabel
+                        color: "white"
+                        text: "Visit us at http://qt.io"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.pixelSize: Style.indicatorTitleSize
+                    }
+
+                    Text {
+                        color: "white"
+                        text: "qt.io/demos/IoTScale"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.pixelSize: Style.indicatorTitleSize
+                    }
+                }
+            }
+        }
+
     }
 
     TopToolbar {
