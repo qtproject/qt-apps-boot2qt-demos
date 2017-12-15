@@ -108,7 +108,7 @@ void MqttDataProvider::reset()
 
 void MqttDataProvider::messageReceived(const QMqttMessage &msg)
 {
-    parseMessage(msg.payload(), msg.topic());
+    parseMessage(msg.payload(), msg.topic().name());
     if (!m_pollTimer->isActive())
         m_pollTimer->start();
 }
