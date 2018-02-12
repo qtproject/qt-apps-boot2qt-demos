@@ -175,6 +175,7 @@ Item {
         id: utcGmt
         text: "UTC/GMT"
         color: "white"
+        visible: dateLabel.visible
         anchors.left: timeLabel.right
         anchors.leftMargin: 16
         anchors.bottom: parent.bottom

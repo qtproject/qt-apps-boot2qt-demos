@@ -30,5 +30,6 @@
         <file>resources/small/images/Gyro/gyro_ring2.png</file>
         <file>resources/small/images/Gyro/gyro_ring3.png</file>
         <file>resources/small/images/Gyro/gyro_outer.png</file>
+        <file>resources/watch/images/BuiltWithQt.png</file>
     </qresource>
 </RCC>
