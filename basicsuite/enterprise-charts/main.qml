@@ -56,6 +56,14 @@ Rectangle {
     width: 600
     height: 400
     property bool sourceLoaded: false
+    color: defaultBackground
+
+    property string darkGrey: "#222840"
+    property string darkGrey2: "#53586b"
+    property string mediumGrey: "#6b7080"
+    property string mediumGrey2: "#848895"
+    property string lightGrey: "#b5b7bf"
+
 
     ListView {
         id: root
@@ -112,6 +120,7 @@ Rectangle {
             color: "white"
             anchors.centerIn: parent
             text: "You can navigate between views using swipe or arrow keys"
+            font.family: appFont
         }
 
         Behavior on opacity {

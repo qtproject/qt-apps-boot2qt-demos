@@ -60,6 +60,15 @@ Window {
 
     color: "black"
 
+    property string defaultGreen: "#41cd52"
+    property string mediumGreen: "#21be2b"
+    property string darkGreen: "#17a81a"
+
+    property string defaultBackground: "#09102b"
+
+    property string defaultGrey: "#9d9faa"
+    property string secondaryGrey: "#3a4055"
+
     Item {
         id: root
         anchors.centerIn: window.contentItem

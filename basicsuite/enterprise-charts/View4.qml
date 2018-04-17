@@ -51,15 +51,12 @@
 import QtQuick 2.0
 import QtCharts 2.0
 
-Rectangle {
+Item {
     anchors.fill: parent
-
     //![1]
-    ChartView {
+    BaseChart {
         title: "NHL All-Star Team Players"
         anchors.fill: parent
-        antialiasing: true
-
         ValueAxis {
             id: valueAxis
             min: 2000
@@ -70,8 +67,8 @@ Rectangle {
 
         AreaSeries {
             name: "Russian"
-            color: "#FFD52B1E"
-            borderColor: "#FF0039A5"
+            color: mediumGrey2
+            borderColor: darkGreen
             borderWidth: 3
             axisX: valueAxis
             upperSeries: LineSeries {
@@ -93,8 +90,8 @@ Rectangle {
 
         AreaSeries {
             name: "Swedish"
-            color: "#AF005292"
-            borderColor: "#AFFDCA00"
+            color: lightGrey
+            borderColor: mediumGreen
             borderWidth: 3
             axisX: valueAxis
             upperSeries: LineSeries {
@@ -115,8 +112,8 @@ Rectangle {
 
         AreaSeries {
             name: "Finnish"
-            color: "#00357F"
-            borderColor: "#FEFEFE"
+            color: secondaryGrey
+            borderColor: defaultGreen
             borderWidth: 3
             axisX: valueAxis
             upperSeries: LineSeries {
@@ -133,6 +130,13 @@ Rectangle {
                 XYPoint { x: 2010; y: 0 }
                 XYPoint { x: 2011; y: 1 }
             }
+        }
+
+        Component.onCompleted: {
+            axes[0].labelsColor = "white";
+            axes[1].labelsColor = "white";
+            axes[0].labelsFont = appFont;
+            axes[1].labelsFont = appFont;
         }
     }
 }

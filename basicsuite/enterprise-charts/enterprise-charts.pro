@@ -4,6 +4,7 @@ include(../shared/shared.pri)
 b2qtdemo_deploy_defaults()
 
 content.files = \
+    BaseChart.qml \
     loader.qml \
     main.qml \
     View1.qml \

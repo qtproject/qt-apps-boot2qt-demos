@@ -51,17 +51,15 @@
 import QtQuick 2.0
 import QtCharts 2.0
 
-Rectangle {
+Item {
     anchors.fill: parent
-
     //![1]
-    ChartView {
+    BaseChart {
         title: "Spline"
         anchors.fill: parent
-        antialiasing: true
-
         SplineSeries {
             name: "SplineSeries"
+            color: defaultGreen
             XYPoint { x: 0; y: 0.0 }
             XYPoint { x: 1.1; y: 3.2 }
             XYPoint { x: 1.9; y: 2.4 }
@@ -69,6 +67,13 @@ Rectangle {
             XYPoint { x: 2.9; y: 2.6 }
             XYPoint { x: 3.4; y: 2.3 }
             XYPoint { x: 4.1; y: 3.1 }
+        }
+
+        Component.onCompleted: {
+            axes[0].labelsColor = "white";
+            axes[1].labelsColor = "white";
+            axes[0].labelsFont = appFont;
+            axes[1].labelsFont = appFont;
         }
     }
     //![1]

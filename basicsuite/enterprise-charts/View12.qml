@@ -51,42 +51,39 @@
 import QtQuick 2.0
 import QtCharts 2.0
 
-Rectangle {
+Item {
     anchors.fill: parent
-
     //![1]
-    ChartView {
+    BaseChart {
         id: chart
         title: "Production costs"
-        anchors.fill: parent
         legend.visible: false
-        antialiasing: true
-
+        anchors.fill: parent
         PieSeries {
             id: pieOuter
             size: 0.96
             holeSize: 0.7
-            PieSlice { id: slice; label: "Alpha"; value: 19511; color: "#8AB846"; borderColor: "#163430" }
-            PieSlice { label: "Epsilon"; value: 11105; color: "#C0EEFF"; borderColor: "#3B391C" }
-            PieSlice { label: "Psi"; value: 9352; color: "#DF8939"; borderColor: "#13060C" }
+
+            PieSlice { id: slice; label: "Alpha"; value: 19511; color: defaultGreen; borderColor: "#163430" }
+            PieSlice { label: "Epsilon"; value: 11105; color: defaultGrey; borderColor: "#3B391C" }
+            PieSlice { label: "Psi"; value: 9352; color: darkGrey2; borderColor: "#13060C" }
         }
 
         PieSeries {
             size: 0.7
             id: pieInner
             holeSize: 0.25
+            PieSlice { label: "Materials"; value: 10334; color: mediumGreen; borderColor: "#163430" }
+            PieSlice { label: "Employee"; value: 3066; color: darkGreen; borderColor: "#163430" }
+            PieSlice { label: "Logistics"; value: 6111; color: mediumGreen; borderColor: "#163430" }
 
-            PieSlice { label: "Materials"; value: 10334; color: "#8AB846"; borderColor: "#163430" }
-            PieSlice { label: "Employee"; value: 3066; color: "#AAE356"; borderColor: "#163430" }
-            PieSlice { label: "Logistics"; value: 6111; color: "#99CC4E"; borderColor: "#163430" }
+            PieSlice { label: "Materials"; value: 7371; color: mediumGrey2; borderColor: "#3B391C" }
+            PieSlice { label: "Employee"; value: 2443; color: mediumGrey; borderColor: "#3B391C" }
+            PieSlice { label: "Logistics"; value: 1291; color: mediumGrey2; borderColor: "#3B391C" }
 
-            PieSlice { label: "Materials"; value: 7371; color: "#C0EEFF"; borderColor: "#3B391C" }
-            PieSlice { label: "Employee"; value: 2443; color: "#C9FAFF"; borderColor: "#3B391C" }
-            PieSlice { label: "Logistics"; value: 1291; color: "#B0FAFF"; borderColor: "#3B391C" }
-
-            PieSlice { label: "Materials"; value: 4022; color: "#DF8939"; borderColor: "#13060C" }
-            PieSlice { label: "Employee"; value: 3998; color: "#FC9D42"; borderColor: "#13060C" }
-            PieSlice { label: "Logistics"; value: 1332; color: "#F2963F"; borderColor: "#13060C" }
+            PieSlice { label: "Materials"; value: 4022; color: secondaryGrey; borderColor: "#13060C" }
+            PieSlice { label: "Employee"; value: 3998; color: darkGrey; borderColor: "#13060C" }
+            PieSlice { label: "Logistics"; value: 1332; color: secondaryGrey; borderColor: "#13060C" }
         }
     }
 
@@ -96,11 +93,15 @@ Rectangle {
             pieOuter.at(i).labelPosition = PieSlice.LabelOutside;
             pieOuter.at(i).labelVisible = true;
             pieOuter.at(i).borderWidth = 3;
+            pieOuter.at(i).labelColor = "white";
+            pieOuter.at(i).labelFont = appFont;
         }
         for (var i = 0; i < pieInner.count; i++) {
             pieInner.at(i).labelPosition = PieSlice.LabelInsideNormal;
             pieInner.at(i).labelVisible = true;
             pieInner.at(i).borderWidth = 2;
+            pieInner.at(i).labelColor = "white";
+            pieInner.at(i).labelFont = appFont;
         }
     }
     //![1]
