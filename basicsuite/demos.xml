@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <applications>
+<!--
 <application title="About Qt for Device Creation" priority="10" location="/data/user/qt/about-b2qt" main="main.qml" icon="/data/user/qt/about-b2qt/preview_l.jpg">
 <description>
 Provides an introduction to what Qt for Device Creation is all about.
@@ -20,6 +21,7 @@ Demo can be used to take photos which are saved in the /data/images/ directory. 
 The Planets example showcases Qt Canvas 3D. This demo combines WebGL code and three.js with QML and Qt Quick Controls.
 </description>
 </application>
+-->
 
 <application title="Qt Charts - Gallery" location="/data/user/qt/enterprise-charts" main="main.qml" icon="/data/user/qt/enterprise-charts/preview_l.jpg">
 <description>
@@ -29,6 +31,7 @@ Qt Charts is part of the Qt Enterprise addons package which provides a set of ea
 </description>
 </application>
 
+<!--
 <application title="Qt Quick Extras Dashboard" location="/data/user/qt/enterprise-dashboard" main="main.qml" icon="/data/user/qt/enterprise-dashboard/preview_l.jpg">
 <description>
 The dashboard demo uses Qt Quick Extras to create a digital dashboard for a car.
@@ -46,6 +49,7 @@ The Flat Style Gallery example showcases the Qt Quick Controls. This demo combin
 Shows how to make a 3D surface plot, displaying three layers from three different height map images using Surface3D with Qt Quick.
 </description>
 </application>
+-->
 
 <application title="Graphical Effects" location="/data/user/qt/graphicaleffects" main="main.qml" icon="/data/user/qt/graphicaleffects/preview_l.jpg" exclude="linux-beaglebone;linux-colibri-vf">
 <description>
@@ -63,6 +67,7 @@ It can play content either from a file or a network source, both videos and musi
 </description>
 </application>
 
+<!--
 <application title="Qt5 Cinematic Demo" location="/data/user/qt/qt5-cinematicdemo" main="main.qml" icon="/data/user/qt/qt5-cinematicdemo/preview_l.jpg">
 <description>
 The Qt 5 Cinematic Experience is a demo by "QUIt Coding".
@@ -70,6 +75,7 @@ The Qt 5 Cinematic Experience is a demo by "QUIt Coding".
 The demo shows off a number features of Qt Quick. A nicely styled list control of movie covers with lighting effects, particles and transitions. The information roll-down curvy curtain is implemented using inline GLSL in the QML file. The source code for this demo and more awesome looking Qt Quick examples are available from quitcoding.com.
 </description>
 </application>
+-->
 
 <application title="Web Browser" location="/data/user/qt/qtwebbrowser" main="main.qml" icon="/data/user/qt/qtwebbrowser/preview_l.jpg" exclude="linux-emulator;linux-raspberrypi;linux-beaglebone;linux-colibri-vf">
 <description>
