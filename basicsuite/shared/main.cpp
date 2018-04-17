@@ -76,13 +76,17 @@ int main(int argc, char **argv)
 
     QApplication app(argc, argv);
 
-
 #if defined(USE_QTWEBENGINE)
     // This is currently needed by all QtWebEngine applications using the HW accelerated QQuickWebView.
     // It enables sharing the QOpenGLContext of all QQuickWindows of the application.
     // We have to do so until we expose public API for it in Qt or choose to enable it by default.
     QtWebEngine::initialize();
 #endif
+
+    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-SemiBold.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Bold.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Black.ttf");
 
     QString path = app.applicationDirPath();
 
@@ -117,7 +121,9 @@ int main(int argc, char **argv)
     DummyEngine engine;
 
     QQmlApplicationEngine applicationengine;
+    QString appFont("TitilliumWeb");
     applicationengine.rootContext()->setContextProperty("engine", &engine);
+    applicationengine.rootContext()->setContextProperty("appFont", appFont);
     applicationengine.load(QUrl::fromLocalFile(path + "/SharedMain.qml"));
 
     app.exec();

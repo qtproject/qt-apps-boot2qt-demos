@@ -25,3 +25,18 @@ defineTest(b2qtdemo_deploy_defaults) {
     export(OTHER_FILES)
     export(INSTALLS)
 }
+
+DISTFILES += $$PWD/fonts/TitilliumWeb-Black.ttf \
+             $$PWD/fonts/TitilliumWeb-Bold.ttf \
+             $$PWD/fonts/TitilliumWeb-BoldItalic.ttf \
+             $$PWD/fonts/TitilliumWeb-ExtraLight.ttf \
+             $$PWD/fonts/TitilliumWeb-ExtraLightItalic.ttf \
+             $$PWD/fonts/TitilliumWeb-Italic.ttf \
+             $$PWD/fonts/TitilliumWeb-Light.ttf \
+             $$PWD/fonts/TitilliumWeb-LightItalic.ttf \
+             $$PWD/fonts/TitilliumWeb-Regular.ttf \
+             $$PWD/fonts/TitilliumWeb-SemiBold.ttf \
+             $$PWD/fonts/TitilliumWeb-SemiBoldItalic.ttf
+
+RESOURCES += \
+    $$PWD/fonts.qrc
