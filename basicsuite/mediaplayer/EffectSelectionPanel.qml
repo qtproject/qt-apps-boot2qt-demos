@@ -51,7 +51,7 @@ import QtQuick 2.0
 
 Rectangle {
     id: root
-    color: "#BB333333"
+    color: defaultBackground
     height: 78
     property int itemHeight: 25
     property string effectSource: ""
@@ -76,14 +76,14 @@ Rectangle {
         ListElement { name: "Glow"; source: "Effects/EffectGlow.qml" }
         ListElement { name: "Isolate"; source: "Effects/EffectIsolate.qml" }
         //ListElement { name: "Magnify"; source: "Effects/EffectMagnify.qml" }
-//        ListElement { name: "Page curl"; source: "Effects/EffectPageCurl.qml" }
+        //        ListElement { name: "Page curl"; source: "Effects/EffectPageCurl.qml" }
         ListElement { name: "Pixelate"; source: "Effects/EffectPixelate.qml" }
         ListElement { name: "Posterize"; source: "Effects/EffectPosterize.qml" }
-//        ListElement { name: "Ripple"; source: "Effects/EffectRipple.qml" }
+        //        ListElement { name: "Ripple"; source: "Effects/EffectRipple.qml" }
         ListElement { name: "Sepia"; source: "Effects/EffectSepia.qml" }
         ListElement { name: "Sharpen"; source: "Effects/EffectSharpen.qml" }
         ListElement { name: "Shockwave"; source: "Effects/EffectShockwave.qml" }
-//        ListElement { name: "Tilt shift"; source: "Effects/EffectTiltShift.qml" }
+        //        ListElement { name: "Tilt shift"; source: "Effects/EffectTiltShift.qml" }
         ListElement { name: "Toon"; source: "Effects/EffectToon.qml" }
         ListElement { name: "Warhol"; source: "Effects/EffectWarhol.qml" }
         ListElement { name: "Wobble"; source: "Effects/EffectWobble.qml" }
@@ -104,6 +104,7 @@ Rectangle {
                 height: 0.8 * itemHeight
                 text: name
                 color: "white"
+                font.family: appFont
             }
 
             states: [
@@ -155,16 +156,18 @@ Rectangle {
         delegate: Item {
             height: 40
             width: parent.width
-            Rectangle {
+            property bool isSelected: list.currentIndex == index
+            Text {
+                color: parent.isSelected ? defaultGreen : "white"
+                text: name
+                anchors.centerIn: parent
+                font.pixelSize: 20
+                font.family: appFont
+                font.styleName: parent.isSelected ? "Bold" : "Regular"
+            }
+            MouseArea {
                 anchors.fill: parent
-                border.color: index == list.currentIndex ? "#44ffffff" : "transparent"
-                color: index == list.currentIndex ? "#22ffffff" : "transparent"
-                radius: 3
-                Text { color: "white" ; text: name ; anchors.centerIn: parent; font.pixelSize: 20  }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked:  list.currentIndex = index
-                }
+                onClicked:  list.currentIndex = index
             }
         }
     }

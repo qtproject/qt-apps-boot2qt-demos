@@ -50,10 +50,13 @@
 
 import QtQuick 2.0
 import QtMultimedia 5.0
+import QtDeviceUtilities.QtButtonImageProvider 1.0
 
 FocusScope {
     id: applicationWindow
     focus: true
+
+    property real buttonHeight: height * 0.05
 
     MouseArea {
         id: mouseActivityMonitor
@@ -114,15 +117,11 @@ FocusScope {
         onOpenFX: {
             applicationWindow.openFX();
         }
-
-        onToggleFullScreen: {
-//            viewer.toggleFullscreen();
-        }
     }
 
     ParameterPanel {
         id: parameterPanel
-        opacity: controlBar.opacity
+        opacity: controlBar.opacity * 0.9
         visible: effectSelectionPanel.visible && model.count !== 0
         height: 116
         width: 500
@@ -137,11 +136,10 @@ FocusScope {
     EffectSelectionPanel {
         id: effectSelectionPanel
         visible: false
-        opacity: controlBar.opacity
+        opacity: controlBar.opacity * 0.9
         anchors {
             bottom: controlBar.top
             right: controlBar.right
-            //            rightMargin: 15
             bottomMargin: 15
         }
         width: 250
@@ -165,33 +163,17 @@ FocusScope {
         }
     }
 
-    Rectangle {
+    ImageButton{
+        id: infoButton
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.rightMargin: 32
         anchors.topMargin: 32
         width: 40
         height: 40
-        radius: width / 2
-        color: infoMouser.pressed ? "#BB999999" : "#88444444"
-        antialiasing: true
-        visible: content.videoPlayer.mediaPlayer.status !== MediaPlayer.NoMedia && controlBar.state === "VISIBLE"
-
-        Text {
-            anchors.centerIn: parent
-            text: "i"
-            font.italic: true
-            font.bold: true
-            color: "white"
-            font.pixelSize: 28
-        }
-
-        MouseArea {
-            id: infoMouser
-            anchors.fill: parent
-            anchors.margins: -10
-            onClicked: metadataView.opacity = 1
-        }
+        imageSource: "images/info_icon.svg"
+        onClicked: metadataView.opacity = 1
+        visible: content.videoPlayer.mediaPlayer.status !== MediaPlayer.NoMedia && content.videoPlayer.mediaPlayer.status !== MediaPlayer.InvalidMedia
     }
 
     MetadataView {
@@ -223,7 +205,6 @@ FocusScope {
             openFX();
             return;
         } else if (event.key === Qt.Key_F && event.modifiers & Qt.ControlModifier) {
-//            viewer.toggleFullscreen();
             return;
         } else if (event.key === Qt.Key_Up || event.key === Qt.Key_VolumeUp) {
             content.videoPlayer.mediaPlayer.volume = Math.min(1, content.videoPlayer.mediaPlayer.volume + 0.1);
@@ -241,7 +222,6 @@ FocusScope {
             }
             return;
         } else if (applicationWindow.isFullScreen && event.key === Qt.Key_Escape) {
-//            viewer.toggleFullscreen();
             return;
         }
 
@@ -271,10 +251,6 @@ FocusScope {
     }
 
     function openVideo() {
-        //videoFileBrowser.show()
-        //        var videoFile = viewer.openFileDialog();
-        //        if (videoFile != "")
-        //            content.openVideo(videoFile);
         fileBrowser.show()
     }
 

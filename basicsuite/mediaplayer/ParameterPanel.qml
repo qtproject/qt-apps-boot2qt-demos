@@ -52,7 +52,7 @@ import QtQuick 2.0
 Rectangle {
     id: root
     height: view.model.count * sliderHeight
-    color: "#BB333333"
+    color: defaultBackground
     property color lineColor: "black"
     property real spacing: 10
     property real sliderHeight: 50
@@ -89,10 +89,11 @@ Rectangle {
                 verticalAlignment: Text.AlignVCenter
                 font.pixelSize: 20
                 font.capitalization: Font.Capitalize
+                font.family: appFont
                 width: 90
             }
 
-            Slider {
+            PlayerSlider {
                 anchors {
                     verticalCenter: text.verticalCenter
                     verticalCenterOffset: 3

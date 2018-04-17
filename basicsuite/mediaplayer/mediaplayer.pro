@@ -16,7 +16,6 @@ content.files = \
     ParameterPanel.qml \
     PlaybackControl.qml \
     SeekControl.qml \
-    Slider.qml \
     UrlBar.qml \
     VolumeControl.qml \
     Effects \

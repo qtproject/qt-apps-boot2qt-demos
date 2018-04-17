@@ -49,6 +49,7 @@
 ****************************************************************************/
 
 import QtQuick 2.0
+import QtGraphicalEffects 1.0
 
 Item {
     id: root
@@ -75,13 +76,13 @@ Item {
         smooth: true
     }
 
-//    ColorOverlay {
-//        id: glowEffect
-//        anchors.fill: image
-//        source: image
-//        color: pressed ? "#22000000" : checked ? "orange" : "white"
-//        visible: checked || hover || pressed
-//    }
+    ColorOverlay {
+        id: glowEffect
+        anchors.fill: image
+        source: image
+        color: pressed ? "#22000000" : checked ? defaultGreen : "white"
+        visible: checked || hover || pressed
+    }
 
     MouseArea {
         id: mouseArea

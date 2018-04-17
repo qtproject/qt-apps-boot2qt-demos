@@ -51,8 +51,7 @@ import QtQuick 2.0
 
 Item {
     id: slider
-
-    height: handleBack.height
+    height: handle.height
     // value is read/write.
     property real value: 0
     property real maximum: 1
@@ -81,8 +80,9 @@ Item {
         id: background
         width: slider.width
         anchors.verticalCenter: slider.verticalCenter
-        height: 2
-        color: "#666666"
+        height: 5
+        color: "#9d9faa"
+        radius: 2
 
         MouseArea {
             id: backgroundMouse
@@ -119,29 +119,19 @@ Item {
         anchors.right: handle.right
         anchors.rightMargin: handle.width / 2
         visible: slider.enabled
-        color: "#98c66c"
-    }
-
-    Rectangle {
-        id: handleBack
-        width: 40
-        height: width
-        radius: width / 2
-        color: "#8898c66c"
-        antialiasing: true
-        anchors.centerIn: handle
-        visible: handle.visible
+        color: "white"
+        radius: 2
     }
 
     Rectangle {
         id: handle
-        width: 14
+        width: 40
         height: width
         radius: width / 2
+        color: "#41cd52"
         antialiasing: true
-        color: "#98c66c"
-        anchors.verticalCenter: background.verticalCenter
-        visible: slider.enabled
+        anchors.centerIn: handle
+        visible: true
     }
 }
 

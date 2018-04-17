@@ -53,8 +53,8 @@ import QtMultimedia 5.0
 
 Rectangle {
     id: controlBar
-    height: 150
-    color: "#88333333"
+    height: parent.height * 0.225
+    color: defaultBackground
 
     property MediaPlayer mediaPlayer: null
     property bool isMouseAbove: false
@@ -73,13 +73,13 @@ Rectangle {
         volumeControl.volume = mediaPlayer.volume;
     }
 
-//    MouseArea {
-//        anchors.fill: controlBar
-//        hoverEnabled: true
+    MouseArea {
+        anchors.fill: controlBar
+        hoverEnabled: true
 
-//        onEntered: controlBar.isMouseAbove = true;
-//        onExited: controlBar.isMouseAbove = false;
-//    }
+        onEntered: controlBar.isMouseAbove = true;
+        onExited: controlBar.isMouseAbove = false;
+    }
 
     function statusString(stat)
     {
@@ -103,48 +103,12 @@ Rectangle {
             return "UnknownStatus";
     }
 
-//    Text {
-//        id: statusText
-//        anchors.left: parent.left
-//        anchors.bottom: parent.top
-//        anchors.bottomMargin: 12
-//        font.pixelSize: 18
-//        color: "white"
-//        text: "Status: " + statusString(mediaPlayer.status)
-//    }
-
-//    Text {
-//        anchors.verticalCenter: statusText.verticalCenter
-//        anchors.left: statusText.right
-//        anchors.leftMargin: 16
-//        font.pixelSize: 18
-//        color: "white"
-//        text: Math.round(mediaPlayer.bufferProgress * 100.0) + "%"
-//    }
-
-    VolumeControl {
-        id: volumeControl
-        anchors.verticalCenter: playbackControl.verticalCenter
-        anchors.left: controlBar.left
-        anchors.leftMargin: 15
-        onVolumeChanged: mediaPlayer.volume = volume
-
-        Component.onCompleted: {
-            volumeControl.volume = 0.5;
-        }
-
-        Connections {
-            target: mediaPlayer
-            onVolumeChanged: volumeControl.volume = mediaPlayer.volume
-        }
-    }
-
     //Playback Controls
     PlaybackControl {
         id: playbackControl
-        anchors.horizontalCenter: controlBar.horizontalCenter
-        anchors.bottom: seekControl.top
-        anchors.bottomMargin: 20
+        anchors.left: controlBar.left
+        anchors.top: controlBar.top
+        anchors.bottom: controlBar.bottom
 
         onPlayButtonPressed: {
             if (isPlaying) {
@@ -171,12 +135,35 @@ Rectangle {
         onStopButtonPressed: mediaPlayer.stop();
     }
 
+    //Seek controls
+    SeekControl {
+        id: seekControl
+        anchors.bottom: controlBar.bottom
+        anchors.bottomMargin: controlBar.height * 0.1
+        anchors.right: volumeControl.left
+        anchors.left: playbackControl.right
+        anchors.rightMargin: 15
+        anchors.leftMargin: 15
+        enabled: playbackControl.isPlaybackEnabled
+
+        duration: mediaPlayer.duration
+
+        onSeekValueChanged: {
+            mediaPlayer.seek(newPosition);
+            position = mediaPlayer.position;
+        }
+
+        Component.onCompleted: {
+            seekable = mediaPlayer.seekable;
+        }
+    }
+
     //Toolbar Controls
     Row {
         id: toolbarMenuButtons
-        anchors.right: controlBar.right
+        anchors.right: volumeControl.left
         anchors.rightMargin: 15
-        anchors.verticalCenter: playbackControl.verticalCenter
+        anchors.bottom: seekControl.top
         spacing: 22
 
         ImageButton {
@@ -204,41 +191,15 @@ Rectangle {
         }
     }
 
-//    ImageButton {
-//        id: fullscreenButton
-//        imageSource: "images/FullscreenButton.png"
-//        onClicked: {
-//            //Toggle fullscreen
-//            toggleFullScreen();
-//        }
-//        checkable: true
-//        checked: applicationWindow.isFullScreen
-//        anchors.right: controlBar.right
-//        anchors.top: controlBar.top
-//        anchors.rightMargin: 15
-//        anchors.topMargin: 15
-//    }
+    VolumeControl {
+        id: volumeControl
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        onVolumeChanged: mediaPlayer.volume = volume
 
-    //Seek controls
-    SeekControl {
-        id: seekControl
-        anchors.bottom: controlBar.bottom
-        anchors.bottomMargin: 10
-        anchors.right: controlBar.right
-        anchors.left: controlBar.left
-        anchors.rightMargin: 15
-        anchors.leftMargin: 15
-        enabled: playbackControl.isPlaybackEnabled
-
-        duration: mediaPlayer.duration
-
-        onSeekValueChanged: {
-            mediaPlayer.seek(newPosition);
-            position = mediaPlayer.position;
-        }
-
-        Component.onCompleted: {
-            seekable = mediaPlayer.seekable;
+        Connections {
+            target: mediaPlayer
+            onVolumeChanged: volumeControl.volume = mediaPlayer.volume
         }
     }
 
@@ -264,7 +225,6 @@ Rectangle {
         }
 
         onSeekableChanged: {
-            // console.log("seekableChanged: " + mediaPlayer.seekable);
             seekControl.seekable = mediaPlayer.seekable;
         }
     }
