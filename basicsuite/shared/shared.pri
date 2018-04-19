@@ -1,5 +1,5 @@
 # widget dependecy is required by QtCharts demo
-QT += quick widgets
+QT += quick widgets quickcontrols2
 
 qtHaveModule(webengine) {
     DEFINES += USE_QTWEBENGINE

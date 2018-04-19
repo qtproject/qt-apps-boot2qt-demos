@@ -63,6 +63,8 @@
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlContext>
 #include <QtQml/QQmlComponent>
+#include <QSettings>
+#include <QQuickStyle>
 
 #if defined(USE_QTWEBENGINE)
 #include <qtwebengineglobal.h>
@@ -73,7 +75,7 @@
 int main(int argc, char **argv)
 {
     //qputenv("QT_IM_MODULE", QByteArray("qtvkb"));
-
+    qputenv("QT_QUICK_CONTROLS_CONF", "/data/user/gallery/qtquickcontrols2.conf");
     QApplication app(argc, argv);
 
 #if defined(USE_QTWEBENGINE)
@@ -118,12 +120,20 @@ int main(int argc, char **argv)
         QGuiApplication::setFont(font);
     }
 
+    QSettings settings;
+    QString style = QQuickStyle::name();
+    if (!style.isEmpty())
+        settings.setValue("style", "Material");
+    else
+        QQuickStyle::setStyle(settings.value("style").toString());
+
     DummyEngine engine;
 
     QQmlApplicationEngine applicationengine;
     QString appFont("TitilliumWeb");
     applicationengine.rootContext()->setContextProperty("engine", &engine);
     applicationengine.rootContext()->setContextProperty("appFont", appFont);
+    applicationengine.rootContext()->setContextProperty("availableStyles", QQuickStyle::availableStyles());
     applicationengine.load(QUrl::fromLocalFile(path + "/SharedMain.qml"));
 
     app.exec();
