@@ -50,11 +50,12 @@
 
 import QtQuick 2.0
 import QtMultimedia 5.0
+import "settings.js" as Settings
 
 Rectangle {
     id: controlBar
     height: parent.height * 0.225
-    color: defaultBackground
+    color: Settings.backgroundColor
 
     property MediaPlayer mediaPlayer: null
     property bool isMouseAbove: false

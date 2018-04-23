@@ -49,6 +49,7 @@
 ****************************************************************************/
 import QtQuick 2.0
 import QtMultimedia 5.0
+import "settings.js" as Settings
 
 Rectangle {
     id: root
@@ -63,7 +64,7 @@ Rectangle {
     Rectangle {
         height: column.height + 30
         width: 500
-        color: defaultBackground
+        color: Settings.backgroundColor
         opacity: 0.9
         anchors.centerIn: parent
         anchors.verticalCenterOffset: -50

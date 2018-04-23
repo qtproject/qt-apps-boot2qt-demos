@@ -17,7 +17,8 @@ content.files = \
     effect_OpacityMask.qml \
     effect_ThresholdMask.qml \
     main.qml \
-    images
+    images \
+    ../shared/settings.js
 
 content.path = $$DESTPATH
 

@@ -48,11 +48,12 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
+import "settings.js" as Settings
 
 Rectangle {
     id: root
     height: view.model.count * sliderHeight
-    color: defaultBackground
+    color: Settings.backgroundColor
     property color lineColor: "black"
     property real spacing: 10
     property real sliderHeight: 50

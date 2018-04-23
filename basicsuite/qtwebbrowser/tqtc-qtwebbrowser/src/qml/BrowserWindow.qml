@@ -59,28 +59,22 @@ Item {
 
     property int toolBarSize: 80
     property string uiColor: settingsView.privateBrowsingEnabled ? "#3a4055" : "#09102b"
-    //property string uiColor: "#09102b"
 
-    //property string uiSeparatorColor: settingsView.privateBrowsingEnabled ? "#717273" : "#7ebee5"
     property string uiSeparatorColor: "#9d9faa"
 
-    //property string toolBarSeparatorColor: settingsView.privateBrowsingEnabled ? "#929495" : "#a3d1ed"
     property string toolBarSeparatorColor: "#9d9faa"
 
     property string toolBarFillColor: settingsView.privateBrowsingEnabled ? "#3a4055" : "#09102b"
-    //property string toolBarFillColor: "#09102b"
 
-    //property string buttonPressedColor: settingsView.privateBrowsingEnabled ? "#3b3c3e" : "#3f91c4"
     property string buttonPressedColor: "#41cd52"
     property string emptyBackgroundColor: "#09102b"
-    //property string uiHighlightColor: "#fddd5c"
     property string uiHighlightColor: "#41cd52"
     property string inactivePagerColor: "#bcbdbe"
     property string textFieldStrokeColor: "#9d9faa"
     property string placeholderColor: "#a0a1a2"
     property string iconOverlayColor: "#0e202c"
     property string iconStrokeColor: "#9d9faa"
-    property string defaultFontFamily: appFont //"Open Sans"
+    property string defaultFontFamily: appFont
 
     property int gridViewPageItemCount: 8
     property int gridViewMaxBookmarks: 3 * gridViewPageItemCount

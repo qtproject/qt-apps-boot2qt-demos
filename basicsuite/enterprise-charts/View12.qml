@@ -50,6 +50,7 @@
 
 import QtQuick 2.0
 import QtCharts 2.0
+import "settings.js" as Settings
 
 Item {
     anchors.fill: parent
@@ -64,8 +65,8 @@ Item {
             size: 0.96
             holeSize: 0.7
 
-            PieSlice { id: slice; label: "Alpha"; value: 19511; color: defaultGreen; borderColor: "#163430" }
-            PieSlice { label: "Epsilon"; value: 11105; color: defaultGrey; borderColor: "#3B391C" }
+            PieSlice { id: slice; label: "Alpha"; value: 19511; color: Settings.primaryGreen; borderColor: "#163430" }
+            PieSlice { label: "Epsilon"; value: 11105; color: Settings.primaryGrey; borderColor: "#3B391C" }
             PieSlice { label: "Psi"; value: 9352; color: darkGrey2; borderColor: "#13060C" }
         }
 
@@ -73,17 +74,17 @@ Item {
             size: 0.7
             id: pieInner
             holeSize: 0.25
-            PieSlice { label: "Materials"; value: 10334; color: mediumGreen; borderColor: "#163430" }
-            PieSlice { label: "Employee"; value: 3066; color: darkGreen; borderColor: "#163430" }
-            PieSlice { label: "Logistics"; value: 6111; color: mediumGreen; borderColor: "#163430" }
+            PieSlice { label: "Materials"; value: 10334; color: Settings.mediumGreen; borderColor: "#163430" }
+            PieSlice { label: "Employee"; value: 3066; color: Settings.darkGreen; borderColor: "#163430" }
+            PieSlice { label: "Logistics"; value: 6111; color: Settings.mediumGreen; borderColor: "#163430" }
 
             PieSlice { label: "Materials"; value: 7371; color: mediumGrey2; borderColor: "#3B391C" }
             PieSlice { label: "Employee"; value: 2443; color: mediumGrey; borderColor: "#3B391C" }
             PieSlice { label: "Logistics"; value: 1291; color: mediumGrey2; borderColor: "#3B391C" }
 
-            PieSlice { label: "Materials"; value: 4022; color: secondaryGrey; borderColor: "#13060C" }
+            PieSlice { label: "Materials"; value: 4022; color: Settings.secondaryGrey; borderColor: "#13060C" }
             PieSlice { label: "Employee"; value: 3998; color: darkGrey; borderColor: "#13060C" }
-            PieSlice { label: "Logistics"; value: 1332; color: secondaryGrey; borderColor: "#13060C" }
+            PieSlice { label: "Logistics"; value: 1332; color: Settings.secondaryGrey; borderColor: "#13060C" }
         }
     }
 

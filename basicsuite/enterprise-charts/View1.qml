@@ -52,6 +52,7 @@
 import QtQuick 2.0
 //![2]
 import QtCharts 2.0
+import "settings.js" as Settings
 
 Item {
     anchors.fill: parent
@@ -65,11 +66,11 @@ Item {
         anchors.fill: parent
         PieSeries {
             id: pieSeries
-            PieSlice { label: "Volkswagen"; value: 13.5; color: defaultGreen }
-            PieSlice { label: "Toyota"; value: 10.9; color: mediumGreen }
-            PieSlice { label: "Ford"; value: 8.6; color: darkGreen }
-            PieSlice { label: "Skoda"; value: 8.2; color: defaultGrey }
-            PieSlice { label: "Volvo"; value: 6.8; color: secondaryGrey }
+            PieSlice { label: "Volkswagen"; value: 13.5; color: Settings.primaryGreen }
+            PieSlice { label: "Toyota"; value: 10.9; color: Settings.mediumGreen }
+            PieSlice { label: "Ford"; value: 8.6; color: Settings.darkGreen }
+            PieSlice { label: "Skoda"; value: 8.2; color: Settings.primaryGrey }
+            PieSlice { label: "Volvo"; value: 6.8; color: Settings.secondaryGrey }
         }
     }
 

@@ -35,6 +35,7 @@ Switch {
 
     property alias indicatorWidth: indicatorImg.width
     property alias indicatorHeight: indicatorImg.height
+    property string switchTextColor: "#3b4155"
 
     indicator: Image {
         id: indicatorImg
@@ -54,7 +55,7 @@ Switch {
             fontSizeMode: Text.Fit
             minimumPixelSize: 1
             font.pixelSize: parent.height * 0.55
-            color: "#3b4155"
+            color: switchTextColor
             text: "OFF"
             font.family: defaultFontFamily
         }
@@ -68,7 +69,7 @@ Switch {
             fontSizeMode: Text.Fit
             minimumPixelSize: 1
             font.pixelSize: parent.height * 0.55
-            color: "#3b4155"
+            color: switchTextColor
             text: "ON"
             font.family: defaultFontFamily
         }
@@ -90,7 +91,7 @@ Switch {
             anchors.verticalCenter: parent.verticalCenter
             width: parent.width * 0.475
             height: parent.height * 0.9
-            fillColor: control.checked ? "#41cd52" : "#9d9faa"//viewSettings.buttonGreenColor : viewSettings.buttonGrayColor
+            fillColor: control.checked ? buttonPressedColor : toolBarSeparatorColor
             text: control.checked ? "ON" : "OFF"
             borderColor: "transparent"
             Behavior on x {

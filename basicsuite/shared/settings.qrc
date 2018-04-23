@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>settings.js</file>
+    </qresource>
+</RCC>

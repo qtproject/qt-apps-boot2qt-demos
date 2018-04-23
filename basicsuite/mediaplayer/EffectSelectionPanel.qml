@@ -48,10 +48,11 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
+import "settings.js" as Settings
 
 Rectangle {
     id: root
-    color: defaultBackground
+    color: Settings.backgroundColor
     height: 78
     property int itemHeight: 25
     property string effectSource: ""

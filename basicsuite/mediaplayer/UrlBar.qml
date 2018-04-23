@@ -49,6 +49,7 @@
 ****************************************************************************/
 import QtQuick 2.0
 import QtQuick.Controls 2.0
+import "settings.js" as Settings
 
 Rectangle {
     id: root
@@ -92,7 +93,7 @@ Rectangle {
         font.family: appFont
         font.styleName: "Light"
         background: Rectangle {
-            color: defaultBackground
+            color: Settings.backgroundColor
             opacity: 0.8
             border.color: viewSettings.borderColor
             border.width: 2

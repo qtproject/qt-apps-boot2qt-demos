@@ -73,7 +73,7 @@ Rectangle {
     }
 
     Rectangle{
-        color: "#9d9faa"
+        color: toolBarSeparatorColor
         height: 2
         anchors.top: root.top
         anchors.right: root.right

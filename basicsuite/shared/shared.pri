@@ -6,7 +6,7 @@ qtHaveModule(webengine) {
     QT += webengine
 }
 
-DESTPATH = /data/user/$$TARGET
+DESTPATH = /data/user/qt/$$TARGET
 target.path = $$DESTPATH
 
 SOURCES += $$PWD/main.cpp \

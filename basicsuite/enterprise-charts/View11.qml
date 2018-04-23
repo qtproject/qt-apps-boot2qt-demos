@@ -50,6 +50,7 @@
 
 import QtQuick 2.0
 import QtCharts 2.0
+import "settings.js" as Settings
 
 Item {
     anchors.fill: parent
@@ -60,9 +61,9 @@ Item {
 
         HorizontalPercentBarSeries {
             axisY: BarCategoryAxis { categories: ["2007", "2008", "2009", "2010", "2011", "2012" ] }
-            BarSet { label: "Bob"; color: defaultGreen; values: [2, 2, 3, 4, 5, 6] }
-            BarSet { label: "Susan"; color: defaultGrey; values: [5, 1, 2, 4, 1, 7] }
-            BarSet { label: "James"; color: secondaryGrey; values: [3, 5, 8, 13, 5, 8] }
+            BarSet { label: "Bob"; color: Settings.primaryGreen; values: [2, 2, 3, 4, 5, 6] }
+            BarSet { label: "Susan"; color: Settings.primaryGrey; values: [5, 1, 2, 4, 1, 7] }
+            BarSet { label: "James"; color: Settings.secondaryGrey; values: [3, 5, 8, 13, 5, 8] }
         }
 
         Component.onCompleted: {

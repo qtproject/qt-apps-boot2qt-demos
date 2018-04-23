@@ -51,6 +51,7 @@ import QtQuick 2.0
 import Qt.labs.folderlistmodel 2.0
 import QtQuick.Controls 1.4
 import QtDeviceUtilities.QtButtonImageProvider 1.0
+import "settings.js" as Settings
 
 Item {
     id: fileBrowser
@@ -78,7 +79,7 @@ Item {
 
         Rectangle {
             id: root
-            color: defaultBackground
+            color: Settings.backgroundColor
             property alias folder: folders.folder
 
             FolderListModel {
@@ -184,7 +185,7 @@ Item {
             Rectangle {
                 width: parent.width;
                 height: 70
-                color: defaultBackground
+                color: Settings.backgroundColor
                 id: titleBar
 
                 QtButton {

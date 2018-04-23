@@ -18,7 +18,8 @@ content.files = \
     View6.qml \
     View7.qml \
     View8.qml \
-    View9.qml
+    View9.qml \
+    ../shared/settings.js
 
 content.path = $$DESTPATH
 
