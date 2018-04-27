@@ -90,6 +90,17 @@ int main(int argc, char **argv)
     QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Bold.ttf");
     QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Black.ttf");
 
+    //For eBike demo
+    QFontDatabase::addApplicationFont(":/fonts/Montserrat-Bold.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Montserrat-Light.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Montserrat-Medium.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Montserrat-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Teko-Bold.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Teko-Light.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Teko-Medium.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Teko-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/fontawesome-webfont.ttf");
+
     QString path = app.applicationDirPath();
 
     QPalette pal;
