@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<UIP Version="1" >
+    <Project Revision="1" >
+        <Graph >
+            <Group id="__import__root__" >
+                <Group id="Group_HeatAreas" name="Group_HeatAreas" orientation="Right Handed" position="0 0 -0" rotation="-90 -0 0" rotationorder="XYZr" scale="100 100 100" >
+                    <Model id="Heat_Entrance HeatAreas" name="Heat_Entrance HeatAreas" orientation="Right Handed" position="0 0 -0" rotation="90 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath="meshes\Heat_Entrance HeatAreas.mesh#1" >
+                        <Material id="Heat_EntranceSG" name="Heat_EntranceSG" blendmode="Normal" diffuse="0.65 0.65 0.65" emissivepower="0" opacity="0" specularamount="0" specularroughness="1.76471" />
+                    </Model>
+                    <Model id="HeatAreas Heat_Sauna" name="HeatAreas Heat_Sauna" orientation="Right Handed" position="0 0 -0" rotation="90 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath="meshes\HeatAreas Heat_Sauna.mesh#1" >
+                        <Material id="Heat_SaunaSG" name="Heat_SaunaSG" blendmode="Normal" diffuse="0.31 0.31 0.31" emissivepower="0" opacity="0" specularamount="0" specularroughness="1.76471" />
+                    </Model>
+                    <Model id="HeatAreas Heat_BathRoom" name="HeatAreas Heat_BathRoom" orientation="Right Handed" position="0 0 -0" rotation="90 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath="meshes\HeatAreas Heat_BathRoom.mesh#1" >
+                        <Material id="Heat_BathRoomSG" name="Heat_BathRoomSG" blendmode="Normal" diffuse="0.5 0.5 0.5" emissivepower="0" opacity="0" specularamount="0" specularroughness="1.76471" />
+                    </Model>
+                    <Model id="HeatAreas Heat_StoreRoom" name="HeatAreas Heat_StoreRoom" orientation="Right Handed" position="0 0 -0" rotation="90 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath="meshes\HeatAreas Heat_StoreRoom.mesh#1" >
+                        <Material id="Heat_StoreRoomSG" name="Heat_StoreRoomSG" blendmode="Normal" diffuse="0.21 0.21 0.21" emissivepower="0" opacity="0" specularamount="0" specularroughness="1.76471" />
+                    </Model>
+                    <Model id="HeatAreas Heat_DressRoom" name="HeatAreas Heat_DressRoom" orientation="Right Handed" position="0 0 -0" rotation="90 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath="meshes\HeatAreas Heat_DressRoom.mesh#1" >
+                        <Material id="Heat_DressRoomSG" name="Heat_DressRoomSG" blendmode="Normal" diffuse="0.89 0.89 0.89" emissivepower="0" opacity="0" specularamount="0" specularroughness="1.76471" />
+                    </Model>
+                    <Model id="HeatAreas Heat_LivingRoom" name="HeatAreas Heat_LivingRoom" orientation="Right Handed" position="0 0 -0" rotation="90 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath="meshes\HeatAreas Heat_LivingRoom.mesh#1" >
+                        <Material id="Heat_LivingRoomSG" name="Heat_LivingRoomSG" blendmode="Normal" diffuse="0.31 0.29 0.2" emissivepower="0" opacity="0" specularamount="0" specularroughness="1.76471" />
+                    </Model>
+                    <Model id="HeatAreas Heat_MasterBedroom" name="HeatAreas Heat_MasterBedroom" orientation="Right Handed" position="0 0 -0" rotation="90 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath="meshes\HeatAreas Heat_MasterBedroom.mesh#1" >
+                        <Material id="Heat_MasterBedroomSG" name="Heat_MasterBedroomSG" blendmode="Normal" diffuse="0.19 0.19 0.18" emissivepower="0" opacity="0" specularamount="0" specularroughness="1.76471" />
+                    </Model>
+                    <Model id="HeatAreas Heat_BedRoom" name="HeatAreas Heat_BedRoom" orientation="Right Handed" position="0 0 -0" rotation="90 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath="meshes\HeatAreas Heat_BedRoom.mesh#1" >
+                        <Material id="Heat_BedRoomSG" name="Heat_BedRoomSG" blendmode="Normal" diffuse="0.31 0.49 0.58" emissivepower="0" opacity="0" specularamount="0" specularroughness="1.76471" />
+                    </Model>
+                    <Model id="HeatAreas Heat_Toilet" name="HeatAreas Heat_Toilet" orientation="Right Handed" position="0 0 -0" rotation="90 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath="meshes\HeatAreas Heat_Toilet.mesh#1" >
+                        <Material id="Heat_ToiletSG" name="Heat_ToiletSG" blendmode="Normal" diffuse="0.24 0.31 0.47" emissivepower="0" opacity="0" specularamount="0" specularroughness="1.76471" />
+                    </Model>
+                </Group>
+            </Group>
+        </Graph>
+        <Import SrcFile="..\..\..\..\House\Vol2Exports\HeatAreas.fbx" ImageDir="Images" MeshDir="Meshes" >
+            <Mesh >
+                <Source >HeatAreas Heat_LivingRoom</Source>
+                <Dest >meshes\HeatAreas Heat_LivingRoom.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >Heat_Entrance HeatAreas</Source>
+                <Dest >meshes\Heat_Entrance HeatAreas.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >HeatAreas Heat_Sauna</Source>
+                <Dest >meshes\HeatAreas Heat_Sauna.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >HeatAreas Heat_Toilet</Source>
+                <Dest >meshes\HeatAreas Heat_Toilet.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >HeatAreas Heat_StoreRoom</Source>
+                <Dest >meshes\HeatAreas Heat_StoreRoom.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >HeatAreas Heat_BedRoom</Source>
+                <Dest >meshes\HeatAreas Heat_BedRoom.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >HeatAreas Heat_MasterBedroom</Source>
+                <Dest >meshes\HeatAreas Heat_MasterBedroom.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >HeatAreas Heat_DressRoom</Source>
+                <Dest >meshes\HeatAreas Heat_DressRoom.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >HeatAreas Heat_BathRoom</Source>
+                <Dest >meshes\HeatAreas Heat_BathRoom.mesh</Dest>
+            </Mesh>
+        </Import>
+    </Project>
+</UIP>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<UIP Version="1" >
+    <Project Revision="1" >
+        <Graph >
+            <Group id="__import__root__" >
+                <Model id="Ground" name="Ground" orientation="Right Handed" position="-0.957248 -0.10826 -2.79746" rotation="0 -0 0" rotationorder="XYZr" scale="1.73739 1 1.00748" sourcepath=".\meshes\Ground.mesh#1" >
+                    <Material id="phong1" name="phong1" blendmode="Normal" diffuse="0.233766 0.233766 0.233766" emissivepower="0" opacity="100" specularamount="0" specularroughness="20" />
+                </Model>
+                <Model id="roof1" name="roof1" orientation="Right Handed" position="0 0 -0" rotation="0 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath=".\meshes\roof1.mesh#1" >
+                    <Material id="BaseWall" name="BaseWall" blendmode="Normal" diffuse="0.552284 0.552284 0.552284" emissivepower="0" opacity="100" specularamount="0" specularroughness="20" />
+                    <Material id="roof" name="roof" blendmode="Normal" diffuse="0.0609137 0.0609137 0.0609137" emissivepower="0" opacity="100" specularamount="0" specularroughness="20" />
+                    <Material id="lambert1" name="lambert1" blendmode="Normal" diffuse="1 1 1" emissivepower="0" opacity="100" specularamount="0" />
+                </Model>
+                <Group id="Group_HeatAreas" name="Group_HeatAreas" orientation="Right Handed" position="0 5.53285 -0" rotation="0 -0 0" rotationorder="XYZr" scale="1 1 1" >
+                    <Model id="Heat_MasterBedroom" name="Heat_MasterBedroom" orientation="Right Handed" position="-6.01453 0.0613521 -9.90316" rotation="0 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath=".\meshes\Heat_MasterBedroom.mesh#1" >
+                        <Material id="masterbedroomheat" name="masterbedroomheat" blendmode="Normal" diffuse="0.15472 0.15096 0.14256" emissivepower="0" opacity="100" specularamount="0" specularroughness="20" />
+                    </Model>
+                    <Model id="Heat_Entrance" name="Heat_Entrance" orientation="Right Handed" position="0.0827332 1.40091 -12.9964" rotation="8.53363 -0 0" rotationorder="XYZr" scale="0.852158 1 0.900558" sourcepath=".\meshes\Heat_Entrance.mesh#1" >
+                        <Material id="entrance" name="entrance" blendmode="Normal" diffuse="0.519797 0.519797 0.519797" emissivepower="0" opacity="100" specularamount="0" specularroughness="20" />
+                    </Model>
+                    <Model id="Heat_BedRoom" name="Heat_BedRoom" orientation="Right Handed" position="6.03439 1.73831 -10.6134" rotation="7.55792 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath=".\meshes\Heat_BedRoom.mesh#1" >
+                        <Material id="bedroom" name="bedroom" blendmode="Normal" diffuse="0.24488 0.388 0.46264" emissivepower="0" opacity="100" specularamount="0" specularroughness="20" />
+                    </Model>
+                    <Model id="Heat_DressRoom" name="Heat_DressRoom" orientation="Right Handed" position="8.02201 2.41339 -5.07462" rotation="8.34257 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath=".\meshes\Heat_DressRoom.mesh#1" >
+                        <Material id="dressroom" name="dressroom" blendmode="Normal" diffuse="0.714721 0.714721 0.714721" emissivepower="0" opacity="100" specularamount="0" specularroughness="20" />
+                    </Model>
+                    <Model id="Heat_Toilet" name="Heat_Toilet" orientation="Right Handed" position="3.90588 2.58136 -5.05141" rotation="5.57327 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath=".\meshes\Heat_Toilet.mesh#1" >
+                        <Material id="toilet" name="toilet" blendmode="Normal" diffuse="0.19208 0.24752 0.37672" emissivepower="0" opacity="100" specularamount="0" specularroughness="20" />
+                    </Model>
+                    <Model id="Heat_StoreRoom" name="Heat_StoreRoom" orientation="Right Handed" position="2.97044 0.814303 -17.1022" rotation="8.02365 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath=".\meshes\Heat_StoreRoom.mesh#1" >
+                        <Material id="storeroom" name="storeroom" blendmode="Normal" diffuse="0.166497 0.166497 0.166497" emissivepower="0" opacity="100" specularamount="0" specularroughness="20" />
+                    </Model>
+                    <Model id="Heat_Sauna" name="Heat_Sauna" orientation="Right Handed" position="-7.99717 0.0613521 7.72293" rotation="0 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath=".\meshes\Heat_Sauna.mesh#1" >
+                        <Material id="sauna1" name="sauna1" blendmode="Normal" diffuse="0.24984 0.24984 0.24984" emissivepower="0" opacity="100" specularamount="0" specularroughness="20" />
+                    </Model>
+                    <Model id="Heat_BathRoom" name="Heat_BathRoom" orientation="Right Handed" position="-8.61282 1.1588 -1.06378" rotation="0 -0 0" rotationorder="XYZr" scale="1.04514 1 1" sourcepath=".\meshes\Heat_BathRoom.mesh#1" >
+                        <Material id="bathroom" name="bathroom" blendmode="Normal" diffuse="0.4 0.4 0.4" emissivepower="0" opacity="100" specularamount="0" specularroughness="20" />
+                    </Model>
+                    <Model id="Heat_LivingRoom" name="Heat_LivingRoom" orientation="Right Handed" position="2.34465 3.80193 4.35739" rotation="7.88151 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath=".\meshes\Heat_LivingRoom.mesh#1" >
+                        <Material id="livingroom" name="livingroom" blendmode="Normal" diffuse="0.24984 0.23336 0.16168" emissivepower="0" opacity="100" specularamount="0" specularroughness="20" />
+                    </Model>
+                </Group>
+                <Group id="Group_house" name="Group_house" orientation="Right Handed" position="0 0 -0" rotation="0 -0 0" rotationorder="XYZr" scale="1 1 1" >
+                    <Model id="house1" name="house1" orientation="Right Handed" position="0 0 -0" rotation="0 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath=".\meshes\house1.mesh#1" >
+                        <Material id="house2" name="house2" blendmode="Normal" diffuse="1 1 1" diffusemap="house2_diffusemap" emissivepower="0" opacity="100" specularamount="0" specularroughness="20" >
+                            <Image id="house2_diffusemap" name="house2_diffusemap" sourcepath=".\maps\houseShape.png" />
+                        </Material>
+                    </Model>
+                </Group>
+                <Model id="Windows" name="Windows" orientation="Right Handed" position="0 0 -0" rotation="0 -0 0" rotationorder="XYZr" scale="1 1 1" sourcepath=".\meshes\Windows.mesh#1" >
+                    <Material id="Window" name="Window" blendmode="Normal" diffuse="0.35152 0.66672 0.74704" emissivepower="0" opacity="100" specularamount="0" specularroughness="12.1818" />
+                </Model>
+            </Group>
+        </Graph>
+        <Import SrcFile="..\..\House\House.fbx" ImageDir="Images" MeshDir="Meshes" >
+            <Image >
+                <Source >.\houseShape.png</Source>
+                <Dest >.\maps\houseShape.png</Dest>
+            </Image>
+            <Mesh >
+                <Source >Heat_BathRoom</Source>
+                <Dest >.\meshes\Heat_BathRoom.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >Heat_Sauna</Source>
+                <Dest >.\meshes\Heat_Sauna.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >Heat_BedRoom</Source>
+                <Dest >.\meshes\Heat_BedRoom.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >Ground</Source>
+                <Dest >.\meshes\Ground.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >Heat_Toilet</Source>
+                <Dest >.\meshes\Heat_Toilet.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >Heat_StoreRoom</Source>
+                <Dest >.\meshes\Heat_StoreRoom.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >Heat_LivingRoom</Source>
+                <Dest >.\meshes\Heat_LivingRoom.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >house1</Source>
+                <Dest >.\meshes\house1.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >Heat_DressRoom</Source>
+                <Dest >.\meshes\Heat_DressRoom.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >Windows</Source>
+                <Dest >.\meshes\Windows.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >Heat_MasterBedroom</Source>
+                <Dest >.\meshes\Heat_MasterBedroom.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >roof1</Source>
+                <Dest >.\meshes\roof1.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >Heat_Entrance</Source>
+                <Dest >.\meshes\Heat_Entrance.mesh</Dest>
+            </Mesh>
+        </Import>
+    </Project>
+</UIP>

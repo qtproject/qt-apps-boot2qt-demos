@@ -1,0 +1,54 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/images/QtSymbol.png</file>
+        <file alias="main.qml">qml/HomeAutom/main.qml</file>
+        <file alias="HomeView.qml">qml/HomeAutom/HomeView.qml</file>
+        <file alias="SplashScreen.qml">qml/HomeAutom/SplashScreen.qml</file>
+        <file alias="MainMenu.qml">qml/HomeAutom/MainMenu.qml</file>
+        <file alias="TempSlider.qml">qml/HomeAutom/TempSlider.qml</file>
+        <file alias="SliderControl.qml">qml/HomeAutom/SliderControl.qml</file>
+        <file alias="LightSlider.qml">qml/HomeAutom/LightSlider.qml</file>
+        <file alias="RoomLabel.qml">qml/HomeAutom/RoomLabel.qml</file>
+        <file alias="LightSwitch.qml">qml/HomeAutom/LightSwitch.qml</file>
+        <file>uip/houseStudio.uip</file>
+        <file>uip/maps/Ground.png</file>
+        <file>uip/maps/HouseGroundOpacitymap.png</file>
+        <file>uip/maps/HouseTexture.png</file>
+        <file>uip/maps/OpenfootageNET_Pinzgau-512.hdr</file>
+        <file>uip/maps/Roof.png</file>
+        <file>uip/models/HeatAreas/meshes/Heat_Entrance HeatAreas.mesh</file>
+        <file>uip/models/HeatAreas/meshes/HeatAreas Heat_BathRoom.mesh</file>
+        <file>uip/models/HeatAreas/meshes/HeatAreas Heat_BedRoom.mesh</file>
+        <file>uip/models/HeatAreas/meshes/HeatAreas Heat_DressRoom.mesh</file>
+        <file>uip/models/HeatAreas/meshes/HeatAreas Heat_LivingRoom.mesh</file>
+        <file>uip/models/HeatAreas/meshes/HeatAreas Heat_MasterBedroom.mesh</file>
+        <file>uip/models/HeatAreas/meshes/HeatAreas Heat_Sauna.mesh</file>
+        <file>uip/models/HeatAreas/meshes/HeatAreas Heat_StoreRoom.mesh</file>
+        <file>uip/models/HeatAreas/meshes/HeatAreas Heat_Toilet.mesh</file>
+        <file>uip/models/HeatAreas/HeatAreas.import</file>
+        <file>uip/models/House/meshes/Ground.mesh</file>
+        <file>uip/models/House/meshes/House.mesh</file>
+        <file>uip/models/House/meshes/Roof.mesh</file>
+        <file>uip/models/House/meshes/Windows.mesh</file>
+        <file>uip/models/House/House.import</file>
+        <file>uip/models/Light/Light.import</file>
+        <file>uip/House/meshes/house1.mesh</file>
+        <file>uip/House/meshes/roof1.mesh</file>
+        <file>uip/maps/BathroomLightmap.png</file>
+        <file>uip/maps/BedRoomLightmap.png</file>
+        <file>uip/maps/EntranceLightmap.png</file>
+        <file>uip/maps/LivingRoomLightMap.png</file>
+        <file>uip/maps/MasterBedroomLightmap.png</file>
+        <file>uip/models/RoomLights/RoomLights.import</file>
+        <file>uip/models/RoomLights/meshes/BathroomLightmap.mesh</file>
+        <file>uip/models/RoomLights/meshes/BedroomLightmap.mesh</file>
+        <file>uip/models/RoomLights/meshes/EntranceLightmap.mesh</file>
+        <file>uip/models/RoomLights/meshes/LivingroomLightMap.mesh</file>
+        <file>uip/models/RoomLights/meshes/MasterbedroomLightmap.mesh</file>
+        <file>qml/images/icon_light.png</file>
+        <file>qml/images/icon_temp.png</file>
+        <file>uip/maps/HouseTexture.jpg</file>
+        <file>qml/imports/Style/qmldir</file>
+        <file>qml/imports/Style/Style.qml</file>
+    </qresource>
+</RCC>

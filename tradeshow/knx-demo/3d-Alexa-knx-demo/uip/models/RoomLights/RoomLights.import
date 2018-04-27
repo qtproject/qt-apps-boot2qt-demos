@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<UIP Version="1" >
+    <Project Revision="1" >
+        <Graph >
+            <Group id="__import__root__" >
+                <Model id="EntranceLightmap" name="EntranceLightmap" orientation="Right Handed" position="0 0 -0" rotation="9.33467e-06 -0 0" rotationorder="XYZr" scale="100 100 100" sourcepath=".\meshes\EntranceLightmap.mesh#1" >
+                    <Material id="House" name="House" blendmode="Normal" diffuse="0.052218 0.052218 0.052218" emissivepower="0" opacity="100" specularamount="0" specularroughness="9.60784" />
+                </Model>
+                <Model id="BathroomLightmap" name="BathroomLightmap" orientation="Right Handed" position="0 0 -0" rotation="9.33467e-06 -0 0" rotationorder="XYZr" scale="100 100 100" sourcepath=".\meshes\BathroomLightmap.mesh#1" >
+                    <Material id="House_0001" name="House" blendmode="Normal" diffuse="0.052218 0.052218 0.052218" emissivepower="0" opacity="100" specularamount="0" specularroughness="9.60784" />
+                </Model>
+                <Model id="MasterbedroomLightmap" name="MasterbedroomLightmap" orientation="Right Handed" position="0 0 -0" rotation="9.33467e-06 -0 0" rotationorder="XYZr" scale="100 100 100" sourcepath=".\meshes\MasterbedroomLightmap.mesh#1" >
+                    <Material id="House_0002" name="House" blendmode="Normal" diffuse="0.052218 0.052218 0.052218" emissivepower="0" opacity="100" specularamount="0" specularroughness="9.60784" />
+                </Model>
+                <Model id="LivingroomLightMap" name="LivingroomLightMap" orientation="Right Handed" position="0 0 -0" rotation="9.33467e-06 -0 0" rotationorder="XYZr" scale="100 100 100" sourcepath=".\meshes\LivingroomLightMap.mesh#1" >
+                    <Material id="House_0003" name="House" blendmode="Normal" diffuse="0.052218 0.052218 0.052218" emissivepower="0" opacity="100" specularamount="0" specularroughness="9.60784" />
+                </Model>
+                <Model id="BedroomLightmap" name="BedroomLightmap" orientation="Right Handed" position="0 0 -0" rotation="9.33467e-06 -0 0" rotationorder="XYZr" scale="100 100 100" sourcepath=".\meshes\BedroomLightmap.mesh#1" >
+                    <Material id="House_0004" name="House" blendmode="Normal" diffuse="0.052218 0.052218 0.052218" emissivepower="0" opacity="100" specularamount="0" specularroughness="9.60784" />
+                </Model>
+            </Group>
+        </Graph>
+        <Import SrcFile="..\..\..\..\RoomLights\RoomLights.fbx" ImageDir="Images" MeshDir="Meshes" >
+            <Mesh >
+                <Source >BedroomLightmap</Source>
+                <Dest >.\meshes\BedroomLightmap.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >EntranceLightmap</Source>
+                <Dest >.\meshes\EntranceLightmap.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >BathroomLightmap</Source>
+                <Dest >.\meshes\BathroomLightmap.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >LivingroomLightMap</Source>
+                <Dest >.\meshes\LivingroomLightMap.mesh</Dest>
+            </Mesh>
+            <Mesh >
+                <Source >MasterbedroomLightmap</Source>
+                <Dest >.\meshes\MasterbedroomLightmap.mesh</Dest>
+            </Mesh>
+        </Import>
+    </Project>
+</UIP>

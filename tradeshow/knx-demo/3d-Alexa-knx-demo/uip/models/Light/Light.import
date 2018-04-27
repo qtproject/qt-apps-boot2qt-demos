@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<UIP Version="1" >
+    <Project Revision="1" >
+        <Graph >
+            <Group id="__import__root__" />
+        </Graph>
+        <Import SrcFile="..\..\..\..\House\Vol2Exports\Light.fbx" ImageDir="Images" MeshDir="Meshes" />
+    </Project>
+</UIP>

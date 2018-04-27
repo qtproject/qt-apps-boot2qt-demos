@@ -1,0 +1,6 @@
+tradeshow/knx-demo/3d-Alexa-knx-demo/**/*.png filter=lfs diff=lfs merge=lfs -text
+tradeshow/knx-demo/3d-Alexa-knx-demo/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+tradeshow/knx-demo/3d-Alexa-knx-demo/**/*.mesh filter=lfs diff=lfs merge=lfs -text
+tradeshow/knx-demo/3d-Alexa-knx-demo/**/*.ico filter=lfs diff=lfs merge=lfs -text
+tradeshow/knx-demo/3d-Alexa-knx-demo/**/*.hdr filter=lfs diff=lfs merge=lfs -text
+tradeshow/knx-demo/3d-Alexa-knx-demo/**/*.uip filter=lfs diff=lfs merge=lfs -text
