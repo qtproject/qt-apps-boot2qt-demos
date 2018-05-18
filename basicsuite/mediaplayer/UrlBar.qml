@@ -107,7 +107,7 @@ Rectangle {
         anchors.verticalCenter: urlBar.verticalCenter
         height: 70
         width: 70
-        color: defaultGrey
+        color: Settings.primaryGrey
         MouseArea {
             anchors.fill: parent
             onClicked: { urlInput.text = ""; urlInput.paste(); }

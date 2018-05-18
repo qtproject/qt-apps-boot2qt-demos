@@ -68,7 +68,7 @@ Rectangle {
         opacity: 0.9
         anchors.centerIn: parent
         anchors.verticalCenterOffset: -50
-        border.color: defaultGrey
+        border.color: Settings.primaryGrey
         border.width: 2
 
         Column {

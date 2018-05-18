@@ -50,6 +50,7 @@
 
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
+import "settings.js" as Settings
 
 Item {
     id: root
@@ -80,7 +81,7 @@ Item {
         id: glowEffect
         anchors.fill: image
         source: image
-        color: pressed ? "#22000000" : checked ? defaultGreen : "white"
+        color: pressed ? "#22000000" : checked ? Settings.primaryGreen : "white"
         visible: checked || hover || pressed
     }
 

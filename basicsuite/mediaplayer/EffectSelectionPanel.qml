@@ -159,7 +159,7 @@ Rectangle {
             width: parent.width
             property bool isSelected: list.currentIndex == index
             Text {
-                color: parent.isSelected ? defaultGreen : "white"
+                color: parent.isSelected ? Settings.primaryGreen : "white"
                 text: name
                 anchors.centerIn: parent
                 font.pixelSize: 20

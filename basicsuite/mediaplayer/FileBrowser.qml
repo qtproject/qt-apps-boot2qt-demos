@@ -113,7 +113,7 @@ Item {
                         text: fileName
                         font.pixelSize: parent.height * .1
                         font.family: appFont
-                        color: view.currentIndex === index ? defaultGreen : "white"
+                        color: view.currentIndex === index ? Settings.primaryGreen : "white"
                         elide: Text.ElideRight
                     }
 
@@ -226,7 +226,7 @@ Item {
                     width: parent.width
                     anchors.bottom: parent.bottom
                     height: 2
-                    color: defaultGrey
+                    color: Settings.primaryGrey
                 }
             }
 

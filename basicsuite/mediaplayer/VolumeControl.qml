@@ -51,6 +51,8 @@
 import QtQuick 2.0
 import QtDeviceUtilities.QtButtonImageProvider 1.0
 import QtQuick.Controls 2.2
+import "settings.js" as Settings
+
 Item {
     id: root
     width: parent.width * 0.1
@@ -138,7 +140,7 @@ Item {
                 Rectangle{
                     height: volumeSlider.visualPosition * parent.height
                     width: parent.width
-                    color: defaultGrey
+                    color: Settings.primaryGrey
                     radius: 2
                 }
             }
@@ -148,7 +150,7 @@ Item {
                 width: sliderBackground.width * 7
                 height: width
                 radius: height * 0.5
-                color: defaultGreen
+                color: Settings.primaryGreen
             }
         }
 
