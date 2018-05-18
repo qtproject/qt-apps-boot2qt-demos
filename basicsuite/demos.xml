@@ -93,7 +93,7 @@ Qt for Device Creation comes with Qt Virtual Keyboard - a framework that consist
 </description>
 </application>
 
-<application title="E-Bike" location="/data/user/qt/ebike" main="main.qml" icon="/data/user/qt/ebike/preview_l.jpg">
+<application title="E-Bike" location="/data/user/qt/ebike-ui" main="main.qml" icon="/data/user/qt/ebike-ui/preview_l.jpg">
 <description>
 An E-bike instrument cluster concept designed and implemented by Qt.
 
@@ -101,7 +101,7 @@ The entire concept is a testament that Qt brings the HMI designers and Software 
 </description>
 </application>
 
-<application title="Quick Controls 2" location="/data/user/qt/gallery" main="main.qml" icon="/data/user/qt/gallery/preview_l.jpg">
+<application title="Quick Controls 2" location="/data/user/qt/qtquickcontrols2" main="main.qml" icon="/data/user/qt/qtquickcontrols2/preview_l.jpg">
 <description>
 The gallery example is a simple application with a drawer menu that contains all the Qt Quick Controls 2.
 
