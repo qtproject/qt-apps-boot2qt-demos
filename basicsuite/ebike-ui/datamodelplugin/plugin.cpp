@@ -72,11 +72,14 @@ public:
 
         void registerTypes(const char *uri)
     {
+        Q_UNUSED(uri);
         qmlRegisterType<DataStore>("DataStore", 1, 0, "DataStore");
     }
 
     void initializeEngine(QQmlEngine *engine, const char *uri)
     {
+       Q_UNUSED(uri);
+
        // Setup data store for connection to backend server
        DataStore *datastore = new DataStore(engine);
        datastore->connectToServer("datasocket");

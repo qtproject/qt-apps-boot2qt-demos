@@ -93,7 +93,6 @@ Qt for Device Creation comes with Qt Virtual Keyboard - a framework that consist
 </description>
 </application>
 
-<!--
 <application title="E-Bike" location="/data/user/qt/ebike-ui" main="main.qml" icon="/data/user/qt/ebike-ui/preview_l.jpg">
 <description>
 An E-bike instrument cluster concept designed and implemented by Qt.
@@ -101,7 +100,6 @@ An E-bike instrument cluster concept designed and implemented by Qt.
 The entire concept is a testament that Qt brings the HMI designers and Software engineers together by using the same tools, allowing them to fast prototyping through collaborative workflow. In addition to that, Qt is optimized for running on low end SoC even the ones that don't have GPU acceleration for graphics.
 </description>
 </application>
--->
 
 <application title="Quick Controls 2" location="/data/user/qt/qtquickcontrols2" main="main.qml" icon="/data/user/qt/qtquickcontrols2/preview_l.jpg">
 <description>
