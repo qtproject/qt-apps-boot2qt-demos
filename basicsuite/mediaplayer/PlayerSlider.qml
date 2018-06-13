@@ -82,7 +82,7 @@ Item {
         width: slider.width
         anchors.verticalCenter: slider.verticalCenter
         height: 5
-        color: "red" //Settings.backgroundColor
+        color: Settings.primaryGrey
         radius: 2
 
         MouseArea {
@@ -120,7 +120,7 @@ Item {
         anchors.right: handle.right
         anchors.rightMargin: handle.width / 2
         visible: slider.enabled
-        color: "green"
+        color: "white"
         radius: 2
     }
 
@@ -129,7 +129,7 @@ Item {
         width: 40
         height: width
         radius: width / 2
-        color: "#41cd52"
+        color: Settings.primaryGreen
         antialiasing: true
         anchors.centerIn: handle
         visible: true
