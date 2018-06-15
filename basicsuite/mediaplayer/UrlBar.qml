@@ -95,7 +95,7 @@ Rectangle {
         background: Rectangle {
             color: Settings.backgroundColor
             opacity: 0.8
-            border.color: viewSettings.borderColor
+            border.color: Settings.primaryGrey
             border.width: 2
         }
         onAccepted: root.urlAccepted(urlInput.text);

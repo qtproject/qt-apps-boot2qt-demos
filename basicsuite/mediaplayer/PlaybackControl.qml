@@ -50,6 +50,7 @@
 
 import QtQuick 2.0
 import QtDeviceUtilities.QtButtonImageProvider 1.0
+import "settings.js" as Settings
 
 Row {
     anchors.leftMargin: parent.width * 0.02
@@ -72,7 +73,7 @@ Row {
         height: width
         anchors.bottom: parent.bottom
         anchors.bottomMargin: root.spacing
-        fillColor: viewSettings.buttonGreenColor
+        fillColor: Settings.primaryGreen
         Image{
             anchors.centerIn: parent
             width: parent.width * 0.5
@@ -91,7 +92,7 @@ Row {
         height: width
         anchors.bottom: parent.bottom
         anchors.bottomMargin: root.spacing
-        fillColor: viewSettings.buttonGreenColor
+        fillColor: Settings.primaryGreen
         Image{
             anchors.centerIn: parent
             width: parent.width * 0.5

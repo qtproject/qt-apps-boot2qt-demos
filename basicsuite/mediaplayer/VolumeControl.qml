@@ -69,7 +69,7 @@ Item {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: controlBar.width * 0.02
         anchors.horizontalCenter: parent.horizontalCenter
-        fillColor: viewSettings.buttonGreenColor
+        fillColor: Settings.primaryGreen
 
         Image{
             anchors.centerIn: parent
@@ -104,7 +104,7 @@ Item {
             width: controlBar.width * 0.06
             height: width
             anchors.bottom: parent.bottom
-            fillColor: viewSettings.buttonGrayColor
+            fillColor: Settings.primaryGrey
             borderColor: "transparent"
             Image{
                 anchors.centerIn: parent
