@@ -164,19 +164,6 @@ FocusScope {
         }
     }
 
-    ImageButton{
-        id: infoButton
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.rightMargin: 32
-        anchors.topMargin: 32
-        width: 40
-        height: 40
-        imageSource: "images/info_icon.svg"
-        onClicked: metadataView.opacity = 1
-        visible: content.videoPlayer.mediaPlayer.status !== MediaPlayer.NoMedia && content.videoPlayer.mediaPlayer.status !== MediaPlayer.InvalidMedia
-    }
-
     MetadataView {
         id: metadataView
         mediaPlayer: content.videoPlayer.mediaPlayer

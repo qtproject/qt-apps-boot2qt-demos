@@ -172,6 +172,7 @@ Rectangle {
             imageSource: "images/FXButton.png"
             checkable: true
             checked: effectSelectionPanel.visible
+
             onClicked: {
                 openFX();
             }
@@ -179,6 +180,7 @@ Rectangle {
         ImageButton {
             id: fileButton
             imageSource: "images/FileButton.png"
+
             onClicked: {
                 openFile();
             }
@@ -186,9 +188,17 @@ Rectangle {
         ImageButton {
             id: urlButton
             imageSource: "images/UrlButton.png"
+
             onClicked: {
                 openURL();
             }
+        }
+        ImageButton{
+            id: infoButton
+
+            imageSource: "images/info_icon.svg"
+            onClicked: metadataView.opacity = 1
+            visible: content.videoPlayer.mediaPlayer.status !== MediaPlayer.NoMedia && content.videoPlayer.mediaPlayer.status !== MediaPlayer.InvalidMedia
         }
     }
 
