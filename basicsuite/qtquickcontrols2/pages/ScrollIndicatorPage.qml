@@ -77,7 +77,7 @@ Flickable {
 
             Image {
                 rotation: 90
-                source: "arrows.png"
+                source: "../images/arrows.png"
                 anchors.horizontalCenter: parent.horizontalCenter
             }
         }

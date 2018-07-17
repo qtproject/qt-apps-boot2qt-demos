@@ -65,6 +65,7 @@
 #include <QtQml/QQmlComponent>
 #include <QSettings>
 #include <QQuickStyle>
+#include <QIcon>
 
 #if defined(USE_QTWEBENGINE)
 #include <qtwebengineglobal.h>
@@ -75,7 +76,10 @@
 int main(int argc, char **argv)
 {
     //qputenv("QT_IM_MODULE", QByteArray("qtvkb"));
-    qputenv("QT_QUICK_CONTROLS_CONF", "/data/user/gallery/qtquickcontrols2.conf");
+    qputenv("QT_QUICK_CONTROLS_CONF", "/data/user/qt/qtquickcontrols2/qtquickcontrols2.conf");
+    QIcon::setThemeName("gallery");
+    QIcon::setThemeSearchPaths(QStringList() << "/data/user/qt/qtquickcontrols2/icons");
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
 
 #if defined(USE_QTWEBENGINE)
@@ -131,12 +135,11 @@ int main(int argc, char **argv)
         QGuiApplication::setFont(font);
     }
 
-    QSettings settings;
-    QString style = QQuickStyle::name();
-    if (!style.isEmpty())
-        settings.setValue("style", "Material");
-    else
-        QQuickStyle::setStyle(settings.value("style").toString());
+    QSettings styleSettings;
+    QString style = styleSettings.value("style").toString();
+    if (style.isEmpty() || style == "Default")
+        styleSettings.setValue("style", "Material");
+    QQuickStyle::setStyle(styleSettings.value("style").toString());
 
     DummyEngine engine;
 

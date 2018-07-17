@@ -88,7 +88,7 @@ Page {
             anchors.fill: parent
 
             ToolButton {
-                icon.source: stackView.depth > 1 ? "back.png" : "drawer.png"
+                icon.name: stackView.depth > 1 ? "back" : "drawer"
                 onClicked: {
                     if (stackView.depth > 1) {
                         stackView.pop()
@@ -110,7 +110,7 @@ Page {
             }
 
             ToolButton {
-                icon.source: "menu.png"
+                icon.name: "menu"
                 onClicked: optionsMenu.open()
 
                 Menu {
@@ -150,7 +150,7 @@ Page {
                 highlighted: ListView.isCurrentItem
                 onClicked: {
                     listView.currentIndex = index
-                    stackView.push(model.source)
+                    stackView.push("pages/" + model.source)
                     drawer.close()
                 }
             }
@@ -202,7 +202,7 @@ Page {
                 anchors.centerIn: parent
                 anchors.verticalCenterOffset: -50
                 fillMode: Image.PreserveAspectFit
-                source: "qt-logo.png"
+                source: "images/qt-logo.png"
             }
 
             Label {
@@ -219,7 +219,7 @@ Page {
 
             Image {
                 id: arrow
-                source: "arrow.png"
+                source: "images/arrow.png"
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
             }

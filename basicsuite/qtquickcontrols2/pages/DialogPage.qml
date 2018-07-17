@@ -156,7 +156,7 @@ ScrollablePage {
                             width: parent.width / 2
                             anchors.horizontalCenter: parent.horizontalCenter
                             fillMode: Image.PreserveAspectFit
-                            source: "qt-logo.png"
+                            source: "../images/qt-logo.png"
                         }
 
                         Label {

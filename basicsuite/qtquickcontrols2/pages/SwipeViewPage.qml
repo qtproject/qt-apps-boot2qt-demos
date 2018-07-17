@@ -79,7 +79,7 @@ Pane {
                     }
 
                     Image {
-                        source: "arrows.png"
+                        source: "../images/arrows.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                 }

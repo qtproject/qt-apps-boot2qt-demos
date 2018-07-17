@@ -1,15 +1,15 @@
-TARGET = gallery
+TARGET = qtquickcontrols2
 
 include(../shared/shared.pri)
 b2qtdemo_deploy_defaults()
 
 content.files = \
-    main.qml \
-    qtquickcontrols2.conf \
-    icons/gallery/index.theme \
-    $$files(icons/*.png, true) \
-    $$files(images/*.png) \
-    $$files(pages/*.qml)
+    $$PWD/preview_l.jpg \
+    $$PWD/main.qml \
+    $$PWD/qtquickcontrols2.conf \
+    $$PWD/images \
+    $$PWD/icons \
+    $$PWD/pages
 
 content.path = $$DESTPATH
 
