@@ -148,6 +148,17 @@ int main(int argc, char **argv)
     applicationengine.rootContext()->setContextProperty("engine", &engine);
     applicationengine.rootContext()->setContextProperty("appFont", appFont);
     applicationengine.rootContext()->setContextProperty("availableStyles", QQuickStyle::availableStyles());
+
+
+    QSettings themeColorSettings("QtLauncher", "colorSettings");
+
+    applicationengine.rootContext()->setContextProperty("_backgroundColor", themeColorSettings.value("backgroundColor", "#09102b"));
+    applicationengine.rootContext()->setContextProperty("_primaryGreen", themeColorSettings.value("primaryGreen", "#41cd52"));
+    applicationengine.rootContext()->setContextProperty("_mediumGreen", themeColorSettings.value("mediumGreen", "#21be2b"));
+    applicationengine.rootContext()->setContextProperty("_darkGreen", themeColorSettings.value("darkGreen", "#17a81a"));
+    applicationengine.rootContext()->setContextProperty("_primaryGrey", themeColorSettings.value("primaryGrey", "#9d9faa"));
+    applicationengine.rootContext()->setContextProperty("_secondaryGrey", themeColorSettings.value("secondaryGrey", "#3a4055"));
+
     applicationengine.load(QUrl::fromLocalFile(path + "/SharedMain.qml"));
 
     app.exec();
