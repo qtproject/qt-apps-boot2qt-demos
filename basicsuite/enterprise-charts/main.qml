@@ -51,13 +51,12 @@
 //![1]
 import QtQuick 2.0
 //![1]
-import "settings.js" as Settings
 
 Rectangle {
     width: 600
     height: 400
     property bool sourceLoaded: false
-    color: Settings.backgroundColor
+    color: _backgroundColor
 
     property string darkGrey: "#222840"
     property string darkGrey2: "#53586b"

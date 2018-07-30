@@ -18,7 +18,6 @@ content.files = \
     effect_ThresholdMask.qml \
     main.qml \
     images \
-    ../shared/settings.js
 
 content.path = $$DESTPATH
 

@@ -20,8 +20,7 @@ content.files = \
     UrlBar.qml \
     VolumeControl.qml \
     Effects \
-    images \
-    ../shared/settings.js
+    images
 
 content.path = $$DESTPATH
 

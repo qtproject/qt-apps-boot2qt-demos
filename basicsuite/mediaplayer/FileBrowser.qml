@@ -51,7 +51,6 @@ import QtQuick 2.0
 import Qt.labs.folderlistmodel 2.0
 import QtQuick.Controls 1.4
 import QtDeviceUtilities.QtButtonImageProvider 1.0
-import "settings.js" as Settings
 
 Item {
     id: fileBrowser
@@ -79,7 +78,7 @@ Item {
 
         Rectangle {
             id: root
-            color: Settings.backgroundColor
+            color: _backgroundColor
             property alias folder: folders.folder
 
             FolderListModel {
@@ -113,7 +112,7 @@ Item {
                         text: fileName
                         font.pixelSize: parent.height * .1
                         font.family: appFont
-                        color: view.currentIndex === index ? Settings.primaryGreen : "white"
+                        color: view.currentIndex === index ? _primaryGreen : "white"
                         elide: Text.ElideRight
                     }
 
@@ -185,7 +184,7 @@ Item {
             Rectangle {
                 width: parent.width;
                 height: 70
-                color: Settings.backgroundColor
+                color: _backgroundColor
                 id: titleBar
 
                 QtButton {
@@ -195,6 +194,7 @@ Item {
                     anchors.leftMargin: parent.width * .05
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: up()
+                    fillColor: _primaryGreen
                 }
 
                 Text {
@@ -220,13 +220,14 @@ Item {
                     anchors.rightMargin: parent.width * .05
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: fileBrowser.selectFile("")
+                    fillColor: _primaryGreen
                 }
 
                 Rectangle {
                     width: parent.width
                     anchors.bottom: parent.bottom
                     height: 2
-                    color: Settings.primaryGrey
+                    color: _primaryGrey
                 }
             }
 

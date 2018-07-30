@@ -51,7 +51,6 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
 import QtDeviceUtilities.QtButtonImageProvider 1.0
-import "settings.js" as Settings
 
 FocusScope {
     id: applicationWindow

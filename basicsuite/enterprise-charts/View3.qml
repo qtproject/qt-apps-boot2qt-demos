@@ -50,7 +50,6 @@
 
 import QtQuick 2.0
 import QtCharts 2.0
-import "settings.js" as Settings
 
 Item {
     anchors.fill: parent
@@ -60,7 +59,7 @@ Item {
         anchors.fill: parent
         SplineSeries {
             name: "SplineSeries"
-            color: Settings.primaryGreen
+            color: _primaryGreen
             XYPoint { x: 0; y: 0.0 }
             XYPoint { x: 1.1; y: 3.2 }
             XYPoint { x: 1.9; y: 2.4 }

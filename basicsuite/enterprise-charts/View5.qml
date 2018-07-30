@@ -50,7 +50,6 @@
 
 import QtQuick 2.0
 import QtCharts 2.0
-import "settings.js" as Settings
 
 Item {
     anchors.fill: parent
@@ -61,7 +60,7 @@ Item {
         ScatterSeries {
             id: scatter1
             name: "Scatter1"
-            color: Settings.primaryGreen
+            color: _primaryGreen
             XYPoint { x: 1.5; y: 1.5 }
             XYPoint { x: 1.5; y: 1.6 }
             XYPoint { x: 1.57; y: 1.55 }
@@ -73,7 +72,7 @@ Item {
 
         ScatterSeries {
             name: "Scatter2"
-            color: Settings.primaryGrey
+            color: _primaryGrey
             //![1]
             XYPoint { x: 2.0; y: 2.0 }
             XYPoint { x: 2.0; y: 2.1 }

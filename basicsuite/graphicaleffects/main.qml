@@ -48,7 +48,6 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
-import "settings.js" as Settings
 
 Item {
     id: root
@@ -74,7 +73,7 @@ Item {
         anchors.right: checkers.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        color: Settings.backgroundColor
+        color: _backgroundColor
     }
 
     ListModel {
@@ -121,7 +120,7 @@ Item {
             property bool isSelected: list.currentIndex == index
 
             Text {
-                color: parent.isSelected ? Settings.primaryGreen : "white"
+                color: parent.isSelected ? _primaryGreen : "white"
                 font.pixelSize: parent.height * 0.625
                 font.family: appFont
                 font.styleName: parent.isSelected ? "Bold" : "Regular"
@@ -159,7 +158,7 @@ Item {
 
             var margin = canvas.padding;
             var segmentSize = 4
-            ctx.strokeStyle = Settings.primaryGrey
+            ctx.strokeStyle = _primaryGrey
             ctx.beginPath();
             ctx.moveTo(margin, margin);
             ctx.lineTo(margin, h-margin);
@@ -179,7 +178,7 @@ Item {
         }
 
         Rectangle {
-            color: Settings.primaryGreen
+            color: _primaryGreen
             width: parent.width / 20
             height: width
             radius: width / 2

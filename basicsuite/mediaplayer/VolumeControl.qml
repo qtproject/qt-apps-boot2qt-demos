@@ -51,7 +51,6 @@
 import QtQuick 2.0
 import QtDeviceUtilities.QtButtonImageProvider 1.0
 import QtQuick.Controls 2.2
-import "settings.js" as Settings
 
 Item {
     id: root
@@ -69,7 +68,7 @@ Item {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: controlBar.width * 0.02
         anchors.horizontalCenter: parent.horizontalCenter
-        fillColor: Settings.primaryGreen
+        fillColor: _primaryGreen
 
         Image{
             anchors.centerIn: parent
@@ -104,7 +103,7 @@ Item {
             width: controlBar.width * 0.06
             height: width
             anchors.bottom: parent.bottom
-            fillColor: Settings.primaryGrey
+            fillColor: _primaryGrey
             borderColor: "transparent"
             Image{
                 anchors.centerIn: parent
@@ -140,7 +139,7 @@ Item {
                 Rectangle{
                     height: volumeSlider.visualPosition * parent.height
                     width: parent.width
-                    color: Settings.primaryGrey
+                    color: _primaryGrey
                     radius: 2
                 }
             }
@@ -150,7 +149,7 @@ Item {
                 width: sliderBackground.width * 7
                 height: width
                 radius: height * 0.5
-                color: Settings.primaryGreen
+                color: _primaryGreen
             }
         }
 

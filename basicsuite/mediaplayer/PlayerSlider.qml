@@ -48,7 +48,6 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
-import "settings.js" as Settings
 
 Item {
     id: slider
@@ -82,7 +81,7 @@ Item {
         width: slider.width
         anchors.verticalCenter: slider.verticalCenter
         height: 5
-        color: Settings.primaryGrey
+        color: _primaryGrey
         radius: 2
 
         MouseArea {
@@ -129,7 +128,7 @@ Item {
         width: 40
         height: width
         radius: width / 2
-        color: Settings.primaryGreen
+        color: _primaryGreen
         antialiasing: true
         anchors.centerIn: handle
         visible: true

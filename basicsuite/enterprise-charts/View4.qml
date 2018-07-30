@@ -50,7 +50,6 @@
 
 import QtQuick 2.0
 import QtCharts 2.0
-import "settings.js" as Settings
 
 Item {
     anchors.fill: parent
@@ -69,7 +68,7 @@ Item {
         AreaSeries {
             name: "Russian"
             color: mediumGrey2
-            borderColor: Settings.darkGreen
+            borderColor: _darkGreen
             borderWidth: 3
             axisX: valueAxis
             upperSeries: LineSeries {
@@ -92,7 +91,7 @@ Item {
         AreaSeries {
             name: "Swedish"
             color: lightGrey
-            borderColor: Settings.mediumGreen
+            borderColor: _mediumGreen
             borderWidth: 3
             axisX: valueAxis
             upperSeries: LineSeries {
@@ -113,8 +112,8 @@ Item {
 
         AreaSeries {
             name: "Finnish"
-            color: Settings.secondaryGrey
-            borderColor: Settings.primaryGreen
+            color: _secondaryGrey
+            borderColor: _primaryGreen
             borderWidth: 3
             axisX: valueAxis
             upperSeries: LineSeries {

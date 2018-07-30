@@ -49,7 +49,6 @@
 ****************************************************************************/
 import QtQuick 2.0
 import QtQuick.Controls 2.0
-import "settings.js" as Settings
 
 Rectangle {
     id: root
@@ -93,9 +92,9 @@ Rectangle {
         font.family: appFont
         font.styleName: "Light"
         background: Rectangle {
-            color: Settings.backgroundColor
+            color: _backgroundColor
             opacity: 0.8
-            border.color: Settings.primaryGrey
+            border.color: _primaryGrey
             border.width: 2
         }
         onAccepted: root.urlAccepted(urlInput.text);
@@ -107,7 +106,7 @@ Rectangle {
         anchors.verticalCenter: urlBar.verticalCenter
         height: 70
         width: 70
-        color: Settings.primaryGrey
+        color: _primaryGrey
         MouseArea {
             anchors.fill: parent
             onClicked: { urlInput.text = ""; urlInput.paste(); }
