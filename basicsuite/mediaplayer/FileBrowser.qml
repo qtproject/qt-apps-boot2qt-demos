@@ -112,7 +112,7 @@ Item {
                         text: fileName
                         font.pixelSize: parent.height * .1
                         font.family: appFont
-                        color: view.currentIndex === index ? _primaryGreen : "white"
+                        color: mouseRegion.pressed ? _primaryGreen : "white"
                         elide: Text.ElideRight
                     }
 
