@@ -42,19 +42,21 @@ import "./BikeStyle"
 
 // Top-left corner, stats
 Item {
-    width: 320
-    height: UILayout.topViewHeight
+    width: root.width * 0.425
+    height: root.height * 0.45
+    property real imageMargin: Math.min(width, height) * 0.3
 
     Image {
         id: tripIcon
-        width: UILayout.statsIconWidth
-        height: UILayout.statsIconHeight
+        width: Math.min(parent.width, parent.height) * 0.15
+        height: width
         source: "images/trip.png"
+        fillMode: Image.PreserveAspectFit
         anchors {
-            top: parent.top
             left: parent.left
-            topMargin: UILayout.statsIconTop
-            leftMargin: UILayout.statsIconLeft
+            leftMargin: imageMargin
+            top: parent.top
+            topMargin: imageMargin
         }
     }
 
@@ -62,46 +64,45 @@ Item {
         id: tripText
         color: Colors.distanceText
         anchors {
-            top: tripIcon.top
-            topMargin: UILayout.statsTextTopOffset
+            bottom: tripIcon.verticalCenter
+            bottomMargin: -imageMargin * 0.05
             left: tripIcon.right
-            leftMargin: UILayout.statsTextSeparator
         }
         font {
             family: "Montserrat, Bold"
             weight: Font.Bold
-            pixelSize: UILayout.statsTextSize
+            pixelSize: parent.height * 0.1
         }
         text: datastore.trip.toFixed(1)
+        verticalAlignment: Text.AlignBottom
     }
 
     Text {
         id: tripUnitText
         color: Colors.distanceUnit
         anchors {
-            baseline: tripIcon.bottom
-            baselineOffset: -UILayout.statsUnitBaselineOffset
+            top: tripText.bottom
             left: tripIcon.right
-            leftMargin: UILayout.statsTextSeparator
         }
         font {
             family: "Montserrat, Light"
             weight: Font.Light
-            pixelSize: UILayout.statsTextSize
+            pixelSize: parent.height * 0.065
         }
+        verticalAlignment: Text.AlignTop
         text: datastore.unit === DataStore.Kmh ? "km" : "mi."
     }
 
     Image {
         id: calIcon
-        width: UILayout.statsIconWidth
-        height: UILayout.statsIconHeight
+        width: Math.min(parent.width, parent.height) * 0.15
+        height: width
         source: "images/calories.png"
         anchors {
-            top: tripIcon.bottom
             left: parent.left
-            topMargin: UILayout.statsIconSeparator
-            leftMargin: UILayout.statsIconLeft
+            leftMargin: imageMargin
+            top: tripIcon.bottom
+            topMargin: imageMargin * 0.25
         }
     }
 
@@ -109,15 +110,14 @@ Item {
         id: calText
         color: Colors.distanceText
         anchors {
-            top: calIcon.top
-            topMargin: UILayout.statsTextTopOffset
+            bottom: calIcon.verticalCenter
+            bottomMargin: -imageMargin * 0.05
             left: calIcon.right
-            leftMargin: UILayout.statsTextSeparator
         }
         font {
             family: "Montserrat, Bold"
             weight: Font.Bold
-            pixelSize: UILayout.statsTextSize
+            pixelSize: parent.height * 0.1
         }
         text: datastore.calories.toFixed(0)
     }
@@ -126,21 +126,19 @@ Item {
         id: calUnitText
         color: Colors.distanceUnit
         anchors {
-            baseline: calIcon.bottom
-            baselineOffset: -UILayout.statsUnitBaselineOffset
+            top: calText.bottom
             left: calIcon.right
-            leftMargin: UILayout.statsTextSeparator
         }
         font {
             family: "Montserrat, Light"
             weight: Font.Light
-            pixelSize: UILayout.statsTextSize
+            pixelSize: parent.height * 0.065
         }
         text: "kcal"
     }
 
     Rectangle {
-        width: UILayout.horizontalViewSeparatorWidth
+        width: parent.width * 0.775
         height: UILayout.horizontalViewSeparatorHeight
         anchors.bottom: parent.bottom
         anchors.left: parent.left
@@ -149,7 +147,7 @@ Item {
 
     Rectangle {
         width: UILayout.verticalViewSeparatorWidth
-        height: UILayout.verticalViewSeparatorHheightTop
+        height: parent.height * 0.475
         anchors.top: parent.top
         anchors.right: parent.right
         color: Colors.separator

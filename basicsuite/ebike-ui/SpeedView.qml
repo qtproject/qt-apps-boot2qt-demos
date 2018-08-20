@@ -39,28 +39,28 @@ import DataStore 1.0
 import "./BikeStyle"
 
 Rectangle {
-    width: UILayout.speedViewRadius * 2 + 2
-    height: UILayout.speedViewRadius * 2 + 2
+    id: speedViewItem
+    width: root.width * 0.35
+    height: width
     color: "transparent"
-    radius: width * 0.5
+    radius: width
     z: 1
-    anchors {
+    anchors{
+        verticalCenter: parent.verticalCenter
         horizontalCenter: parent.horizontalCenter
-        top: parent.top
-        topMargin: UILayout.speedViewTop
     }
     property int dotcount: UILayout.speedViewDots
-    property int curvewidth: UILayout.speedViewInnerWidth
-    property int speedTextSize: UILayout.speedTextSize
-    property int speedBaselineOffset: UILayout.speedBaselineOffset + 1
-    property int innerRadius: UILayout.speedViewInnerRadius
-    property int speedUnitsSize: UILayout.speedUnitsSize
-    property int speedUnitBaselineOffset: UILayout.speedTextUnitMargin
-    property int speedIconsOffset: UILayout.speedIconsCenterOffset
+    property int curvewidth: Math.min(width, height) * 0.0425
+    property int speedTextSize: height * 0.4
+    property int speedBaselineOffset: height * 0.45
+    property int innerRadius: width * 0.45
+    property int speedUnitsSize: height * 0.05
+    property int speedUnitBaselineOffset: height * 0.075
+    property int speedIconsOffset: width * 0.25
     property int speedInfoTextsOffset: 0
-    property int speedInfoTextsSize: UILayout.speedInfoTextsSize
-    property int speedInfoUnitsOffset: UILayout.speedInfoUnitsOffset
-    property int assistPowerIconOffset: UILayout.assistPowerIconOffset
+    property int speedInfoTextsSize: speedTextSize * 0.45
+    property int speedInfoUnitsOffset: height * 0.075
+    property int assistPowerIconOffset: height * 0.175
     property bool enlarged: false
     property alias cornerRectangle: cornerRectangle
     property bool showZero: false
@@ -143,13 +143,13 @@ Rectangle {
 
     Image {
         id: averageSpeedIcon
-        width: UILayout.averageSpeedIconWidth
-        height: UILayout.averageSpeedIconHeight
+        width: parent.width * 0.075
+        height: width
+        fillMode: Image.PreserveAspectFit
         source: "images/speed.png"
         anchors {
             horizontalCenter: averageSpeedText.horizontalCenter
             bottom: averageSpeedText.top
-            bottomMargin: UILayout.averageSpeedIconMargin
         }
         visible: speedView.state !== "CORNERED"
     }
@@ -195,13 +195,13 @@ Rectangle {
 
     Image {
         id: assistDistanceIcon
-        width: UILayout.assistDistanceIconWidth
-        height: UILayout.assistDistanceIconHeight
+        width: parent.width * 0.075
+        height: width
+        fillMode: Image.PreserveAspectFit
         source: "images/battery.png"
         anchors {
             horizontalCenter: assistDistanceText.horizontalCenter
             bottom: assistDistanceText.top
-            bottomMargin: UILayout.assistDistanceIconMargin
         }
         visible: speedView.state !== "CORNERED"
     }
@@ -209,8 +209,9 @@ Rectangle {
     // Assist power icon
     Image {
         id: assistPowerIcon
-        width: UILayout.assistPowerTconWidth
-        height: UILayout.assistPowerTconHeight
+        width: parent.width * 0.125
+        height: width
+        fillMode: Image.PreserveAspectFit
         source: "images/assist.png"
         anchors {
             horizontalCenter: speedView.horizontalCenter
@@ -229,9 +230,9 @@ Rectangle {
     // Assist power circles
     Rectangle {
         id: assistPowerIcon1
-        width: UILayout.assistPowerCircleRadius * 2
+        width: parent.width * 0.0375
         height: width
-        radius: UILayout.assistPowerCircleRadius
+        radius: parent.width * 0.0375
         anchors {
             right: assistPowerIcon2.left
             rightMargin: UILayout.assistPowerCircleOffset
@@ -245,14 +246,14 @@ Rectangle {
 
     Rectangle {
         id: assistPowerIcon2
-        width: UILayout.assistPowerCircleRadius * 2
+        width: parent.width * 0.0375
         height: width
-        radius: UILayout.assistPowerCircleRadius
+        radius: parent.width * 0.0375
         anchors {
             right: parent.horizontalCenter
             rightMargin: UILayout.assistPowerCircleOffset / 2
             top: assistPowerIcon.bottom
-            topMargin: UILayout.assistPowerCircleTopMargin
+            topMargin: parent.height * 0.02
         }
         color: Colors.assistPowerEmpty
         gradient: datastore.assistpower > 25.0 ? assistPowerGradient : null
@@ -261,14 +262,14 @@ Rectangle {
 
     Rectangle {
         id: assistPowerIcon3
-        width: UILayout.assistPowerCircleRadius * 2
+        width: parent.width * 0.0375
         height: width
-        radius: UILayout.assistPowerCircleRadius
+        radius: parent.width * 0.0375
         anchors {
             left: parent.horizontalCenter
             leftMargin: UILayout.assistPowerCircleOffset / 2
             top: assistPowerIcon.bottom
-            topMargin: UILayout.assistPowerCircleTopMargin
+            topMargin: parent.height * 0.02
         }
         color: Colors.assistPowerEmpty
         gradient: datastore.assistpower > 50.0 ? assistPowerGradient : null
@@ -277,9 +278,9 @@ Rectangle {
 
     Rectangle {
         id: assistPowerIcon4
-        width: UILayout.assistPowerCircleRadius * 2
+        width: parent.width * 0.0375
         height: width
-        radius: UILayout.assistPowerCircleRadius
+        radius: parent.width * 0.0375
         anchors {
             left: assistPowerIcon3.right
             leftMargin: UILayout.assistPowerCircleOffset
@@ -295,9 +296,9 @@ Rectangle {
     Text {
         anchors {
             baseline: parent.bottom
-            baselineOffset: 20
+            baselineOffset: parent.height * 0.04
             right: parent.horizontalCenter
-            rightMargin: 10
+            rightMargin: parent.width * 0.02
         }
         visible: speedView.state !== "CORNERED"
 
@@ -305,7 +306,7 @@ Rectangle {
         font {
             family: "Montserrat, Regular"
             weight: Font.Normal
-            pixelSize: UILayout.ringValueText
+            pixelSize: parent.height * 0.04
         }
         text: "0"
     }
@@ -313,9 +314,9 @@ Rectangle {
     Text {
         anchors {
             baseline: parent.bottom
-            baselineOffset: 20
+            baselineOffset: parent.height * 0.04
             left: parent.horizontalCenter
-            leftMargin: 10
+            leftMargin: parent.width * 0.02
         }
         visible: speedView.state !== "CORNERED"
 
@@ -323,7 +324,7 @@ Rectangle {
         font {
             family: "Montserrat, Regular"
             weight: Font.Normal
-            pixelSize: UILayout.ringValueText
+            pixelSize: parent.height * 0.04
         }
         text: "0 %"
     }
@@ -331,9 +332,8 @@ Rectangle {
     Text {
         anchors {
             baseline: parent.verticalCenter
-            baselineOffset: -10
             right: parent.left
-            rightMargin: 9
+            rightMargin: parent.width * 0.02
         }
         visible: speedView.state !== "CORNERED"
 
@@ -341,7 +341,7 @@ Rectangle {
         font {
             family: "Montserrat, Regular"
             weight: Font.Normal
-            pixelSize: UILayout.ringValueText
+            pixelSize: parent.height * 0.04
         }
         text: "30"
     }
@@ -349,9 +349,8 @@ Rectangle {
     Text {
         anchors {
             baseline: parent.verticalCenter
-            baselineOffset: -10
             left: parent.right
-            leftMargin: 9
+            leftMargin: parent.width * 0.02
         }
         visible: speedView.state !== "CORNERED"
 
@@ -359,7 +358,7 @@ Rectangle {
         font {
             family: "Montserrat, Regular"
             weight: Font.Normal
-            pixelSize: UILayout.ringValueText
+            pixelSize: parent.height * 0.04
         }
         text: "50 %"
     }
@@ -367,9 +366,9 @@ Rectangle {
     Text {
         anchors {
             baseline: parent.top
-            baselineOffset: -10
+            baselineOffset: -parent.height * 0.02
             right: parent.horizontalCenter
-            rightMargin: 10
+            rightMargin: parent.width * 0.02
         }
         visible: speedView.state !== "CORNERED"
 
@@ -377,7 +376,7 @@ Rectangle {
         font {
             family: "Montserrat, Regular"
             weight: Font.Normal
-            pixelSize: UILayout.ringValueText
+            pixelSize: parent.height * 0.04
         }
         text: "60"
     }
@@ -385,9 +384,9 @@ Rectangle {
     Text {
         anchors {
             baseline: parent.top
-            baselineOffset: -10
+            baselineOffset: -parent.height * 0.02
             left: parent.horizontalCenter
-            leftMargin: 10
+            leftMargin: parent.width * 0.02
         }
         visible: speedView.state !== "CORNERED"
 
@@ -395,39 +394,43 @@ Rectangle {
         font {
             family: "Montserrat, Regular"
             weight: Font.Normal
-            pixelSize: UILayout.ringValueText
+            pixelSize: parent.height * 0.04
         }
         text: "100 %"
     }
 
     Rectangle {
         id: cornerRectangle
-        width: UILayout.speedViewRadiusMinified
+        width: parent.width / 2
         height: width
         // By default this is centered, and invisible
         anchors.horizontalCenter: speedView.horizontalCenter
         anchors.verticalCenter: speedView.verticalCenter
         color: "transparent"
-        radius: 10
+        radius: width * 0.1
         z: -1
 
         Image {
             source: "images/small_speedometer_arrow.png"
-            width: UILayout.speedometerCornerArrowWidth
-            height: UILayout.speedometerCornerArrowHeight
+            width: parent.width * 0.25
+            height: width
             anchors.left: parent.left
+            anchors.leftMargin: parent.width * 0.075
             anchors.bottom: parent.bottom
+            anchors.bottomMargin: parent.height * 0.075
             visible: swipeView.currentIndex != 1
         }
     }
 
     Image {
         source: "images/small_speedometer_shadow.png"
+        width: parent.width * 1.05
+        height: width
         anchors {
             horizontalCenter: parent.horizontalCenter
             verticalCenter: parent.verticalCenter
-            horizontalCenterOffset: 1
-            verticalCenterOffset: 1
+            horizontalCenterOffset: parent.width * 0.025
+            verticalCenterOffset: parent.height * 0.025
         }
         z: -1
 
@@ -436,7 +439,7 @@ Rectangle {
 
     Canvas {
         id: speedArc
-        anchors.fill: parent
+        anchors.fill: speedView
 
         Component.onCompleted: {
             datastore.onSpeedChanged.connect(speedArc.requestPaint)

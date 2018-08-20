@@ -63,7 +63,7 @@ ChartView {
         font {
             family: "Montserrat, Regular"
             weight: Font.Normal
-            pixelSize: UILayout.chartLegendTextSize
+            pixelSize: parent.height * 0.025
         }
     }
 
@@ -87,7 +87,7 @@ ChartView {
         labelsFont {
             family: "Montserrat, Light"
             weight: Font.Light
-            pixelSize: UILayout.chartTimeLabelSize
+            pixelSize: parent.height * 0.02
         }
     }
 
@@ -100,7 +100,7 @@ ChartView {
         labelsFont {
             family: "Montserrat, Regular"
             weight: Font.Normal
-            pixelSize: UILayout.chartSpeedLabelSize
+            pixelSize: parent.height * 0.0225
         }
         titleVisible: false
         lineVisible: false
@@ -115,7 +115,7 @@ ChartView {
         labelsFont {
             family: "Montserrat, Regular"
             weight: Font.Normal
-            pixelSize: UILayout.chartAssistpowerLabelSize
+            pixelSize: parent.height * 0.0225
         }
         titleVisible: false
         lineVisible: false

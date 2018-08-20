@@ -55,17 +55,16 @@ Drawer {
         anchors {
             left: parent.left
             right: parent.right
-            leftMargin: UILayout.curtainMargin
-            rightMargin: UILayout.curtainMargin
+            leftMargin: root.width * 0.025
+            rightMargin: root.width * 0.025
         }
-        height: UILayout.tabBarTabHeight
+        contentHeight: parent.height * 0.175
         background: Rectangle {
             color: Colors.curtainBackground
         }
 
         IconifiedTabButton {
             id: bikeInfoTabButton
-            height: parent.height
             bar: bar
             deselectedIcon: "images/info.png"
             selectedIcon: "images/info_selected.png"
@@ -73,7 +72,6 @@ Drawer {
 
         IconifiedTabButton {
             id: configurationTabButton
-            height: parent.height
             bar: bar
             deselectedIcon: "images/settings.png"
             selectedIcon: "images/settings_selected.png"
@@ -81,7 +79,6 @@ Drawer {
 
         IconifiedTabButton {
             id: viewTabButton
-            height: parent.height
             bar: bar
             deselectedIcon: "images/list.png"
             selectedIcon: "images/list_selected.png"
@@ -94,10 +91,10 @@ Drawer {
             left: parent.left
             right: parent.right
             top: bar.bottom
-            leftMargin: UILayout.curtainMargin
-            rightMargin: UILayout.curtainMargin
+            leftMargin: parent.width * 0.025
+            rightMargin: parent.width * 0.025
+            bottom: parent.bottom
         }
-        height: 290
         currentIndex: bar.currentIndex
 
         BikeInfoTab {
@@ -124,12 +121,12 @@ Drawer {
         id: drawerClose
         anchors {
             top: stackLayout.bottom
+            topMargin: -stackLayout.height * 0.01
             left: parent.left
             right: parent.right
         }
-
         width: parent.width
-        height: drawerCloseImage.implicitHeight
+        height: drawerCloseImage.height
         color: "transparent"
 
         Image {
@@ -137,6 +134,9 @@ Drawer {
             source: "images/curtain_shadow_handle.png"
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
+            width: root.width * 0.2
+            height: root.height * 0.07
+            fillMode: Image.PreserveAspectFit
         }
 
         MouseArea {

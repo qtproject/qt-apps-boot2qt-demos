@@ -42,22 +42,21 @@ import "./BikeStyle"
 
 // Bottom-right corner, mode
 Item {
-    width: 320
-    height: UILayout.bottomViewHeight
+    width: root.width * 0.425
+    height: root.height * 0.45
 
     Text {
         id: sportModeText
         anchors {
-            baseline: parent.bottom
-            baselineOffset: -UILayout.modeBottomOffset
-            horizontalCenter: parent.right
-            horizontalCenterOffset: -UILayout.naviModeCenterMargin
+            bottom: parent.bottom
+            bottomMargin: parent.height * 0.3
+            left: parent.horizontalCenter
         }
         color: datastore.mode == DataStore.Sport ? Colors.modeSelected : Colors.modeUnselected
         font {
             family: "Montserrat, Medium"
             weight: Font.Medium
-            pixelSize: UILayout.modeTextSize
+            pixelSize: parent.height * 0.1
         }
         text: qsTr("SPORT")
     }
@@ -65,15 +64,15 @@ Item {
     Text {
         id: cruiseModeText
         anchors {
-            baseline: sportModeText.baseline
-            baselineOffset: -UILayout.modeDistance
+            bottom: sportModeText.top
+            bottomMargin: parent.height * 0.025
             horizontalCenter: sportModeText.horizontalCenter
         }
         color: datastore.mode == DataStore.Cruise ? Colors.modeSelected : Colors.modeUnselected
         font {
             family: "Montserrat, Medium"
             weight: Font.Medium
-            pixelSize: UILayout.modeTextSize
+            pixelSize: parent.height * 0.1
         }
         text: qsTr("CRUISE")
     }
@@ -84,7 +83,7 @@ Item {
     }
 
     Rectangle {
-        width: UILayout.horizontalViewSeparatorWidth
+        width: parent.width * 0.775
         height: UILayout.horizontalViewSeparatorHeight
         anchors.top: parent.top
         anchors.right: parent.right
@@ -93,7 +92,7 @@ Item {
 
     Rectangle {
         width: UILayout.verticalViewSeparatorWidth
-        height: UILayout.verticalViewSeparatorHeightBottom
+        height: parent.height * 0.475
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         color: Colors.separator

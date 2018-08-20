@@ -43,27 +43,24 @@ TabButton {
     property string selectedIcon
     property var bar
 
-    contentItem: Image {
-        width: UILayout.tabButtonIconWidth
-        height: UILayout.tabButtonIconHeight
-        source: bar.currentItem === parent ? selectedIcon : deselectedIcon
-        fillMode: Image.Pad
-        anchors {
-            top: parent.top
-            topMargin: UILayout.tabButtonTopMargin
-            horizontalCenter: parent.horizontalCenter
-        }
-    }
-
     background: Rectangle {
         color: Colors.tabBackground
-        height: parent.height
+
+        Image {
+            height: parent.height
+            width: height
+            source: bar.currentItem === parent.parent ? selectedIcon : deselectedIcon
+            fillMode: Image.PreserveAspectFit
+            anchors.centerIn: parent
+
+        }
 
         Rectangle {
             visible: bar.currentItem === parent.parent
             width: parent.width
             height: 2
             anchors.bottom: parent.bottom
+            anchors.bottomMargin: height
             color: Colors.activeTabBorder
         }
     }

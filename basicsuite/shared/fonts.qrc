@@ -2,14 +2,18 @@
     <qresource prefix="/">
         <file>fonts/TitilliumWeb-Black.ttf</file>
         <file>fonts/TitilliumWeb-Bold.ttf</file>
-        <file>fonts/TitilliumWeb-BoldItalic.ttf</file>
         <file>fonts/TitilliumWeb-ExtraLight.ttf</file>
-        <file>fonts/TitilliumWeb-ExtraLightItalic.ttf</file>
-        <file>fonts/TitilliumWeb-Italic.ttf</file>
         <file>fonts/TitilliumWeb-Light.ttf</file>
-        <file>fonts/TitilliumWeb-LightItalic.ttf</file>
         <file>fonts/TitilliumWeb-Regular.ttf</file>
         <file>fonts/TitilliumWeb-SemiBold.ttf</file>
-        <file>fonts/TitilliumWeb-SemiBoldItalic.ttf</file>
+        <file>fonts/ebike-fonts/fontawesome-webfont.ttf</file>
+        <file>fonts/ebike-fonts/Montserrat-Bold.ttf</file>
+        <file>fonts/ebike-fonts/Montserrat-Light.ttf</file>
+        <file>fonts/ebike-fonts/Montserrat-Medium.ttf</file>
+        <file>fonts/ebike-fonts/Montserrat-Regular.ttf</file>
+        <file>fonts/ebike-fonts/Teko-Bold.ttf</file>
+        <file>fonts/ebike-fonts/Teko-Light.ttf</file>
+        <file>fonts/ebike-fonts/Teko-Medium.ttf</file>
+        <file>fonts/ebike-fonts/Teko-Regular.ttf</file>
     </qresource>
 </RCC>

@@ -76,81 +76,34 @@ Rectangle {
         id: speedView
         onShowMain: swipeView.currentIndex = 1
         showZero: naviPage.targetEdit.activeFocus
-
+        property real enlargedMultiplier: 1.19
+        property real corneredMultiplier: 0.25
         states: [
-            State {
-                name: ""
-                when: swipeView.currentIndex == 1 && (!speedView.enlarged)
-                PropertyChanges {
-                    target: speedView
-                    width: UILayout.speedViewRadius * 2 + 2
-                    height: UILayout.speedViewRadius * 2 + 2
-                    anchors.topMargin: UILayout.speedViewTop
-                    anchors.leftMargin: 0
-                    anchors.bottomMargin: 0
-                    color: "transparent"
-                    dotcount: UILayout.speedViewDots
-                    curvewidth: UILayout.speedViewInnerWidth
-                    speedTextSize: UILayout.speedTextSize
-                    speedBaselineOffset: UILayout.speedBaselineOffset + 1
-                    innerRadius: UILayout.speedViewInnerRadius
-                    speedUnitsSize: UILayout.speedUnitsSize
-                    speedUnitBaselineOffset: UILayout.speedTextUnitMargin
-                    speedIconsOffset: UILayout.speedIconsCenterOffset
-                    speedInfoTextsOffset: 0
-                    speedInfoTextsSize: UILayout.speedInfoTextsSize
-                    speedInfoUnitsOffset: UILayout.speedInfoUnitsOffset
-                    assistPowerIconOffset: UILayout.assistPowerIconOffset
-                }
-                AnchorChanges {
-                    target: speedView
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top: parent.top
-                    anchors.left: undefined
-                    anchors.bottom: undefined
-                }
-                PropertyChanges {
-                    target: speedView.cornerRectangle
-                    color: "transparent"
-                }
-                AnchorChanges {
-                    target: speedView.cornerRectangle
-                    anchors.horizontalCenter: speedView.horizontalCenter
-                    anchors.verticalCenter: speedView.verticalCenter
-                    anchors.left: undefined
-                    anchors.bottom: undefined
-                }
-                StateChangeScript {
-                    script: {
-                        if (musicPlayer.lastMusicPlayerState === "" && (!drawer.viewTab.musicPlayerSwitch.checked))
-                            musicPlayer.state = "";
-                    }
-                }
-            },
             State {
                 name: "CORNERED"
                 when: swipeView.currentIndex != 1
                 PropertyChanges {
                     target: speedView
-                    width: UILayout.speedViewRadiusMinified * 2
-                    height: UILayout.speedViewRadiusMinified * 2
-                    anchors.topMargin: 0
-                    anchors.leftMargin: UILayout.speedViewCornerLeftMargin
-                    anchors.bottomMargin: UILayout.speedViewCornerBottomMargin
+                    width: root.width * 0.14
+                    height: width
+                    anchors.leftMargin: root.width * 0.015
+                    anchors.bottomMargin: anchors.leftMargin
                     color: Colors.speedViewBackgroundCornered
                     dotcount: UILayout.speedViewDotsMinified
-                    curvewidth: UILayout.speedViewInnerWidthMinified
-                    speedTextSize: UILayout.speedTextSizeMinified
-                    speedBaselineOffset: UILayout.speedBaselineOffsetMinified
-                    innerRadius: UILayout.speedViewInnerRadiusMinified
-                    speedUnitBaselineOffset: UILayout.speedTextUnitMarginMinified
+                    speedTextSize: height * 0.475
+                    speedBaselineOffset: height * 0.4
+                    innerRadius: width * 0.45 * 0.875
+                    speedUnitBaselineOffset: height * 0.1
+                    speedUnitsSize: height * 0.09
+                    curvewidth: Math.min(width, height) * 0.055
                 }
                 AnchorChanges {
                     target: speedView
                     anchors.horizontalCenter: undefined
                     anchors.top: undefined
-                    anchors.left: parent.left
-                    anchors.bottom: parent.bottom
+                    anchors.verticalCenter: undefined
+                    anchors.left: root.left
+                    anchors.bottom: root.bottom
                 }
                 PropertyChanges {
                     target: speedView.cornerRectangle
@@ -175,20 +128,18 @@ Rectangle {
                 when: swipeView.currentIndex == 1 && speedView.enlarged
                 PropertyChanges {
                     target: speedView
-                    width: UILayout.speedViewRadiusEnlarged * 2
-                    height: UILayout.speedViewRadiusEnlarged * 2
-                    anchors.topMargin: 35
+                    width: root.width * 0.35 * enlargedMultiplier
+                    height: width
                     dotcount: UILayout.speedViewDotsEnlarged
-                    speedTextSize: UILayout.speedTextSizeEnlarged
-                    speedBaselineOffset: UILayout.speedBaselineOffsetEnlarged
-                    innerRadius: UILayout.speedViewInnerRadiusEnlarged
-                    speedUnitsSize: UILayout.speedUnitsSizeEnlarged
-                    speedUnitBaselineOffset: UILayout.speedTextUnitMarginEnlarged
-                    speedIconsOffset: UILayout.speedIconsCenterOffsetEnlarged
-                    speedInfoTextsOffset: UILayout.speedInfoTextsOffsetEnlarged
-                    speedInfoTextsSize: UILayout.speedInfoTextsSizeEnlarged
-                    speedInfoUnitsOffset: UILayout.speedInfoUnitsOffsetEnlarged
-                    assistPowerIconOffset: UILayout.assistPowerIconOffsetEnlarged
+                    speedTextSize: height * 0.4 * enlargedMultiplier
+                    innerRadius: width * 0.45
+                    speedUnitsSize: height * 0.05 * 1.125
+                    speedUnitBaselineOffset: height * 0.075 * enlargedMultiplier
+                    speedIconsOffset: width * 0.25
+                    speedInfoTextsOffset: 0
+                    speedInfoTextsSize: speedTextSize * 0.45 * enlargedMultiplier
+                    speedInfoUnitsOffset: height * 0.075 * enlargedMultiplier
+                    assistPowerIconOffset: height * 0.175 * enlargedMultiplier
                 }
                 PropertyChanges {
                     target: mainPage.statsButton
@@ -217,9 +168,7 @@ Rectangle {
                 AnchorChanges {
                     target: speedView
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top: parent.top
-                    anchors.left: undefined
-                    anchors.bottom: undefined
+                    anchors.verticalCenter: parent.verticalCenter
                 }
                 StateChangeScript {
                     script: {
@@ -280,7 +229,7 @@ Rectangle {
     // Configuration and settings drawer
     ConfigurationDrawer {
         id: drawer
-        height: 350
+        height: root.height * 0.475
         width: root.width
         edge: Qt.TopEdge
         dragMargin: 20
@@ -316,35 +265,5 @@ Rectangle {
     Connections {
         target: datastore
         onDemoReset: drawer.close()
-    }
-
-    // Virtual keyboard
-    InputPanel {
-        id: inputPanel
-        z: 99
-        x: 0
-        y: root.height
-        width: root.width
-
-        states: State {
-            name: "visible"
-            when: inputPanel.active
-            PropertyChanges {
-                target: inputPanel
-                y: root.height - inputPanel.height
-            }
-        }
-        transitions: Transition {
-            from: ""
-            to: "visible"
-            reversible: true
-            ParallelAnimation {
-                NumberAnimation {
-                    properties: "y"
-                    duration: 250
-                    easing.type: Easing.InOutQuad
-                }
-            }
-        }
     }
 }

@@ -44,16 +44,16 @@ Rectangle {
     property string distance: "0"
     property string unit: "m"
 
-    width: UILayout.naviPageGuideRadius * 2
+    width: root.width * 0.14
     height: width
     radius: width
     color: Colors.naviPageGuideBackground
     z: 1
 
     Rectangle {
-        width: UILayout.naviPageGuideRadius
+        width: parent.width / 2
         height: width
-        radius: 10
+        radius: width * 0.1
         color: Colors.naviPageGuideBackground
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -63,49 +63,48 @@ Rectangle {
         id: guideArrow
         anchors {
             top: parent.top
-            topMargin: UILayout.naviPageGuideArrowTopMargin
-            left: parent.left
-            leftMargin: UILayout.naviPageGuideArrowLeftMargin
+            topMargin: parent.height * 0.075
+            horizontalCenter: parent.horizontalCenter
         }
         source: arrowSource
-        width: UILayout.naviPageGuideArrowWidth
-        height: UILayout.naviPageGuideArrowHeight
+        width: parent.width * 0.5
+        height: width
     }
 
     Text {
         id: naviAddressText
         anchors {
-            baseline: parent.bottom
-            baselineOffset: -UILayout.naviPageGuideAddressBaselineMargin
+            top: naviDistance.bottom
+            topMargin: parent.height * 0.025
             right: parent.right
-            rightMargin: UILayout.naviPageGuideAddressRightMargin
+            rightMargin: parent.width * 0.1
         }
-        width: 123
+        width: parent.width * 0.725
         horizontalAlignment: Text.AlignRight
         color: Colors.naviPageGuideAddressColor
         font {
             family: "Montserrat, Medium"
             weight: Font.Medium
-            pixelSize: UILayout.naviPageGuideAddressTextSize
+            pixelSize: parent.height * 0.075
         }
         fontSizeMode: Text.Fit
         wrapMode: Text.WordWrap
-        minimumPixelSize: 9
+        minimumPixelSize: 5
         text: address
     }
 
     Text {
         id: naviUnit
         anchors {
-            baseline: naviAddressText.baseline
-            baselineOffset: -UILayout.naviPageGuideDistanceBaselineMargin
+            bottom: naviDistance.bottom
             right: naviAddressText.right
         }
+        verticalAlignment: Text.AlignBottom
         color: Colors.naviPageGuideUnitColor
         font {
             family: "Montserrat, Light"
             weight: Font.Light
-            pixelSize: UILayout.naviPageGuideUnitTextSize
+            pixelSize: parent.height * 0.125
         }
         text: datastore.smallUnit
     }
@@ -113,26 +112,29 @@ Rectangle {
     Text {
         id: naviDistance
         anchors {
-            baseline: naviUnit.baseline
+            top: guideArrow.bottom
             right: naviUnit.left
-            rightMargin: 10
+            rightMargin: parent.width * 0.05
         }
+        verticalAlignment: Text.AlignBottom
         color: Colors.naviPageGuideTextColor
         font {
             family: "Montserrat, Bold"
             weight: Font.Bold
-            pixelSize: UILayout.naviPageGuideDistanceTextSize
+            pixelSize: parent.height * 0.175
         }
         text: Math.round(datastore.convertSmallDistance(distance) / 10) * 10
     }
 
     Image {
         source: "images/navigation_widget_shadow.png"
+        width: parent.width * 1.05
+        height: width
         anchors {
             horizontalCenter: parent.horizontalCenter
             verticalCenter: parent.verticalCenter
-            horizontalCenterOffset: 1
-            verticalCenterOffset: 1
+            horizontalCenterOffset: parent.width * 0.025
+            verticalCenterOffset: parent.height * 0.025
         }
         z: -1
     }
