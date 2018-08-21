@@ -57,6 +57,8 @@ FocusScope {
     focus: true
 
     property real buttonHeight: height * 0.05
+    property real itemMargin: Math.min(width * 0.025, height * 0.025)
+    property real defaultFontSize: height * 0.0375
 
     MouseArea {
         id: mouseActivityMonitor
@@ -119,35 +121,55 @@ FocusScope {
         }
     }
 
-    ParameterPanel {
-        id: parameterPanel
-        opacity: controlBar.opacity * 0.9
-        visible: effectSelectionPanel.visible && model.count !== 0
-        height: 116
-        width: 500
+    Rectangle {
+        id: effectsWrapper
+        color: "transparent"
+        Behavior on opacity { NumberAnimation { } }
         anchors {
-            bottomMargin: 15
+            top: parent.top
             bottom: controlBar.top
-            right: effectSelectionPanel.left
-            rightMargin: 15
+            bottomMargin: itemMargin
+            right: parent.right
+            left: parent.left
         }
-    }
+        visible: opacity > 0
+        opacity: 0
 
-    EffectSelectionPanel {
-        id: effectSelectionPanel
-        visible: false
-        opacity: controlBar.opacity * 0.9
-        anchors {
-            bottom: controlBar.top
-            right: controlBar.right
-            bottomMargin: 15
+        ParameterPanel {
+            id: parameterPanel
+            opacity: controlBar.opacity * 0.9
+            visible: effectSelectionPanel.visible && model.count !== 0
+            height: parent.height * 0.15
+            width: parent.width * 0.4
+            anchors {
+                bottom: parent.bottom
+                right: effectSelectionPanel.left
+                rightMargin: itemMargin
+            }
+            z: 10
         }
-        width: 250
-        height: 350
-        itemHeight: 80
-        onEffectSourceChanged: {
-            content.effectSource = effectSource
-            parameterPanel.model = content.effect.parameters
+
+        EffectSelectionPanel {
+            id: effectSelectionPanel
+            opacity: controlBar.opacity * 0.9
+            width: parent.width * 0.225
+            height: parent.height * 0.7
+            anchors {
+                right: parent.right
+                bottom: parent.bottom
+            }
+            z: 10
+            onEffectSourceChanged: {
+                content.effectSource = effectSource
+                parameterPanel.model = content.effect.parameters
+            }
+            itemHeight: height / 8
+        }
+
+        MouseArea{
+            anchors.fill: parent
+            onClicked: effectsWrapper.opacity = 0
+            enabled: effectsWrapper.opacity !== 0
         }
     }
 
@@ -234,7 +256,7 @@ FocusScope {
 
     function init() {
         content.init()
-        content.openVideo("file:///data/videos/Qt_video_720p.webm");
+        content.openVideo(DefaultVideoUrl);
     }
 
     function openVideo() {
@@ -250,7 +272,7 @@ FocusScope {
     }
 
     function openFX() {
-        effectSelectionPanel.visible = !effectSelectionPanel.visible;
+        effectsWrapper.opacity = effectsWrapper.opacity === 0 ? 1 : 0
     }
 
     function close() {

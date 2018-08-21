@@ -59,7 +59,6 @@ Item {
     property alias volume: volumeSlider.value
     property bool muted: root.volume == 0.0
     property bool volumeItemUp: volumeItem.y == (volumeItem.height + volumeItem.height * 0.05)
-
     //Volume Controls
     QtButton{
         id: toggleVolumeButton
@@ -85,7 +84,7 @@ Item {
                 volumeItem.opacity = 0;
 
             if (volumeItem.y === 0)
-                volumeItem.y -= (volumeItem.height + volumeItem.height * 0.05);
+                volumeItem.y -= (volumeItem.height + itemMargin);
             else if (volumeItem !== 0)
                 volumeItem.y = 0;
         }
@@ -121,7 +120,7 @@ Item {
         Slider {
             id: volumeSlider
             anchors.bottom: muteVolumeButton.top
-            anchors.bottomMargin: parent.height * 0.05
+            anchors.bottomMargin: itemMargin
             anchors.top: parent.top
             anchors.horizontalCenter: muteVolumeButton.horizontalCenter
             orientation: Qt.Vertical

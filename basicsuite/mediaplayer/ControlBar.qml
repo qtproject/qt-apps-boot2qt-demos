@@ -164,14 +164,13 @@ Rectangle {
         anchors.right: volumeControl.left
         anchors.rightMargin: 15
         anchors.bottom: seekControl.top
-        spacing: 22
-
+        spacing: itemMargin
+        height: parent.height * 0.275
         ImageButton {
             id: fxButton
             imageSource: "images/FXButton.png"
             checkable: true
             checked: effectSelectionPanel.visible
-
             onClicked: {
                 openFX();
             }

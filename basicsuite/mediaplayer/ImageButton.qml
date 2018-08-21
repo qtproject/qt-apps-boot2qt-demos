@@ -74,6 +74,8 @@ Item {
         visible: true
         opacity: pressed ? 0.6 : 1
         smooth: true
+        height: toolbarMenuButtons.height
+        width: height
     }
 
     ColorOverlay {

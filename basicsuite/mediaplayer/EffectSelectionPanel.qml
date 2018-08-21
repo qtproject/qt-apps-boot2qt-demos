@@ -52,7 +52,6 @@ import QtQuick 2.0
 Rectangle {
     id: root
     color: _backgroundColor
-    height: 78
     property int itemHeight: 25
     property string effectSource: ""
     property bool isMouseAbove: mouseAboveMonitor.containsMouse
@@ -141,7 +140,7 @@ Rectangle {
         id: list
         anchors.fill: parent
         clip: true
-        anchors.margins: 14
+        anchors.margins: itemMargin
         model: sources
         focus: root.visible && root.opacity && urlBar.opacity === 0
 
@@ -154,14 +153,14 @@ Rectangle {
         }
 
         delegate: Item {
-            height: 40
+            height: itemHeight
             width: parent.width
             property bool isSelected: list.currentIndex == index
             Text {
                 color: parent.isSelected ? _primaryGreen : "white"
                 text: name
                 anchors.centerIn: parent
-                font.pixelSize: 20
+                font.pixelSize: defaultFontSize
                 font.family: appFont
                 font.styleName: parent.isSelected ? "Bold" : "Regular"
             }

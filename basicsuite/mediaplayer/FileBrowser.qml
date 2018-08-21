@@ -55,7 +55,7 @@ import QtDeviceUtilities.QtButtonImageProvider 1.0
 Item {
     id: fileBrowser
 
-    property string folder: "file:///data/videos"
+    property string folder: VideosLocation
 
     signal fileSelected(string file)
 

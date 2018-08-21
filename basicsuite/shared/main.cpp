@@ -135,6 +135,10 @@ int main(int argc, char **argv)
         QGuiApplication::setFont(font);
     }
 
+    QString videosPath = QStringLiteral("file://");
+    QString defaultVideoUrl = QStringLiteral("file:///data/videos/Qt_video_720p.webm");
+    videosPath.append("/data/videos");
+
     QSettings styleSettings;
     QString style = styleSettings.value("style").toString();
     if (style.isEmpty() || style == "Default")
@@ -149,6 +153,8 @@ int main(int argc, char **argv)
     applicationengine.rootContext()->setContextProperty("appFont", appFont);
     applicationengine.rootContext()->setContextProperty("availableStyles", QQuickStyle::availableStyles());
 
+    applicationengine.rootContext()->setContextProperty("VideosLocation", videosPath);
+    applicationengine.rootContext()->setContextProperty("DefaultVideoUrl", defaultVideoUrl);
 
     QSettings themeColorSettings("QtLauncher", "colorSettings");
 
