@@ -4,6 +4,7 @@ include(../shared/shared.pri)
 b2qtdemo_deploy_defaults()
 
 content.files = \
+    BaseChart.qml \
     loader.qml \
     main.qml \
     View1.qml \
@@ -17,7 +18,7 @@ content.files = \
     View6.qml \
     View7.qml \
     View8.qml \
-    View9.qml
+    View9.qml \
 
 content.path = $$DESTPATH
 

@@ -50,10 +50,15 @@
 
 import QtQuick 2.0
 import QtMultimedia 5.0
+import QtDeviceUtilities.QtButtonImageProvider 1.0
 
 FocusScope {
     id: applicationWindow
     focus: true
+
+    property real buttonHeight: height * 0.05
+    property real itemMargin: Math.min(width * 0.025, height * 0.025)
+    property real defaultFontSize: height * 0.0375
 
     MouseArea {
         id: mouseActivityMonitor
@@ -114,42 +119,57 @@ FocusScope {
         onOpenFX: {
             applicationWindow.openFX();
         }
-
-        onToggleFullScreen: {
-//            viewer.toggleFullscreen();
-        }
     }
 
-    ParameterPanel {
-        id: parameterPanel
-        opacity: controlBar.opacity
-        visible: effectSelectionPanel.visible && model.count !== 0
-        height: 116
-        width: 500
+    Rectangle {
+        id: effectsWrapper
+        color: "transparent"
+        Behavior on opacity { NumberAnimation { } }
         anchors {
-            bottomMargin: 15
+            top: parent.top
             bottom: controlBar.top
-            right: effectSelectionPanel.left
-            rightMargin: 15
+            bottomMargin: itemMargin
+            right: parent.right
+            left: parent.left
         }
-    }
+        visible: opacity > 0
+        opacity: 0
 
-    EffectSelectionPanel {
-        id: effectSelectionPanel
-        visible: false
-        opacity: controlBar.opacity
-        anchors {
-            bottom: controlBar.top
-            right: controlBar.right
-            //            rightMargin: 15
-            bottomMargin: 15
+        ParameterPanel {
+            id: parameterPanel
+            opacity: controlBar.opacity * 0.9
+            visible: effectSelectionPanel.visible && model.count !== 0
+            height: parent.height * 0.15
+            width: parent.width * 0.4
+            anchors {
+                bottom: parent.bottom
+                right: effectSelectionPanel.left
+                rightMargin: itemMargin
+            }
+            z: 10
         }
-        width: 250
-        height: 350
-        itemHeight: 80
-        onEffectSourceChanged: {
-            content.effectSource = effectSource
-            parameterPanel.model = content.effect.parameters
+
+        EffectSelectionPanel {
+            id: effectSelectionPanel
+            opacity: controlBar.opacity * 0.9
+            width: parent.width * 0.225
+            height: parent.height * 0.7
+            anchors {
+                right: parent.right
+                bottom: parent.bottom
+            }
+            z: 10
+            onEffectSourceChanged: {
+                content.effectSource = effectSource
+                parameterPanel.model = content.effect.parameters
+            }
+            itemHeight: height / 8
+        }
+
+        MouseArea{
+            anchors.fill: parent
+            onClicked: effectsWrapper.opacity = 0
+            enabled: effectsWrapper.opacity !== 0
         }
     }
 
@@ -162,35 +182,6 @@ FocusScope {
             urlBar.opacity = 0;
             if (text != "")
                 content.openVideo(text)
-        }
-    }
-
-    Rectangle {
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.rightMargin: 32
-        anchors.topMargin: 32
-        width: 40
-        height: 40
-        radius: width / 2
-        color: infoMouser.pressed ? "#BB999999" : "#88444444"
-        antialiasing: true
-        visible: content.videoPlayer.mediaPlayer.status !== MediaPlayer.NoMedia && controlBar.state === "VISIBLE"
-
-        Text {
-            anchors.centerIn: parent
-            text: "i"
-            font.italic: true
-            font.bold: true
-            color: "white"
-            font.pixelSize: 28
-        }
-
-        MouseArea {
-            id: infoMouser
-            anchors.fill: parent
-            anchors.margins: -10
-            onClicked: metadataView.opacity = 1
         }
     }
 
@@ -223,7 +214,6 @@ FocusScope {
             openFX();
             return;
         } else if (event.key === Qt.Key_F && event.modifiers & Qt.ControlModifier) {
-//            viewer.toggleFullscreen();
             return;
         } else if (event.key === Qt.Key_Up || event.key === Qt.Key_VolumeUp) {
             content.videoPlayer.mediaPlayer.volume = Math.min(1, content.videoPlayer.mediaPlayer.volume + 0.1);
@@ -241,7 +231,6 @@ FocusScope {
             }
             return;
         } else if (applicationWindow.isFullScreen && event.key === Qt.Key_Escape) {
-//            viewer.toggleFullscreen();
             return;
         }
 
@@ -267,14 +256,10 @@ FocusScope {
 
     function init() {
         content.init()
-        content.openVideo("file:///data/videos/Qt_video_720p.webm");
+        content.openVideo(DefaultVideoUrl);
     }
 
     function openVideo() {
-        //videoFileBrowser.show()
-        //        var videoFile = viewer.openFileDialog();
-        //        if (videoFile != "")
-        //            content.openVideo(videoFile);
         fileBrowser.show()
     }
 
@@ -287,7 +272,7 @@ FocusScope {
     }
 
     function openFX() {
-        effectSelectionPanel.visible = !effectSelectionPanel.visible;
+        effectsWrapper.opacity = effectsWrapper.opacity === 0 ? 1 : 0
     }
 
     function close() {

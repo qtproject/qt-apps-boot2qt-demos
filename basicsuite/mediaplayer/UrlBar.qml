@@ -48,6 +48,7 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
+import QtQuick.Controls 2.0
 
 Rectangle {
     id: root
@@ -76,54 +77,39 @@ Rectangle {
         text: "Enter URL"
         color: "white"
         font.pixelSize: 20
+        font.family: appFont
     }
 
-    BorderImage {
-        id: urlBar
-        source: "images/ControlBar.png"
-        border.top: 12
-        border.bottom: 12
-        border.left: 12
-        border.right: 12
+    TextField {
+        id: urlInput
         height: 70
-        anchors.centerIn: parent
-        anchors.verticalCenterOffset: -170
         width: 600
+        anchors.horizontalCenter: parent.horizontalCenter
+        font.pixelSize: height * 0.45
+        color: "white"
+        text: ""
+        placeholderText: "http://"
+        font.family: appFont
+        font.styleName: "Light"
+        background: Rectangle {
+            color: _backgroundColor
+            opacity: 0.8
+            border.color: _primaryGrey
+            border.width: 2
+        }
+        onAccepted: root.urlAccepted(urlInput.text);
+    }
 
-        Rectangle {
+    Rectangle {
+        anchors.right: urlBar.left
+        anchors.rightMargin: 32
+        anchors.verticalCenter: urlBar.verticalCenter
+        height: 70
+        width: 70
+        color: _primaryGrey
+        MouseArea {
             anchors.fill: parent
-            anchors.margins: 16
-            color: "#66ffffff"
-            border.color: "#bbffffff"
-            radius: 2
-            antialiasing: true
-
-            TextInput {
-                id: urlInput
-                selectionColor: "#aaffffff"
-                selectedTextColor: "black"
-                selectByMouse: true
-                anchors.fill: parent
-                anchors.margins: 5
-                font.pixelSize: 24
-                color: "black"
-                text: "http://"
-                onAccepted: root.urlAccepted(urlInput.text);
-
-            }
+            onClicked: { urlInput.text = ""; urlInput.paste(); }
         }
     }
-
-//    Rectangle {
-//        anchors.right: urlBar.left
-//        anchors.rightMargin: 32
-//        anchors.verticalCenter: urlBar.verticalCenter
-//        height: 70
-//        width: 70
-//        color: "gray"
-//        MouseArea {
-//            anchors.fill: parent
-//            onClicked: { urlInput.text = ""; urlInput.paste(); }
-//        }
-//    }
 }

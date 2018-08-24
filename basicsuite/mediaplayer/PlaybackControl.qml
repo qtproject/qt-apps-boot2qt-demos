@@ -49,11 +49,13 @@
 ****************************************************************************/
 
 import QtQuick 2.0
+import QtDeviceUtilities.QtButtonImageProvider 1.0
 
 Row {
+    anchors.leftMargin: parent.width * 0.02
     id: root
-    spacing: 26
-    height: playButton.height
+    spacing: parent.width * 0.02
+    height: parent.height
 
     property bool isPlaybackEnabled: false
     property bool isPlaying: false
@@ -64,46 +66,42 @@ Row {
     signal stopButtonPressed()
 
     //Playback Controls
-    ImageButton {
-        id: rateReverseButton
-        enabled: isPlaybackEnabled
-        imageSource: "images/RateButtonReverse.png"
-        anchors.verticalCenter: root.verticalCenter
-        onClicked: {
-            reverseButtonPressed();
+    QtButton{
+        id: playPauseButton
+        width: controlBar.width * 0.06
+        height: width
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: root.spacing
+        fillColor: _primaryGreen
+        Image{
+            anchors.centerIn: parent
+            width: parent.width * 0.5
+            height: width
+            source: !isPlaying ? "images/play_icon.svg" : "images/pause_icon.svg"
+            sourceSize.width: parent.width
+            sourceSize.height: parent.height
         }
-    }
-    ImageButton {
-        id: playButton
-        enabled: isPlaybackEnabled
-        imageSource: !isPlaying ? "images/PlayButton.png" : "images/PauseButton.png"
-        anchors.verticalCenter: root.verticalCenter
-//        anchors.right: rateForwardButton.left
-//        anchors.rightMargin: 10
         onClicked: {
             playButtonPressed();
         }
     }
-//    Rectangle{
-//        enabled: isPlaybackEnabled
-//        color: "white"
-//        opacity: enabled ? 1 : 0.3
-//        width: playButton.width
-//        height: width
-//        anchors.verticalCenter: root.verticalCenter
-//        MouseArea {
-//            anchors.fill: parent
-//            onClicked: stopButtonPressed();
-//        }
-//    }
-
-    ImageButton {
-        id: rateForwardButton
-        enabled: isPlaybackEnabled
-        imageSource: "images/RateButtonForward.png"
-        anchors.verticalCenter: root.verticalCenter
+    QtButton{
+        id: stopButton
+        width: controlBar.width * 0.06
+        height: width
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: root.spacing
+        fillColor: _primaryGreen
+        Image{
+            anchors.centerIn: parent
+            width: parent.width * 0.5
+            height: width
+            source: "images/stop_icon.svg"
+            sourceSize.width: parent.width
+            sourceSize.height: parent.height
+        }
         onClicked: {
-            forwardButtonPressed();
+            stopButtonPressed();
         }
     }
 }

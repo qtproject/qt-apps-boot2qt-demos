@@ -50,11 +50,12 @@
 import QtQuick 2.0
 import Qt.labs.folderlistmodel 2.0
 import QtQuick.Controls 1.4
+import QtDeviceUtilities.QtButtonImageProvider 1.0
 
 Item {
     id: fileBrowser
 
-    property string folder: "file:///data/videos"
+    property string folder: VideosLocation
 
     signal fileSelected(string file)
 
@@ -77,7 +78,7 @@ Item {
 
         Rectangle {
             id: root
-            color: "white"
+            color: _backgroundColor
             property alias folder: folders.folder
 
             FolderListModel {
@@ -110,7 +111,8 @@ Item {
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         text: fileName
                         font.pixelSize: parent.height * .1
-                        color: view.currentIndex === index ? "#80c342" : "#46484a"
+                        font.family: appFont
+                        color: mouseRegion.pressed ? _primaryGreen : "white"
                         elide: Text.ElideRight
                     }
 
@@ -182,16 +184,17 @@ Item {
             Rectangle {
                 width: parent.width;
                 height: 70
-                color: "#f6f6f6"
+                color: _backgroundColor
                 id: titleBar
 
-                Button {
+                QtButton {
                     id: backButton
                     text: qsTr("Back")
                     anchors.left: parent.left
                     anchors.leftMargin: parent.width * .05
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: up()
+                    fillColor: _primaryGreen
                 }
 
                 Text {
@@ -203,28 +206,28 @@ Item {
                     anchors.bottom: parent.bottom
 
                     text: String(folders.folder).replace("file://", "")
-                    color: "#46484a"
+                    color: "white"
                     elide: Text.ElideLeft
                     verticalAlignment: Text.AlignVCenter
                     font.pixelSize: backButton.height * .8
+                    font.family: appFont
                 }
 
-                Button {
+                QtButton {
                     id: cancelButton
                     text: qsTr("Cancel")
-                    checkable: true
-                    checked: true
                     anchors.right: parent.right
                     anchors.rightMargin: parent.width * .05
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: fileBrowser.selectFile("")
+                    fillColor: _primaryGreen
                 }
 
                 Rectangle {
                     width: parent.width
                     anchors.bottom: parent.bottom
                     height: 2
-                    color: "#e4e4e4"
+                    color: _primaryGrey
                 }
             }
 

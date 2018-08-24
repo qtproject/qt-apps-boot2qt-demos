@@ -51,11 +51,10 @@ import QtQuick 2.0
 
 Rectangle {
     id: root
-    height: view.model.count * sliderHeight
-    color: "#BB333333"
+    color: _backgroundColor
     property color lineColor: "black"
     property real spacing: 10
-    property real sliderHeight: 50
+    property real sliderHeight: height * 0.4
     property bool isMouseAbove: mouseAboveMonitor.containsMouse
 
     property ListModel model: ListModel { }
@@ -82,24 +81,26 @@ Rectangle {
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
-                    leftMargin: 15
+                    leftMargin: itemMargin
                     left: parent.left
                 }
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: 20
+                font.pixelSize: defaultFontSize
                 font.capitalization: Font.Capitalize
-                width: 90
+                font.family: appFont
+                width: root.width * 0.2
+                fontSizeMode: Text.Fit
             }
 
-            Slider {
+            PlayerSlider {
                 anchors {
                     verticalCenter: text.verticalCenter
                     verticalCenterOffset: 3
                     left: text.right
-                    leftMargin: 20
+                    leftMargin: itemMargin
                     right: parent.right
-                    rightMargin: 20
+                    rightMargin: itemMargin
                 }
                 value: model.value
                 onValueChanged: view.model.setProperty(index, "value", value)

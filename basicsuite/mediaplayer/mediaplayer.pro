@@ -15,8 +15,8 @@ content.files = \
     MetadataView.qml \
     ParameterPanel.qml \
     PlaybackControl.qml \
+    PlayerSlider.qml \
     SeekControl.qml \
-    Slider.qml \
     UrlBar.qml \
     VolumeControl.qml \
     Effects \

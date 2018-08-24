@@ -50,7 +50,7 @@
 
 /*!
     \page index.html
-    \title Qt 5.10.1 for Device Creation Examples and Demos
+    \title Qt 5.11.2 for Device Creation Examples and Demos
 
     \SDK has a number of examples and demos. These are included in the
     \B2Q images, available in the launcher that is run by default at
@@ -63,32 +63,20 @@
 */
 
 /*!
-    \example basicsuite/about-b2qt
-    \title About Qt for Device Creation
+    \example basicsuite/ebike-ui
+    \title e-bike Demo
     \ingroup b2qt-demos
-    \brief Displays information about Qt for Device Creation.
+    \brief An E-bike instrument cluster concept.
 
-    \image b2qt-demo-about-b2qt.jpg
+    \image b2qt-demo-ebike-ui.jpg
 
-    A demo that provides an introduction to what Qt for Device Creation is all about.
-*/
+    An E-bike instrument cluster concept designed and implemented by Qt.
 
-/*!
-    \example basicsuite/camera
-    \title Camera
-    \ingroup b2qt-demos
-    \brief Demonstrates using camera in a QML application.
+    The entire concept is a testament that Qt brings the HMI designers and Software engineers together
+    by using the same tools, allowing them to fast prototyping through collaborative workflow.
+    In addition to that, Qt is optimized for running on low end SoC even the ones that don't have GPU acceleration
+    for graphics.
 
-    \image b2qt-demo-camera.jpg
-
-    This example demonstrates the use of the camera features provided by Qt Multimedia with
-    Qt Quick.
-
-    Demo can be used to take pictures. Files are saved inside the \c {/data/images/} folder
-    and can be then viewed with the \l {Photo Gallery} demo application.
-
-    Camera parameters such as flash mode, scene mode or white balance can be changed. The
-    availability of parameters depends on what the camera driver provides.
 */
 
 /*!
@@ -120,40 +108,6 @@
 */
 
 /*!
-    \example basicsuite/canvas3d-planets
-    \title Qt Canvas3D Planets
-    \ingroup b2qt-demos
-    \brief Demonstrates the usage of Qt Canvas 3D, a WebGL-like API for QML, and popular JavaScript frameworks like three.js.
-
-    \image b2qt-demo-canvas3d-planets.jpg
-
-    The demo uses Qt Quick and Canvas 3D in combination with \l{http://threejs.org/}{three.js},
-    \l{https://github.com/jeromeetienne/threex.planets}{threex.planets}, and Qt Quick
-    Controls. Tapping on a planet changes the view and moves to the chosen planet. Use the sliders
-    to adjust the zoom levels and viewing distance. Tapping outside the controls moves the focus
-    back to the solar view.
-*/
-
-/*!
-    \example basicsuite/qt5-cinematicdemo
-    \title Qt 5 Cinematic Demo
-    \ingroup b2qt-demos
-    \brief A cool demonstration of the graphical prowess of Qt 5 and Qt Quick 2.
-
-    \image b2qt-demo-qt5-cinematicdemo.jpg
-
-    The Qt5 Cinematic Experience is a demo by "QUIt Coding", a small group of talented individuals
-    enjoying software development with cutting edge technologies. They are official members of the
-    Qt Ambassador Program.
-
-    The demo shows off a number features of Qt Quick 2.0. A nicely styled list control of movie
-    covers with lighting effects, particles and transitions. The information roll-down curvy
-    curtain is implemented using inline GLSL in the QML file.
-
-    More awesome looking Qt Quick examples are available from \l {http://quitcoding.com}.
-*/
-
-/*!
     \example basicsuite/textinput
     \title Text Input
     \ingroup b2qt-demos
@@ -181,49 +135,16 @@
 */
 
 /*!
-    \example basicsuite/enterprise-dashboard
-    \title Dashboard
+    \example basicsuite/qtquickcontrols2
+    \title Qt Quick Controls 2 - Gallery
     \ingroup b2qt-demos
-    \brief A car dashboard created using Qt Quick Enterprise Controls.
+    \brief  A gallery of controls.
 
-    \image b2qt-demo-enterprise-dashboard.jpg
+    \image b2qt-demo-qtquickcontrols2.jpg
 
-    This example project demonstrates using several CircularGauge controls to create a car dashboard.
-*/
-
-/*!
-    \example basicsuite/enterprise-qtdatavis3d
-    \title Qt Data Visualization
-    \ingroup b2qt-demos
-    \brief An interactive showcase for Qt Data Visualization 3D.
-
-    \image b2qt-demo-enterprise-qtdatavis3d.jpg
-
-    This example demonstrates how to use the Qt Data Visualization module to display 3D data visualizations in QML.
-*/
-
-/*!
-    \example basicsuite/enterprise-gallery
-    \title Enterprise Controls Gallery
-    \ingroup b2qt-demos
-    \brief An interactive showcase for Qt Quick Enterprise Controls.
-
-    \image b2qt-demo-enterprise-gallery.jpg
-
-    This example project demonstrates the various UI controls provided by Qt Quick Enterprise Controls.
-*/
-
-/*!
-    \example basicsuite/enterprise-flat-controls
-    \title Enterprise Flat Controls
-    \ingroup b2qt-demos
-    \brief The Flat Style Gallery example showcases the Qt Quick Controls.
-
-    \image b2qt-demo-enterprise-flat-controls.jpg
-
-    This demo combines both the standard Quick Controls as well as the Qt Quick Enterprise Controls
-    both of which are using the new Flat style. The Flat style for Qt Quick Controls has a modern
-    look and feel and is perfect for the touch driven interfaces commonly developed by device creators.
+    The gallery example is a simple application with a drawer menu that contains all the Qt Quick Controls 2. Each
+    menu item opens a page that shows the graphical appearance of a control, allows you to interact with the control,
+    and explains in which circumstances it is handy to use this control.
 */
 
 /*!

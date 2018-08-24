@@ -63,6 +63,9 @@
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlContext>
 #include <QtQml/QQmlComponent>
+#include <QSettings>
+#include <QQuickStyle>
+#include <QIcon>
 
 #if defined(USE_QTWEBENGINE)
 #include <qtwebengineglobal.h>
@@ -73,9 +76,11 @@
 int main(int argc, char **argv)
 {
     //qputenv("QT_IM_MODULE", QByteArray("qtvkb"));
-
+    qputenv("QT_QUICK_CONTROLS_CONF", "/data/user/qt/qtquickcontrols2/qtquickcontrols2.conf");
+    QIcon::setThemeName("gallery");
+    QIcon::setThemeSearchPaths(QStringList() << "/data/user/qt/qtquickcontrols2/icons");
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
-
 
 #if defined(USE_QTWEBENGINE)
     // This is currently needed by all QtWebEngine applications using the HW accelerated QQuickWebView.
@@ -83,6 +88,22 @@ int main(int argc, char **argv)
     // We have to do so until we expose public API for it in Qt or choose to enable it by default.
     QtWebEngine::initialize();
 #endif
+
+    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-SemiBold.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Bold.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Black.ttf");
+
+    //For eBike demo
+    QFontDatabase::addApplicationFont(":/fonts/Montserrat-Bold.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Montserrat-Light.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Montserrat-Medium.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Montserrat-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Teko-Bold.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Teko-Light.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Teko-Medium.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Teko-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/fontawesome-webfont.ttf");
 
     QString path = app.applicationDirPath();
 
@@ -114,10 +135,36 @@ int main(int argc, char **argv)
         QGuiApplication::setFont(font);
     }
 
+    QString videosPath = QStringLiteral("file://");
+    QString defaultVideoUrl = QStringLiteral("file:///data/videos/Qt_video_720p.webm");
+    videosPath.append("/data/videos");
+
+    QSettings styleSettings;
+    QString style = styleSettings.value("style").toString();
+    if (style.isEmpty() || style == "Default")
+        styleSettings.setValue("style", "Material");
+    QQuickStyle::setStyle(styleSettings.value("style").toString());
+
     DummyEngine engine;
 
     QQmlApplicationEngine applicationengine;
+    QString appFont("TitilliumWeb");
     applicationengine.rootContext()->setContextProperty("engine", &engine);
+    applicationengine.rootContext()->setContextProperty("appFont", appFont);
+    applicationengine.rootContext()->setContextProperty("availableStyles", QQuickStyle::availableStyles());
+
+    applicationengine.rootContext()->setContextProperty("VideosLocation", videosPath);
+    applicationengine.rootContext()->setContextProperty("DefaultVideoUrl", defaultVideoUrl);
+
+    QSettings themeColorSettings("QtLauncher", "colorSettings");
+
+    applicationengine.rootContext()->setContextProperty("_backgroundColor", themeColorSettings.value("backgroundColor", "#09102b"));
+    applicationengine.rootContext()->setContextProperty("_primaryGreen", themeColorSettings.value("primaryGreen", "#41cd52"));
+    applicationengine.rootContext()->setContextProperty("_mediumGreen", themeColorSettings.value("mediumGreen", "#21be2b"));
+    applicationengine.rootContext()->setContextProperty("_darkGreen", themeColorSettings.value("darkGreen", "#17a81a"));
+    applicationengine.rootContext()->setContextProperty("_primaryGrey", themeColorSettings.value("primaryGrey", "#9d9faa"));
+    applicationengine.rootContext()->setContextProperty("_secondaryGrey", themeColorSettings.value("secondaryGrey", "#3a4055"));
+
     applicationengine.load(QUrl::fromLocalFile(path + "/SharedMain.qml"));
 
     app.exec();

@@ -9,3 +9,9 @@ qtHaveModule(multimedia) {
     SUBDIRS += \
         camera
 }
+
+qtHaveModule(charts) {
+    SUBDIRS += \
+        ebike-ui \
+        datacollector
+}

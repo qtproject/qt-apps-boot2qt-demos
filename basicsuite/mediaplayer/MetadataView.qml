@@ -48,6 +48,7 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
+import QtMultimedia 5.0
 
 Rectangle {
     id: root
@@ -62,10 +63,12 @@ Rectangle {
     Rectangle {
         height: column.height + 30
         width: 500
-        color: "#BB222222"
+        color: _backgroundColor
+        opacity: 0.9
         anchors.centerIn: parent
         anchors.verticalCenterOffset: -50
-
+        border.color: _primaryGrey
+        border.width: 2
 
         Column {
             id: column
@@ -80,6 +83,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.mediaType !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -88,6 +92,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.title !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -96,6 +101,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.leadPerformer !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -104,6 +110,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.contributingArtist !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -112,6 +119,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.albumTitle !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -120,6 +128,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.albumArtist !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -128,6 +137,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.author !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -136,6 +146,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.composer !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -144,6 +155,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.writer !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -152,6 +164,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.genre !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -160,6 +173,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.trackNumber !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -168,6 +182,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.year !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -176,6 +191,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.duration !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -184,6 +200,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.resolution !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -192,6 +209,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.audioBitRate !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -200,6 +218,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.videoBitRate !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
@@ -208,6 +227,7 @@ Rectangle {
                 visible: mediaPlayer && mediaPlayer.metaData.date !== undefined
                 color: "white"
                 font.pixelSize: 24
+                font.family: appFont
                 width: parent.width
                 wrapMode: Text.WordWrap
             }

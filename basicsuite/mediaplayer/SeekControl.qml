@@ -48,11 +48,11 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
+import QtQuick.Controls 2.2
 
 Item {
     id: root
-    height: seekSlider.height
-
+    height: parent.height * 0.5
     property int position: 0
     property int duration: 0
     property bool seekable: false
@@ -62,29 +62,15 @@ Item {
     signal seekValueChanged(int newPosition)
 
     onPositionChanged: {
-        elapsedText.text = formatTime(position);
         seekSlider.value = position;
     }
 
-    onDurationChanged: {
-        remainingText.text = formatTime(duration);
-    }
-
-    Text {
-        id: elapsedText
-        anchors.verticalCenter: seekSlider.verticalCenter
-        anchors.left: root.left
-        text: "00:00"
-        font.pixelSize: 20
-        color: "#cccccc"
-    }
-
-    Slider {
+    PlayerSlider {
         id: seekSlider
-        anchors.leftMargin: 30
-        anchors.rightMargin: 30
-        anchors.left: elapsedText.right
-        anchors.right: remainingText.left
+        anchors.leftMargin: parent.width * 0.02
+        anchors.rightMargin: parent.width * 0.02
+        anchors.left: parent.left
+        anchors.right: parent.right
         anchors.verticalCenter: root.verticalCenter
         mutable: root.seekable
         enabled: root.enabled
@@ -96,15 +82,6 @@ Item {
             seekValueChanged(newValue);
             applicationWindow.resetTimer()
         }
-    }
-
-    Text {
-        id: remainingText
-        anchors.verticalCenter: seekSlider.verticalCenter
-        anchors.right: root.right
-        text: "00:00"
-        font.pixelSize: 20
-        color: "#cccccc"
     }
 
     function formatTime(time) {

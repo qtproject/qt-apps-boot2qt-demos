@@ -51,22 +51,25 @@
 import QtQuick 2.0
 import QtCharts 2.0
 
-Rectangle {
+Item {
     anchors.fill: parent
-
     //![1]
-    ChartView {
+    BaseChart {
         title: "Bar series"
         anchors.fill: parent
-        legend.alignment: Qt.AlignBottom
-        antialiasing: true
-
         BarSeries {
             id: mySeries
             axisX: BarCategoryAxis { categories: ["2007", "2008", "2009", "2010", "2011", "2012" ] }
-            BarSet { label: "Bob"; values: [2, 2, 3, 4, 5, 6] }
-            BarSet { label: "Susan"; values: [5, 1, 2, 4, 1, 7] }
-            BarSet { label: "James"; values: [3, 5, 8, 13, 5, 8] }
+            BarSet { label: "Bob"; color: _primaryGreen; values: [2, 2, 3, 4, 5, 6] }
+            BarSet { label: "Susan"; color: _primaryGrey; values: [5, 1, 2, 4, 1, 7] }
+            BarSet { label: "James"; color: _secondaryGrey; values: [3, 5, 8, 13, 5, 8] }
+        }
+
+        Component.onCompleted: {
+            axes[0].labelsColor = "white";
+            axes[1].labelsColor = "white";
+            axes[0].labelsFont = appFont;
+            axes[1].labelsFont = appFont;
         }
     }
     //![1]

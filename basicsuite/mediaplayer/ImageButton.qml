@@ -49,6 +49,7 @@
 ****************************************************************************/
 
 import QtQuick 2.0
+import QtGraphicalEffects 1.0
 
 Item {
     id: root
@@ -73,15 +74,17 @@ Item {
         visible: true
         opacity: pressed ? 0.6 : 1
         smooth: true
+        height: toolbarMenuButtons.height
+        width: height
     }
 
-//    ColorOverlay {
-//        id: glowEffect
-//        anchors.fill: image
-//        source: image
-//        color: pressed ? "#22000000" : checked ? "orange" : "white"
-//        visible: checked || hover || pressed
-//    }
+    ColorOverlay {
+        id: glowEffect
+        anchors.fill: image
+        source: image
+        color: pressed ? "#22000000" : checked ? _primaryGreen : "white"
+        visible: checked || hover || pressed
+    }
 
     MouseArea {
         id: mouseArea

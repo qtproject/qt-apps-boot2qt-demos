@@ -73,7 +73,7 @@ Item {
         anchors.right: checkers.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        color: "black"
+        color: _backgroundColor
     }
 
     ListModel {
@@ -102,8 +102,6 @@ Item {
         clip: true
         focus: true
 
-        highlightMoveDuration: 0
-
         onCurrentItemChanged: {
             var entry = listModel.get(currentIndex);
             loader.source = entry.file;
@@ -111,9 +109,7 @@ Item {
 
         model: listModel
 
-        highlight: Rectangle {
-            color: "steelblue"
-        }
+
 
         delegate: Item {
             id: delegateRoot
@@ -121,20 +117,13 @@ Item {
             width: list.width
             height: root.height * 0.05
 
-            Rectangle {
-                width: parent.width
-                height: 3
-                anchors.bottom: parent.bottom
-                gradient: Gradient {
-                    GradientStop { position: 0; color: "transparent" }
-                    GradientStop { position: 0.5; color: "lightgray" }
-                    GradientStop { position: 1; color: "transparent" }
-                }
-            }
+            property bool isSelected: list.currentIndex == index
 
             Text {
-                color: "white"
-                font.pixelSize: parent.height * 0.5
+                color: parent.isSelected ? _primaryGreen : "white"
+                font.pixelSize: parent.height * 0.625
+                font.family: appFont
+                font.styleName: parent.isSelected ? "Bold" : "Regular"
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.verticalCenterOffset: -2
                 x: parent.width * 0.1
@@ -162,14 +151,14 @@ Item {
             var h = canvas.height;
 
 
-            ctx.fillStyle = "rgb(50, 50, 50)"
+            ctx.fillStyle = "rgb(58, 64, 85)"
             ctx.beginPath();
             ctx.roundedRect(0, 0, w, h, w * 0.1, w * 0.1);
             ctx.fill();
 
             var margin = canvas.padding;
             var segmentSize = 4
-            ctx.strokeStyle = "gray"
+            ctx.strokeStyle = _primaryGrey
             ctx.beginPath();
             ctx.moveTo(margin, margin);
             ctx.lineTo(margin, h-margin);
@@ -189,7 +178,7 @@ Item {
         }
 
         Rectangle {
-            color: "red"
+            color: _primaryGreen
             width: parent.width / 20
             height: width
             radius: width / 2
@@ -208,6 +197,7 @@ Item {
 
         color: "white"
         font.pixelSize: canvas.padding * 0.5
+        font.family: appFont
     }
 
     Text {
@@ -222,6 +212,7 @@ Item {
               + (loader.item != undefined && typeof loader.item.feedbackY != 'undefined' ? ": " + loader.item.feedbackY.toFixed(2) : "");
         color: "white"
         font.pixelSize: canvas.padding * 0.5
+        font.family: appFont
     }
 
     MouseArea {
