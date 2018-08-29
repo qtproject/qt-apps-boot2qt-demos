@@ -135,10 +135,6 @@ int main(int argc, char **argv)
         QGuiApplication::setFont(font);
     }
 
-    QString videosPath = QStringLiteral("file://");
-    QString defaultVideoUrl = QStringLiteral("file:///data/videos/Qt_video_720p.webm");
-    videosPath.append("/data/videos");
-
     QSettings styleSettings;
     QString style = styleSettings.value("style").toString();
     if (style.isEmpty() || style == "Default")
@@ -153,17 +149,17 @@ int main(int argc, char **argv)
     applicationengine.rootContext()->setContextProperty("appFont", appFont);
     applicationengine.rootContext()->setContextProperty("availableStyles", QQuickStyle::availableStyles());
 
-    applicationengine.rootContext()->setContextProperty("VideosLocation", videosPath);
-    applicationengine.rootContext()->setContextProperty("DefaultVideoUrl", defaultVideoUrl);
+    QSettings demoSettings("Boot2Qt-demos", "demoSettings");
 
-    QSettings themeColorSettings("QtLauncher", "colorSettings");
+    applicationengine.rootContext()->setContextProperty("_backgroundColor", demoSettings.value("backgroundColor", "#09102b"));
+    applicationengine.rootContext()->setContextProperty("_primaryGreen", demoSettings.value("primaryGreen", "#41cd52"));
+    applicationengine.rootContext()->setContextProperty("_mediumGreen", demoSettings.value("mediumGreen", "#21be2b"));
+    applicationengine.rootContext()->setContextProperty("_darkGreen", demoSettings.value("darkGreen", "#17a81a"));
+    applicationengine.rootContext()->setContextProperty("_primaryGrey", demoSettings.value("primaryGrey", "#9d9faa"));
+    applicationengine.rootContext()->setContextProperty("_secondaryGrey", demoSettings.value("secondaryGrey", "#3a4055"));
 
-    applicationengine.rootContext()->setContextProperty("_backgroundColor", themeColorSettings.value("backgroundColor", "#09102b"));
-    applicationengine.rootContext()->setContextProperty("_primaryGreen", themeColorSettings.value("primaryGreen", "#41cd52"));
-    applicationengine.rootContext()->setContextProperty("_mediumGreen", themeColorSettings.value("mediumGreen", "#21be2b"));
-    applicationengine.rootContext()->setContextProperty("_darkGreen", themeColorSettings.value("darkGreen", "#17a81a"));
-    applicationengine.rootContext()->setContextProperty("_primaryGrey", themeColorSettings.value("primaryGrey", "#9d9faa"));
-    applicationengine.rootContext()->setContextProperty("_secondaryGrey", themeColorSettings.value("secondaryGrey", "#3a4055"));
+    applicationengine.rootContext()->setContextProperty("VideosLocation", demoSettings.value("videosLocation", "file:///data/videos"));
+    applicationengine.rootContext()->setContextProperty("DefaultVideoUrl", demoSettings.value("defaultVideoUrl", "file:///data/videos/Qt+for+Designers+and+Developers.mp4"));
 
     applicationengine.load(QUrl::fromLocalFile(path + "/SharedMain.qml"));
 
