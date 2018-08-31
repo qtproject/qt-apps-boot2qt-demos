@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2018 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the examples of Qt for Device Creation.
@@ -79,7 +79,12 @@ int main(int argc, char **argv)
     qputenv("QT_QUICK_CONTROLS_CONF", "/data/user/qt/qtquickcontrols2/qtquickcontrols2.conf");
     QIcon::setThemeName("gallery");
     QIcon::setThemeSearchPaths(QStringList() << "/data/user/qt/qtquickcontrols2/icons");
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    // Do not set HighDpiScaling for emulator, see QTBUG-64815
+    if (qEnvironmentVariableIsEmpty("QTGLESSTREAM_DISPLAY")) {
+       QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    }
+
     QApplication app(argc, argv);
 
 #if defined(USE_QTWEBENGINE)
