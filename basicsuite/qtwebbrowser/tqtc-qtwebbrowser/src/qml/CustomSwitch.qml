@@ -3,7 +3,7 @@
 ** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
-** This file is part of the Device Utilities module of the Qt Toolkit.
+** This file is part of the Qt WebBrowser application.
 **
 ** $QT_BEGIN_LICENSE:GPL$
 ** Commercial License Usage
