@@ -51,7 +51,7 @@ Shows how to make a 3D surface plot, displaying three layers from three differen
 </application>
 -->
 
-<application title="Graphical Effects" location="/data/user/qt/graphicaleffects" main="main.qml" icon="/data/user/qt/graphicaleffects/preview_l.jpg" exclude="linux-beaglebone;linux-colibri-vf;linux-colibri-imx7;linux-imx7s-warp;linux-nitrogen7">
+<application title="Graphical Effects" location="/data/user/qt/graphicaleffects" main="main.qml" icon="/data/user/qt/graphicaleffects/preview_l.jpg" exclude="linux-beaglebone;linux-colibri-vf;linux-colibri-imx7;linux-imx7s-warp;linux-nitrogen7;linux-colibri-imx6ull">
 <description>
 This example shows the Qt Quick ShaderEffect type and the Qt Graphical Effects module. Qt Quick provides the ability to use inline GLSL in your Qt Quick applications to create stunning visual effects.
 
@@ -59,7 +59,7 @@ However, as UIs typically reuse many of the same effects, the Qt Graphical Effec
 </description>
 </application>
 
-<application title="Media Player" location="/data/user/qt/mediaplayer" main="main.qml" icon="/data/user/qt/mediaplayer/preview_l.jpg" exclude="linux-beaglebone;linux-colibri-vf">
+<application title="Media Player" location="/data/user/qt/mediaplayer" main="main.qml" icon="/data/user/qt/mediaplayer/preview_l.jpg" exclude="linux-beaglebone;linux-colibri-vf;linux-colibri-imx6ull">
 <description>
 The Media Player example demonstrates the use of media playback features provided by Qt Multimedia with Qt Quick.
 
@@ -77,7 +77,7 @@ The demo shows off a number features of Qt Quick. A nicely styled list control o
 </application>
 -->
 
-<application title="Web Browser" location="/data/user/qt/qtwebbrowser" main="main.qml" icon="/data/user/qt/qtwebbrowser/preview_l.jpg" exclude="linux-emulator;linux-raspberrypi;linux-beaglebone;linux-colibri-vf;linux-colibri-imx7;linux-imx7s-warp;linux-nitrogen7">
+<application title="Web Browser" location="/data/user/qt/qtwebbrowser" main="main.qml" icon="/data/user/qt/qtwebbrowser/preview_l.jpg" exclude="linux-emulator;linux-raspberrypi;linux-beaglebone;linux-colibri-vf;linux-colibri-imx7;linux-imx7s-warp;linux-nitrogen7;linux-colibri-imx6ull">
 <description>
 This example demonstrates the use of Qt WebEngine with Qt Quick.
 
