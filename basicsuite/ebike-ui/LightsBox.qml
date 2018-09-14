@@ -41,20 +41,20 @@ import "./BikeStyle"
 
 // Bottom-left corner, controls
 Item {
-    width: 320
-    height: UILayout.bottomViewHeight
+    width: root.width * 0.425
+    height: root.height * 0.45
 
+    property real imageMargin: Math.min(width, height) * 0.35
     Image {
         id: lightsIcon
-        width: UILayout.lightsIconWidth
-        height: UILayout.lightsIconHeight
+        width: Math.min(parent.width, parent.height) * 0.35
+        height: width
         source: datastore.lights ? "images/lights_on.png" : "images/lights_off.png"
         fillMode: Image.PreserveAspectFit
         anchors {
-            left: parent.left
-            leftMargin: UILayout.lightsIconLeft
+            right: parent.horizontalCenter
             bottom: parent.bottom
-            bottomMargin: UILayout.lightsIconBottom
+            bottomMargin: imageMargin
         }
     }
 
@@ -64,7 +64,7 @@ Item {
     }
 
     Rectangle {
-        width: UILayout.horizontalViewSeparatorWidth
+        width: parent.width * 0.775
         height: UILayout.horizontalViewSeparatorHeight
         anchors.top: parent.top
         anchors.left: parent.left
@@ -73,7 +73,7 @@ Item {
 
     Rectangle {
         width: UILayout.verticalViewSeparatorWidth
-        height: UILayout.verticalViewSeparatorHeightBottom
+        height: parent.height * 0.475
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         color: Colors.separator

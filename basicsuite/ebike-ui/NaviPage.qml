@@ -290,8 +290,8 @@ Page {
         anchors {
             right: parent.right
             bottom: parent.bottom
-            rightMargin: UILayout.naviPageGuideRightMargin
-            bottomMargin: UILayout.naviPageGuideBottomMargin
+            rightMargin: root.width * 0.015
+            bottomMargin: anchors.rightMargin
         }
         arrowSource: naviGuideArrowSource
         distance: naviGuideDistance

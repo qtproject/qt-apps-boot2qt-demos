@@ -138,4 +138,3 @@ export(INSTALLS)
 OTHER_FILES += $${content.files}
 
 INSTALLS += target content
-

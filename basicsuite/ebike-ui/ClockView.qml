@@ -52,6 +52,9 @@ Item {
         id: backgroundImage
         source: "images/top_curtain_drag.png"
         anchors.centerIn: parent
+        fillMode: Image.PreserveAspectFit
+        width: root.width * 0.225
+        height: root.height * 0.075
     }
 
     Text {
@@ -66,7 +69,7 @@ Item {
         font {
             family: "Montserrat, Medium"
             weight: Font.Medium
-            pixelSize: UILayout.clockFontSize
+            pixelSize: parent.height * 0.4
         }
     }
 }

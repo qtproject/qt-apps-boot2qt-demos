@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2017 The Qt Company Ltd.
+** Copyright (C) 2018 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the examples of the Qt Toolkit.
@@ -59,7 +59,11 @@ int main(int argc, char *argv[])
 {
     QGuiApplication::setApplicationName("Gallery");
     QGuiApplication::setOrganizationName("QtProject");
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    // Do not set HighDpiScaling for emulator, see QTBUG-64815
+    if (qEnvironmentVariableIsEmpty("QTGLESSTREAM_DISPLAY")) {
+       QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    }
 
     QGuiApplication app(argc, argv);
 

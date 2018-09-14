@@ -43,8 +43,9 @@ Item {
     property string leftValue
     property string rightTitle
     property string rightValue
-    height: UILayout.statsHeight
+    height: parent.height / 3
     width: parent.width
+    property int rowTextSize: height * 0.5
 
     Text {
         text: leftTitle
@@ -55,35 +56,35 @@ Item {
         font {
             family: "Montserrat, Light"
             weight: Font.Light
-            pixelSize: UILayout.statsDescriptionTextSize
+            pixelSize: rowTextSize
         }
     }
 
     Text {
         text: leftValue
         anchors.right: parent.horizontalCenter
-        anchors.rightMargin: UILayout.statsCenterOffset
+        anchors.rightMargin: parent.width * 0.0125
         height: parent.height
         color: Colors.statsValueText
         verticalAlignment: Text.AlignVCenter
         font {
             family: "Montserrat, Bold"
             weight: Font.Bold
-            pixelSize: UILayout.statsValueTextSize
+            pixelSize: rowTextSize
         }
     }
 
     Text {
         text: rightTitle
         anchors.left: parent.horizontalCenter
-        anchors.leftMargin: UILayout.statsCenterOffset
+        anchors.leftMargin: parent.width * 0.0125
         height: parent.height
         color: Colors.statsDescriptionText
         verticalAlignment: Text.AlignVCenter
         font {
             family: "Montserrat, Light"
             weight: Font.Light
-            pixelSize: UILayout.statsDescriptionTextSize
+            pixelSize: rowTextSize
         }
     }
 
@@ -96,7 +97,7 @@ Item {
         font {
             family: "Montserrat, Bold"
             weight: Font.Bold
-            pixelSize: UILayout.statsValueTextSize
+            pixelSize: rowTextSize
         }
     }
 }

@@ -41,22 +41,23 @@ import "./BikeStyle"
 
 // Top-right corner, navi
 Item {
-    width: 320
-    height: UILayout.topViewHeight
+    id: rootItem
+    width: root.width * 0.425
+    height: root.height * 0.45
     property string arrowSource: "images/nav_right.png"
     property string distance: "0"
     property string unit: "m"
 
+    property real imageMargin: Math.min(width, height) * 0.275
     Image {
         id: naviIcon
-        width: UILayout.naviIconWidth
-        height: UILayout.naviIconHeight
+        width: Math.min(parent.width, parent.height) * 0.375
+        height: width
         source: arrowSource
         anchors {
             top: parent.top
-            topMargin: UILayout.naviIconTop
-            horizontalCenter: parent.right
-            horizontalCenterOffset: -UILayout.naviModeCenterMargin
+            topMargin: imageMargin
+            left: parent.horizontalCenter
         }
     }
 
@@ -75,7 +76,7 @@ Item {
             font {
                 family: "Montserrat, Bold"
                 weight: Font.Bold
-                pixelSize: UILayout.naviTextSize
+                pixelSize: rootItem.height * 0.1
             }
             text: Math.round(datastore.convertSmallDistance(distance) / 10) * 10
         }
@@ -91,7 +92,7 @@ Item {
             font {
                 family: "Montserrat, Light"
                 weight: Font.Light
-                pixelSize: UILayout.naviTextSize
+                pixelSize: rootItem.height * 0.1
             }
             text: datastore.smallUnit
         }
@@ -106,13 +107,13 @@ Item {
         font {
             family: "Montserrat, Medium"
             weight: Font.Medium
-            pixelSize: UILayout.modeTextSize
+            pixelSize: rootItem.height * 0.1
         }
         text: qsTr("NAVIGATE")
     }
 
     Rectangle {
-        width: UILayout.horizontalViewSeparatorWidth
+        width: parent.width * 0.775
         height: UILayout.horizontalViewSeparatorHeight
         anchors.bottom: parent.bottom
         anchors.right: parent.right
@@ -121,7 +122,7 @@ Item {
 
     Rectangle {
         width: UILayout.verticalViewSeparatorWidth
-        height: UILayout.verticalViewSeparatorHeightTop
+        height: parent.height * 0.475
         anchors.top: parent.top
         anchors.left: parent.left
         color: Colors.separator

@@ -42,7 +42,7 @@ Rectangle {
     property string description
 
     color: "transparent"
-    height: UILayout.configurationItemHeight
+    height: stackLayout.height * 0.25
     width: parent.width
 
     Text {
@@ -55,7 +55,7 @@ Rectangle {
         font {
             family: "Montserrat, Light"
             weight: Font.Light
-            pixelSize: UILayout.configurationTextSize
+            pixelSize: height * 0.3
         }
         color: Colors.tabItemColor
         verticalAlignment: Text.AlignVCenter

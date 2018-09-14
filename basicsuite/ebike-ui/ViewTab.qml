@@ -50,13 +50,13 @@ Item {
         anchors.right: parent.right
 
         Text {
-            height: UILayout.configurationItemHeight
+            height: stackLayout.height * 0.225
             width: parent.width
             text: qsTr("VIEW")
             font {
                 family: "Montserrat, Medium"
                 weight: Font.Medium
-                pixelSize: UILayout.configurationTitleSize
+                pixelSize: height * 0.375
             }
             color: Colors.tabTitleColor
             verticalAlignment: Text.AlignVCenter
@@ -108,8 +108,8 @@ Item {
 
             RoundButton {
                 id: resetButton
-                width: UILayout.unitButtonWidthMargin * 2 + mphText.implicitWidth
-                height: UILayout.unitButtonHeight
+                height: parent.height * 0.6
+                width: height + mphText.implicitWidth
                 radius: height / 2
                 anchors {
                     verticalCenter: parent.verticalCenter

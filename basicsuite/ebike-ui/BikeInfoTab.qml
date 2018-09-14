@@ -52,6 +52,7 @@ Item {
     property string primaryDetailsValue: "85%"
     property bool primaryDetailsOk: true
     property var activeComponent: batteryCircle
+    property real circleRadius: Math.min(parent.height * 0.125, parent.width * 0.125)
 
     function updateComponent() {
         if (selectedComponent === "")
@@ -111,13 +112,13 @@ Item {
             left: parent.left
             right: parent.right
         }
-        height: UILayout.configurationItemHeight
+        height: stackLayout.height * 0.225
         width: parent.width
         text: qsTr("BIKE INFO")
         font {
             family: "Montserrat, Medium"
             weight: Font.Medium
-            pixelSize: UILayout.configurationTitleSize
+            pixelSize: height * 0.375
         }
         color: Colors.tabTitleColor
         verticalAlignment: Text.AlignVCenter
@@ -135,21 +136,22 @@ Item {
         anchors {
             top: spacer.bottom
             right: parent.right
-            rightMargin: -30
+            bottom: parent.bottom
         }
+        fillMode: Image.PreserveAspectFit
         source: bikeImageSource
     }
 
     Rectangle {
         id: brakesCircle
-        width: 2 * UILayout.bikeInfoCircleRadius
-        height: 2 * UILayout.bikeInfoCircleRadius
-        radius: UILayout.bikeInfoCircleRadius
+        width: circleRadius
+        height: circleRadius
+        radius: circleRadius * 2
         anchors {
             verticalCenter: bikeImage.top
-            verticalCenterOffset: 43
+            verticalCenterOffset: bikeImage.height * 0.2
             horizontalCenter: bikeImage.left
-            horizontalCenterOffset: 243
+            horizontalCenterOffset: bikeImage.width * 0.63
         }
 
         color: "transparent"
@@ -168,14 +170,14 @@ Item {
 
     Rectangle {
         id: lightCircle
-        width: 2 * UILayout.bikeInfoCircleRadius
-        height: 2 * UILayout.bikeInfoCircleRadius
-        radius: UILayout.bikeInfoCircleRadius
+        width: circleRadius
+        height: circleRadius
+        radius: circleRadius * 2
         anchors {
             verticalCenter: bikeImage.top
-            verticalCenterOffset: 77
+            verticalCenterOffset: bikeImage.height * 0.325
             horizontalCenter: bikeImage.left
-            horizontalCenterOffset: 252
+            horizontalCenterOffset: bikeImage.width * 0.65
         }
 
         color: "transparent"
@@ -194,14 +196,14 @@ Item {
 
     Rectangle {
         id: batteryCircle
-        width: 2 * UILayout.bikeInfoCircleRadius
-        height: 2 * UILayout.bikeInfoCircleRadius
-        radius: UILayout.bikeInfoCircleRadius
+        width: circleRadius
+        height: circleRadius
+        radius: circleRadius * 2
         anchors {
             verticalCenter: bikeImage.top
-            verticalCenterOffset: 106
+            verticalCenterOffset: bikeImage.height * 0.475
             horizontalCenter: bikeImage.left
-            horizontalCenterOffset: 200
+            horizontalCenterOffset: bikeImage.width * 0.525
         }
 
         color: "transparent"
@@ -220,14 +222,14 @@ Item {
 
     Rectangle {
         id: gearsCircle
-        width: 2 * UILayout.bikeInfoCircleRadius
-        height: 2 * UILayout.bikeInfoCircleRadius
-        radius: UILayout.bikeInfoCircleRadius
+        width: circleRadius
+        height: circleRadius
+        radius: circleRadius * 2
         anchors {
             verticalCenter: bikeImage.top
-            verticalCenterOffset: 143
+            verticalCenterOffset: bikeImage.height * 0.625
             horizontalCenter: bikeImage.left
-            horizontalCenterOffset: 106
+            horizontalCenterOffset: bikeImage.width * 0.2725
         }
 
         color: "transparent"
@@ -246,14 +248,14 @@ Item {
 
     Rectangle {
         id: rearWheelCircle
-        width: 2 * UILayout.bikeInfoCircleRadius
-        height: 2 * UILayout.bikeInfoCircleRadius
-        radius: UILayout.bikeInfoCircleRadius
+        width: circleRadius
+        height: circleRadius
+        radius: circleRadius * 2
         anchors {
             verticalCenter: bikeImage.top
-            verticalCenterOffset: 144
+            verticalCenterOffset: bikeImage.height * 0.625
             horizontalCenter: bikeImage.left
-            horizontalCenterOffset: 56
+            horizontalCenterOffset: bikeImage.width * 0.15
         }
 
         color: "transparent"
@@ -271,20 +273,22 @@ Item {
 
         Image {
             anchors.centerIn: parent
+            height: circleRadius * 0.65
+            width: height
             source: "images/warning.png"
         }
     }
 
     Rectangle {
         id: frontWheelCircle
-        width: 2 * UILayout.bikeInfoCircleRadius
-        height: 2 * UILayout.bikeInfoCircleRadius
-        radius: UILayout.bikeInfoCircleRadius
+        width: circleRadius
+        height: circleRadius
+        radius: circleRadius * 2
         anchors {
             verticalCenter: bikeImage.top
-            verticalCenterOffset: 144
+            verticalCenterOffset: bikeImage.height * 0.625
             horizontalCenter: bikeImage.left
-            horizontalCenterOffset: 322
+            horizontalCenterOffset: bikeImage.width * 0.82
         }
 
         color: "transparent"
@@ -338,9 +342,10 @@ Item {
 
     Image {
         id: componentStatusImage
+        height: circleRadius * 0.9
+        width: height
         anchors {
-            verticalCenter: spacer.bottom
-            verticalCenterOffset: (UILayout.bikeInfoComponentBaselineOffset + UILayout.bikeInfoComponentLineOffset) / 2
+            verticalCenter: componentNameText.verticalCenter
             left: parent.left
         }
         source: componentStatusImageSource
@@ -350,15 +355,15 @@ Item {
     Text {
         id: componentNameText
         anchors {
-            baseline: spacer.bottom
-            baselineOffset: UILayout.bikeInfoComponentBaselineOffset
+            top: spacer.bottom
+            topMargin: parent.height * 0.0175
             left: componentStatusImage.right
-            leftMargin: 5
+            leftMargin: parent.width * 0.01
         }
         font {
             family: "Montserrat, Medium"
             weight: Font.Medium
-            pixelSize: UILayout.bikeInfoComponentHeaderTextSize
+            pixelSize: parent.height * 0.075
         }
         color: Colors.bikeInfoComponentHeader
         text: componentName
@@ -370,7 +375,7 @@ Item {
         id: statusLineHorizontal
         anchors {
             top: componentNameText.baseline
-            topMargin: UILayout.bikeInfoComponentLineOffset
+            topMargin: parent.height * 0.03
             left: parent.left
         }
         height: UILayout.bikeInfoLineWidth
@@ -382,14 +387,14 @@ Item {
     Text {
         id: primaryDetailsText
         anchors {
-            baseline: statusLineHorizontal.bottom
-            baselineOffset: UILayout.bikeInfoLineDetailsMargin
+            top: statusLineHorizontal.bottom
+            topMargin: parent.height * 0.035
             left: parent.left
         }
         font {
             family: "Montserrat, Light"
             weight: Font.Light
-            pixelSize: UILayout.bikeInfoInfoHeaderTextSize
+            pixelSize: parent.height * 0.065
         }
         color: Colors.bikeInfoComponentText
         text: primaryDetails
@@ -399,14 +404,13 @@ Item {
     Text {
         id: primaryDetailsValueText
         anchors {
-            baseline: primaryDetailsText.baseline
-            baselineOffset: UILayout.bikeInfoDetailsValueMargin
+            top: primaryDetailsText.bottom
             left: parent.left
         }
         font {
             family: "Montserrat, Medium"
             weight: Font.Medium
-            pixelSize: UILayout.bikeInfoInfoHeaderTextSize
+            pixelSize: parent.height * 0.065
         }
         color: primaryDetailsOk ? Colors.bikeInfoComponentOk : Colors.bikeInfoComponentWarning
         text: primaryDetailsValue
@@ -416,14 +420,14 @@ Item {
     Text {
         id: lastMaintenanceText
         anchors {
-            baseline: primaryDetailsValueText.baseline
-            baselineOffset: UILayout.bikeInfoDetailsBaselineMargin
+            top: primaryDetailsValueText.bottom
+            topMargin: parent.height * 0.03
             left: parent.left
         }
         font {
             family: "Montserrat, Light"
             weight: Font.Light
-            pixelSize: UILayout.bikeInfoInfoHeaderTextSize
+            pixelSize: parent.height * 0.065
         }
         color: Colors.bikeInfoComponentText
         text: qsTr("Last maintenance")
@@ -433,14 +437,13 @@ Item {
     Text {
         id: lastMaintenanceValueText
         anchors {
-            baseline: lastMaintenanceText.baseline
-            baselineOffset: UILayout.bikeInfoDetailsValueMargin
+            top: lastMaintenanceText.bottom
             left: parent.left
         }
         font {
             family: "Montserrat, Medium"
             weight: Font.Medium
-            pixelSize: UILayout.bikeInfoInfoHeaderTextSize
+            pixelSize: parent.height * 0.065
         }
         color: Colors.bikeInfoComponentOk
         text: "10/3/2017"
@@ -450,14 +453,14 @@ Item {
     Text {
         id: nextMaintenanceText
         anchors {
-            baseline: lastMaintenanceValueText.baseline
-            baselineOffset: UILayout.bikeInfoDetailsBaselineMargin
+            top: lastMaintenanceValueText.bottom
+            topMargin: parent.height * 0.03
             left: parent.left
         }
         font {
             family: "Montserrat, Light"
             weight: Font.Light
-            pixelSize: UILayout.bikeInfoInfoHeaderTextSize
+            pixelSize: parent.height * 0.065
         }
         color: Colors.bikeInfoComponentText
         text: qsTr("Scheduled maintenance")
@@ -467,14 +470,13 @@ Item {
     Text {
         id: nextMaintenanceValueText
         anchors {
-            baseline: nextMaintenanceText.baseline
-            baselineOffset: UILayout.bikeInfoDetailsValueMargin
+            top: nextMaintenanceText.bottom
             left: parent.left
         }
         font {
             family: "Montserrat, Medium"
             weight: Font.Medium
-            pixelSize: UILayout.bikeInfoInfoHeaderTextSize
+            pixelSize: parent.height * 0.065
         }
         color: Colors.bikeInfoComponentOk
         text: "10/3/2018"

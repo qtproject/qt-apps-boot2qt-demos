@@ -28,15 +28,19 @@ defineTest(b2qtdemo_deploy_defaults) {
 
 DISTFILES += $$PWD/fonts/TitilliumWeb-Black.ttf \
              $$PWD/fonts/TitilliumWeb-Bold.ttf \
-             $$PWD/fonts/TitilliumWeb-BoldItalic.ttf \
              $$PWD/fonts/TitilliumWeb-ExtraLight.ttf \
-             $$PWD/fonts/TitilliumWeb-ExtraLightItalic.ttf \
-             $$PWD/fonts/TitilliumWeb-Italic.ttf \
              $$PWD/fonts/TitilliumWeb-Light.ttf \
-             $$PWD/fonts/TitilliumWeb-LightItalic.ttf \
              $$PWD/fonts/TitilliumWeb-Regular.ttf \
              $$PWD/fonts/TitilliumWeb-SemiBold.ttf \
-             $$PWD/fonts/TitilliumWeb-SemiBoldItalic.ttf
+             $$PWD/fonts/ebike-fonts/fontawesome-webfont.ttf \
+             $$PWD/fonts/ebike-fonts/Montserrat-Bold.ttf \
+             $$PWD/fonts/ebike-fonts/Montserrat-Light.ttf \
+             $$PWD/fonts/ebike-fonts/Montserrat-Medium.ttf \
+             $$PWD/fonts/ebike-fonts/Montserrat-Regular.ttf \
+             $$PWD/fonts/ebike-fonts/Teko-Bold.ttf \
+             $$PWD/fonts/ebike-fonts/Teko-Light.ttf \
+             $$PWD/fonts/ebike-fonts/Teko-Medium.ttf \
+             $$PWD/fonts/ebike-fonts/Teko-Regular.ttf
 
 RESOURCES += \
     $$PWD/fonts.qrc

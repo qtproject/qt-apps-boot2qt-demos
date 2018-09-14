@@ -47,13 +47,13 @@ Item {
         anchors.right: parent.right
 
         Text {
-            height: UILayout.configurationItemHeight
+            height: stackLayout.height * 0.225
             width: parent.width
             text: qsTr("GENERAL")
             font {
                 family: "Montserrat, Medium"
                 weight: Font.Medium
-                pixelSize: UILayout.configurationTitleSize
+                pixelSize: height * 0.375
             }
             color: Colors.tabTitleColor
             verticalAlignment: Text.AlignVCenter
@@ -76,7 +76,7 @@ Item {
                 font {
                     family: "Montserrat, Medium"
                     weight: Font.Medium
-                    pixelSize: UILayout.languageTextSize
+                    pixelSize: height * 0.25
                 }
                 color: Colors.languageTextColor
                 verticalAlignment: Text.AlignVCenter
@@ -100,7 +100,7 @@ Item {
                 font {
                     family: "Montserrat, Medium"
                     weight: Font.Medium
-                    pixelSize: UILayout.checkboxLabelSize
+                    pixelSize: parent.height * 0.225
                 }
                 color: Colors.checkboxCheckedText
             }
@@ -139,6 +139,7 @@ Item {
             Slider {
                 id: brightnessSlider
                 value: 4
+                width: parent.width * 0.2
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
@@ -202,8 +203,8 @@ Item {
 
             RoundButton {
                 id: kmhButton
-                width: UILayout.unitButtonWidthMargin * 2 + kmhText.implicitWidth
-                height: UILayout.unitButtonHeight
+                height: parent.height * 0.6
+                width: height + kmhText.implicitWidth
                 radius: height / 2
                 anchors {
                     verticalCenter: parent.verticalCenter
@@ -237,8 +238,8 @@ Item {
 
             RoundButton {
                 id: mphButton
-                width: UILayout.unitButtonWidthMargin * 2 + mphText.implicitWidth
-                height: UILayout.unitButtonHeight
+                height: parent.height * 0.6
+                width: height + mphText.implicitWidth
                 radius: height / 2
                 anchors {
                     verticalCenter: parent.verticalCenter

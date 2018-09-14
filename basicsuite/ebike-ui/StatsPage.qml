@@ -180,7 +180,9 @@ Page {
     }
 
     // Odometer
-    Item {
+    Rectangle {
+        color: "transparent"
+        border.color: "red"
         width: odometerText.width + odometerUnit.width + odometerDescription.width + 2 * 4
         anchors {
             right: parent.right
@@ -199,7 +201,7 @@ Page {
             font {
                 family: "Montserrat, Light"
                 weight: Font.Light
-                pixelSize: UILayout.statsDescriptionTextSize
+                pixelSize: root.height * 0.035
             }
         }
 
@@ -213,7 +215,7 @@ Page {
             font {
                 family: "Montserrat, Bold"
                 weight: Font.Bold
-                pixelSize: UILayout.statsValueTextSize
+                pixelSize: root.height * 0.035
             }
         }
 
@@ -226,7 +228,7 @@ Page {
             font {
                 family: "Montserrat, Light"
                 weight: Font.Light
-                pixelSize: UILayout.statsDescriptionTextSize
+                pixelSize: root.height * 0.035
             }
         }
     }
@@ -237,11 +239,11 @@ Page {
             left: parent.left
             right: parent.right
             top: endTrip.bottom
-            bottom: tripChart.top
-            leftMargin: UILayout.statsTripButtonMarginSide
-            rightMargin: UILayout.statsTripButtonMarginSide
+            leftMargin: root.width * 0.025
+            rightMargin: root.width * 0.025
             topMargin: UILayout.statsTopMargin
         }
+        height: root.height * 0.2
         // Hide any excess content, since we are using margins
         clip: true
 
@@ -299,16 +301,18 @@ Page {
 
     TripChart {
         id: tripChart
-        width: UILayout.chartWidth
-        height: UILayout.chartHeight
         anchors {
             bottom: parent.bottom
             right: parent.right
-            bottomMargin: UILayout.chartBottomMargin
-            rightMargin: UILayout.chartRightMargin
+            bottomMargin: root.height * 0.0125
+            rightMargin: root.width * 0.02
+            top: tripView.bottom
+            left: parent.left
+            leftMargin: root.width * 0.175
         }
         animationRunning: tripView.currentIndex === 0
         tripDetails: tripdata.get(currentIndex)
         currentIndex: tripView.currentIndex
+        visible: swipeView.currentIndex === 0
     }
 }

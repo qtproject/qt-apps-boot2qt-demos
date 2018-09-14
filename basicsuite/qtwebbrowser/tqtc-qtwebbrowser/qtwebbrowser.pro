@@ -1,2 +1,8 @@
 TEMPLATE = subdirs
-SUBDIRS = src
+
+SUBDIRS = \
+    doc \
+    src
+
+requires(qtHaveModule(webengine))
+
