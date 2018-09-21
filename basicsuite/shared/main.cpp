@@ -66,12 +66,20 @@
 #include <QSettings>
 #include <QQuickStyle>
 #include <QIcon>
+#include <QQuickWindow>
 
 #if defined(USE_QTWEBENGINE)
 #include <qtwebengineglobal.h>
 #endif
 
 #include "engine.h"
+
+static bool checkGlAvailability()
+{
+    QQuickWindow window;
+    return ((window.sceneGraphBackend() != "software") &&
+            (window.sceneGraphBackend() != "softwarecontext"));
+}
 
 int main(int argc, char **argv)
 {
@@ -140,10 +148,15 @@ int main(int argc, char **argv)
         QGuiApplication::setFont(font);
     }
 
+    // Material style can be set only for devices supporting GL
     QSettings styleSettings;
     QString style = styleSettings.value("style").toString();
-    if (style.isEmpty() || style == "Default")
-        styleSettings.setValue("style", "Material");
+    if (checkGlAvailability()) {
+        if (style.isEmpty() || style == "Default")
+            styleSettings.setValue("style", "Material");
+    } else {
+        qDebug()<<"No GL available, skipping Material style";
+    }
     QQuickStyle::setStyle(styleSettings.value("style").toString());
 
     DummyEngine engine;
