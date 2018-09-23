@@ -109,7 +109,7 @@ Each menu item opens a page that shows the graphical appearance of a control, al
 </description>
 </application>
 
-<application title="Advanced custom materials" location="/data/user/qt/custommaterial" main="main.qml" icon="/data/user/qt/custommaterial/preview_l.jpg" exclude="linux-beaglebone;linux-colibri-vf;linux-colibri-imx7;linux-imx7s-warp;linux-nitrogen7;linux-colibri-imx6ull">
+<application title="Advanced custom materials" location="/data/user/qt/advancedcustommaterial" main="main.qml" icon="/data/user/qt/advancedcustommaterial/preview_l.jpg" exclude="linux-beaglebone;linux-colibri-vf;linux-colibri-imx7;linux-imx7s-warp;linux-nitrogen7;linux-colibri-imx6ull">
 <description>
 This example demonstrates advanced materials in Qt3D.
 
