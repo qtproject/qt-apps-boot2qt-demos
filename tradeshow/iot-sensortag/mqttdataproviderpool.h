@@ -55,15 +55,18 @@
 
 class MqttDataProvider;
 
-#define MQTT_BROKER ""
-#define MQTT_PORT 1883
-#define MQTT_USERNAME ""
-#define MQTT_PASSWORD ""
+namespace MqttCredentials
+{
+    QString getBroker();
+    int getPort();
+    QString getUsername();
+    QString getPassword();
+}
 
 class MqttDataProviderPool : public DataProviderPool
 {
 public:
-    explicit MqttDataProviderPool(QObject *parent = 0);
+    explicit MqttDataProviderPool(QObject *parent = nullptr);
 
     void startScanning() override;
 

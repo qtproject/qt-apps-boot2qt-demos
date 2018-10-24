@@ -14,7 +14,7 @@ CONFIG += c++11
 DEFINES += QT_NO_FOREACH
 
 # Specify UI layout to use: UI_SMALL or UI_WATCH
-DEFINES += UI_WATCH
+DEFINES += UI_SMALL
 
 # To overcome the bug QTBUG-58648, uncomment this define
 # Needed at least for RPi3 and iMX
@@ -28,7 +28,7 @@ win32|linux|android:!qnx {
 
 # For using MQTT upload enable this config.
 # This enables both, host and client mode
-# CONFIG += UPDATE_TO_MQTT_BROKER
+CONFIG += UPDATE_TO_MQTT_BROKER
 
 # For using Azure cloud connectivity enable
 # this config. This enabled both, host and

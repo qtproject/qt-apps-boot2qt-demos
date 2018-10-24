@@ -357,10 +357,10 @@ MqttEventHandler::MqttEventHandler(const QString &name, QObject *parent)
     connect(&m_pingTimer, &QTimer::timeout, this, &MqttEventHandler::sendAlive);
 
     m_client = new QMqttClient;
-    m_client->setHostname(QLatin1String(MQTT_BROKER));
-    m_client->setPort(MQTT_PORT);
-    m_client->setUsername(QByteArray(MQTT_USERNAME));
-    m_client->setPassword(QByteArray(MQTT_PASSWORD));
+    m_client->setHostname(MqttCredentials::getBroker());
+    m_client->setPort(MqttCredentials::getPort());
+    m_client->setUsername(MqttCredentials::getUsername());
+    m_client->setPassword(MqttCredentials::getPassword());
 
     m_client->setWillMessage(QString::fromLocal8Bit("%1>Offline").arg(m_deviceName).toLocal8Bit());
     m_client->setWillQoS(1);
