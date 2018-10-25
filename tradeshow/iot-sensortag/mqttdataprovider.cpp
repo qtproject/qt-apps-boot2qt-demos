@@ -154,36 +154,36 @@ void MqttDataProvider::parseMessage(const QString &content, const QString &topic
         double v1, v2, v3;
         char c;
         stream >> v1 >> c >> v2 >> c >> v3;
-        gyroscopeX_degPerSec = v1;
-        gyroscopeY_degPerSec = v2;
-        gyroscopeZ_degPerSec = v3;
+        gyroscopeX_degPerSec = static_cast<float>(v1);
+        gyroscopeY_degPerSec = static_cast<float>(v2);
+        gyroscopeZ_degPerSec = static_cast<float>(v3);
     } else if (msgType == QStringLiteral("accel")) {
         QString streamContent = content;
         QTextStream stream(&streamContent);
         double v1, v2, v3;
         char c;
         stream >> v1 >> c >> v2 >> c >> v3;
-        accelometerX = v1;
-        accelometerY = v2;
-        accelometerZ = v3;
+        accelometerX = static_cast<float>(v1);
+        accelometerY = static_cast<float>(v2);
+        accelometerZ = static_cast<float>(v3);
     } else if (msgType == QStringLiteral("magnet")) {
         QString streamContent = content;
         QTextStream stream(&streamContent);
         double v1, v2, v3;
         char c;
         stream >> v1 >> c >> v2 >> c >> v3;
-        magnetometerMicroT_xAxis = v1;
-        magnetometerMicroT_yAxis = v2;
-        magnetometerMicroT_zAxis = v3;
+        magnetometerMicroT_xAxis = static_cast<float>(v1);
+        magnetometerMicroT_yAxis = static_cast<float>(v2);
+        magnetometerMicroT_zAxis = static_cast<float>(v3);
     } else if (msgType == QStringLiteral("rotation")) {
         QString streamContent = content;
         QTextStream stream(&streamContent);
         double v1, v2, v3;
         char c;
         stream >> v1 >> c >> v2 >> c >> v3;
-        rotation_x = v1;
-        rotation_y = v2;
-        rotation_z = v3;
+        rotation_x = static_cast<float>(v1);
+        rotation_y = static_cast<float>(v2);
+        rotation_z = static_cast<float>(v3);
     } else if (msgType == QStringLiteral("altitude")) {
         QString streamContent = content;
         QTextStream stream(&streamContent);

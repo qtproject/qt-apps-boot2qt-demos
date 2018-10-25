@@ -66,7 +66,7 @@ Q_DECLARE_LOGGING_CATEGORY(boot2QtDemos)
 
 MqttUpdate::MqttUpdate(QObject *parent)
     : QObject(parent)
-    , m_providerPool(0)
+    , m_providerPool(nullptr)
 #ifdef MQTT_TIMER_BASED_PUBLISH
     , m_timerId(0)
 #endif
@@ -154,9 +154,10 @@ void MqttEventHandler::uploadGyro()
     SensorTagDataProvider *provider = m_providerPool->currentProvider();
 
     if (provider) {
-        const QString gyro = QString("%1_%2_%3").arg(provider->getGyroscopeX_degPerSec(), 0, 'f', ROUNDING_DECIMALS)
-                .arg(provider->getGyroscopeY_degPerSec(), 0, 'f', ROUNDING_DECIMALS)
-                .arg(provider->getGyroscopeZ_degPerSec(), 0, 'f', ROUNDING_DECIMALS);
+        const QString gyro = QString("%1_%2_%3")
+                .arg(double(provider->getGyroscopeX_degPerSec()), 0, 'f', ROUNDING_DECIMALS)
+                .arg(double(provider->getGyroscopeY_degPerSec()), 0, 'f', ROUNDING_DECIMALS)
+                .arg(double(provider->getGyroscopeZ_degPerSec()), 0, 'f', ROUNDING_DECIMALS);
         m_client->publish(m_topicPrefix + QLatin1String("gyro"), gyro.toLocal8Bit());
     }
 }
@@ -169,7 +170,8 @@ void MqttEventHandler::uploadTemperature()
     SensorTagDataProvider *provider = m_providerPool->currentProvider();
 
     if (provider) {
-        const QString temperature = QString("%1_%2").arg(provider->getInfraredAmbientTemperature(), 0, 'f', ROUNDING_DECIMALS)
+        const QString temperature = QString("%1_%2")
+                .arg(provider->getInfraredAmbientTemperature(), 0, 'f', ROUNDING_DECIMALS)
                 .arg(provider->getInfraredObjectTemperature(), 0, 'f', ROUNDING_DECIMALS);
         m_client->publish(m_topicPrefix + QLatin1String("temperature"), temperature.toLocal8Bit());
     }
@@ -208,7 +210,7 @@ void MqttEventHandler::uploadAltitude()
 
     if (provider)
         m_client->publish(m_topicPrefix + QLatin1String("altitude"),
-                          QString("%1").arg(provider->getAltitude(), 0, 'f', ROUNDING_DECIMALS).toLocal8Bit());
+                          QString("%1").arg(double(provider->getAltitude()), 0, 'f', ROUNDING_DECIMALS).toLocal8Bit());
 }
 
 void MqttEventHandler::uploadBarometer()
@@ -219,7 +221,8 @@ void MqttEventHandler::uploadBarometer()
     SensorTagDataProvider *provider = m_providerPool->currentProvider();
 
     if (provider) {
-        const QString baro = QString("%1_%2").arg(provider->getBarometerCelsiusTemperature(), 0, 'f', ROUNDING_DECIMALS)
+        const QString baro = QString("%1_%2")
+                .arg(provider->getBarometerCelsiusTemperature(), 0, 'f', ROUNDING_DECIMALS)
                 .arg(provider->getBarometer_hPa(), 0, 'f', ROUNDING_DECIMALS);
         m_client->publish(m_topicPrefix + QLatin1String("barometer"), baro.toLocal8Bit());
     }
@@ -233,9 +236,10 @@ void MqttEventHandler::uploadAccelerometer()
     SensorTagDataProvider *provider = m_providerPool->currentProvider();
 
     if (provider) {
-        const QString accel = QString("%1_%2_%3").arg(provider->getAccelometer_xAxis(), 0, 'f', ROUNDING_DECIMALS)
-                .arg(provider->getAccelometer_yAxis(), 0, 'f', ROUNDING_DECIMALS)
-                .arg(provider->getAccelometer_zAxis(), 0, 'f', ROUNDING_DECIMALS);
+        const QString accel = QString("%1_%2_%3")
+                .arg(double(provider->getAccelometer_xAxis()), 0, 'f', ROUNDING_DECIMALS)
+                .arg(double(provider->getAccelometer_yAxis()), 0, 'f', ROUNDING_DECIMALS)
+                .arg(double(provider->getAccelometer_zAxis()), 0, 'f', ROUNDING_DECIMALS);
         m_client->publish(m_topicPrefix + QLatin1String("accel"), accel.toLocal8Bit());
     }
 }
@@ -248,9 +252,10 @@ void MqttEventHandler::uploadMagnetometer()
     SensorTagDataProvider *provider = m_providerPool->currentProvider();
 
     if (provider) {
-        const QString magnet = QString("%1_%2_%3").arg(provider->getMagnetometerMicroT_xAxis(), 0, 'f', ROUNDING_DECIMALS)
-                .arg(provider->getMagnetometerMicroT_yAxis(), 0, 'f', ROUNDING_DECIMALS)
-                .arg(provider->getMagnetometerMicroT_zAxis(), 0, 'f', ROUNDING_DECIMALS);
+        const QString magnet = QString("%1_%2_%3")
+                .arg(double(provider->getMagnetometerMicroT_xAxis()), 0, 'f', ROUNDING_DECIMALS)
+                .arg(double(provider->getMagnetometerMicroT_yAxis()), 0, 'f', ROUNDING_DECIMALS)
+                .arg(double(provider->getMagnetometerMicroT_zAxis()), 0, 'f', ROUNDING_DECIMALS);
         m_client->publish(m_topicPrefix + QLatin1String("magnet"), magnet.toLocal8Bit());
     }
 }
@@ -263,9 +268,10 @@ void MqttEventHandler::uploadRotation()
     SensorTagDataProvider *provider = m_providerPool->currentProvider();
 
     if (provider) {
-        const QString rotation = QString("%1_%2_%3").arg(provider->getRotationX(), 0, 'f', ROUNDING_DECIMALS)
-                .arg(provider->getRotationY(), 0, 'f', ROUNDING_DECIMALS)
-                .arg(provider->getRotationZ(), 0, 'f', ROUNDING_DECIMALS);
+        const QString rotation = QString("%1_%2_%3")
+                .arg(double(provider->getRotationX()), 0, 'f', ROUNDING_DECIMALS)
+                .arg(double(provider->getRotationY()), 0, 'f', ROUNDING_DECIMALS)
+                .arg(double(provider->getRotationZ()), 0, 'f', ROUNDING_DECIMALS);
         m_client->publish(m_topicPrefix + QLatin1String("rotation"), rotation.toLocal8Bit());
     }
 }
@@ -358,7 +364,7 @@ MqttEventHandler::MqttEventHandler(const QString &name, QObject *parent)
 
     m_client = new QMqttClient;
     m_client->setHostname(MqttCredentials::getBroker());
-    m_client->setPort(MqttCredentials::getPort());
+    m_client->setPort(static_cast<quint16>(MqttCredentials::getPort()));
     m_client->setUsername(MqttCredentials::getUsername());
     m_client->setPassword(MqttCredentials::getPassword());
 

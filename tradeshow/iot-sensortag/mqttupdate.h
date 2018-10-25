@@ -63,7 +63,7 @@ class MqttEventHandler : public QObject
 {
     Q_OBJECT
 public:
-    explicit MqttEventHandler(const QString &name, QObject *parent = 0);
+    explicit MqttEventHandler(const QString &name, QObject *parent = nullptr);
     ~MqttEventHandler();
     DataProviderPool *m_providerPool;
 public slots:
@@ -91,7 +91,7 @@ class MqttUpdate : public QObject
 {
     Q_OBJECT
 public:
-    explicit MqttUpdate(QObject *parent = 0);
+    explicit MqttUpdate(QObject *parent = nullptr);
 
     void setDataProviderPool(DataProviderPool *provider);
 
