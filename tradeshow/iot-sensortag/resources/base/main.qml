@@ -48,7 +48,7 @@
 **
 ****************************************************************************/
 import QtQuick 2.6
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2
 import QtQuick.Window 2.0
 import SensorTag.DataProvider 1.0
 import SensorTag.SeriesStorage 1.0

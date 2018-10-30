@@ -50,7 +50,6 @@
 import QtQuick 2.5
 import QtCharts 2.1
 import SensorTag.DataProvider 1.0
-import QtQuick.Extras 1.4
 
 BaseChart {
     property int humiditySeriesIndex: 0
