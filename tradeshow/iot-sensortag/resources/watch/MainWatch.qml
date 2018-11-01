@@ -253,21 +253,21 @@ Item {
                         width: parent.width
                         Layout.maximumWidth: parent.width - 20
                         Layout.maximumHeight: 100
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        Layout.alignment: Qt.AlignHCenter
                     }
 
                     Text {
                         id: qtLinkLabel
                         color: "white"
                         text: "Visit us at http://qt.io"
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        Layout.alignment: Qt.AlignHCenter
                         font.pixelSize: Style.indicatorTitleSize
                     }
 
                     Text {
                         color: "white"
                         text: "qt.io/demos/IoTScale"
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        Layout.alignment: Qt.AlignHCenter
                         font.pixelSize: Style.indicatorTitleSize
                     }
                 }
