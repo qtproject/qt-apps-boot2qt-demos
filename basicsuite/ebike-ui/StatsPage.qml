@@ -59,7 +59,7 @@ Page {
     }
 
     function timestampToReadable(timestamp) {
-        return Moment.moment.unix(timestamp).calendar();
+        return Moment.unix(timestamp).calendar();
     }
 
     // On new trip data (save clicked), switch index to new trip
