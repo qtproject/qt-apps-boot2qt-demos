@@ -93,7 +93,7 @@ Qt for Device Creation comes with Qt Virtual Keyboard - a framework that consist
 </description>
 </application>
 
-<application title="E-Bike" location="/data/user/qt/ebike-ui" main="main.qml" icon="/data/user/qt/ebike-ui/preview_l.jpg" exclude="linux-emulator">
+<application title="E-Bike" location="/data/user/qt/ebike-ui" main="main.qml" icon="/data/user/qt/ebike-ui/preview_l.jpg">
 <description>
 An E-bike instrument cluster concept designed and implemented by Qt.
 
