@@ -94,6 +94,7 @@ Item {
     ListView
     {
         id: list
+        objectName: "graphicsEffectsList"
         anchors.top: parent.top
         anchors.left: parent.left
         width: parent.width / 4
