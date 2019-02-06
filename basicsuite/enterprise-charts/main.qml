@@ -67,6 +67,7 @@ Rectangle {
 
     ListView {
         id: root
+        objectName: "chartsListView"
         focus: true
         anchors.fill: parent
         snapMode: ListView.SnapOneItem

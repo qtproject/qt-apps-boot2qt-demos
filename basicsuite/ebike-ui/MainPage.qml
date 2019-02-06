@@ -54,6 +54,7 @@ Page {
 
     StatsBox {
         id: statsButton
+        objectName: "ebikeStatsButton"
         anchors.left: parent.left
         anchors.top: parent.top
 
@@ -67,6 +68,7 @@ Page {
 
     NaviBox {
         id: naviButton
+        objectName: "ebikeNaviButton"
         anchors.right: parent.right
         anchors.top: parent.top
         arrowSource: naviGuideArrowSource
@@ -82,6 +84,7 @@ Page {
 
     LightsBox {
         id: lightsButton
+        objectName: "ebikeLightsButton"
         anchors.left: parent.left
         anchors.bottom: parent.bottom
     }

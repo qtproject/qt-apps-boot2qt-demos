@@ -40,6 +40,7 @@ import "./BikeStyle"
 
 Rectangle {
     id: speedViewItem
+    objectName: "ebikeSpeedView"
     width: root.width * 0.35
     height: width
     color: "transparent"
