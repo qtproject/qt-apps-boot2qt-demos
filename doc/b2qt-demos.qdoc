@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2018 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the examples of Qt for Device Creation.
@@ -50,7 +50,7 @@
 
 /*!
     \page index.html
-    \title Qt 5.9.7 for Device Creation Examples and Demos
+    \title Qt 5.9.8 for Device Creation Examples and Demos
 
     \SDK has a number of examples and demos. These are included in the
     \B2Q images, available in the launcher that is run by default at
