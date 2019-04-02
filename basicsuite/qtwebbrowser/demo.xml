@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="Web Browser" main="main.qml" icon="preview_l.jpg">
+<description>
+This example demonstrates the use of Qt WebEngine with Qt Quick.
+
+Demo can be used to browse the internet (working network connection required) or run the offline web page demos.
+</description>
+</application>

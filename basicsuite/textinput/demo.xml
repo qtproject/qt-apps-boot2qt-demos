@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="Virtual Keyboard" main="main.qml" icon="preview_l.jpg">
+<description>
+This example illustrates how to handle input on touch devices.
+
+Qt for Device Creation comes with Qt Virtual Keyboard - a framework that consists of a C++ backend with support for custom input methods, as well as a reference keyboard front end implemented in QML, supporting multiple languages.
+</description>
+</application>

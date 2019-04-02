@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="Media Player" main="main.qml" icon="preview_l.jpg">
+<description>
+The Media Player example demonstrates the use of media playback features provided by Qt Multimedia with Qt Quick.
+
+It can play content either from a file or a network source, both videos and music.
+</description>
+</application>

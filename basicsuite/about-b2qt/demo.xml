@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="About Qt for Device Creation" priority="10" main="main.qml" icon="preview_l.jpg">
+<description>
+Provides an introduction to what Qt for Device Creation is all about.
+</description>
+</application>

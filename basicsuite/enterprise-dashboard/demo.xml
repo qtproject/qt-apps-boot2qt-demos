@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="Qt Quick Extras Dashboard" main="main.qml" icon="preview_l.jpg">
+<description>
+The dashboard demo uses Qt Quick Extras to create a digital dashboard for a car.
+</description>
+</application>
