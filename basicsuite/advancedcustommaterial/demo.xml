@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="Advanced custom materials" main="main.qml" icon="preview_l.jpg">
+<description>
+This example demonstrates advanced materials in Qt3D.
+
+Demo shows complex shaders and demonstrates controlling your shader properties with QtQuick user interface and Animation. Water is a 3D mesh, that is modeled and uv mapped inside Blender, and then brought into Scene 3D as an .obj file.
+</description>
+</application>

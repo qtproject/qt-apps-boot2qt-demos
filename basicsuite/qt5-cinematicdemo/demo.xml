@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="Qt5 Cinematic Demo" main="main.qml" icon="preview_l.jpg">
+<description>
+The Qt 5 Cinematic Experience is a demo by "QUIt Coding".
+
+The demo shows off a number features of Qt Quick. A nicely styled list control of movie covers with lighting effects, particles and transitions. The information roll-down curvy curtain is implemented using inline GLSL in the QML file. The source code for this demo and more awesome looking Qt Quick examples are available from quitcoding.com.
+</description>
+</application>

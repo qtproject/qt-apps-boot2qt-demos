@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="Qt Canvas3D - Planets" main="main.qml" icon="preview_l.jpg">
+<description>
+The Planets example showcases Qt Canvas 3D. This demo combines WebGL code and three.js with QML and Qt Quick Controls.
+</description>
+</application>
