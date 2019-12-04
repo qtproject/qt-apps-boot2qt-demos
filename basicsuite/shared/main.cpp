@@ -83,6 +83,13 @@ static bool checkGlAvailability()
 
 int main(int argc, char **argv)
 {
+#if defined(USE_QTWEBENGINE)
+    // This is currently needed by all QtWebEngine applications using the HW accelerated QQuickWebView.
+    // It enables sharing the QOpenGLContext of all QQuickWindows of the application.
+    // We have to do so until we expose public API for it in Qt or choose to enable it by default.
+    QtWebEngine::initialize();
+#endif
+
     //qputenv("QT_IM_MODULE", QByteArray("qtvkb"));
     qputenv("QT_QUICK_CONTROLS_CONF", "/data/user/qt/qtquickcontrols2/qtquickcontrols2.conf");
     QIcon::setThemeName("gallery");
@@ -94,13 +101,6 @@ int main(int argc, char **argv)
     }
 
     QApplication app(argc, argv);
-
-#if defined(USE_QTWEBENGINE)
-    // This is currently needed by all QtWebEngine applications using the HW accelerated QQuickWebView.
-    // It enables sharing the QOpenGLContext of all QQuickWindows of the application.
-    // We have to do so until we expose public API for it in Qt or choose to enable it by default.
-    QtWebEngine::initialize();
-#endif
 
     QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Regular.ttf");
     QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-SemiBold.ttf");
