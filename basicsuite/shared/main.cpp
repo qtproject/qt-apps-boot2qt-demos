@@ -95,10 +95,7 @@ int main(int argc, char **argv)
     QIcon::setThemeName("gallery");
     QIcon::setThemeSearchPaths(QStringList() << "/data/user/qt/qtquickcontrols2/icons");
 
-    // Do not set HighDpiScaling for emulator, see QTBUG-64815
-    if (qEnvironmentVariableIsEmpty("QTGLESSTREAM_DISPLAY")) {
-       QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    }
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QApplication app(argc, argv);
 

@@ -60,10 +60,7 @@ int main(int argc, char *argv[])
     QGuiApplication::setApplicationName("Gallery");
     QGuiApplication::setOrganizationName("QtProject");
 
-    // Do not set HighDpiScaling for emulator, see QTBUG-64815
-    if (qEnvironmentVariableIsEmpty("QTGLESSTREAM_DISPLAY")) {
-       QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    }
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
 
