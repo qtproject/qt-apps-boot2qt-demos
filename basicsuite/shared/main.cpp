@@ -83,24 +83,21 @@ static bool checkGlAvailability()
 
 int main(int argc, char **argv)
 {
-    //qputenv("QT_IM_MODULE", QByteArray("qtvkb"));
-    qputenv("QT_QUICK_CONTROLS_CONF", "/data/user/qt/qtquickcontrols2/qtquickcontrols2.conf");
-    QIcon::setThemeName("gallery");
-    QIcon::setThemeSearchPaths(QStringList() << "/data/user/qt/qtquickcontrols2/icons");
-
-    // Do not set HighDpiScaling for emulator, see QTBUG-64815
-    if (qEnvironmentVariableIsEmpty("QTGLESSTREAM_DISPLAY")) {
-       QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    }
-
-    QApplication app(argc, argv);
-
 #if defined(USE_QTWEBENGINE)
     // This is currently needed by all QtWebEngine applications using the HW accelerated QQuickWebView.
     // It enables sharing the QOpenGLContext of all QQuickWindows of the application.
     // We have to do so until we expose public API for it in Qt or choose to enable it by default.
     QtWebEngine::initialize();
 #endif
+
+    //qputenv("QT_IM_MODULE", QByteArray("qtvkb"));
+    qputenv("QT_QUICK_CONTROLS_CONF", "/data/user/qt/qtquickcontrols2/qtquickcontrols2.conf");
+    QIcon::setThemeName("gallery");
+    QIcon::setThemeSearchPaths(QStringList() << "/data/user/qt/qtquickcontrols2/icons");
+
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    QApplication app(argc, argv);
 
     QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Regular.ttf");
     QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-SemiBold.ttf");
