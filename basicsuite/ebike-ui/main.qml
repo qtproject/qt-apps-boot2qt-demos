@@ -264,6 +264,6 @@ Rectangle {
 
     Connections {
         target: datastore
-        onDemoReset: drawer.close()
+        function onDemoReset() { drawer.close() }
     }
 }
