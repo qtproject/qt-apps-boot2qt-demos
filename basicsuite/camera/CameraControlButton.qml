@@ -90,7 +90,7 @@ MouseArea {
 
             Connections {
                 target: root
-                onContentScaleChanged: valueTxt.font.pixelSize = Math.round(18 * root.contentScale)
+                function onContentScaleChanged() { valueTxt.font.pixelSize = Math.round(18 * root.contentScale) }
             }
 
             onTextChanged: font.pixelSize = Math.round(18 * root.contentScale)

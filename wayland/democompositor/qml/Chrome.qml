@@ -179,7 +179,7 @@ Rectangle {
 
         Connections {
             target: surface
-            onSizeChanged: {
+            function onSizeChanged() {
                 valid = !surfaceItem.dead && !surface.cursorSurface && surface.size.width > 0 && surface.size.height > 0
                 //console.log(shellSurface.title + " surface size: " + surface.size + " curs: " + surface.cursorSurface + " valid: " + valid)
             }

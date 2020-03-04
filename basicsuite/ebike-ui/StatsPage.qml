@@ -65,7 +65,7 @@ Page {
     // On new trip data (save clicked), switch index to new trip
     Connections {
         target: tripdata
-        onTripDataSaved: tripView.setCurrentIndex(index)
+        function onTripDataSaved(index) { tripView.setCurrentIndex(index) }
     }
 
     RoundButton {

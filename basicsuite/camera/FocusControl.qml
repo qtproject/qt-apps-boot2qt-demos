@@ -85,7 +85,7 @@ MouseArea {
 
                 Connections {
                     target: viewfinder
-                    onContentRectChanged: {
+                    function onContentRectChanged() {
                         mappedRect = viewfinder.mapNormalizedRectToItem(area);
                     }
                 }

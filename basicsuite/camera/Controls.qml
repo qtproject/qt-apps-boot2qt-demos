@@ -186,7 +186,7 @@ Item {
 
             Connections {
                 target: camera
-                onCaptureModeChanged: {
+                function onCaptureModeChanged() {
                     if (camera.captureMode === Camera.CaptureStillImage) {
                         resControl.model = cameraUtils.supportedCaptureResolutions;
                     } else {

@@ -208,22 +208,22 @@ Rectangle {
 
         Connections {
             target: mediaPlayer
-            onVolumeChanged: volumeControl.volume = mediaPlayer.volume
+            function onVolumeChanged() { volumeControl.volume = mediaPlayer.volume }
         }
     }
 
     Connections {
         target: mediaPlayer
-        onPositionChanged: {
+        function onPositionChanged() {
             if (!seekControl.pressed) seekControl.position = mediaPlayer.position;
         }
-        onStatusChanged: {
+        function onStatusChanged() {
             if ((mediaPlayer.status == MediaPlayer.Loaded) || (mediaPlayer.status == MediaPlayer.Buffered) || mediaPlayer.status === MediaPlayer.Buffering || mediaPlayer.status === MediaPlayer.EndOfMedia)
                 playbackControl.isPlaybackEnabled = true;
             else
                 playbackControl.isPlaybackEnabled = false;
         }
-        onPlaybackStateChanged: {
+        function onPlaybackStateChanged() {
             if (mediaPlayer.playbackState === MediaPlayer.PlayingState) {
                 playbackControl.isPlaying = true;
                 applicationWindow.resetTimer();
@@ -233,7 +233,7 @@ Rectangle {
             }
         }
 
-        onSeekableChanged: {
+        function onSeekableChanged() {
             seekControl.seekable = mediaPlayer.seekable;
         }
     }
