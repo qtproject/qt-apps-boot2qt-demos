@@ -120,7 +120,7 @@ Rectangle {
         Text {
             color: "white"
             anchors.centerIn: parent
-            text: "You can navigate between views using swipe or arrow keys"
+            text: "You can navigate between views using swipe"
             font.family: appFont
         }
 
