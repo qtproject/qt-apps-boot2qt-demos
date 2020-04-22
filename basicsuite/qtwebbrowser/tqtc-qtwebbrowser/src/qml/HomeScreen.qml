@@ -390,7 +390,7 @@ Rectangle {
         }
     }
     Rectangle {
-        width: homeScreen.cellSize - homeScreen.padding / 2 - 10
+        width: (parent.width - 4 * gridView.cellWidth + homeScreen.padding) / 2
         anchors {
             left: parent.left
             top: parent.top
@@ -404,7 +404,7 @@ Rectangle {
         color: "#09102b"
     }
     Rectangle {
-        width: homeScreen.cellSize - homeScreen.padding / 2 - 10
+        width: (parent.width - 4 * gridView.cellWidth - homeScreen.padding) / 2
         anchors {
             right: parent.right
             top: parent.top
