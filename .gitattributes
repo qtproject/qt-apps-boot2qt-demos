@@ -4,3 +4,6 @@ tradeshow/knx-demo/3d-Alexa-knx-demo/**/*.mesh filter=lfs diff=lfs merge=lfs -te
 tradeshow/knx-demo/3d-Alexa-knx-demo/**/*.ico filter=lfs diff=lfs merge=lfs -text
 tradeshow/knx-demo/3d-Alexa-knx-demo/**/*.hdr filter=lfs diff=lfs merge=lfs -text
 tradeshow/knx-demo/3d-Alexa-knx-demo/**/*.uip filter=lfs diff=lfs merge=lfs -text
+startupscreen/fonts/TitilliumWeb-Bold.ttf filter=lfs diff=lfs merge=lfs -text
+startupscreen/fonts/TitilliumWeb-Light.ttf filter=lfs diff=lfs merge=lfs -text
+startupscreen/fonts/TitilliumWeb-Regular.ttf filter=lfs diff=lfs merge=lfs -text

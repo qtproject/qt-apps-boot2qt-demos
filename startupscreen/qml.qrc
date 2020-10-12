@@ -1,0 +1,33 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/background.png</file>
+        <file>assets/builtwithQt.png</file>
+        <file>assets/clockFace.png</file>
+        <file>assets/headerBackgroundLeft.png</file>
+        <file>assets/headerBackgroundRight.png</file>
+        <file>assets/icon_error.png</file>
+        <file>assets/icon_markerBackground.png</file>
+        <file>assets/icon_ok.png</file>
+        <file>assets/icon_SDcard.png</file>
+        <file>assets/icon_usb.png</file>
+        <file>assets/icon_wifi_0.png</file>
+        <file>assets/icon_wifi_1.png</file>
+        <file>assets/icon_wifi_2.png</file>
+        <file>assets/icon_wifi_3.png</file>
+        <file>assets/icon_working.png</file>
+        <file>AnalogClock.qml</file>
+        <file>StartupScreen.qml</file>
+        <file>MainView.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>SDcardButton.qml</file>
+        <file>SplashView.ui.qml</file>
+        <file>UsbButton.qml</file>
+        <file>WifiButton.qml</file>
+        <file>TextButton.qml</file>
+        <file>imports/StartupScreen/qmldir</file>
+        <file>imports/StartupScreen/Constants.qml</file>
+        <file>fonts/TitilliumWeb-Bold.ttf</file>
+        <file>fonts/TitilliumWeb-Light.ttf</file>
+        <file>fonts/TitilliumWeb-Regular.ttf</file>
+    </qresource>
+</RCC>
