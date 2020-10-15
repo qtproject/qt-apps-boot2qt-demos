@@ -105,7 +105,7 @@ Item {
 
             transform: Rotation {
                 id: hourRotation
-                origin.x: 2
+                origin.x: wideDial / 2
                 origin.y: clockRadius/2
                 angle: (clock.hours * 30) + (clock.minutes * 0.5)
                 Behavior on angle {
@@ -120,16 +120,16 @@ Item {
         Rectangle {
             id: minuteDial
             x: clockRadius - (wideDial/2)
-            y: 32
+            y: clockRadius * 0.3
             width: wideDial
-            height: clockRadius - 32
+            height: clockRadius * 0.7
             color: "#53586b"
             radius: width/2
 
             transform: Rotation {
                 id: minuteRotation
-                origin.x: 2
-                origin.y: clockRadius - 32
+                origin.x: wideDial / 2
+                origin.y: clockRadius * 0.7
                 angle: clock.minutes * 6
                 Behavior on angle {
                     SpringAnimation {
@@ -144,16 +144,16 @@ Item {
         Rectangle  {
             id: secondHand
             x: clockRadius - (narrowDial/2)
-            y: 24
+            y: clockRadius * 0.1
             width: narrowDial
-            height: clockRadius - 24
+            height: clockRadius * 0.9
             color: "red"
             radius: width/2
 
             transform: Rotation {
                 id: secondRotation
-                origin.x: 1
-                origin.y: clockRadius - 24
+                origin.x: narrowDial / 2
+                origin.y: clockRadius * 0.9
                 angle: clock.seconds * 6
                 Behavior on angle {
                     SpringAnimation {
