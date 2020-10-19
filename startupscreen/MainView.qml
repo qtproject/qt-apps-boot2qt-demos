@@ -50,7 +50,6 @@
 
 import QtQuick 2.12
 import StartupScreen 1.0
-import QtGraphicalEffects 1.15
 
 Item {
     id: root
@@ -156,15 +155,6 @@ Item {
             }
         }
     }
-    DropShadow {
-        id: panelDropShadow
-        anchors.fill: panel
-        horizontalOffset: 8
-        verticalOffset: 8
-        radius: 8.0
-        color: "#80000000"
-        source: panel
-    }
 
     // Button row
     UsbButton {
@@ -208,15 +198,6 @@ Item {
         anchors.topMargin: panel.anchors.topMargin + panel.height / 2 - clock.height / 2
         anchors.right: root.right
         anchors.rightMargin: 20
-    }
-    DropShadow {
-        id: clockDropShadow
-        anchors.fill: clock
-        horizontalOffset: 8
-        verticalOffset: 8
-        radius: 8.0
-        color: "#80000000"
-        source: clock
     }
 
     // label and IP address

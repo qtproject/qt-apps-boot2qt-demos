@@ -50,7 +50,6 @@
 import QtQuick 2.12
 import StartupScreen 1.0
 import QtQuick.Controls 2.15
-import QtGraphicalEffects 1.15
 
 Rectangle {
     id: root
@@ -65,16 +64,6 @@ Rectangle {
         id: builtwithQtImage
         source: "assets/builtwithQt.png"
         anchors.centerIn: root
-    }
-
-    DropShadow {
-        id: dropShadow
-        anchors.fill: builtwithQtImage
-        horizontalOffset: 8
-        verticalOffset: 8
-        radius: 8.0
-        color: "#80000000"
-        source: builtwithQtImage
     }
 
     ProgressBar {

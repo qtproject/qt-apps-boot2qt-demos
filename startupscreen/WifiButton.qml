@@ -50,7 +50,6 @@
 
 import QtQuick 2.12
 import StartupScreen 1.0
-import QtGraphicalEffects 1.12
 
 Item {
     id: root
@@ -62,16 +61,6 @@ Item {
         anchors.fill: parent
         color: "#3a4055"
         radius: 0
-    }
-
-    DropShadow {
-        id: buttonDropShadow
-        anchors.fill: buttonBackground
-        horizontalOffset: 8
-        verticalOffset: 8
-        radius: 8.0
-        color: "#80000000"
-        source: buttonBackground
     }
 
     // changing button state
