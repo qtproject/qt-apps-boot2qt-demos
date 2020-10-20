@@ -1,3 +1,4 @@
+
 /****************************************************************************
 **
 ** Copyright (C) 2020 The Qt Company Ltd.
@@ -47,9 +48,8 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.12
-import StartupScreen 1.0
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 
 Rectangle {
     id: root
@@ -64,29 +64,6 @@ Rectangle {
         id: builtwithQtImage
         source: "assets/builtwithQt.png"
         anchors.centerIn: root
-    }
-
-    ProgressBar {
-        id: progressBar
-        width: parent.width
-        height: 8
-        value: 0.5
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        background: Item {
-            implicitWidth: parent.width
-            implicitHeight: 6
-        }
-        contentItem: Item {
-            implicitWidth: parent.width
-            implicitHeight: 6
-            Rectangle {
-                width: progressBar.visualPosition * parent.width
-                height: parent.height
-                color: "#41CD52"
-                border.width: 0
-            }
-        }
     }
 }
 

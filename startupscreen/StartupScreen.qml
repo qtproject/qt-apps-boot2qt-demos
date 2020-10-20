@@ -48,19 +48,26 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.12
-import QtQuick.Controls 2.15
-import StartupScreen 1.0
+import QtQuick
+import QtQuick.Controls
+import StartupScreen
 
 ApplicationWindow {
     id: bootUI
     visible: true
 
-    property bool isPortrait: false // true //
-    property int resolution: 1
+    property bool isPortrait: height > width ? true : false
 
-    width: Constants.smallWidth
-    height: Constants.smallHeight
+    width: 640
+    height: 480
+
+    Timer {
+          interval: 1000
+          running: true
+          onTriggered: {
+              splashAnimator.running = true
+          }
+    }
 
     // for testing
     Item {
@@ -69,59 +76,34 @@ ApplicationWindow {
         Keys.onPressed: {
             // rotate: toggle portrait/landscape
             if (event.key === Qt.Key_R) {
-                isPortrait? isPortrait = false: isPortrait = true
-            }
-
-            // navigate from splash to main
-            else if (event.key === Qt.Key_Space){
-                splash.opacity= 0
-                main.opacity=1
-            }
-
-            // change window size
-            else if (event.key === Qt.Key_1) {
-                resolution = 1
-            }
-            else if (event.key === Qt.Key_2) {
-                resolution = 2
-            }
-            else if (event.key === Qt.Key_3) {
-                resolution = 3
-            }
-
-            // set width
-            if (resolution == 1){
-                bootUI.width = isPortrait? Constants.smallHeight: Constants.smallWidth
-                bootUI.height= isPortrait? Constants.smallWidth: Constants.smallHeight
-                isPortrait? main.state = "smallPortrait": main.state = ""
-            }
-            else if (resolution == 2){
-                bootUI.width = isPortrait? Constants.mediumHeight: Constants.mediumWidth
-                bootUI.height = isPortrait? Constants.mediumWidth: Constants.mediumHeight
-                isPortrait? main.state = "mediumPortrait": main.state = "mediumLandscape"
-
-            }
-            else{
-                bootUI.width = isPortrait? Constants.largeHeight: Constants.largeWidth
-                bootUI.height = isPortrait? Constants.largeWidth: Constants.largeHeight
-                isPortrait? main.state = "largePortrait": main.state = "largeLandscape"
+                var height = bootUI.height
+                bootUI.height = bootUI.width
+                bootUI.width = height
             }
         }
-    }
-
-    SplashView {
-        id: splash
-        width: bootUI.width
-        height: bootUI.height
     }
 
     MainView {
         id: main
         width: bootUI.width
         height: bootUI.height
-
-        opacity: 0
+        state: isPortrait ? "portrait" : ""
     }
+
+    SplashView {
+        id: splash
+        width: bootUI.width
+        height: bootUI.height
+        opacity: 1
+        OpacityAnimator {
+            id: splashAnimator
+            target: splash
+            from: 1
+            to: 0
+            duration: 2000
+        }
+    }
+
 }
 
 

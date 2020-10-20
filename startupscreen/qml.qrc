@@ -19,13 +19,10 @@
         <file>StartupScreen.qml</file>
         <file>MainView.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>SDcardButton.qml</file>
         <file>SplashView.ui.qml</file>
         <file>UsbButton.qml</file>
         <file>WifiButton.qml</file>
         <file>TextButton.qml</file>
-        <file>imports/StartupScreen/qmldir</file>
-        <file>imports/StartupScreen/Constants.qml</file>
         <file>fonts/TitilliumWeb-Bold.ttf</file>
         <file>fonts/TitilliumWeb-Light.ttf</file>
         <file>fonts/TitilliumWeb-Regular.ttf</file>

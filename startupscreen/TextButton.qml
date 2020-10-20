@@ -48,8 +48,8 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.12
-import StartupScreen 1.0
+import QtQuick
+import StartupScreen
 
 Rectangle {
     property alias fontSize: buttonLabel.font.pixelSize
