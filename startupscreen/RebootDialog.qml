@@ -48,32 +48,30 @@
 **
 ****************************************************************************/
 
-#include "settingsmanager.h"
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 
-#include <QFontDatabase>
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
+Dialog {
+    id: dialog
 
-int main(int argc, char *argv[])
-{
-    QGuiApplication app(argc, argv);
+    x: (parent.width - width) / 2
+    y: (parent.height - height) / 2
+    parent: Overlay.overlay
 
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Bold.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Light.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Regular.ttf");
+    focus: true
+    modal: true
+    title: "Reboot Device"
+    standardButtons: Dialog.Ok | Dialog.Cancel
 
-    SettingsManager settingsManager;
-    qmlRegisterSingletonInstance("StartupScreen", 1, 0, "SettingsManager", &settingsManager);
-
-    QQmlApplicationEngine engine;
-    engine.addImportPath("qrc:/imports");
-    const QUrl url(QStringLiteral("qrc:/StartupScreen.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
-
-    return app.exec();
+    ColumnLayout {
+        spacing: 20
+        anchors.fill: parent
+        Label {
+            elide: Label.ElideRight
+            text: "The settings change requires device to be rebooted."
+            Layout.fillWidth: true
+            wrapMode: Label.Wrap
+        }
+    }
 }

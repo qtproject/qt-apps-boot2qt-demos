@@ -1,7 +1,11 @@
-QT += quick
+QT += quick quickcontrols2
 
 SOURCES += \
+        settingsmanager.cpp \
         main.cpp
+
+HEADERS += \
+        settingsmanager.h
 
 RESOURCES += qml.qrc
 

@@ -54,7 +54,7 @@ import StartupScreen
 Item {
     id: root
 
-    property int iconHeight
+    signal pressed()
 
     Rectangle {
         id: buttonBackground
@@ -72,6 +72,7 @@ Item {
         }
         onReleased: {
             root.scale = 1.0
+            root.pressed()
 
             if (root.state == "")
                 root.state = "working"
@@ -85,14 +86,14 @@ Item {
     // icons for signal strengths (from 0 to 3)
     Image {
         id: icon_signal_0
-        height: iconHeight-12
+        height: parent.height * 0.9
         source: "assets/icon_wifi_0.png"
         fillMode: Image.PreserveAspectFit
         anchors.centerIn: parent
     }
     Image {
         id: icon_signal_1
-        height: iconHeight-12
+        height: parent.height * 0.9
         source: "assets/icon_wifi_1.png"
         fillMode: Image.PreserveAspectFit
         anchors.centerIn: parent
@@ -100,7 +101,7 @@ Item {
     }
     Image {
         id: icon_signal_2
-        height: iconHeight-12
+        height: parent.height * 0.9
         source: "assets/icon_wifi_2.png"
         fillMode: Image.PreserveAspectFit
         anchors.centerIn: parent
@@ -108,7 +109,7 @@ Item {
     }
     Image {
         id: icon_signal_3
-        height: iconHeight-12
+        height: parent.height * 0.9
         source: "assets/icon_wifi_3.png"
         fillMode: Image.PreserveAspectFit
         anchors.centerIn: parent
@@ -118,7 +119,7 @@ Item {
     // marker for the error, working and OK states
     Image {
         id: markerBackground
-        height: iconHeight/2
+        height: parent.height * 0.5
 
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -129,7 +130,7 @@ Item {
 
         Image {
             id: errorIcon
-            height: parent.height *0.5
+            height: parent.height * 0.5
             anchors.centerIn: parent
             source: "assets/icon_error.png"
             fillMode: Image.PreserveAspectFit
@@ -137,7 +138,7 @@ Item {
         }
         Image {
             id: workingIcon
-            height: parent.height *0.75
+            height: parent.height * 0.75
             anchors.centerIn: parent
             source: "assets/icon_working.png"
             fillMode: Image.PreserveAspectFit
@@ -153,7 +154,7 @@ Item {
         }
         Image {
             id: okIcon
-            height: parent.height *0.5
+            height: parent.height * 0.5
             anchors.centerIn: parent
             source: "assets/icon_ok.png"
             fillMode: Image.PreserveAspectFit

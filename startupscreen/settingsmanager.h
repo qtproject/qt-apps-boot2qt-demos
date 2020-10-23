@@ -48,32 +48,29 @@
 **
 ****************************************************************************/
 
-#include "settingsmanager.h"
+#ifndef SETTINGSMANAGER_H
+#define SETTINGSMANAGER_H
 
-#include <QFontDatabase>
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
+#include <QObject>
+#include <QString>
 
-int main(int argc, char *argv[])
+class SettingsManager : public QObject
 {
-    QGuiApplication app(argc, argv);
+    Q_OBJECT
 
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Bold.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Light.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Regular.ttf");
+    Q_PROPERTY(QString usbMode READ usbMode WRITE setUsbMode)
+    Q_PROPERTY(bool hasQdb READ hasQdb CONSTANT)
 
-    SettingsManager settingsManager;
-    qmlRegisterSingletonInstance("StartupScreen", 1, 0, "SettingsManager", &settingsManager);
+public:
+    explicit SettingsManager(QObject *parent = nullptr);
 
-    QQmlApplicationEngine engine;
-    engine.addImportPath("qrc:/imports");
-    const QUrl url(QStringLiteral("qrc:/StartupScreen.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
+    QString usbMode();
+    void setUsbMode(const QString &usbMode);
+    bool hasQdb();
+    Q_INVOKABLE void reboot();
 
-    return app.exec();
-}
+private:
+    QString m_usbMode;
+};
+
+#endif // SETTINGSMANAGER_H

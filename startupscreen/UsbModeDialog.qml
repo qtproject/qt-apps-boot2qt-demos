@@ -48,32 +48,51 @@
 **
 ****************************************************************************/
 
-#include "settingsmanager.h"
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import StartupScreen
 
-#include <QFontDatabase>
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
+Dialog {
+    id: dialog
 
-int main(int argc, char *argv[])
-{
-    QGuiApplication app(argc, argv);
+    x: (parent.width - width) / 2
+    y: (parent.height - height) / 2
+    parent: Overlay.overlay
 
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Bold.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Light.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Regular.ttf");
+    focus: true
+    modal: true
+    title: "USB Ethernet mode"
+    standardButtons: Dialog.Ok | Dialog.Cancel
 
-    SettingsManager settingsManager;
-    qmlRegisterSingletonInstance("StartupScreen", 1, 0, "SettingsManager", &settingsManager);
+    RebootDialog {
+        id: reboot
+        onAccepted: SettingsManager.reboot()
+    }
 
-    QQmlApplicationEngine engine;
-    engine.addImportPath("qrc:/imports");
-    const QUrl url(QStringLiteral("qrc:/StartupScreen.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
+    onAccepted: {
+        SettingsManager.usbMode = combobox.currentText
+        reboot.open()
+    }
+    onRejected: {
+        combobox.currentIndex = SettingsManager.mode === "cdcecm" ? 0 : 1
+    }
 
-    return app.exec();
+    ColumnLayout {
+        spacing: 20
+        anchors.fill: parent
+        Label {
+            elide: Label.ElideRight
+            text: "Switch the USB Ethernet mode used for Qt Creator connection. "
+             + "CDCECM supports Linux and macOS hosts, "
+             + "while RNDIS supports Linux and Windows hosts."
+            Layout.fillWidth: true
+            wrapMode: Label.Wrap
+        }
+        ComboBox {
+            id: combobox
+            currentIndex: SettingsManager.mode === "cdcecm" ? 0 : 1
+            model: ["cdcecm", "rndis"]
+        }
+    }
 }

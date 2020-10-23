@@ -8,6 +8,7 @@
         <file>assets/icon_error.png</file>
         <file>assets/icon_markerBackground.png</file>
         <file>assets/icon_ok.png</file>
+        <file>assets/icon_nok.png</file>
         <file>assets/icon_SDcard.png</file>
         <file>assets/icon_usb.png</file>
         <file>assets/icon_wifi_0.png</file>
@@ -23,8 +24,10 @@
         <file>UsbButton.qml</file>
         <file>WifiButton.qml</file>
         <file>TextButton.qml</file>
+        <file>UsbModeDialog.qml</file>
         <file>fonts/TitilliumWeb-Bold.ttf</file>
         <file>fonts/TitilliumWeb-Light.ttf</file>
         <file>fonts/TitilliumWeb-Regular.ttf</file>
+        <file>RebootDialog.qml</file>
     </qresource>
 </RCC>

@@ -50,30 +50,77 @@
 
 #include "settingsmanager.h"
 
-#include <QFontDatabase>
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
+#include <QDebug>
+#include <QDir>
+#include <QFile>
+#include <QTemporaryFile>
 
-int main(int argc, char *argv[])
+#include <sys/reboot.h>
+#include <unistd.h>
+
+const QString QdbdFileName(QStringLiteral("/etc/default/qdbd"));
+const char *ProtocolSetting("USB_ETHERNET_PROTOCOL=");
+
+SettingsManager::SettingsManager(QObject *parent) : QObject(parent) {}
+
+bool SettingsManager::hasQdb()
 {
-    QGuiApplication app(argc, argv);
+    return QFile::exists(QdbdFileName);
+}
 
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Bold.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Light.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Regular.ttf");
+QString SettingsManager::usbMode()
+{
+    static bool initialized = false;
+    if (!initialized) {
+        QFile file(QdbdFileName);
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QByteArray line;
+            while (!(line = file.readLine()).isEmpty()) {
+                if (line.startsWith(ProtocolSetting))
+                    m_usbMode =
+                            QString::fromLatin1(line.last(line.length() - strlen(ProtocolSetting)))
+                                    .trimmed();
+            }
+        } else {
+            qWarning() << "Failed to open file" << QdbdFileName;
+        }
+        initialized = true;
+    }
+    return m_usbMode;
+}
 
-    SettingsManager settingsManager;
-    qmlRegisterSingletonInstance("StartupScreen", 1, 0, "SettingsManager", &settingsManager);
+void SettingsManager::setUsbMode(const QString &usbMode)
+{
+    QFile file(QdbdFileName);
+    QTemporaryFile newFile(QdbdFileName);
+    newFile.setAutoRemove(false);
+    if (!newFile.open()) {
+        qWarning() << "Failed to save qdbd settings:" << newFile.errorString();
+        return;
+    }
 
-    QQmlApplicationEngine engine;
-    engine.addImportPath("qrc:/imports");
-    const QUrl url(QStringLiteral("qrc:/StartupScreen.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream out(&newFile);
+        QByteArray line;
+        while (!(line = file.readLine()).isEmpty()) {
+            if (line.startsWith(ProtocolSetting))
+                out << ProtocolSetting << usbMode.toLatin1() << '\n';
+            else
+                out << line;
+        }
 
-    return app.exec();
+        file.remove();
+        if (!newFile.rename(QdbdFileName))
+            qWarning() << "Failed to save qdbd settings:" << newFile.errorString();
+
+    } else {
+        qWarning() << "Failed to save qdbd settings:" << file.errorString();
+    }
+}
+
+void SettingsManager::reboot()
+{
+    sync();
+    ::reboot(RB_AUTOBOOT);
+    qWarning("reboot failed");
 }

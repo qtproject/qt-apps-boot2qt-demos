@@ -182,13 +182,16 @@ Item {
             id: usbButton
             height: parent.buttonSize
             width: height
-            iconHeight: height * 0.9
+            available: SettingsManager.hasQdb
+            connected: ipAddress.text.indexOf("usb0") !== -1
+            onPressed: {
+                usbModeDialog.open()
+            }
         }
         WifiButton {
             id: wifiButton
             height: parent.buttonSize
             width: height
-            iconHeight: height * 0.9
             visible: false
         }
     }
@@ -213,6 +216,10 @@ Item {
         font.pixelSize: textNormal
         font.bold: true
         font.family: "Titillium Web"
+    }
+
+    UsbModeDialog {
+        id: usbModeDialog
     }
 
     // base state = landscape

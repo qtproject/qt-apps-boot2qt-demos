@@ -54,7 +54,11 @@ import StartupScreen
 Item {
     id: root
 
-    property alias iconHeight: icon.height
+    property bool available: false
+    property bool connected: false
+    signal pressed()
+
+    state: !available ? "" : (connected ? "connected" : "error")
 
     Rectangle {
         id: buttonBackground
@@ -72,13 +76,7 @@ Item {
         }
         onReleased: {
             root.scale = 1.0
-
-            if (root.state == "")
-                root.state = "working"
-            else if (root.state == "working")
-                root.state = "ok"
-            else
-                root.state = ""
+            if (available) root.pressed()
         }
     }
 
@@ -88,9 +86,10 @@ Item {
         source: "assets/icon_usb.png"
         fillMode: Image.PreserveAspectFit
         anchors.centerIn: parent
+        height: parent.height * 0.9
     }
 
-    // marker for the error, working and OK states
+    // marker for the states
     Image {
         id: markerBackground
         height: icon.height/2
@@ -104,27 +103,19 @@ Item {
 
         Image {
             id: errorIcon
-            height: parent.height*0.5
+            height: parent.height * 0.5
             anchors.centerIn: parent
             source: "assets/icon_error.png"
             fillMode: Image.PreserveAspectFit
-            opacity: 1
+            opacity: 0
         }
         Image {
-            id: workingIcon
-            height: parent.height *0.75
+            id: unavailableIcon
+            height: parent.height * 0.5
             anchors.centerIn: parent
-            source: "assets/icon_working.png"
+            source: "assets/icon_nok.png"
             fillMode: Image.PreserveAspectFit
-            opacity: 0
-
-            RotationAnimation on rotation {
-                from: 0
-                to: 360
-                loops: Animation.Infinite
-                duration: 1000
-                running: true
-            }
+            opacity: 1
         }
         Image {
             id: okIcon
@@ -135,59 +126,51 @@ Item {
             opacity: 0
         }
     }
+
     states: [
         State {
-            name: "working"
+            name: "connected"
             PropertyChanges {
                 target: errorIcon
                 opacity: 0
             }
             PropertyChanges {
-                target: workingIcon
-                opacity: 1
+                target: unavailableIcon
+                opacity: 0
             }
             PropertyChanges {
                 target: okIcon
-                opacity: 0
+                opacity: 1
             }
         },
         State {
-            name: "ok"
+            name: "error"
             PropertyChanges {
                 target: errorIcon
-                opacity: 0
+                opacity: 1
             }
             PropertyChanges {
-                target: workingIcon
+                target: unavailableIcon
                 opacity: 0
             }
             PropertyChanges {
                 target: okIcon
-                opacity: 1
+                opacity: 0
             }
         }
     ]
     transitions: [
         Transition {
-            from: ""
-            to: "working"
-            PropertyAnimation {
-                duration: 200
-                properties: "opacity"
-
-            }
-        },
-        Transition {
-            from: "working"
-            to: "ok"
+            from: "error"
+            to: "connected"
             PropertyAnimation {
                 duration: 200
                 properties: "opacity"
             }
         },
         Transition {
-            from: ""
-            to: "working"
+            from: "connected"
+            to: "error"
             PropertyAnimation {
                 duration: 200
                 properties: "opacity"
