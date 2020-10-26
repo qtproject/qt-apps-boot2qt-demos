@@ -54,6 +54,7 @@
 #include <QDir>
 #include <QFile>
 #include <QTemporaryFile>
+#include <QNetworkInterface>
 
 #include <sys/reboot.h>
 #include <unistd.h>
@@ -123,4 +124,30 @@ void SettingsManager::reboot()
     sync();
     ::reboot(RB_AUTOBOOT);
     qWarning("reboot failed");
+}
+
+QString SettingsManager::networks()
+{
+    QString networks;
+    networks.reserve(100);
+
+    const auto interfaceList = QNetworkInterface::allInterfaces();
+    for (const auto &interface : interfaceList) {
+        if (interface.name() == QLatin1String("lo"))
+            continue;
+
+        if (interface.flags().testFlag(QNetworkInterface::IsUp)) {
+            for (QNetworkAddressEntry &entry : interface.addressEntries()) {
+                if (entry.ip().protocol() == QAbstractSocket::IPv4Protocol) {
+                    if (!networks.isEmpty())
+                        networks += QLatin1String("\n");
+
+                    networks += interface.name();
+                    networks += QLatin1String(": ");
+                    networks += entry.ip().toString();
+                }
+            }
+        }
+    }
+    return networks;
 }

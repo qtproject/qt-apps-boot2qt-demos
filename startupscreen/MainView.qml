@@ -200,7 +200,7 @@ Item {
     Text {
         id: ipLabel
         color: "grey"
-        text: "Network"
+        text: "Networks:"
         anchors.bottom: ipAddress.top
         anchors.horizontalCenter: ipAddress.horizontalCenter
         font.pixelSize: textNormal
@@ -209,13 +209,20 @@ Item {
     Text {
         id: ipAddress
         color: "grey"
-        text: "eth0: 255.255.255.255\nusb0: 0:0.0.0.0"
+        text: SettingsManager.networks
         anchors.bottom: root.bottom
         anchors.right: root.right
         anchors.rightMargin: 5
         font.pixelSize: textNormal
         font.bold: true
         font.family: "Titillium Web"
+
+        Timer {
+            interval: 3000
+            onTriggered: ipAddress.text = SettingsManager.networks
+            running: true
+            repeat: true
+        }
     }
 
     UsbModeDialog {
