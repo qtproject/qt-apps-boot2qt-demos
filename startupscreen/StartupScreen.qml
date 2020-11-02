@@ -58,8 +58,8 @@ ApplicationWindow {
 
     property bool isPortrait: height > width ? true : false
 
-    width: 640
-    height: 480
+    width: 960
+    height: 540
 
     Timer {
           interval: 1000

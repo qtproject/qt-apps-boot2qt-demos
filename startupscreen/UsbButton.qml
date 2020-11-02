@@ -70,14 +70,9 @@ Item {
     // changing button state
     MouseArea {
         anchors.fill: parent
-
-        onPressed: {
-            root.scale = 0.9
-        }
-        onReleased: {
-            root.scale = 1.0
-            if (available) root.pressed()
-        }
+        onPressed: root.scale = 0.9
+        onReleased: root.scale = 1.0
+        onClicked: if (available) root.pressed()
     }
 
     // button icon

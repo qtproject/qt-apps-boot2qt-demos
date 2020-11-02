@@ -49,39 +49,66 @@
 ****************************************************************************/
 
 import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 import StartupScreen
 
-Rectangle {
+Item  {
     id: root
+    width: parent.width
+    height: parent.height
+    anchors.horizontalCenter: parent.horizontalCenter
 
-    property alias fontSize: buttonLabel.font.pixelSize
-    signal pressed()
-
-
-    color: "#3a4055"
-    radius: 0
-
-    MouseArea {
+    Flickable {
+        id: flick
         anchors.fill: parent
-        onPressed: root.scale = 0.9
-        onReleased: root.scale = 1.0
-        onClicked: root.pressed()
+        contentHeight: guide.height
+        flickableDirection: Flickable.VerticalFlick
+
+        // dummy component to access current style
+        TextArea {
+            id: textarea
+            visible: false
+            readOnly: true
+        }
+
+        // Get background from TextArea
+        Rectangle {
+            anchors.fill: parent
+            border.width: textarea.background.border.width
+            border.color: textarea.background.border.color
+            color: textarea.background.color
+        }
+
+        Text {
+            id: guide
+            width: root.width
+            text: SettingsManager.guideText
+            textFormat: Text.RichText
+            wrapMode: Text.WordWrap
+
+            // Get style from TextArea
+            font: textarea.font
+            color: textarea.color
+            padding: textarea.padding
+            topPadding: textarea.topPadding
+            rightPadding: textarea.rightPadding
+            bottomPadding: textarea.bottomPadding
+        }
     }
 
-    Text {
-        id: buttonLabel
-        color: "white"
-        text: "Learn more..."
-        horizontalAlignment: Text.AlignHCenter
-        font.bold: true
-        anchors.centerIn: parent
-        font.pixelSize: 32
-        font.family: "Titillium Web"
+    Image {
+        id: backButton
+        source: "assets/icon_nok.png"
+        anchors.top: parent.top
+        anchors.right: parent.right
+        scale: 0.5
+        opacity: 0.5
+        MouseArea {
+            anchors.fill: parent
+            onPressed: backButton.scale = 0.4
+            onReleased: backButton.scale = 0.5
+            onClicked: root.visible = false
+        }
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/

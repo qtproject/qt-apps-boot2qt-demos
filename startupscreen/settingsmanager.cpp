@@ -151,3 +151,13 @@ QString SettingsManager::networks()
     }
     return networks;
 }
+
+QByteArray SettingsManager::guideText()
+{
+    QFile file(":/assets/b2qt-tutorial-deploying.html");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return file.readAll();
+    } else {
+        return QByteArrayLiteral("Guide not found");
+    }
+}

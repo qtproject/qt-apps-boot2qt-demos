@@ -1,0 +1,27 @@
+<div class="descr"> 
+<p>You can deploy all kinds of Qt projects to your target device: Qt Examples and projects that you have created yourself. In this tutorial, we use Qt Creator's project wizard and create a new Qt Quick project. We build and run the project, and deploy it to a target device.</p>
+<p>This tutorial guides how you deploy a project to one of the reference target devices with pre-built images (see Reference Target Devices and Development Hosts). However, you should follow similar steps when you deploy to a target device where you have built an image yourself.</p>
+<p>The tutorial assumes that you have installed the Boot to Qt software stack to your host platform and flashed it to your target device. That is, the <i>Boot to Qt Startup Screen</i> appears on the device screen when you power on the device.</p>
+<p><b>Note: </b>In Linux, ensure that you have access to plugged in devices. For more information, see Setting Up USB Access to Embedded Devices.</p>
+
+<h2 id="preparation-of-qt-kit">Preparation of Qt Kit</h2>
+<p>Qt Creator groups build and run specific settings as kits. Each kit consists of a set of values that define one environment, such as a target device, tool chain, Qt version, and debugger command to use.</p>
+<p>Before deploying, make sure that your kit contains the target device. Connect your target device to the host platform, open Qt Creator, and execute the following steps:</p>
+<ol class="1" type="1"><li>Select <b>Tools &gt; Options &gt; Kits</b>.</li>
+<li>Select one of the predefined kits starting with <i>Boot to Qt..&#x2e;</i> that matches the type of your device (1).</li>
+<li>Select the appropriate device in the <b>Device</b> field (2).</li>
+<li>Select <b>OK</b>.</li>
+</ol>
+<p class="centerAlign"><img src="assets/b2qt-device-in-kit.png" alt="" /></p>
+<h3 id="troubleshooting-device-is-not-found">Troubleshooting: Device Is Not Found</h3>
+<p>When your target device is connected to the host platform, Qt Creator should automatically detect it and the device should appear in the kit's <b>Device</b> field. If it does not appear, you can try if replugging the device or rebooting the host platform helps.</p>
+
+<h2 id="creating-new-qt-quick-project">Creating New Qt Quick Project</h2>
+<p>Create a new Qt Quick project with the steps in Creating Qt Quick Applications. When creating the project, you can use the default values defined in the wizard pages. In the <b>Kit Selection</b> page, select the Boot to Qt software stack kit that matches the type of your target device. The following picture illustrates how to select the kit where the device was added in Preparation of Qt Kit:</p>
+<p class="centerAlign"><img src="assets/b2qt-select-kit.png" alt="" /></p><p>After you complete the steps in the project wizard, the generated Qt Quick project is automatically opened in the <b>Edit</b> mode (1).</p>
+<p class="centerAlign"><img src="assets/b2qt-edit-mode-pro-file.png" alt="" /></p><p>You can see the project's structure by selecting <b>Projects</b> in the sidebar (2). If you select the <i>.pro</i> file (3) under your project, you see its content in the editor view. The last lines in the .pro file (4) define the path where your project is deployed. Qt's project wizard generates the path automatically for Qt Quick projects. For other projects, you need to define the path manually in the project file. For more information, see Deploying Qt Projects with Boot to Qt.</p>
+
+<h2 id="building-running-and-deploying-project">Building, Running, and Deploying Project</h2>
+<p>Now it is time to build and run your project, and deploy it to the target device. When you run the project, Qt Creator automatically both builds it and deploys it to the device. Thus, you just need to select the <b>Run</b> button (1) in Qt Creator.</p>
+<p class="centerAlign"><img src="assets/b2qt-run-button.png" alt="" /></p><p>Your project should now be running on the target device.</p>
+</div>

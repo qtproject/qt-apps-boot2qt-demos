@@ -147,6 +147,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: height / 4
+                onPressed: guide.visible = true
             }
         }
     }
@@ -227,6 +228,11 @@ Item {
 
     UsbModeDialog {
         id: usbModeDialog
+    }
+
+    GuideView {
+        id: guide
+        visible: false
     }
 
     // base state = landscape
