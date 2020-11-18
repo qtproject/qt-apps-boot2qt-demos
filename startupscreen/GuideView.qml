@@ -65,35 +65,14 @@ Item  {
         contentHeight: guide.height
         flickableDirection: Flickable.VerticalFlick
 
-        // dummy component to access current style
         TextArea {
-            id: textarea
-            visible: false
-            readOnly: true
-        }
-
-        // Get background from TextArea
-        Rectangle {
-            anchors.fill: parent
-            border.width: textarea.background.border.width
-            border.color: textarea.background.border.color
-            color: textarea.background.color
-        }
-
-        Text {
             id: guide
             width: root.width
             text: SettingsManager.guideText
             textFormat: Text.RichText
             wrapMode: Text.WordWrap
-
-            // Get style from TextArea
-            font: textarea.font
-            color: textarea.color
-            padding: textarea.padding
-            topPadding: textarea.topPadding
-            rightPadding: textarea.rightPadding
-            bottomPadding: textarea.bottomPadding
+            readOnly: true
+            focus: root.visible
         }
     }
 
