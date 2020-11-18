@@ -34,7 +34,6 @@
         <file>fonts/TitilliumWeb-Bold.ttf</file>
         <file>fonts/TitilliumWeb-Light.ttf</file>
         <file>fonts/TitilliumWeb-Regular.ttf</file>
-        <file>imports/StartupScreen/qmldir</file>
         <file>qtquickcontrols2.conf</file>
     </qresource>
 </RCC>
