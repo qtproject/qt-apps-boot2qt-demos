@@ -431,7 +431,7 @@ Page {
 
     RouteModel {
         id: routeModel
-        plugin: map.plugin
+        plugin: mapbox
         query: routeQuery
         onStatusChanged: {
             if (status === RouteModel.Ready) {
@@ -626,14 +626,22 @@ Page {
 
     Plugin {
         id: mapboxgl
-        name: "mapbox"
+        name: "mapboxgl"
         PluginParameter {
             name: "mapbox.access_token"
             value: "pk.eyJ1IjoibWFwYm94NHF0IiwiYSI6ImNpd3J3eDE0eDEzdm8ydHM3YzhzajlrN2oifQ.keEkjqm79SiFDFjnesTcgQ"
         }
         PluginParameter {
-            name: "mapbox.mapping.map_id"
-            value: "mapbox.run-bike-hike"
+            name: "mapboxgl.mapping.additional_style_urls"
+            value: "mapbox://styles/mapbox/outdoors-v11"
+        }
+    }
+    Plugin {
+        id: mapbox
+        name: "mapbox"
+        PluginParameter {
+            name: "mapbox.access_token"
+            value: "pk.eyJ1IjoibWFwYm94NHF0IiwiYSI6ImNpd3J3eDE0eDEzdm8ydHM3YzhzajlrN2oifQ.keEkjqm79SiFDFjnesTcgQ"
         }
     }
 
