@@ -206,6 +206,7 @@ Item {
         anchors.horizontalCenter: ipAddress.horizontalCenter
         font.pixelSize: textNormal
         font.family: "Titillium Web"
+        visible: ipAddress.text !== ""
     }
     Text {
         id: ipAddress
