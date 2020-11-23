@@ -61,7 +61,7 @@ Dialog {
 
     focus: true
     modal: true
-    title: "Reboot Device"
+    title: qsTr("Reboot Device")
     standardButtons: Dialog.Ok | Dialog.Cancel
 
     ColumnLayout {
@@ -69,7 +69,7 @@ Dialog {
         anchors.fill: parent
         Label {
             elide: Label.ElideRight
-            text: "The settings change requires device to be rebooted."
+            text: qsTr("The settings change requires device to be rebooted.")
             Layout.fillWidth: true
             wrapMode: Label.Wrap
         }

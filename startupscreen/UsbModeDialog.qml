@@ -62,7 +62,7 @@ Dialog {
 
     focus: true
     modal: true
-    title: "USB Ethernet mode"
+    title: qsTr("USB Ethernet mode")
     standardButtons: Dialog.Ok | Dialog.Cancel
 
     RebootDialog {
@@ -83,9 +83,9 @@ Dialog {
         anchors.fill: parent
         Label {
             elide: Label.ElideRight
-            text: "Switch the USB Ethernet mode used for Qt Creator connection. "
+            text: qsTr("Switch the USB Ethernet mode used for Qt Creator connection. "
              + "CDCECM supports Linux and macOS hosts, "
-             + "while RNDIS supports Linux and Windows hosts."
+             + "while RNDIS supports Linux and Windows hosts.")
             Layout.fillWidth: true
             wrapMode: Label.Wrap
         }

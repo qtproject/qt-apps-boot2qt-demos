@@ -71,7 +71,7 @@ Rectangle {
     Text {
         id: buttonLabel
         color: "white"
-        text: "Learn more..."
+        text: qsTr("Learn more...")
         horizontalAlignment: Text.AlignHCenter
         font.bold: true
         anchors.centerIn: parent

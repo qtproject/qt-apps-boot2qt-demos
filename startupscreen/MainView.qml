@@ -99,7 +99,7 @@ Item {
             Text {
                 id: headerText_1
                 color: "#ffffff"
-                text: "Get started with"
+                text: qsTr("Get started with")
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
                 font.pixelSize: textNormal
@@ -108,7 +108,7 @@ Item {
             Text {
                 id: headerText_2
                 color: "#ffffff"
-                text: "Boot to Qt "
+                text: qsTr("Boot to Qt ")
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
                 font.bold: true
@@ -129,7 +129,7 @@ Item {
             Text {
                 id: bodyText
                 color: "#ffffff"
-                text: "How to install demo\napplication from Qt Creator?"
+                text: qsTr("How to install demo\napplication from Qt Creator?")
                 font.pixelSize: textNormal
                 font.family: "Titillium Web"
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -201,7 +201,7 @@ Item {
     Text {
         id: ipLabel
         color: "grey"
-        text: "Networks:"
+        text: qsTr("Networks:")
         anchors.bottom: ipAddress.top
         anchors.horizontalCenter: ipAddress.horizontalCenter
         font.pixelSize: textNormal
