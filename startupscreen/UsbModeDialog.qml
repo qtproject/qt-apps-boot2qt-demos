@@ -75,7 +75,7 @@ Dialog {
         reboot.open()
     }
     onRejected: {
-        combobox.currentIndex = SettingsManager.mode === "cdcecm" ? 0 : 1
+        combobox.currentIndex = combobox.indexOfValue(SettingsManager.usbMode)
     }
 
     ColumnLayout {
@@ -91,7 +91,7 @@ Dialog {
         }
         ComboBox {
             id: combobox
-            currentIndex: SettingsManager.mode === "cdcecm" ? 0 : 1
+            Component.onCompleted: currentIndex = indexOfValue(SettingsManager.usbMode)
             model: ["cdcecm", "rndis"]
         }
     }
