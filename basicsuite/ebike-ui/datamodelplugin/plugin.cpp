@@ -70,7 +70,7 @@ class QExampleQmlPlugin : public QQmlExtensionPlugin
 
 public:
 
-        void registerTypes(const char *uri)
+    void registerTypes(const char *uri)
     {
         Q_UNUSED(uri);
         qmlRegisterType<DataStore>("DataStore", 1, 0, "DataStore");
@@ -89,7 +89,7 @@ public:
        MapBoxSuggestions *suggest = new MapBoxSuggestions(mapbox, engine);
 
        // Setup navigation container
-       Navigation *navi = new Navigation(mapbox, engine);
+       Navigation *navi = new Navigation(nullptr, engine);
 
        // Brightness controller
        BrightnessController *brightness = new BrightnessController(engine);

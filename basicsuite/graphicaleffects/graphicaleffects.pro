@@ -1,7 +1,6 @@
 TARGET = graphicaleffects
 
 include(../shared/shared.pri)
-b2qtdemo_deploy_defaults()
 
 content.files = \
     Checkers.qml \
@@ -16,11 +15,11 @@ content.files = \
     effect_HueSaturation.qml \
     effect_OpacityMask.qml \
     effect_ThresholdMask.qml \
-    main.qml \
-    images \
+    main.qml
 
-content.path = $$DESTPATH
-
-OTHER_FILES += $${content.files}
-
-INSTALLS += target content
+!contains(DEFINES, DESKTOP_BUILD) {
+    content.files += \
+        images
+} else {
+    copyToDestDir($$PWD/images, $$OUT_PWD)
+}

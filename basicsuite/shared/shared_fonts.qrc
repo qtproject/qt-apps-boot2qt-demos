@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/TitilliumWeb-Black.ttf</file>
+        <file>fonts/TitilliumWeb-Bold.ttf</file>
+        <file>fonts/TitilliumWeb-ExtraLight.ttf</file>
+        <file>fonts/TitilliumWeb-Light.ttf</file>
+        <file>fonts/TitilliumWeb-Regular.ttf</file>
+        <file>fonts/TitilliumWeb-SemiBold.ttf</file>
+    </qresource>
+</RCC>

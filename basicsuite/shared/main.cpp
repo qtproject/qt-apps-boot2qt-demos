@@ -48,24 +48,24 @@
 **
 ****************************************************************************/
 #include <QtCore/QDebug>
-// QtWidget (QApplication) dependecy is required by QtCharts demo,
-// when QtWidget dependecy is not required use QGuiApplication from QtGui module
-#include <QtWidgets/QApplication>
+#ifdef QT_WIDGETS_LIB
+#include <QApplication>
+#elif QT_GUI_LIB
+#include <QGuiApplication>
+#endif
 #include <QtGui/QFont>
 #include <QtGui/QFontDatabase>
 #include <QtGui/QScreen>
 #include <QtGui/QPalette>
-#include <QtCore/QRegExp>
-#include <QtCore/QFile>
 
 #include <QtQml/QQmlApplicationEngine>
-
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlContext>
 #include <QtQml/QQmlComponent>
 #include <QSettings>
 #include <QQuickStyle>
 #include <QIcon>
+#include <QDir>
 #include <QQuickWindow>
 
 #if defined(USE_QTWEBENGINE)
@@ -90,75 +90,69 @@ int main(int argc, char **argv)
     QtWebEngine::initialize();
 #endif
 
-    //qputenv("QT_IM_MODULE", QByteArray("qtvkb"));
-    qputenv("QT_QUICK_CONTROLS_CONF", "/data/user/qt/qtquickcontrols2/qtquickcontrols2.conf");
-    QIcon::setThemeName("gallery");
-    QIcon::setThemeSearchPaths(QStringList() << "/data/user/qt/qtquickcontrols2/icons");
+    QString appPath = QString::fromLocal8Bit(argv[0]);
+    QByteArray appDir = appPath.left(appPath.lastIndexOf(QDir::separator())).toLocal8Bit();
+    QByteArray appName = appPath.split(QDir::separator().toLatin1()).last().toLocal8Bit();
+
+    // VKB is active also for desktop
+    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
+
+#if QT_CONFIG(cross_compile)
+    qputenv("QT_QUICK_CONTROLS_CONF", "/data/user/qt/" + appName + "/qtquickcontrols2.conf");
+#endif
+
+    if (appName.contains("qtquickcontrols2")) {
+        QIcon::setThemeName("gallery");
+        QIcon::setThemeSearchPaths(QStringList() << appDir + "/icons");
+    }
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
+#ifdef QT_WIDGETS_LIB
     QApplication app(argc, argv);
+#elif QT_GUI_LIB
+    QGuiApplication app(argc, argv);
+#endif
 
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Regular.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-SemiBold.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Bold.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Black.ttf");
-
-    //For eBike demo
-    QFontDatabase::addApplicationFont(":/fonts/ebike-fonts/Montserrat-Bold.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/ebike-fonts/Montserrat-Light.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/ebike-fonts/Montserrat-Medium.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/ebike-fonts/Montserrat-Regular.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/ebike-fonts/Teko-Bold.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/ebike-fonts/Teko-Light.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/ebike-fonts/Teko-Medium.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/ebike-fonts/Teko-Regular.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/ebike-fonts/fontawesome-webfont.ttf");
-
-    QString path = app.applicationDirPath();
-
-    QPalette pal;
-    pal.setColor(QPalette::Text, Qt::black);
-    pal.setColor(QPalette::WindowText, Qt::black);
-    pal.setColor(QPalette::ButtonText, Qt::black);
-    pal.setColor(QPalette::Base, Qt::white);
-    QGuiApplication::setPalette(pal);
-
-    QString target = qgetenv("B2QT_BASE") + "-" + qgetenv("B2QT_PLATFORM");
-    QFile excludeFile(path + QStringLiteral("/exclude.txt"));
-    if (excludeFile.open(QFile::ReadOnly)) {
-        const QStringList excludeList = QString::fromUtf8(excludeFile.readAll()).split(QRegExp(":|\\s+"));
-        if (excludeList.contains(target))
-            qDebug("Warning: This example may not be fully functional on this platform");
-        excludeFile.close();
-    }
-
-    QString fontName = QStringLiteral("/system/lib/fonts/DejaVuSans.ttf");
-    if (QFile::exists(fontName)) {
-        QFontDatabase::addApplicationFont(fontName);
-        QFont font("DejaVu Sans");
-        font.setPixelSize(12);
-        QGuiApplication::setFont(font);
+    bool fontsAsResource = false;
+    QStringList fonts;
+    QDir fontsResource(QStringLiteral(":/fonts"));
+    if (fontsResource.exists()) {
+        fontsAsResource = true;
+        fonts = fontsResource.entryList();
     } else {
-        QFont font;
-        font.setStyleHint(QFont::SansSerif);
-        QGuiApplication::setFont(font);
+        QDir fontsDirectory(QCoreApplication::applicationDirPath() + QStringLiteral("/fonts"));
+        fonts = fontsDirectory.entryList();
     }
 
-    // Material style can be set only for devices supporting GL
+    if (fonts.isEmpty())
+        qWarning() << "No fonts provided, using system default!";
+
+    QString path = fontsAsResource ? QStringLiteral(":/fonts/") : QCoreApplication::applicationDirPath() + QStringLiteral("/fonts/");
+    for (int i = 0; i < fonts.size(); ++i)
+        QFontDatabase::addApplicationFont(path + fonts.at(i));
+
+    // Material style can be set only for devices supporting OpenGL
     QSettings styleSettings;
     QString style = styleSettings.value("style").toString();
     if (checkGlAvailability()) {
         if (style.isEmpty() || style == "Default")
             styleSettings.setValue("style", "Material");
     } else {
-        qDebug()<<"No GL available, skipping Material style";
+        qWarning() << "No OpenGL available, skipping Material style";
     }
     QQuickStyle::setStyle(styleSettings.value("style").toString());
 
     DummyEngine engine;
 
     QQmlApplicationEngine applicationengine;
+
+#if !QT_CONFIG(cross_compile)
+    applicationengine.addImportPath(QCoreApplication::applicationDirPath() + "/qmlplugins");
+#else
+    applicationengine.addImportPath("/data/user/qt/qmlplugins");
+#endif
+
     QString appFont("TitilliumWeb");
     applicationengine.rootContext()->setContextProperty("engine", &engine);
     applicationengine.rootContext()->setContextProperty("appFont", appFont);
@@ -173,10 +167,7 @@ int main(int argc, char **argv)
     applicationengine.rootContext()->setContextProperty("_primaryGrey", demoSettings.value("primaryGrey", "#9d9faa"));
     applicationengine.rootContext()->setContextProperty("_secondaryGrey", demoSettings.value("secondaryGrey", "#3a4055"));
 
-    applicationengine.rootContext()->setContextProperty("VideosLocation", demoSettings.value("videosLocation", "file:///data/videos"));
-    applicationengine.rootContext()->setContextProperty("DefaultVideoUrl", demoSettings.value("defaultVideoUrl", "file:///data/videos/Qt+for+Designers+and+Developers.mp4"));
-
-    applicationengine.load(QUrl::fromLocalFile(path + "/SharedMain.qml"));
+    applicationengine.load(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/SharedMain.qml"));
 
     app.exec();
 }

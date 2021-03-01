@@ -1,7 +1,9 @@
 TEMPLATE = lib
-TARGET = webbrowser
 QT += qml quick
 CONFIG += qt plugin
+
+TARGET = webbrowser
+QML_MODULENAME = WebBrowser
 
 INCLUDEPATH += tqtc-qtwebbrowser/src
 
@@ -16,14 +18,7 @@ SOURCES += \
     tqtc-qtwebbrowser/src/touchtracker.cpp \
     tqtc-qtwebbrowser/src/navigationhistoryproxymodel.cpp
 
-pluginfiles.files += \
-    qmldir
+top_builddir=$$shadowed($$PWD)
+include(../shared/shared_plugin.pri)
 
 RESOURCES += tqtc-qtwebbrowser/src/resources.qrc
-
-B2QT_DEPLOYPATH = /data/user/qt/qmlplugins/WebBrowser
-
-target.path = $$B2QT_DEPLOYPATH
-pluginfiles.path = $$B2QT_DEPLOYPATH
-
-INSTALLS += target pluginfiles

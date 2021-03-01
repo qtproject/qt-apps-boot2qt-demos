@@ -3,18 +3,12 @@ CONFIG += plugin
 QT += qml multimedia
 
 TARGET  = camerautilsplugin
+QML_MODULENAME = CameraUtils
 
 SOURCES += plugin.cpp \
            camerautils.cpp
 
 HEADERS += camerautils.h
 
-pluginfiles.files += \
-    qmldir \
-
-B2QT_DEPLOYPATH = /data/user/qt/qmlplugins/CameraUtils
-target.path += $$B2QT_DEPLOYPATH
-pluginfiles.path += $$B2QT_DEPLOYPATH
-
-INSTALLS += target pluginfiles
-
+top_builddir=$$shadowed($$PWD/../)
+include(../../shared/shared_plugin.pri)

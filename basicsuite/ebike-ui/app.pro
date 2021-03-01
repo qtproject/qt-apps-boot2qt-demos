@@ -1,4 +1,4 @@
-QT += quick
+QT += quick widgets quickcontrols2
 CONFIG += c++11
 TARGET = ebike
 
@@ -8,16 +8,39 @@ TARGET = ebike
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
+# Uncomment to build ebike demo as separate which does not rely on shared functionality of B2qt launcher
+DEFINES += STANDALONE
+
+# Uncomment to use only app provided fonts and not common shared fonts
+# When providing own fonts use fonts.files and fonts.qrc file to provide those
+DEFINES += USE_APP_FONTS
+
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-include(../shared/shared.pri)
-b2qtdemo_deploy_defaults()
+contains(DEFINES, STANDALONE) {
+    SOURCES += \
+        main.cpp \
+        applicationsettings.cpp
 
-content.files = \
-    qtquickcontrols2.conf \
+    HEADERS += \
+        applicationsettings.h
+
+    content.files = \
+        StandaloneMain.qml
+
+    RESOURCES += qc2conf.qrc
+} else {
+    content.files += \
+        qtquickcontrols2.conf
+}
+
+include(../shared/shared.pri)
+
+
+content.files += \
     main.qml \
     NaviPage.qml \
     StatsPage.qml \
@@ -39,20 +62,12 @@ content.files = \
     NaviGuide.qml \
     NaviTripInfo.qml \
     ViewTab.qml \
-    moment.js \
     StatsRow.qml \
     ConfigurationItem.qml \
     NaviButton.qml \
     ToggleSwitch.qml \
+    moment.js \
     mostrecent.bson
-
-content.path = $$DESTPATH
-
-style.files = \
-    BikeStyle/Colors.qml \
-    BikeStyle/qmldir \
-    BikeStyle/UILayout.qml
-
 
 images.files = \
     images/lights_off.png \
@@ -120,21 +135,34 @@ images.files = \
     images/bike-light.png \
     images/blue_circle_gps_area.png
 
-OTHER_FILES += $${images.files}
-INSTALLS += images
-images.path = $$DESTPATH/images
-export(images.files)
-export(images.path)
+style.files = \
+    BikeStyle/Colors.qml \
+    BikeStyle/qmldir \
+    BikeStyle/UILayout.qml
 
-OTHER_FILES += $${style.files}
-INSTALLS += style
 style.path = $$DESTPATH/BikeStyle
-export(style.files)
-export(style.path)
-export(OTHER_FILES)
-export(INSTALLS)
 
-
-OTHER_FILES += $${content.files}
-
-INSTALLS += target content
+fonts.files = \
+    fonts/Montserrat-BlackItalic.ttf \
+    fonts/Montserrat-Bold.ttf \
+    fonts/Montserrat-ExtraLightItalic.ttf \
+    fonts/Montserrat-LightItalic.ttf \
+    fonts/Montserrat-Medium.ttf \
+    fonts/Montserrat-SemiBold.ttf \
+    fonts/Montserrat-Black.ttf \
+    fonts/Montserrat-ExtraBoldItalic.ttf \
+    fonts/Montserrat-ExtraLight.ttf \
+    fonts/Montserrat-Light.ttf \
+    fonts/Montserrat-Regular.ttf \
+    fonts/Montserrat-ThinItalic.ttf \
+    fonts/Montserrat-BoldItalic.ttf \
+    fonts/Montserrat-ExtraBold.ttf \
+    fonts/Montserrat-Italic.ttf \
+    fonts/Montserrat-MediumItalic.ttf \
+    fonts/Montserrat-SemiBoldItalic.ttf \
+    fonts/Montserrat-Thin.ttf \
+    fonts/Teko-Bold.ttf \
+    fonts/Teko-Regular.ttf \
+    fonts/Teko-Medium.ttf \
+    fonts/Teko-Light.ttf \
+    fonts/Teko-SemiBold.ttf

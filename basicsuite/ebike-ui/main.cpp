@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2018 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the examples of Qt for Device Creation.
@@ -47,71 +47,64 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.4
-import QtQuick.Window 2.2
-import QtQuick.VirtualKeyboard 1.2
+#include <QtWidgets/QApplication>
+#include <QtQml/QQmlApplicationEngine>
+#include <QQmlContext>
+#include <QtGui/QFontDatabase>
+#include <QDir>
 
-Window {
-    id: window
+#include "applicationsettings.h"
 
-    visible: true
-    width: Screen.desktopAvailableWidth
-    height: Screen.desktopAvailableHeight
+#if defined(USE_QTWEBENGINE)
+#include <qtwebengineglobal.h>
+#endif
 
-    color: "black"
+int main(int argc, char **argv)
+{
+#if defined(USE_QTWEBENGINE)
+    // This is currently needed by all QtWebEngine applications using the HW accelerated QQuickWebView.
+    // It enables sharing the QOpenGLContext of all QQuickWindows of the application.
+    // We have to do so until we expose public API for it in Qt or choose to enable it by default.
+    QtWebEngine::initialize();
+#endif
 
-    /* Updating Text properties dynamically can cause rebuild of whole SceneGraph node tree which is expensive.
-       Enabling this might help in that case to prevent full rebuild from happening.
-       More info see https://www.qt.io/blog/2017/01/19/shoot-foot-using-scene-graph-neat-optimization-trick-inside
-    */
-    readonly property bool clipDynamicText: false
+    // VKB is active also for desktop
+    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
 
-    /* SpeedView uses Canvas so it might be optimization when enabling layer for rendering it */
-    readonly property bool enableLayerForSpeedView: false
+    // TODO: On high dpi displays this breaks the layout
+    //QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    Item {
-        id: root
-        anchors.centerIn: window.contentItem
-        property bool portraitMode: Screen.desktopAvailableHeight > Screen.desktopAvailableWidth ? true : false
-        rotation: portraitMode ? 90 : 0
-        width: portraitMode ? window.height : window.width
-        height: portraitMode ? window.width : window.height
+    QApplication app(argc, argv);
 
-        Loader {
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.right: parent.right
-            anchors.bottom: inputPanel.top
-            source: "main.qml"
-        }
+    ApplicationSettings applicationSettings;
 
-        InputPanel {
-            id: inputPanel
-            z: 99
-            y: root.height
-            anchors.left: root.left
-            anchors.right: root.right
-
-            states: State {
-                name: "visible"
-                when: Qt.inputMethod.visible
-                PropertyChanges {
-                    target: inputPanel
-                    y: root.height - inputPanel.height
-                }
-            }
-            transitions: Transition {
-                from: ""
-                to: "visible"
-                reversible: true
-                ParallelAnimation {
-                    NumberAnimation {
-                        properties: "y"
-                        duration: 250
-                        easing.type: Easing.InOutQuad
-                    }
-                }
-            }
-        }
+    bool fontsAsResource = false;
+    QStringList fonts;
+    QDir fontsResource(QStringLiteral(":/fonts"));
+    if (fontsResource.exists()) {
+        fontsAsResource = true;
+        fonts = fontsResource.entryList();
+    } else {
+        QDir fontsDirectory(QCoreApplication::applicationDirPath() + QStringLiteral("/fonts"));
+        fonts = fontsDirectory.entryList();
     }
+
+    if (fonts.isEmpty())
+        qWarning() << "No fonts provided, using system default!";
+
+    QString path = fontsAsResource ? QStringLiteral(":/fonts/") : QCoreApplication::applicationDirPath() + QStringLiteral("/fonts/");
+    for (int i = 0; i < fonts.size(); ++i)
+        QFontDatabase::addApplicationFont(path + fonts.at(i));
+
+    QQmlApplicationEngine applicationengine;
+
+#if !QT_CONFIG(cross_compile)
+    applicationengine.addImportPath(QCoreApplication::applicationDirPath() + "/qmlplugins");
+#else
+    applicationengine.addImportPath("/data/user/qt/qmlplugins");
+#endif
+    applicationengine.rootContext()->setContextProperty("appConf", &applicationSettings);
+    applicationengine.load(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/StandaloneMain.qml"));
+
+    app.exec();
 }

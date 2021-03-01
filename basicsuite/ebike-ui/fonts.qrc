@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/Montserrat-Bold.ttf</file>
+        <file>fonts/Montserrat-Light.ttf</file>
+        <file>fonts/Montserrat-Medium.ttf</file>
+        <file>fonts/Montserrat-Regular.ttf</file>
+        <file>fonts/Teko-Bold.ttf</file>
+        <file>fonts/Teko-Light.ttf</file>
+        <file>fonts/Teko-Medium.ttf</file>
+        <file>fonts/Teko-Regular.ttf</file>
+    </qresource>
+</RCC>

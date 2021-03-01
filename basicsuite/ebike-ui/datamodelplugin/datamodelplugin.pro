@@ -1,39 +1,31 @@
 TEMPLATE = lib
 CONFIG += plugin
-QT += qml quick positioning charts
+QT += quick positioning
 
 TARGET  = ebikedatamodelplugin
+QML_MODULENAME = DataStore
 
 SOURCES += plugin.cpp \
-    $$PWD/../socketclient.cpp \
-    $$PWD/../datastore.cpp \
-    $$PWD/../navigation.cpp \
-    $$PWD/../mapboxsuggestions.cpp \
-    $$PWD/../suggestionsmodel.cpp \
-    $$PWD/../mapbox.cpp \
-    $$PWD/../brightnesscontroller.cpp \
-    $$PWD/../fpscounter.cpp \
-    $$PWD/../tripdatamodel.cpp
+    socketclient.cpp \
+    datastore.cpp \
+    navigation.cpp \
+    mapboxsuggestions.cpp \
+    suggestionsmodel.cpp \
+    mapbox.cpp \
+    brightnesscontroller.cpp \
+    fpscounter.cpp \
+    tripdatamodel.cpp
 
 HEADERS += \
-    $$PWD/../socketclient.h \
-    $$PWD/../datastore.h \
-    $$PWD/../navigation.h \
-    $$PWD/../mapboxsuggestions.h \
-    $$PWD/../suggestionsmodel.h \
-    $$PWD/../mapbox.h \
-    $$PWD/../brightnesscontroller.h \
-    $$PWD/../fpscounter.h \
-    $$PWD/../tripdatamodel.h
+    socketclient.h \
+    datastore.h \
+    navigation.h \
+    mapboxsuggestions.h \
+    suggestionsmodel.h \
+    mapbox.h \
+    brightnesscontroller.h \
+    fpscounter.h \
+    tripdatamodel.h
 
-INCLUDEPATH += $$PWD/../
-
-pluginfiles.files += \
-    qmldir \
-
-B2QT_DEPLOYPATH = /data/user/qt/qmlplugins/DataStore
-target.path += $$B2QT_DEPLOYPATH
-pluginfiles.path += $$B2QT_DEPLOYPATH
-
-INSTALLS += target pluginfiles
-
+top_builddir=$$shadowed($$PWD/../)
+include(../../shared/shared_plugin.pri)

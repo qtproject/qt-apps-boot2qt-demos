@@ -1,7 +1,6 @@
 TARGET = mediaplayer
 
 include(../shared/shared.pri)
-b2qtdemo_deploy_defaults()
 
 content.files = \
     Content.qml \
@@ -18,12 +17,13 @@ content.files = \
     PlayerSlider.qml \
     SeekControl.qml \
     UrlBar.qml \
-    VolumeControl.qml \
-    Effects \
-    images
+    VolumeControl.qml
 
-content.path = $$DESTPATH
-
-OTHER_FILES += $${content.files}
-
-INSTALLS += target content
+!contains(DEFINES, DESKTOP_BUILD) {
+    content.files += \
+        Effects \
+        images
+} else {
+    copyToDestDir($$PWD/Effects, $$OUT_PWD)
+    copyToDestDir($$PWD/images, $$OUT_PWD)
+}

@@ -1,17 +1,18 @@
 TARGET = qtquickcontrols2
 
 include(../shared/shared.pri)
-b2qtdemo_deploy_defaults()
 
-content.files = \
-    $$PWD/main.qml \
-    $$PWD/qtquickcontrols2.conf \
-    $$PWD/images \
-    $$PWD/icons \
-    $$PWD/pages
-
-content.path = $$DESTPATH
-
-OTHER_FILES += $${content.files}
-
-INSTALLS += target content
+!contains(DEFINES, DESKTOP_BUILD) {
+    content.files += \
+        qtquickcontrols2.conf \
+        images \
+        icons \
+        pages
+} else {
+    # shared.pri uses COPIES on desktop which cannot copy
+    # directories
+    copyToDestDir($$PWD/qtquickcontrols2.conf, $$OUT_PWD)
+    copyToDestDir($$PWD/images, $$OUT_PWD)
+    copyToDestDir($$PWD/icons, $$OUT_PWD)
+    copyToDestDir($$PWD/pages, $$OUT_PWD)
+}
