@@ -243,15 +243,19 @@ Rectangle {
         interactive: false
 
         // List of pages
-        StatsPage {}
+        StatsPage {
+            visible: SwipeView.isCurrentItem
+        }
         MainPage {
             id: mainPage
+            visible: SwipeView.isCurrentItem
             naviGuideArrowSource: naviPage.naviGuideArrowSource
             naviGuideDistance: naviPage.naviGuideDistance
             naviGuideAddress: naviPage.naviGuideAddress
         }
         NaviPage {
             id: naviPage;
+            visible: SwipeView.isCurrentItem
         }
     }
 
@@ -259,6 +263,7 @@ Rectangle {
     MusicPlayer {
         id: musicPlayer
         property string lastMusicPlayerState: "unknown"
+        visible: (musicPlayer.state == "hidden" ? false : true)
         z: 1
     }
 

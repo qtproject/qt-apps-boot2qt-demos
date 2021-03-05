@@ -48,6 +48,16 @@ Window {
     id: window
     visible: true
     color: "#111520"
+
+    /* Updating Text properties dynamically can cause rebuild of whole SceneGraph node tree which is expensive.
+       Enabling this might help in that case to prevent full rebuild from happening.
+       More info see https://www.qt.io/blog/2017/01/19/shoot-foot-using-scene-graph-neat-optimization-trick-inside
+    */
+    readonly property bool clipDynamicText: false
+
+    /* SpeedView uses Canvas so it might be optimization when enabling layer for rendering it */
+    readonly property bool enableLayerForSpeedView: false
+
     readonly property int portraitRotation: 90
     property real rotation: Screen.orientation === Qt.PortraitOrientation ? portraitRotation : 0
     property bool rotate: Screen.orientation === Qt.PortraitOrientation ? true : false
@@ -258,15 +268,18 @@ Window {
 
             // List of pages
             StatsPage {
+                visible: SwipeView.isCurrentItem
             }
             MainPage {
                 id: mainPage
+                visible: SwipeView.isCurrentItem
                 naviGuideArrowSource: naviPage.naviGuideArrowSource
                 naviGuideDistance: naviPage.naviGuideDistance
                 naviGuideAddress: naviPage.naviGuideAddress
             }
             NaviPage {
                 id: naviPage
+                visible: SwipeView.isCurrentItem
             }
         }
 
@@ -274,6 +287,7 @@ Window {
         MusicPlayer {
             id: musicPlayer
             property string lastMusicPlayerState: "unknown"
+            visible: (musicPlayer.state == "hidden" ? false : true)
             z: 1
         }
 

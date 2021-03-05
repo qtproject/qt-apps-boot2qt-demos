@@ -42,8 +42,9 @@ import "./BikeStyle"
 
 Page {
     background: Rectangle {
-        color: Colors.mainBackground
+        color: "transparent"
     }
+
     property alias statsButton: statsButton
     property alias naviButton: naviButton
     property alias lightsButton: lightsButton
@@ -61,7 +62,7 @@ Page {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                swipeView.currentIndex = 0
+                swipeView.decrementCurrentIndex()
             }
         }
     }
@@ -77,7 +78,7 @@ Page {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                swipeView.currentIndex = 2
+                swipeView.incrementCurrentIndex()
             }
         }
     }

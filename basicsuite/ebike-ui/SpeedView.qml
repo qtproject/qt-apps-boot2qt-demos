@@ -41,11 +41,13 @@ import "./BikeStyle"
 Rectangle {
     id: speedViewItem
     objectName: "ebikeSpeedView"
-    width: root.width * 0.35
+    width: parent.width * 0.35
     height: width
     color: "transparent"
     radius: width
     z: 1
+    layer.enabled: enableLayerForSpeedView
+
     anchors{
         verticalCenter: parent.verticalCenter
         horizontalCenter: parent.horizontalCenter
@@ -71,6 +73,7 @@ Rectangle {
     // Speed info
     Text {
         id: speedText
+        clip: (clipDynamicText && !enableLayerForSpeedView)
         anchors {
             horizontalCenter: speedView.horizontalCenter
             baseline: speedView.bottom
@@ -106,6 +109,7 @@ Rectangle {
     // Average speed info
     Text {
         id: averageSpeedText
+        clip: (clipDynamicText && !enableLayerForSpeedView)
         anchors {
             baseline: speedText.baseline
             baselineOffset: speedInfoTextsOffset
@@ -158,6 +162,7 @@ Rectangle {
     // Assist info
     Text {
         id: assistDistanceText
+        clip: (clipDynamicText && !enableLayerForSpeedView)
         anchors {
             baseline: speedText.baseline
             baselineOffset: speedInfoTextsOffset
@@ -419,7 +424,7 @@ Rectangle {
             anchors.leftMargin: parent.width * 0.075
             anchors.bottom: parent.bottom
             anchors.bottomMargin: parent.height * 0.075
-            visible: swipeView.currentIndex != 1
+            visible: speedView.state == "CORNERED"
         }
     }
 
@@ -521,7 +526,7 @@ Rectangle {
         onClicked: {
             if (enlarged)
                 enlarged = false
-            else if (swipeView.currentIndex === 1)
+            else if (speedView.state !== "CORNERED")
                 enlarged = true
             else
                 speedView.showMain()

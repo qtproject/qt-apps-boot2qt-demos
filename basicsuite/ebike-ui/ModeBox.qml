@@ -42,11 +42,12 @@ import "./BikeStyle"
 
 // Bottom-right corner, mode
 Item {
-    width: root.width * 0.425
-    height: root.height * 0.45
+    width: parent.width * 0.425
+    height: parent.height * 0.45
 
     Text {
         id: sportModeText
+        clip: clipDynamicText
         anchors {
             bottom: parent.bottom
             bottomMargin: parent.height * 0.3
@@ -63,6 +64,7 @@ Item {
 
     Text {
         id: cruiseModeText
+        clip: clipDynamicText
         anchors {
             bottom: sportModeText.top
             bottomMargin: parent.height * 0.025

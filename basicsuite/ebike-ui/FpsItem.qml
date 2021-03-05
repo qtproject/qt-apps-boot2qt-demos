@@ -59,6 +59,7 @@ Item {
 
     Text {
         id: fpsText
+        clip: clipDynamicText
         anchors.right: parent.right
         anchors.verticalCenter: spinnerImage.verticalCenter
         color: "red"

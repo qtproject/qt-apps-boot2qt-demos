@@ -42,8 +42,8 @@ import "./BikeStyle"
 
 // Top-left corner, stats
 Item {
-    width: root.width * 0.425
-    height: root.height * 0.45
+    width: parent.width * 0.425
+    height: parent.height * 0.45
     property real imageMargin: Math.min(width, height) * 0.3
 
     Image {
@@ -62,6 +62,7 @@ Item {
 
     Text {
         id: tripText
+        clip: clipDynamicText
         color: Colors.distanceText
         anchors {
             bottom: tripIcon.verticalCenter
@@ -108,6 +109,7 @@ Item {
 
     Text {
         id: calText
+        clip: clipDynamicText
         color: Colors.distanceText
         anchors {
             bottom: calIcon.verticalCenter

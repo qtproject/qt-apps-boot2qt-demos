@@ -44,7 +44,7 @@ Rectangle {
     property string distance: "0"
     property string unit: "m"
 
-    width: root.width * 0.14
+    width: parent.width * 0.14
     height: width
     radius: width
     color: Colors.naviPageGuideBackground

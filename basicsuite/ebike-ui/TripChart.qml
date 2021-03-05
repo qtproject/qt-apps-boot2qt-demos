@@ -199,7 +199,7 @@ ChartView {
             [0, 0]]
 
         // Animate only if visible on screen
-        running: animationRunning && (swipeView.currentIndex === 0)
+        running: animationRunning && parent.visible
         repeat: true
         interval: 200
         onTriggered: {

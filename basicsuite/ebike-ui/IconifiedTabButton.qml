@@ -44,7 +44,7 @@ TabButton {
     property var bar
 
     background: Rectangle {
-        color: Colors.tabBackground
+        color: "transparent"
 
         Image {
             height: parent.height

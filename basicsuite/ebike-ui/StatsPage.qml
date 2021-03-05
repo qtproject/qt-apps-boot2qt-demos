@@ -45,7 +45,7 @@ import "moment.js" as Moment
 Page {
     id: statsPage
     background: Rectangle {
-        color: Colors.mainBackground
+        color: "transparent"
     }
 
     // Function for pretty-printing duration
@@ -104,6 +104,7 @@ Page {
 
     Text {
         id: tripDateText
+        clip: clipDynamicText
         anchors {
             horizontalCenter: parent.horizontalCenter
             verticalCenter: parent.top
@@ -184,6 +185,7 @@ Page {
         color: "transparent"
         border.color: "red"
         width: odometerText.width + odometerUnit.width + odometerDescription.width + 2 * 4
+        clip: clipDynamicText
         anchors {
             right: parent.right
             bottom: parent.top
@@ -201,7 +203,7 @@ Page {
             font {
                 family: "Montserrat, Light"
                 weight: Font.Light
-                pixelSize: root.height * 0.035
+                pixelSize: parent.height * 0.035
             }
         }
 
@@ -215,7 +217,7 @@ Page {
             font {
                 family: "Montserrat, Bold"
                 weight: Font.Bold
-                pixelSize: root.height * 0.035
+                pixelSize: parent.height * 0.035
             }
         }
 
@@ -228,7 +230,7 @@ Page {
             font {
                 family: "Montserrat, Light"
                 weight: Font.Light
-                pixelSize: root.height * 0.035
+                pixelSize: parent.height * 0.035
             }
         }
     }
@@ -239,13 +241,11 @@ Page {
             left: parent.left
             right: parent.right
             top: endTrip.bottom
-            leftMargin: root.width * 0.025
-            rightMargin: root.width * 0.025
+            leftMargin: parent.width * 0.025
+            rightMargin: parent.width * 0.025
             topMargin: UILayout.statsTopMargin
         }
-        height: root.height * 0.2
-        // Hide any excess content, since we are using margins
-        clip: true
+        height: parent.height * 0.2
 
         // Load data on first show
         Component.onCompleted: tripdata.refresh()
@@ -256,8 +256,10 @@ Page {
             model: tripdata
 
             Column {
+                clip: clipDynamicText
                 width: tripView.width
                 height: tripView.height
+                visible: SwipeView.isCurrentItem
 
                 ColumnSpacer {
                     color: Colors.statsSeparator
@@ -304,15 +306,14 @@ Page {
         anchors {
             bottom: parent.bottom
             right: parent.right
-            bottomMargin: root.height * 0.0125
-            rightMargin: root.width * 0.02
+            bottomMargin: parent.height * 0.0125
+            rightMargin: parent.width * 0.02
             top: tripView.bottom
             left: parent.left
-            leftMargin: root.width * 0.175
+            leftMargin: parent.width * 0.175
         }
         animationRunning: tripView.currentIndex === 0
         tripDetails: tripdata.get(currentIndex)
         currentIndex: tripView.currentIndex
-        visible: swipeView.currentIndex === 0
     }
 }

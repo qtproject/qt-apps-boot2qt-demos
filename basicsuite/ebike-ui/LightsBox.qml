@@ -41,8 +41,8 @@ import "./BikeStyle"
 
 // Bottom-left corner, controls
 Item {
-    width: root.width * 0.425
-    height: root.height * 0.45
+    width: parent.width * 0.425
+    height: parent.height * 0.45
 
     property real imageMargin: Math.min(width, height) * 0.35
     Image {

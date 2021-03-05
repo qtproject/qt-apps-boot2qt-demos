@@ -44,6 +44,11 @@ import "./BikeStyle"
 
 Page {
     id: mapContainer
+
+    background: Rectangle {
+        color: "transparent"
+    }
+
     property var startCoordinate: QtPositioning.coordinate(36.131961, -115.153048)
     property var destinationCoordinate: QtPositioning.coordinate(90, 0)
     property var targetPlace
@@ -183,7 +188,7 @@ Page {
 
         delegate: Component {
             Rectangle {
-                width: parent.width
+                width: targetList.width
                 height: UILayout.naviPageSuggestionHeight
                 color: "white"
                 border.color: Colors.naviPageSuggestionsDivider
@@ -290,7 +295,7 @@ Page {
         anchors {
             right: parent.right
             bottom: parent.bottom
-            rightMargin: root.width * 0.015
+            rightMargin: parent.width * 0.015
             bottomMargin: anchors.rightMargin
         }
         arrowSource: naviGuideArrowSource
@@ -624,9 +629,15 @@ Page {
         }
     }
 
+    Binding {
+        target: mapboxgl
+        property: 'name'
+        value: "mapboxgl"
+        when:  navigation.active
+    }
+
     Plugin {
         id: mapboxgl
-        name: "mapboxgl"
         PluginParameter {
             name: "mapbox.access_token"
             value: "pk.eyJ1IjoibWFwYm94NHF0IiwiYSI6ImNpd3J3eDE0eDEzdm8ydHM3YzhzajlrN2oifQ.keEkjqm79SiFDFjnesTcgQ"
@@ -635,10 +646,21 @@ Page {
             name: "mapboxgl.mapping.additional_style_urls"
             value: "mapbox://styles/mapbox/outdoors-v11"
         }
+        PluginParameter {
+            name: "mapboxgl.mapping.use_fbo"
+            value: "false"
+        }
     }
+
+    Binding {
+        target: mapbox
+        property: 'name'
+        value: "mapbox"
+        when:  navigation.active
+    }
+
     Plugin {
         id: mapbox
-        name: "mapbox"
         PluginParameter {
             name: "mapbox.access_token"
             value: "pk.eyJ1IjoibWFwYm94NHF0IiwiYSI6ImNpd3J3eDE0eDEzdm8ydHM3YzhzajlrN2oifQ.keEkjqm79SiFDFjnesTcgQ"

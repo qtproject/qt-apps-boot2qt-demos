@@ -43,6 +43,7 @@ Drawer {
     property alias bikeInfoTab: bikeInfoTab
     property alias generalTab: generalTab
     property alias viewTab: viewTab
+    dim: false
 
     background: Rectangle {
         color: Colors.curtainBackground
@@ -55,12 +56,12 @@ Drawer {
         anchors {
             left: parent.left
             right: parent.right
-            leftMargin: root.width * 0.025
-            rightMargin: root.width * 0.025
+            leftMargin: parent.width * 0.025
+            rightMargin: parent.width * 0.025
         }
         contentHeight: parent.height * 0.175
         background: Rectangle {
-            color: Colors.curtainBackground
+            color: "transparent"
         }
 
         IconifiedTabButton {
@@ -134,8 +135,8 @@ Drawer {
             source: "images/curtain_shadow_handle.png"
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
-            width: root.width * 0.2
-            height: root.height * 0.07
+            width: parent.width * 0.2
+            height: parent.height * 0.07
             fillMode: Image.PreserveAspectFit
         }
 

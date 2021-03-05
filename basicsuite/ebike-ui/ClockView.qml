@@ -38,8 +38,8 @@ import QtQuick 2.7
 import "./BikeStyle"
 // Permanent placeholder for time display
 Item {
-    width: backgroundImage.width
-    height: backgroundImage.height
+    width: parent.width * 0.225
+    height: parent.height * 0.075
     z: 1
 
     // Timer that will show the current time at the top of the screen
@@ -53,12 +53,11 @@ Item {
         source: "images/top_curtain_drag.png"
         anchors.centerIn: parent
         fillMode: Image.PreserveAspectFit
-        width: root.width * 0.225
-        height: root.height * 0.075
     }
 
     Text {
         id: timeLabel
+        clip: clipDynamicText
         anchors {
             horizontalCenter: parent.horizontalCenter
             baseline: parent.top

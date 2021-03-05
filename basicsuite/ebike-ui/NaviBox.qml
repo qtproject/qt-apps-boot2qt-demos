@@ -42,8 +42,8 @@ import "./BikeStyle"
 // Top-right corner, navi
 Item {
     id: rootItem
-    width: root.width * 0.425
-    height: root.height * 0.45
+    width: parent.width * 0.425
+    height: parent.height * 0.45
     property string arrowSource: "images/nav_right.png"
     property string distance: "0"
     property string unit: "m"
@@ -71,6 +71,7 @@ Item {
 
         Text {
             id: naviText
+            clip: clipDynamicText
             anchors.baseline: container.bottom
             color: Colors.distanceText
             font {
