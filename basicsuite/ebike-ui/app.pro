@@ -9,7 +9,7 @@ TARGET = ebike
 DEFINES += QT_DEPRECATED_WARNINGS
 
 # Uncomment to build ebike demo as separate which does not rely on shared functionality of B2qt launcher
-DEFINES += STANDALONE
+#DEFINES += STANDALONE
 
 # Uncomment to use only app provided fonts and not common shared fonts
 # When providing own fonts use fonts.files and fonts.qrc file to provide those
