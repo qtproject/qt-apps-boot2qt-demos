@@ -85,6 +85,7 @@ Item  {
         opacity: 0.5
         MouseArea {
             anchors.fill: parent
+            anchors.margins: -width
             onPressed: backButton.scale = 0.4
             onReleased: backButton.scale = 0.5
             onClicked: root.visible = false

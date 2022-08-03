@@ -2,10 +2,12 @@ QT += quick quickcontrols2
 
 SOURCES += \
         settingsmanager.cpp \
-        main.cpp
+        main.cpp \
+        qtbuttonimageprovider.cpp
 
 HEADERS += \
-        settingsmanager.h
+        settingsmanager.h \
+        qtbuttonimageprovider.h
 
 RESOURCES += qml.qrc
 

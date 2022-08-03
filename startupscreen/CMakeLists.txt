@@ -17,6 +17,7 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick QuickControls2 REQUIRED
 add_executable(startupscreen
     main.cpp
     settingsmanager.cpp
+    qtbuttonimageprovider.cpp
     qml.qrc
 )
 

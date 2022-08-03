@@ -35,5 +35,13 @@
         <file>fonts/TitilliumWeb-Light.ttf</file>
         <file>fonts/TitilliumWeb-Regular.ttf</file>
         <file>qtquickcontrols2.conf</file>
+        <file>NetworkSettings/CustomSwitch.qml</file>
+        <file>NetworkSettings/NetworkListView.qml</file>
+        <file>NetworkSettings/NetworkSettings.qml</file>
+        <file>NetworkSettings/NetworkSettingsPage.qml</file>
+        <file>NetworkSettings/PassphraseEnter.qml</file>
+        <file>NetworkSettings/ViewSettings.qml</file>
+        <file>NetworkSettings/QtButton.qml</file>
+        <file>NetworkSettings/NetworkDelegate.qml</file>
     </qresource>
 </RCC>

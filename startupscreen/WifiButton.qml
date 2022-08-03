@@ -50,11 +50,14 @@
 
 import QtQuick
 import StartupScreen
+import QtDeviceUtilities.NetworkSettings
 
 Item {
     id: root
-
+    scale: mouseArea.pressed ? .9 : 1.0
     signal pressed()
+
+    Component.onCompleted: NetworkSettingsManager.services.type = NetworkSettingsType.Wifi;
 
     Rectangle {
         id: buttonBackground
@@ -63,64 +66,27 @@ Item {
         radius: 0
     }
 
-    // changing button state
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
-
-        onPressed: {
-            root.scale = 0.9
-        }
-        onReleased: {
-            root.scale = 1.0
-            root.pressed()
-
-            if (root.state == "")
-                root.state = "working"
-            else if (root.state == "working")
-                root.state = "ok"
-            else
-                root.state = ""
-        }
+        onClicked: root.pressed()
     }
 
     // icons for signal strengths (from 0 to 3)
+
+    property int signalStrength: NetworkSettingsManager.currentWifiConnection ? NetworkSettingsManager.currentWifiConnection.wirelessConfig.signalStrength / 25 : 0
+
     Image {
-        id: icon_signal_0
+        id: icon_signal
         height: parent.height * 0.9
-        source: "assets/icon_wifi_0.png"
+        source: "assets/icon_wifi_" + signalStrength + ".png"
         fillMode: Image.PreserveAspectFit
         anchors.centerIn: parent
-    }
-    Image {
-        id: icon_signal_1
-        height: parent.height * 0.9
-        source: "assets/icon_wifi_1.png"
-        fillMode: Image.PreserveAspectFit
-        anchors.centerIn: parent
-        opacity: 0
-    }
-    Image {
-        id: icon_signal_2
-        height: parent.height * 0.9
-        source: "assets/icon_wifi_2.png"
-        fillMode: Image.PreserveAspectFit
-        anchors.centerIn: parent
-        opacity: 0
-    }
-    Image {
-        id: icon_signal_3
-        height: parent.height * 0.9
-        source: "assets/icon_wifi_3.png"
-        fillMode: Image.PreserveAspectFit
-        anchors.centerIn: parent
-        opacity: 0
     }
 
-    // marker for the error, working and OK states
     Image {
         id: markerBackground
         height: parent.height * 0.5
-
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         source: "assets/icon_markerBackground.png"
@@ -129,157 +95,12 @@ Item {
         fillMode: Image.PreserveAspectFit
 
         Image {
-            id: errorIcon
+            id: icon
             height: parent.height * 0.5
             anchors.centerIn: parent
-            source: "assets/icon_error.png"
+            source: NetworkSettingsManager.currentWifiConnection ? "assets/icon_ok.png" : "assets/icon_error.png"
             fillMode: Image.PreserveAspectFit
             opacity: 1
         }
-        Image {
-            id: workingIcon
-            height: parent.height * 0.75
-            anchors.centerIn: parent
-            source: "assets/icon_working.png"
-            fillMode: Image.PreserveAspectFit
-            opacity: 0
-
-            RotationAnimation on rotation {
-                from: 0
-                to: 360
-                loops: Animation.Infinite
-                duration: 1000
-                running: true
-            }
-        }
-        Image {
-            id: okIcon
-            height: parent.height * 0.5
-            anchors.centerIn: parent
-            source: "assets/icon_ok.png"
-            fillMode: Image.PreserveAspectFit
-            opacity: 0
-        }
     }
-    states: [
-        State {
-            name: "working"
-            PropertyChanges {
-                target: errorIcon
-                opacity: 0
-            }
-            PropertyChanges {
-                target: workingIcon
-                opacity: 1
-            }
-            PropertyChanges {
-                target: okIcon
-                opacity: 0
-            }
-        },
-        State {
-            name: "ok"
-            PropertyChanges {
-                target: errorIcon
-                opacity: 0
-            }
-            PropertyChanges {
-                target: workingIcon
-                opacity: 0
-            }
-            PropertyChanges {
-                target: okIcon
-                opacity: 1
-            }
-            PropertyChanges {
-                target: markerBackground
-                opacity: 0
-            }
-            PropertyChanges {
-                target: icon_signal_0
-                opacity: 0
-            }
-            PropertyChanges {
-                target: icon_signal_1
-                opacity: 1
-            }
-            PropertyChanges {
-                target: icon_signal_2
-                opacity: 1
-            }
-            PropertyChanges {
-                target: icon_signal_3
-                opacity: 1
-            }
-        }
-    ]
-    transitions: [
-        Transition {
-            from: ""
-            to: "working"
-            PropertyAnimation {
-                duration: 200
-                properties: "opacity"
-
-            }
-        },
-        Transition {
-            from: "working"
-            to: "ok"
-            SequentialAnimation {
-                PropertyAnimation {
-                    target: workingIcon
-                    duration: 200
-                    properties: "opacity"
-                }
-                PropertyAnimation {
-                    target: okIcon
-                    duration: 100
-                    properties: "opacity"
-                }
-                ParallelAnimation {
-                    PropertyAnimation {
-                        target: icon_signal_0
-                        duration: 300
-                        properties: "opacity"
-                    }
-                    PropertyAnimation {
-                        target: icon_signal_1
-                        duration: 300
-                        properties: "opacity"
-                    }
-                }
-                PropertyAnimation {
-                    target: icon_signal_2
-                    duration: 300
-                    properties: "opacity"
-                }
-                PropertyAnimation {
-                    target: icon_signal_3
-                    duration: 200
-                    properties: "opacity"
-                }
-                PropertyAnimation {
-                    target: markerBackground
-                    duration: 1000
-                    properties: "opacity"
-                }
-            }
-        },
-        Transition {
-            from: ""
-            to: "working"
-            PropertyAnimation {
-                duration: 200
-                properties: "opacity"
-
-            }
-        }
-    ]
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/

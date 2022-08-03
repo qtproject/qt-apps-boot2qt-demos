@@ -193,7 +193,10 @@ Item {
             id: wifiButton
             height: parent.buttonSize
             width: height
-            visible: false
+            visible: true
+            onPressed: {
+                loader.source = "qrc:/NetworkSettings/NetworkSettingsPage.qml"
+            }
         }
     }
 
@@ -225,6 +228,11 @@ Item {
             running: true
             repeat: true
         }
+    }
+
+    Loader {
+        id: loader
+        anchors.fill: parent
     }
 
     UsbModeDialog {

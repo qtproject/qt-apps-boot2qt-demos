@@ -103,7 +103,6 @@ ApplicationWindow {
             duration: 2000
         }
     }
-
 }
 
 

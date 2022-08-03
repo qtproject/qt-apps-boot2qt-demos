@@ -49,6 +49,7 @@
 ****************************************************************************/
 
 #include "settingsmanager.h"
+#include "qtbuttonimageprovider.h"
 
 #include <QFontDatabase>
 #include <QGuiApplication>
@@ -56,6 +57,8 @@
 
 int main(int argc, char *argv[])
 {
+    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
+
     QGuiApplication app(argc, argv);
 
     QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Bold.ttf");
@@ -65,7 +68,10 @@ int main(int argc, char *argv[])
     SettingsManager settingsManager;
     qmlRegisterSingletonInstance("StartupScreen", 1, 0, "SettingsManager", &settingsManager);
 
+    QtButtonImageProvider imageProvider;
     QQmlApplicationEngine engine;
+
+    engine.addImageProvider("QtButton", &imageProvider);
     engine.addImportPath("qrc:/imports");
     const QUrl url(QStringLiteral("qrc:/StartupScreen.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
