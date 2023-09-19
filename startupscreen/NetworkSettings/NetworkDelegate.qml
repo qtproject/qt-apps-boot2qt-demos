@@ -52,7 +52,7 @@ Item {
             font.pixelSize: networkSettingsRoot.height * viewSettings.subTitleFontSize
             font.family: viewSettings.appFont
             color: isConnected ? viewSettings.buttonGreenColor : "white"
-            text: (modelData.type === NetworkSettingsType.Wired) ? modelData["name"] + " (" + modelData["id"] + ")" : name
+            text: (entry.type === NetworkSettingsType.Wired) ? entry["name"] + " (" + entry["id"] + ")" : name
         }
 
         Row {
