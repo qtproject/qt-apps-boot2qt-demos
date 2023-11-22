@@ -108,7 +108,7 @@ Item {
             Text {
                 id: headerText_2
                 color: "#ffffff"
-                text: qsTr("Boot to Qt ")
+                text: qsTr("Boot to Qt ") + Qt.application.version
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
                 font.bold: true
