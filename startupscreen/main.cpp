@@ -62,10 +62,6 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     app.setApplicationVersion(QLatin1String(qVersion()));
 
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Bold.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Light.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/TitilliumWeb-Regular.ttf");
-
     SettingsManager settingsManager;
     qmlRegisterSingletonInstance("StartupScreen", 1, 0, "SettingsManager", &settingsManager);
 

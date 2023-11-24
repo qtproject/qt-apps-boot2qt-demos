@@ -31,9 +31,6 @@
         <file>assets/icon_wifi_2.png</file>
         <file>assets/icon_wifi_3.png</file>
         <file>assets/icon_working.png</file>
-        <file>fonts/TitilliumWeb-Bold.ttf</file>
-        <file>fonts/TitilliumWeb-Light.ttf</file>
-        <file>fonts/TitilliumWeb-Regular.ttf</file>
         <file>qtquickcontrols2.conf</file>
         <file>NetworkSettings/CustomSwitch.qml</file>
         <file>NetworkSettings/NetworkListView.qml</file>
