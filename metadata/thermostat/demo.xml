@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="Thermostat" priority="8" scalable="1" icon="preview.png" binary="/usr/share/examples/demos/thermostat/ThermostatApp">
+    <description>
+        A user interface for a home thermostat, implemented in Qt Quick. It demonstrates how to create responsive applications that scale from large desktop displays to mobile and small embedded displays.
+    </description>
+</application>
