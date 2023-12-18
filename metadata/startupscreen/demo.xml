@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="Get started with Boot to Qt" priority="10" scalable="1" icon="preview.png" binary="/usr/bin/startupscreen" arguments="-platform wayland-egl">
+    <description>
+        Provides USB and Wi-Fi settings and instructions how to deploy applications from the Qt Creator.
+    </description>
+</application>
