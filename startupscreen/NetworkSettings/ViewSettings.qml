@@ -31,12 +31,12 @@ import QtQuick
 QtObject {
     id: viewSettings
     readonly property string appFont: "Titillium Web"
-    readonly property color backgroundColor: "#09102b"
+    readonly property color backgroundColor: "#00414a"
     readonly property color borderColor: "#9d9faa"
-    readonly property color buttonGreenColor: "#41cd52"
+    readonly property color buttonGreenColor: "#2cde85"
     readonly property color buttonGrayColor: "#9d9faa"
     readonly property color buttonActiveColor: "#216729"
-    readonly property color scrollBarColor: "#41cd52"
+    readonly property color scrollBarColor: "#2cde85"
 
     readonly property real spacing: 0.5
     readonly property real titleFontSize: 0.04

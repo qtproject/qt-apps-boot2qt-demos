@@ -37,7 +37,7 @@ Image {
     property string state: "enabled"
     property int cutSize: 10
     property color fillColor: viewSettings.buttonGreenColor
-    property color borderColor: mouseArea.pressed ? viewSettings.buttonActiveColor : viewSettings.buttonGreenColor
+    property color borderColor: viewSettings.buttonGreenColor
     property alias text: buttonText.text
     property alias fontFamily: buttonText.font.family
 

@@ -54,99 +54,53 @@ import StartupScreen
 Item {
     id: root
 
-    property var textNormal: panel.height / 9
-    property var textLarge: panel.height / 7
-
-    Image {
-        id: backgroundImage
-        source: "assets/background.png"
-        anchors.fill: parent
-    }
+    property int textNormal: panel.height / 9
+    property int textLarge: panel.height / 7
 
     Item {
         id: panel
         anchors.top: root.top
         anchors.topMargin: height / 10
-
         anchors.left: root.left
+        anchors.leftMargin: panel.width *.1
         height: width / 2
         width: root.width * 0.6
 
-        Item {
-            id: headerBackground
-
-            height: parent.height / 3
+        Text {
+            id: headerText_1
+            color: "#2cde85"
+            text: qsTr("Get Started with Boot to Qt ") + Qt.application.version
             anchors.top: panel.top
             anchors.left: panel.left
-            anchors.right: panel.right
-
-            Image {
-                id: headerBackgroundRight
-                source: "assets/headerBackgroundRight.png"
-                width: height
-                anchors.right: parent.right
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-            }
-            Image {
-                id: headerBackgroundLeft
-                source: "assets/headerBackgroundLeft.png"
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.right: headerBackgroundRight.left
-            }
-            Text {
-                id: headerText_1
-                color: "#ffffff"
-                text: qsTr("Get started with")
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: parent.top
-                font.pixelSize: textNormal
-                font.family: "Titillium Web"
-            }
-            Text {
-                id: headerText_2
-                color: "#ffffff"
-                text: qsTr("Boot to Qt ") + Qt.application.version
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.bottom
-                font.bold: true
-                font.pixelSize: textLarge
-                font.family: "Titillium Web"
-            }
+            font.pixelSize: textNormal
+            font.family: "Titillium Web"
         }
 
-        // body of the text panel
-        Rectangle {
-            id: bodyBackground
-            color: "#000000"
-            anchors.right: panel.right
+        Text {
+            id: bodyText
+            color: "#ffffff"
+            text: qsTr("How to install demo application\nfrom Qt Creator?")
+            font.pixelSize: textNormal
+            font.family: "Titillium Web"
             anchors.left: panel.left
-            anchors.top: headerBackground.bottom
-            anchors.bottom: panel.bottom
+            anchors.top: headerText_1.bottom
+            anchors.topMargin: textNormal
+            wrapMode: Text.WordWrap
+        }
 
-            Text {
-                id: bodyText
-                color: "#ffffff"
-                text: qsTr("How to install demo\napplication from Qt Creator?")
-                font.pixelSize: textNormal
-                font.family: "Titillium Web"
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: parent.top
-                horizontalAlignment: Text.AlignHCenter
-                lineHeight: 0.8
-                wrapMode: Text.WordWrap
-            }
+        Text {
+            id: buttonLabel
+            color: "#2cde85"
+            text: qsTr("Click to learn more!")
+            anchors.left: panel.left
+            anchors.top: bodyText.bottom
+            anchors.topMargin: textLarge
+            font.pixelSize: textLarge
+            font.family: "Titillium Web"
 
-            TextButton {
-                id: textButton
-                width: parent.width * 0.9
-                height: parent.height / 3
-                fontSize: textNormal
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: height / 4
+            MouseArea {
+                anchors.fill: parent
+                anchors.margins: -height * .5
                 onPressed: guide.visible = true
             }
         }
@@ -168,7 +122,6 @@ Item {
         anchors.verticalCenter: panel.verticalCenter
         anchors.topMargin: height * 0.1
     }
-
 
     // Button row
     Row {

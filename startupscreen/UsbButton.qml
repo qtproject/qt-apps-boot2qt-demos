@@ -60,13 +60,6 @@ Item {
 
     state: !available ? "" : (connected ? "connected" : "error")
 
-    Rectangle {
-        id: buttonBackground
-        anchors.fill: parent
-        color: "#3a4055"
-        radius: 0
-    }
-
     // changing button state
     MouseArea {
         anchors.fill: parent

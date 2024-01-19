@@ -51,17 +51,12 @@
 import QtQuick
 import QtQuick.Controls
 
-Rectangle {
+Image {
     id: root
+    source: "assets/background.png"
 
     Image {
-        id: backgroundImage
-        source: "assets/background.png"
-        anchors.fill: root
-    }
-
-    Image {
-        id: builtwithQtImage
+        id: logo
         source: "assets/builtwithQt.png"
         anchors.centerIn: root
     }

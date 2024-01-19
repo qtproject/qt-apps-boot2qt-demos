@@ -53,7 +53,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import StartupScreen
 
-Item  {
+Item {
     id: root
     width: parent.width
     height: parent.height

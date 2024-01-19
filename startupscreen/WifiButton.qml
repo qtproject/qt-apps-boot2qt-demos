@@ -59,13 +59,6 @@ Item {
 
     Component.onCompleted: NetworkSettingsManager.services.type = NetworkSettingsType.Wifi;
 
-    Rectangle {
-        id: buttonBackground
-        anchors.fill: parent
-        color: "#3a4055"
-        radius: 0
-    }
-
     MouseArea {
         id: mouseArea
         anchors.fill: parent

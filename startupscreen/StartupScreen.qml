@@ -61,6 +61,12 @@ ApplicationWindow {
     width: 960
     height: 540
 
+    Image {
+        id: backgroundImage
+        source: "assets/background.png"
+        anchors.fill: parent
+    }
+
     Timer {
           interval: 1000
           running: true
