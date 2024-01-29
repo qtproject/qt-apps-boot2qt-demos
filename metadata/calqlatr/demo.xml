@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="Calqlatr" priority="2" scalable="1" icon="preview.png" binary="/usr/share/examples/demos/calqlatr/calqlatrexample">
+    <description>
+        A Qt Quick app designed for landscape and portrait devices that uses custom components, responsive layouts, and JavaScript for the application logic.
+    </description>
+</application>

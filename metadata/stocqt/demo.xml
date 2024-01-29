@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<application title="Qt Quick Demo - StocQt" priority="2" scalable="1" icon="preview.png" binary="/usr/share/examples/demos/stocqt/stocqt">
+<application title="Qt Quick Demo - StocQt" priority="7" scalable="1" icon="preview.png" binary="/usr/share/examples/demos/stocqt/appStocQt">
     <description>
         The StocQt application presents a trend chart for the first stock in the list of NASDAQ-100 stocks. It allows the user to choose another stock from the list, and fetches the required data from the offline dataset using XMLHttpRequest.
     </description>

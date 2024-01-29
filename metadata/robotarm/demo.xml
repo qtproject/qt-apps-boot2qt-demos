@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="Robot Arm" priority="7" scalable="1" icon="preview.png" binary="/usr/share/examples/demos/robotarm/RobotArmApp">
+    <description>
+        This example demonstrates adding a C++ backend to a 3D project created in Qt Design Studio. The example itself consists of an interactive industrial robot arm in a Qt Quick 3D scene. The 2D UI to control the robot arm is implement using Qt Quick Controls.
+    </description>
+</application>

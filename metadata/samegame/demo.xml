@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="Same Game" priority="5" scalable="0" icon="preview.png" binary="/usr/share/examples/demos/samegame/samegame">
+    <description>
+        Same Game demonstrates a QML game with custom types and logic written in JavaScript. The game uses various Qt Quick features such as particles, animation, and loading images.
+    </description>
+</application>

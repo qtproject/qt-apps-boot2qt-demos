@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<application title="Coffee Machine" priority="5" scalable="1" icon="preview.png" binary="/usr/share/examples/demos/coffee/coffee">
+<application title="Coffee Machine" priority="5" scalable="1" icon="preview.png" binary="/usr/share/examples/demos/coffee/coffeemachine">
     <description>
         A Qt Quick application with a state-based custom user interface.
     </description>

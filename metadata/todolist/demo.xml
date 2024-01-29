@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application title="To Do List" priority="5" scalable="1" icon="preview.png" binary="/usr/share/examples/demos/todolist/ToDoListApp">
+    <description>
+        A QML implementation of to do list application that demonstrates how to create application thats looks native on any platform.
+    </description>
+</application>
