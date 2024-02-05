@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2020 The Qt Company Ltd.
+** Copyright (C) 2024 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the examples of Qt for Device Creation.
@@ -63,11 +63,17 @@ int main(int argc, char *argv[])
     app.setApplicationVersion(QLatin1String(qVersion()));
 
     SettingsManager settingsManager;
+
     qmlRegisterSingletonInstance("StartupScreen", 1, 0, "SettingsManager", &settingsManager);
 
     QtButtonImageProvider imageProvider;
     QQmlApplicationEngine engine;
 
+#ifdef QSR
+    if (app.windowIcon().isNull()) {
+        app.setWindowIcon(QIcon(":/assets/QSR_Logo.png"));
+    }
+#endif
     engine.addImageProvider("QtButton", &imageProvider);
     engine.addImportPath("qrc:/imports");
     const QUrl url(QStringLiteral("qrc:/StartupScreen.qml"));
@@ -76,6 +82,7 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
+
     engine.load(url);
 
     return app.exec();

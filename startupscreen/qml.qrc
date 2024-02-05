@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>AnalogClock.qml</file>
         <file>GuideView.qml</file>
-        <file>MainView.qml</file>
         <file>RebootDialog.qml</file>
         <file>SplashView.ui.qml</file>
         <file>StartupScreen.qml</file>
@@ -38,5 +37,6 @@
         <file>NetworkSettings/ViewSettings.qml</file>
         <file>NetworkSettings/QtButton.qml</file>
         <file>NetworkSettings/NetworkDelegate.qml</file>
+        <file>assets/QSR_Logo.png</file>
     </qresource>
 </RCC>

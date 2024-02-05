@@ -70,6 +70,7 @@ public:
     void setUsbMode(const QString &usbMode);
     bool hasQdb();
     Q_INVOKABLE void reboot();
+    Q_INVOKABLE void runDemoMode(const QString& target);
 
     QString networks();
     QByteArray guideText();

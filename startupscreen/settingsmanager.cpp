@@ -55,6 +55,7 @@
 #include <QFile>
 #include <QTemporaryFile>
 #include <QNetworkInterface>
+#include <QProcess>
 
 #include <sys/reboot.h>
 #include <unistd.h>
@@ -161,3 +162,26 @@ QByteArray SettingsManager::guideText()
         return QByteArrayLiteral("Guide not found");
     }
 }
+
+void SettingsManager::runDemoMode(const QString& target)
+{
+    QProcess process;
+    QString program = "systemctl";
+    QStringList arguments;
+
+    arguments << "start" << target;
+
+    process.start(program, arguments);
+    process.waitForFinished(-1);
+
+    if (process.exitStatus() == QProcess::NormalExit && process.exitCode() == 0) {
+        qInfo() << "Successfully started target: " << target;
+    } else {
+        qWarning() << "Command execution failed with exit code: " << process.exitCode() << " for target: " << target;
+        qWarning() << "Error message: " << process.errorString();
+    }
+}
+
+
+
+
