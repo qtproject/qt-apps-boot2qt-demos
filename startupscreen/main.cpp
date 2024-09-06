@@ -69,11 +69,6 @@ int main(int argc, char *argv[])
     QtButtonImageProvider imageProvider;
     QQmlApplicationEngine engine;
 
-#ifdef QSR
-    if (app.windowIcon().isNull()) {
-        app.setWindowIcon(QIcon(":/assets/QSR_Logo.png"));
-    }
-#endif
     engine.addImageProvider("QtButton", &imageProvider);
     engine.addImportPath("qrc:/imports");
     const QUrl url(QStringLiteral("qrc:/StartupScreen.qml"));

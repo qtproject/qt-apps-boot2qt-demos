@@ -37,6 +37,5 @@
         <file>NetworkSettings/ViewSettings.qml</file>
         <file>NetworkSettings/QtButton.qml</file>
         <file>NetworkSettings/NetworkDelegate.qml</file>
-        <file>assets/QSR_Logo.png</file>
     </qresource>
 </RCC>
