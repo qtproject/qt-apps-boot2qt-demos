@@ -51,7 +51,6 @@
 import QtQuick
 import QtQuick.Controls
 import StartupScreen
-import backend 1.0
 
 Item {
     id: root
@@ -129,10 +128,9 @@ Item {
             id: mouseArea
             anchors.fill: parent
             onPressed: parent.color = "#235866"
-            var target = "qsrdemo.target";
             onReleased: {
                 parent.color = "#2cde85"
-                SettingsManager.runDemoMode(target)
+                SettingsManager.runDemoMode("qsrdemo.target")
             }
         }
 
