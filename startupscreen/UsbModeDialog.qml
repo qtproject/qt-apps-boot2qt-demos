@@ -62,37 +62,19 @@ Dialog {
 
     focus: true
     modal: true
-    title: qsTr("USB Ethernet mode")
-    standardButtons: Dialog.Ok | Dialog.Cancel
-
-    RebootDialog {
-        id: reboot
-        onAccepted: SettingsManager.reboot()
-    }
-
-    onAccepted: {
-        SettingsManager.usbMode = combobox.currentText
-        reboot.open()
-    }
-    onRejected: {
-        combobox.currentIndex = combobox.indexOfValue(SettingsManager.usbMode)
-    }
+    title: qsTr("USB Ethernet connectivity")
+    standardButtons: Dialog.Ok
 
     ColumnLayout {
         spacing: 20
         anchors.fill: parent
         Label {
             elide: Label.ElideRight
-            text: qsTr("Switch the USB Ethernet mode used for Qt Creator connection. "
-             + "CDCECM supports Linux and macOS hosts, "
-             + "while RNDIS supports Linux and Windows hosts.")
+            text: usbButton.connected ?
+                qsTr("USB Ethernet is available and can be used for Qt Creator connection.") :
+                qsTr("USB Ethernet is not available. Connect the device using USB OTG to your development host.")
             Layout.fillWidth: true
             wrapMode: Label.Wrap
-        }
-        ComboBox {
-            id: combobox
-            Component.onCompleted: currentIndex = indexOfValue(SettingsManager.usbMode)
-            model: ["cdcecm", "rndis"]
         }
     }
 }
