@@ -111,6 +111,7 @@ Image {
                 height: passphrasePopup.height * 0.075
                 color: "white"
                 echoMode: TextInput.Password
+                passwordMaskDelay: 500
                 background: Rectangle{
                     color: "transparent"
                     border.color: passField.focus ? viewSettings.buttonGreenColor : viewSettings.buttonGrayColor
