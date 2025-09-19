@@ -43,6 +43,7 @@ Image {
 
     onVisibleChanged: {
         backButton.visible = !visible
+        passField.text = ""
         if (!visible) {
             networkSettingsRoot.forceActiveFocus()
         } else {
