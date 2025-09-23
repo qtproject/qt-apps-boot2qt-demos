@@ -83,6 +83,7 @@ Image {
                 visible: showSsid
                 width: passphrasePopup.width * 0.4
                 height: passphrasePopup.height * 0.075
+                font.pixelSize: passphrasePopup.height * viewSettings.valueFontSize
                 color: "white"
                 background: Rectangle{
                     color: "transparent"
@@ -110,6 +111,7 @@ Image {
                 id: passField
                 width: passphrasePopup.width * 0.4
                 height: passphrasePopup.height * 0.075
+                font.pixelSize: passphrasePopup.height * viewSettings.valueFontSize
                 color: "white"
                 echoMode: TextInput.Password
                 passwordMaskDelay: 500
