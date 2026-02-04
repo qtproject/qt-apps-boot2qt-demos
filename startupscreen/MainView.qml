@@ -69,7 +69,7 @@ Item {
         Text {
             id: headerText_1
             color: "#2cde85"
-            text: qsTr("Get Started with Boot to Qt ") + Qt.application.version
+            text: qsTr("Get Started with Qt ") + Qt.application.version
             anchors.top: panel.top
             anchors.left: panel.left
             font.pixelSize: textNormal
@@ -79,7 +79,7 @@ Item {
         Text {
             id: bodyText
             color: "#ffffff"
-            text: qsTr("How to install demo application\nfrom Qt Creator?")
+            text: qsTr("How do I install a demo application\nfrom Qt Creator?")
             font.pixelSize: textNormal
             font.family: "Titillium Web"
             anchors.left: panel.left
