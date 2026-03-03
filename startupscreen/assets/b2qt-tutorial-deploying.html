@@ -1,40 +1,32 @@
-<div class="descr"> 
-<p>You can deploy all kinds of Qt projects to your target device: Qt Examples and projects that you have created yourself. In this tutorial, we use Qt Creator's project wizard and create a new Qt Quick project. We build and run the project, and deploy it to a target device.</p>
-<p>This tutorial guides how you deploy a project to one of the target devices with pre-built images (see Supported Target Devices and Development Hosts). However, you should follow similar steps when you deploy to a target device where you have built an image yourself.</p>
-<p>The tutorial assumes that you have installed the Boot to Qt software stack to your development host and flashed it to your target device. That is, <b>Get Started with Boot to Qt</b> appears on the device screen when you power on the device.</p>
-
-<h2 id="preparation-of-qt-kit">Preparation of Boot to Qt Kit</h2>
-<p>Qt Creator groups build and run specific settings as kits. Each kit consists of a set of values that define one environment, such as a target device, tool chain, Qt version, and debugger command to use.</p>
+<div class="descr" id="details">
+<p>You can deploy all kinds of Qt projects to your target device: <a href="http://doc.qt.io/qt/all-examples.html">Qt Examples</a> and projects that you have created yourself. In this tutorial, we use Qt Creator's project wizard and create a new <a href="http://doc.qt.io/qt/qtquick-index.html">Qt Quick</a> project. We build and run the project, and deploy it to a target device.</p>
+<p>This tutorial describes how you deploy a project to one of the target devices with pre-built Qt for embedded Linux images (see <a href="qtdc-supported-platforms.html">Supported Target Devices and Development Hosts</a>). However, you should follow similar steps when you deploy to a target device where you have built an image yourself.</p>
+<p>The tutorial assumes that you have installed Qt for embedded Linux to your development host and flashed it to your target device. That is, <b>Get Started with Qt</b> appears on the device screen when you power on the device.</p>
+<h2 id="preparing-qt-for-embedded-linux-kits">Preparing Qt for embedded Linux kits</h2>
+<p>Qt Creator groups build-and-run-specific settings together as kits. Each kit consists of a set of values that define one environment, such as a target device, tool chain, Qt version, and debugger command to use.</p>
 <p>Before deploying, make sure that your kit contains the target device. Connect your target device to the host platform, open Qt Creator, and execute the following steps:</p>
-<ol class="1" type="1"><li>Select <b>Edit &gt; Preferences &gt; Kits</b>.</li>
-<li>Select one of the predefined kits starting with <b>Boot to Qt..&#x2e;</b> that matches the type of your device (1).</li>
-<li>Select the appropriate device in the <b>Run device</b> field (2).</li>
-<li>Select <b>OK</b>.</li>
+<ol class="1" type="1"><li>Select <b translate="no">Edit</b> &gt; <b translate="no">Preferences</b> &gt; <b translate="no">Kits</b>.</li>
+<li>Select one of the predefined kits that matches the type of your device (1).</li>
+<li>Select the appropriate device in the <b translate="no">Run device</b> field (2).</li>
+<li>Select <b translate="no">Apply</b>.</li>
 </ol>
-<p class="centerAlign"><img src="assets/b2qt-device-in-kit.png" alt="" /></p>
-<h3 id="troubleshooting-device-is-not-found">Troubleshooting: Device is not found</h3>
-<p>When your target device is connected to the host platform, Qt Creator should automatically detect it and the device should appear in the kit's <b>Device</b> field. If it doesn't appear, first replug the device. If that doesn't help, then reboot the host platform.</p>
-<p><b>Note: </b>In Linux, ensure that you have access to plugged in devices. For more information, see Setting Up USB Access to Embedded Devices.</p>
-
-<h2 id="creating-new-qt-quick-project">Creating New Qt Quick Project</h2>
-<p>Create a new Qt Quick project with the steps in Creating Qt Quick Applications. When creating the project, you can use the default values defined in the wizard pages. In the <b>Kit Selection</b> page, select the Boot to Qt software stack kit that matches the type of your target device. The following picture illustrates how to select the kit where the device was added in Preparation of Boot to Qt Kit:</p>
-<p class="centerAlign"><img src="assets/b2qt-select-kit.png" alt="" /></p>
-<p>After you complete the steps in the project wizard, the generated Qt Quick project is automatically opened in the <b>Edit</b> mode (1).</p>
-<p class="centerAlign"><img src="assets/b2qt-edit-mode-pro-file.png" alt="" /></p>
-<p>You can see the project's structure by selecting <b>Projects</b> in the sidebar (2). If you select the <b>CMakeLists.txt</b> file (3) under your project, you see its content in the editor view. The last lines in the CMakeLists.txt file (4) define the path where your project is deployed. Qt's project wizard generates the path automatically for Qt Quick projects. For other projects, you might need to define the path manually in the CMakeLists.txt file.</p>
-<p>For more information on CMake, see Build with CMake. For more information on Qt Creator configurations for Boot to Qt, see Boot to Qt Deploy Configuration.</p>
-
-<h2 id="building-running-and-deploying-project">Building, running, and deploying project</h2>
-<p>Now it is time to build and run your project, and deploy it to the target device. When you run the project, Qt Creator automatically both builds it and deploys it to the device. Thus, you just need to select the <b>Run</b> button (1) in Qt Creator.</p>
-<p class="centerAlign"><img src="assets/b2qt-run-button.png" alt="" /></p>
-<p>Your project is now running on the target device.</p>
-<p>For more information on CMake deployment, see Deployment in CMake documentation.</p>
-
+<div class="admonition note">
+<p><b>Note: </b>If you use Docker, go to <b translate="no">Preferences</b> &gt; <b translate="no">Devices</b>, and select the Docker Device in the selected kit. Then check that the path to your project is listed in <b translate="no">Paths to mount</b>. This option maps the path to the docker container.</p>
+</div>
+<p class="centerAlign"><img src="assets/b2qt-device-in-kit.png" alt="Qt Creator Kits UI view." /></p><h2 id="creating-new-qt-quick-project">Creating new Qt Quick project</h2>
+<p>Create a new Qt Quick project with the steps in <a href="http://doc.qt.io/qtcreator/quick-projects.html#creating-qt-quick-applications">Creating Qt Quick Applications</a>. When creating the project, you can use the default values defined in the wizard pages. In the <b translate="no">Kit Selection</b> page, select the kit that matches the type of your target device. The following picture illustrates how to select the kit where the device was added in <a href="qtonboard-tutorial-deploying.html#preparing-qt-for-embedded-linux-kits">Preparing Qt for embedded Linux Kits</a>:</p>
+<p class="centerAlign"><img src="assets/b2qt-select-kit.png" alt="Qt Creator Kit Selection UI view." /></p><p>After you complete the steps in the project wizard, the generated Qt Quick project is automatically opened in the <b translate="no">Edit</b> mode (1).</p>
+<p class="centerAlign"><img src="assets/b2qt-edit-mode-pro-file.png" alt="Qt Creator Edit mode UI view." /></p><p>You can see the project's structure by selecting <b translate="no">Projects</b> in the sidebar (2). If you select the <b>CMakeLists.txt</b> file (3) under your project, you see its content in the editor view. The last lines in the CMakeLists.txt file (4) define the path where your project is deployed. Qt's project wizard generates the path automatically for Qt Quick projects. For other projects, you might need to define the path manually in the CMakeLists.txt file.</p>
+<p>For more information on CMake, see <a href="https://doc.qt.io/Qt-6/cmake-manual.html">Build with CMake</a>. For more information on Qt Creator configurations for Qt for embedded Linux, see <a href="https://doc-snapshots.qt.io/qtcreator-19.0/creator-reference-devices.html#embedded-platforms">Developing for devices</a>.</p>
+<h2 id="building-running-and-deploying-projects">Building, running, and deploying projects</h2>
+<p>Now it is time to build and run your project, and deploy it to the target device. When you run the project, Qt Creator automatically both builds it and deploys it to the device. Thus, you just need to select the <b translate="no">Run</b> button (1) in Qt Creator.</p>
+<p class="centerAlign"><img src="assets/b2qt-run-button.png" alt="Qt Creator Run button." /></p><p>Your project is now running on the target device.</p>
+<p>For more information on CMake deployment, see <a href="https://doc.qt.io/Qt-6/cmake-deployment.html">Deployment</a> in CMake documentation.</p>
 <h2 id="custom-deployment-steps">Custom deployment steps</h2>
 <p>Qt Creator allows you to execute custom commands on the embedded device connected to the development host. You can add the custom commands to the deployment phase of your project.</p>
 <p>Follow these steps to add a custom step to be executed during deployment:</p>
-<ol class="1" type="1"><li>In Qt Creator, go to <b>Projects &gt; Run</b> for the {Boot to Qt} version you want to customize.</li>
-<li>Select <b>Add Deploy Step &gt; Run custom remote command</b>.</li>
+<ol class="1" type="1"><li>In Qt Creator, go to <b translate="no">Projects</b> &gt; <b translate="no">Deploy Settings</b></li>
+<li>Select <b translate="no">Add Deploy Step</b> &gt; <b translate="no">Run custom remote command</b>.</li>
 <li>Enter the command to be executed.</li>
 </ol>
 </div>
