@@ -60,65 +60,7 @@
 #include <sys/reboot.h>
 #include <unistd.h>
 
-const QString QdbdFileName(QStringLiteral("/etc/default/qdbd"));
-const char *ProtocolSetting("USB_ETHERNET_PROTOCOL=");
-
 SettingsManager::SettingsManager(QObject *parent) : QObject(parent) {}
-
-bool SettingsManager::hasQdb()
-{
-    return QFile::exists(QdbdFileName);
-}
-
-QString SettingsManager::usbMode()
-{
-    static bool initialized = false;
-    if (!initialized) {
-        QFile file(QdbdFileName);
-        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QByteArray line;
-            while (!(line = file.readLine()).isEmpty()) {
-                if (line.startsWith(ProtocolSetting))
-                    m_usbMode =
-                            QString::fromLatin1(line.last(line.length() - strlen(ProtocolSetting)))
-                                    .trimmed();
-            }
-        } else {
-            qWarning() << "Failed to open file" << QdbdFileName;
-        }
-        initialized = true;
-    }
-    return m_usbMode;
-}
-
-void SettingsManager::setUsbMode(const QString &usbMode)
-{
-    QFile file(QdbdFileName);
-    QTemporaryFile newFile(QdbdFileName);
-    newFile.setAutoRemove(false);
-    if (!newFile.open()) {
-        qWarning() << "Failed to save qdbd settings:" << newFile.errorString();
-        return;
-    }
-
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QTextStream out(&newFile);
-        QByteArray line;
-        while (!(line = file.readLine()).isEmpty()) {
-            if (line.startsWith(ProtocolSetting))
-                out << ProtocolSetting << usbMode.toLatin1() << '\n';
-            else
-                out << line;
-        }
-
-        file.remove();
-        if (!newFile.rename(QdbdFileName))
-            qWarning() << "Failed to save qdbd settings:" << newFile.errorString();
-
-    } else {
-        qWarning() << "Failed to save qdbd settings:" << file.errorString();
-    }
-}
 
 void SettingsManager::reboot()
 {

@@ -58,25 +58,17 @@ class SettingsManager : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString usbMode READ usbMode WRITE setUsbMode)
-    Q_PROPERTY(bool hasQdb READ hasQdb CONSTANT)
     Q_PROPERTY(QString networks READ networks CONSTANT)
     Q_PROPERTY(QByteArray guideText READ guideText CONSTANT)
 
 public:
     explicit SettingsManager(QObject *parent = nullptr);
 
-    QString usbMode();
-    void setUsbMode(const QString &usbMode);
-    bool hasQdb();
     Q_INVOKABLE void reboot();
     Q_INVOKABLE void runDemoMode(const QString& target);
 
     QString networks();
     QByteArray guideText();
-
-private:
-    QString m_usbMode;
 };
 
 #endif // SETTINGSMANAGER_H

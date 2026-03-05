@@ -136,7 +136,6 @@ Item {
             id: usbButton
             height: parent.buttonSize
             width: height
-            available: SettingsManager.hasQdb
             connected: ipAddress.text.indexOf("usb0") !== -1
             onPressed: {
                 usbModeDialog.open()

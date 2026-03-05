@@ -54,18 +54,17 @@ import StartupScreen
 Item {
     id: root
 
-    property bool available: false
     property bool connected: false
     signal pressed()
 
-    state: !available ? "" : (connected ? "connected" : "error")
+    state: connected ? "connected" : "error"
 
     // changing button state
     MouseArea {
         anchors.fill: parent
         onPressed: root.scale = 0.9
         onReleased: root.scale = 1.0
-        onClicked: if (available) root.pressed()
+        onClicked: root.pressed()
     }
 
     // button icon
