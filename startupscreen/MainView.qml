@@ -50,150 +50,159 @@
 
 import QtQuick
 import StartupScreen
+import QtQuick.Controls
 
-Item {
-    id: root
+Flickable {
+    contentHeight: height > panel.height + buttonRow.height ? height : panel.height + buttonRow.height
+
+    ScrollBar.vertical: ScrollBar {
+    }
 
     property int textNormal: panel.height / 9
     property int textLarge: panel.height / 7
 
     Item {
-        id: panel
-        anchors.top: root.top
-        anchors.topMargin: height / 10
-        anchors.left: root.left
-        anchors.leftMargin: panel.width *.1
-        height: width / 2
-        width: root.width * 0.6
-
-        Text {
-            id: headerText_1
-            color: "#2cde85"
-            text: qsTr("Get Started with Qt ") + Qt.application.version
-            anchors.top: panel.top
-            anchors.left: panel.left
-            font.pixelSize: textNormal
-            font.family: "Titillium Web"
-        }
-
-        Text {
-            id: bodyText
-            color: "#ffffff"
-            text: qsTr("How do I install a demo application\nfrom Qt Creator?")
-            font.pixelSize: textNormal
-            font.family: "Titillium Web"
-            anchors.left: panel.left
-            anchors.top: headerText_1.bottom
-            anchors.topMargin: textNormal
-            wrapMode: Text.WordWrap
-        }
-
-        Text {
-            id: buttonLabel
-            color: "#2cde85"
-            text: qsTr("Click to learn more!")
-            anchors.left: panel.left
-            anchors.top: bodyText.bottom
-            anchors.topMargin: textLarge
-            font.pixelSize: textLarge
-            font.family: "Titillium Web"
-
-            MouseArea {
-                anchors.fill: parent
-                anchors.margins: -height * .5
-                onPressed: guide.visible = true
-            }
-        }
-    }
-
-    // Analog clock showing the current time
-    Item {
-        id: clockAlignment
-        anchors.right: root.right
-        anchors.left: panel.right
-        anchors.top: panel.top
-        anchors.bottom: panel.bottom
-    }
-    AnalogClock {
-        id: clock
-        width: height
-        height: panel.height * 0.7
-        anchors.horizontalCenter: clockAlignment.horizontalCenter
-        anchors.verticalCenter: panel.verticalCenter
-        anchors.topMargin: height * 0.1
-    }
-
-    // Button row
-    Row {
-        id: buttonRow
-        anchors.top: panel.bottom
-        anchors.horizontalCenter: panel.horizontalCenter
-        spacing: buttonSize / 4
-        padding: buttonSize / 4
-        property var buttonSize: panel.height / 2
-
-        UsbButton {
-            id: usbButton
-            height: parent.buttonSize
-            width: height
-            connected: ipAddress.text.indexOf("usb0") !== -1
-            onPressed: {
-                usbModeDialog.open()
-            }
-        }
-        WifiButton {
-            id: wifiButton
-            height: parent.buttonSize
-            width: height
-            visible: true
-            onPressed: {
-                loader.source = "qrc:/NetworkSettings/NetworkSettingsPage.qml"
-            }
-        }
-    }
-
-    // label and IP address
-    Text {
-        id: ipLabel
-        color: "grey"
-        text: qsTr("Networks:")
-        anchors.bottom: ipAddress.top
-        anchors.horizontalCenter: ipAddress.horizontalCenter
-        font.pixelSize: textNormal
-        font.family: "Titillium Web"
-        visible: ipAddress.text !== ""
-    }
-    Text {
-        id: ipAddress
-        color: "grey"
-        text: SettingsManager.networks
-        anchors.bottom: root.bottom
-        anchors.right: root.right
-        anchors.rightMargin: 5
-        font.pixelSize: textNormal
-        font.bold: true
-        font.family: "Titillium Web"
-
-        Timer {
-            interval: 3000
-            onTriggered: ipAddress.text = SettingsManager.networks
-            running: true
-            repeat: true
-        }
-    }
-
-    Loader {
-        id: loader
+        id: root
         anchors.fill: parent
-    }
 
-    UsbModeDialog {
-        id: usbModeDialog
-    }
+        Item {
+            id: panel
+            anchors.top: root.top
+            anchors.topMargin: height / 10
+            anchors.left: root.left
+            anchors.leftMargin: panel.width * .1
+            height: width / 2
+            width: root.width * 0.6
 
-    GuideView {
-        id: guide
-        visible: false
+            Text {
+                id: headerText_1
+                color: "#2cde85"
+                text: qsTr("Get Started with Qt ") + Qt.application.version
+                anchors.top: panel.top
+                anchors.left: panel.left
+                font.pixelSize: textNormal
+                font.family: "Titillium Web"
+            }
+
+            Text {
+                id: bodyText
+                color: "#ffffff"
+                text: qsTr("How do I install a demo application\nfrom Qt Creator?")
+                font.pixelSize: textNormal
+                font.family: "Titillium Web"
+                anchors.left: panel.left
+                anchors.top: headerText_1.bottom
+                anchors.topMargin: textNormal
+                wrapMode: Text.WordWrap
+            }
+
+            Text {
+                id: buttonLabel
+                color: "#2cde85"
+                text: qsTr("Click to learn more!")
+                anchors.left: panel.left
+                anchors.top: bodyText.bottom
+                anchors.topMargin: textLarge
+                font.pixelSize: textLarge
+                font.family: "Titillium Web"
+
+                MouseArea {
+                    anchors.fill: parent
+                    anchors.margins: -parent.height * .5
+                    onPressed: guide.visible = true
+                }
+            }
+        }
+
+        // Analog clock showing the current time
+        Item {
+            id: clockAlignment
+            anchors.right: root.right
+            anchors.left: panel.right
+            anchors.top: panel.top
+            anchors.bottom: panel.bottom
+        }
+        AnalogClock {
+            id: clock
+            width: height
+            height: panel.height * 0.7
+            anchors.horizontalCenter: clockAlignment.horizontalCenter
+            anchors.verticalCenter: panel.verticalCenter
+            anchors.topMargin: height * 0.1
+        }
+
+        // Button row
+        Row {
+            id: buttonRow
+            anchors.top: panel.bottom
+            anchors.horizontalCenter: panel.horizontalCenter
+            spacing: buttonSize / 4
+            padding: buttonSize / 4
+            property real buttonSize: panel.height / 2
+
+            UsbButton {
+                id: usbButton
+                height: parent.buttonSize
+                width: height
+                connected: ipAddress.text.indexOf("usb0") !== -1
+                onPressed: {
+                    usbModeDialog.open()
+                }
+            }
+            WifiButton {
+                id: wifiButton
+                height: parent.buttonSize
+                width: height
+                visible: true
+                onPressed: {
+                    loader.source = "qrc:/NetworkSettings/NetworkSettingsPage.qml"
+                }
+            }
+        }
+
+        // label and IP address
+        Text {
+            id: ipLabel
+            color: "grey"
+            text: qsTr("Networks:")
+            anchors.bottom: ipAddress.top
+            anchors.horizontalCenter: ipAddress.horizontalCenter
+            font.pixelSize: textNormal
+            font.family: "Titillium Web"
+            visible: ipAddress.text !== ""
+        }
+        Text {
+            id: ipAddress
+            color: "grey"
+            text: SettingsManager.networks
+            anchors.bottom: root.bottom
+            anchors.right: root.right
+            anchors.rightMargin: 5
+            font.pixelSize: textNormal
+            font.bold: true
+            font.family: "Titillium Web"
+
+            Timer {
+                interval: 3000
+                onTriggered: ipAddress.text = SettingsManager.networks
+                running: true
+                repeat: true
+            }
+        }
+
+        Loader {
+            id: loader
+            anchors.fill: parent
+        }
+
+        UsbModeDialog {
+            id: usbModeDialog
+        }
+
+        GuideView {
+            id: guide
+            visible: false
+        }
     }
 
     // base state = landscape
@@ -223,6 +232,3 @@ Item {
         }
     ]
 }
-
-
-
