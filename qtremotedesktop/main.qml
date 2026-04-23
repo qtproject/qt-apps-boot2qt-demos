@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 import QtQuick
+import QtQuick.VirtualKeyboard
 import QtWayland.Compositor
 import QtWayland.Compositor.IviApplication
 import QtVncServer
@@ -28,10 +29,19 @@ WaylandCompositor {
                             onSurfaceDestroyed: shellSurfaces.remove(index)
                         }
                     }
+                    InputPanel {
+                        visible: active
+                        y: active ? parent.height - height : parent.height
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                    }
                 }
             }
         }
     }
+
+    TextInputManager {}
+    QtTextInputMethodManager {}
 
     IviApplication {
         onIviSurfaceCreated: {

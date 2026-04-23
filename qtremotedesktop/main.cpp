@@ -10,6 +10,8 @@
 
 int main(int argc, char *argv[])
 {
+    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
+
     // ShareOpenGLContexts is needed for using the threaded renderer
     // on Nvidia EGLStreams
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
