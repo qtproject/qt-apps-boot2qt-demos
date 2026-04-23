@@ -44,7 +44,7 @@ WaylandCompositor {
     QtTextInputMethodManager {}
 
     IviApplication {
-        onIviSurfaceCreated: {
+        onIviSurfaceCreated: function(iviSurface) {
             iviSurface.sendConfigure(Qt.size(Screen.desktopAvailableWidth, Screen.desktopAvailableHeight))
             shellSurfaces.append({shellSurface: iviSurface});
         }
